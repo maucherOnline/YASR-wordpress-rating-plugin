@@ -36,6 +36,7 @@ class YasrProScriptsLoader {
      */
     public static function loadReviewsInComments () {
         YasrScriptsLoader::loadRequiredJs();
+        YasrScriptsLoader::loadRequiredCss();
 
         wp_enqueue_script('reviewsInComments',
             YASR_PRO_JS_DIR . 'reviewsInComments.js',

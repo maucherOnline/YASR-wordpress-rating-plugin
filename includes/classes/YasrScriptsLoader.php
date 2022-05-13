@@ -13,18 +13,18 @@ class YasrScriptsLoader {
      */
     public function loadRequiredScripts() {
         //Adds window.var needed in both admin and public
-        add_action('wp_enqueue_scripts',         array($this, 'loadWindowVar'), 11);
-        add_action('admin_enqueue_scripts',      array($this, 'loadWindowVar'), 11);
+        add_action('wp_enqueue_scripts',            array($this, 'loadWindowVar'), 11);
+        add_action('admin_enqueue_scripts',         array($this, 'loadWindowVar'), 11);
 
-        add_action('yasr_add_front_script_css',  array($this, 'loadRtlSupport'));
-        add_action('yasr_add_admin_scripts_end', array($this, 'loadRtlSupport'));
+        add_action('yasr_add_front_script_css',     array($this, 'loadRtlSupport'));
+        add_action('yasr_add_admin_scripts_end',    array($this, 'loadRtlSupport'));
 
         /*** Css rules for stars set, from version 1.2.7
          * Here I use add_action instead of directly use wp_add_inline_style so I can
          * use remove_action if needed (e.g. Yasr Stylish)
          ***/
-        add_action('yasr_add_front_script_css',  array($this, 'loadInlineCss'));
-        add_action('yasr_add_admin_scripts_end', array($this, 'loadInlineCss'));
+        add_action('yasr_add_front_script_css',     array($this, 'loadInlineCss'));
+        add_action('yasr_add_admin_scripts_end',    array($this, 'loadInlineCss'));
 
         //enqueue gutenberg stuff outside blocks
         add_action('enqueue_block_editor_assets',   array($this, 'initGutenMisc'));
@@ -191,7 +191,8 @@ class YasrScriptsLoader {
      */
     public function loadRtlSupport() {
         if (is_rtl()) {
-            $yasr_rtl_css = '.yasr-star-rating .yasr-star-value {
+            $yasr_rtl_css =
+                '.yasr-star-rating .yasr-star-value {
                     -moz-transform: scaleX(-1);
                     -o-transform: scaleX(-1);
                     -webkit-transform: scaleX(-1);

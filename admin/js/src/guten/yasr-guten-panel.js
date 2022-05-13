@@ -8,7 +8,7 @@ const ContentBelowSidebar = () => {
     return <div/>;
 };
 
-import {YasrDivRatingOverall} from './blocks/yasrGutenUtils';
+import {YasrDivRatingOverall} from 'yasrGutenUtils';
 
 /**
  * Show auto insert option
@@ -93,7 +93,7 @@ class yasrSidebar extends React.Component {
         {wp.hooks.doAction('yasr_below_panel', YasrBelowSidebar)}
         return (
             <Fragment>
-                <PluginSidebarMoreMenuItem name="yasr-sidebar" type="sidebar" target="yasr-guten-sidebar" >
+                <PluginSidebarMoreMenuItem target="yasr-guten-sidebar" >
                     { __( 'YASR post settings', 'yet-another-stars-rating' ) }
                 </PluginSidebarMoreMenuItem>
                 <PluginSidebar name="yasr-guten-sidebar" title="YASR Settings">
