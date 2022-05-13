@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
 function yasr_pro_ur_front_css() {
     wp_enqueue_style(
         'yasrprocss',
-        YASR_PRO_CSS_DIR . 'yasr-pro-front.css',
+        YASR_PRO_CSS_DIR . 'reviewsInComments.css',
         false,
         YASR_VERSION_NUM
     );
