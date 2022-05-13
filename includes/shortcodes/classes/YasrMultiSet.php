@@ -32,6 +32,9 @@ class YasrMultiSet extends YasrShortcode {
     public function __construct($atts, $shortcode_name) {
         parent::__construct($atts, $shortcode_name);
 
+        //load css only when YasrMultiset or a Ranking is used (YasrRankings extend this)
+        YasrScriptsLoader::loadTableCss();
+
         $atts = shortcode_atts(
             array(
                 'setid'        => YASR_FIRST_SETID,

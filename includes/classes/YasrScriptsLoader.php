@@ -16,10 +16,6 @@ class YasrScriptsLoader {
         add_action('wp_enqueue_scripts',         array($this, 'loadWindowVar'), 11);
         add_action('admin_enqueue_scripts',      array($this, 'loadWindowVar'), 11);
 
-        //Adds css needed in both admin and public
-        add_action('wp_enqueue_scripts',         array($this, 'loadTableCss'), 11);
-        add_action('admin_enqueue_scripts',      array($this, 'loadTableCss'), 11);
-
         add_action('yasr_add_front_script_css',  array($this, 'loadRtlSupport'));
         add_action('yasr_add_admin_scripts_end', array($this, 'loadRtlSupport'));
 
@@ -102,9 +98,9 @@ class YasrScriptsLoader {
      * Load Multiset and ranking css
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.0.5
+     * @since  3.0.5
      */
-    public function loadTableCss () {
+    public static function loadTableCss () {
         $yasr_multiset_theme_handle = 'yasrcsslightscheme';
         $yasr_multiset_theme = 'yasr-table-light.css';
 
