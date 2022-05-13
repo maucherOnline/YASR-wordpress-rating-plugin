@@ -15,7 +15,7 @@
     "settings-pro": "webpack --watch --config webpack-pro-settings.dev.js",
     "globals": "webpack --watch --config webpack-globals.dev.js",
     "front-ov-multi": "webpack --watch --config webpack-front-ov-multi.dev.js",
-    "front-pro": "webpack --watch --config webpack-pro-front.dev.js",
+    "front-reviews-comment": "webpack --watch --config webpack-pro-front.dev.js",
     "front-vv": "webpack --watch --config webpack-front-vv.dev.js",
     "catch-infinite": "webpack --watch --config webpack-catch-infinite.dev.js",
     "rankings": "webpack --watch --config webpack-front-rankings.dev.js",

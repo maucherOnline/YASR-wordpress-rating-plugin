@@ -3,8 +3,8 @@ const path = require('path');
 module.exports = {
     mode: 'development',
     entry: {
-        'yasr-pro-front': [
-            './yasr_pro/js/src/yasr-pro-front.js',
+        'reviewsInComments': [
+            './yasr_pro/js/src/reviewsInComments.js',
         ]
     },
     output: {

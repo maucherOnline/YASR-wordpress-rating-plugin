@@ -25,9 +25,9 @@ if (!defined('ABSPATH')) {
 function yasr_pro_script() {
     YasrScriptsLoader::loadRequiredJs();
 
-    wp_enqueue_script('yasrprofront',
-        YASR_PRO_JS_DIR . 'yasr-pro-front.js',
-        array('jquery', 'yasr-global-functions', 'wp-i18n', 'yasr-window-var'),
+    wp_enqueue_script('reviewsInComments',
+        YASR_PRO_JS_DIR . 'reviewsInComments.js',
+        array('jquery', 'yasr-global-functions', 'yasr-window-var'),
         YASR_VERSION_NUM,
         true
     );

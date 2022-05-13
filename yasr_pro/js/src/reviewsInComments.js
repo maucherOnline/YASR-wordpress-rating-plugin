@@ -264,21 +264,6 @@ function yasrURUpdateMultiset(yasrUpdateMultisetReview) {
     }
 }
 
-//On click on highest, hide most and show highest
-function yasrShowHighestFromReviews () {
-    document.getElementById('yasr-pro-most-rated-posts-from-reviews').style.display    = 'none';
-    document.getElementById('yasr-pro-highest-rated-posts-from-reviews').style.display = '';
-
-    return false; // prevent default click action from happening!
-}
-
-//Vice versa
-function yasrShowMostFromReviews () {
-    document.getElementById('yasr-pro-highest-rated-posts-from-reviews').style.display = 'none';
-    document.getElementById('yasr-pro-most-rated-posts-from-reviews').style.display    = '';
-
-    return false; // prevent default click action from happening!
-}
 
 /******End Yasr Pro reviews in comments ******/
 

@@ -93,8 +93,8 @@ var yasrFront    = Object.assign({}, config, {
         'includes/js/shortcodes/visitorVotes': './includes/js/src/shortcodes/visitorVotes.js',
         'includes/js/shortcodes/yasr-log-users-frontend': './includes/js/src/shortcodes/yasr-log-users-frontend.js',
 
-        'yasr_pro/js/yasr-pro-front': [
-            './yasr_pro/js/src/yasr-pro-front.js',
+        'yasr_pro/js/reviewsInComments': [
+            './yasr_pro/js/src/reviewsInComments.js',
         ]
     },
     output: {
