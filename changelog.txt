@@ -1,3 +1,46 @@
+= 2.9.8 =
+* TWEAKED: updated rest api
+* FIX: softwareApplication itemType didn't get saved
+* Fix: impossible to rate for overall rating in certain circumstances.
+* Fix: minor css fixes in admin area
+
+= 2.9.7 =
+* NEW FEATURE: auto insert option has now a new feature: it is possible to place shortcodes on both above and below the content
+* TWEAKED: attribute 'custom-fields' is added for all CPTS, to avoid compatibility issue in Gutenberg
+* TWEAKED: nonces are checked only for logged in users.
+* TWEAKED: "Stats" page is now renamed in "Manage Ratings"
+* TWEAKED: below the editor is now easier to manage Multi Sets
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* NEW FEATURE: is now possible to use Multi Set along with user reviews!
+ To enable it, just select "YES" to "Insert this Multi Set in the comment form?"
+[//]: # fs_premium_only_end
+
+= 2.9.6 =
+* FIXED: support for wp_template and wp_template_part CPT, used by FSE
+* FIXED: html tags in custom texts didn't work
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* FIXED: comments feed didn't work if reviews in comment are enabled
+[//]: # fs_premium_only_end
+
+= 2.9.5 =
+* NEW FEATURE: In the settings, is now possible to customize the text when a rating is saved / updated
+* minor fixes
+
+= 2.9.4 =
+* Minor changes
+
+= 2.9.3 =
+* TWEAKED: Added support for Catch Infinite Scroll
+
+= 2.9.2 =
+* FIXED: rich snippets error that could occur in some circumstances
+* FIXED: css fix
+* TWEAKED: code cleanup
+
+= 2.9.1 =
+* FIXED: if shortcode exists for a post or page, but there are no ratings, wrong rich snippets are returned
 
 [//]: # fs_premium_only_begin
 = 2.9.0.1 =
