@@ -43,5 +43,12 @@ class YasrProScriptsLoader {
             YASR_VERSION_NUM,
             true
         );
+
+        wp_enqueue_style(
+            'reviewsInCommentsCss',
+            YASR_PRO_CSS_DIR . 'reviewsInComments.css',
+            false,
+            YASR_VERSION_NUM
+        );
     }
 }

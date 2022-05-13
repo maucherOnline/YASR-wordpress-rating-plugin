@@ -21,16 +21,6 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-function yasr_pro_ur_front_css() {
-    wp_enqueue_style(
-        'yasrprocss',
-        YASR_PRO_CSS_DIR . 'reviewsInComments.css',
-        false,
-        YASR_VERSION_NUM
-    );
-}
-
-
 /**
  * @author Dario Curvino <@dudo>
  * @since  2.6.8 moved here

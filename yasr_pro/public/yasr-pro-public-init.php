@@ -50,10 +50,6 @@ spl_autoload_register('yasr_pro_autoload_public_classes');
 
 require 'yasr-pro-public-functions.php';
 
-//Load front css
-add_action('yasr_add_front_script_css', 'yasr_pro_ur_front_css');
-
-
 // Rich snippet
 add_filter('yasr_filter_existing_schema', 'yasr_pro_ur_jsonld_reviews', 9, 1);
 
