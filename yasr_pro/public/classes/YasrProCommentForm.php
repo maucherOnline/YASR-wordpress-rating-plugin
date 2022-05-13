@@ -42,9 +42,6 @@ class YasrProCommentForm {
      * @since  refactor in 2.9.5
      */
     public function avoidDoubleReview() {
-        //load required js for reviews in comments
-        YasrProScriptsLoader::loadReviewsInComments();
-
         $post_id = get_the_ID();
 
         $yasr_comment_rating_data_obj = new YasrCommentsRatingData();
@@ -150,6 +147,9 @@ class YasrProCommentForm {
      * @since 2.9.5
      */
     public function printNewFields() {
+        //load required js for reviews in comments
+        YasrProScriptsLoader::loadReviewsInComments();
+
         $post_id = get_the_ID();
         ?>
         <div id="yasr-pro-container-review">
@@ -247,7 +247,6 @@ class YasrProCommentForm {
         }
         if (have_comments()) {
             //load required js for reviews in comments
-            //should be not necessay here, just to be sure
             YasrProScriptsLoader::loadReviewsInComments();
 
             $comment_id = get_comment_ID();
