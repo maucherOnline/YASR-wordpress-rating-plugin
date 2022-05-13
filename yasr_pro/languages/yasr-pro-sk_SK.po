@@ -1,0 +1,154 @@
+# Copyright (C) 2019 freemius
+# This file is distributed under the same license as the freemius package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Yasr Pro\n"
+"Report-Msgid-Bugs-To: https://github.com/Freemius/wordpress-sdk/issues\n"
+"POT-Creation-Date: 2021-11-19 13:03+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Dario Curvino\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: admin/classes/YasrProLoadAdmin.php:71
+msgid "You've unlocked this feature!"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:48
+#, php-format
+msgid "Custom Star Set %s"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:56
+#, php-format
+msgid "Choose Stars Set %s"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:140
+#, php-format
+msgid ""
+"%s (You need a plugin like %s to upload it). %s Aspect ratio must be 1:1 and "
+"width x height at least 32x32"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:214
+msgid "Save Settings"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:431 admin/classes/YasrProUrAdmin.php:471
+msgid "Wrong nonce. Title can't be updated."
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:442
+#, php-format
+msgid "New vote is %d"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:447 admin/classes/YasrProUrAdmin.php:502
+msgid "Something goes wrong"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:482
+msgid "Title must be at least 2 chars"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:488
+msgid "Title must be shorter than 100 chars"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:498
+msgid "Title Updated"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:30
+msgid "Yasr User Reviews Options"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:36
+msgid "Reviews In Comments Options"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:43
+msgid ""
+"Insert custom text to show after yasr_pro_average_comments_ratings shortcode"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:185
+#, php-format
+msgid "%s votes, average: %s"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:190
+#, php-format
+msgid "(%s)"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:235
+#, php-format
+msgid ""
+"You can use %s pattern to show the \n"
+"        total count, and %s pattern to show the average"
+msgstr ""
+
+#: includes/rest/yasr-pro-rest.php:171
+msgid "No posts with this cpt found."
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:34
+msgid "Author"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:35
+msgid "Reviews"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:67
+msgid ""
+"Problem while retriving the most active reviewers chart. Did you published "
+"any review?"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:106
+msgid "UserName"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:107
+msgid "Number of votes"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProURShortcodes.php:23
+#: includes/shortcodes/classes/YasrProURShortcodes.php:156
+msgid "Comment Reviews for this post are disabled. Please enable it first"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProURShortcodes.php:70
+msgid "stars"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProURShortcodes.php:134
+#: includes/shortcodes/classes/YasrProURShortcodes.php:147
+msgid "star"
+msgstr ""
+
+#: public/classes/YasrProCommentForm.php:205
+#, php-format
+msgid ""
+"If you want to leave a review, please %s login %s or %s register %s first"
+msgstr ""
+
+#: public/classes/YasrProCommentForm.php:300
+msgid "Please insert a title for the review"
+msgstr ""
+
+#~ msgid "Rating"
+#~ msgstr "Hodnotenie"

@@ -1,0 +1,303 @@
+# Copyright (C) 2019 freemius
+# This file is distributed under the same license as the freemius package.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Yasr Pro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: Dario Curvino\n"
+"Last-Translator: Vova Feldman <vova@freemius.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/Freemius/wordpress-sdk/issues\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: _e;__;esc_html_e;esc_html__\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: admin/classes/YasrProFakeRatings.php:54
+msgid "Add fake ratings"
+msgstr ""
+
+#: admin/classes/YasrProFakeRatings.php:58
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:107
+msgid "Number of votes"
+msgstr ""
+
+#: admin/classes/YasrProFakeRatings.php:76
+msgid "Rating:"
+msgstr ""
+
+#: admin/classes/YasrProFakeRatings.php:96
+msgid "This will add ratings for yasr_visitor_votes shortcode."
+msgstr ""
+
+#: admin/classes/YasrProLoadAdmin.php:74 admin/classes/YasrProLoadAdmin.php:163
+msgid "You've unlocked this feature!"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:48
+#, php-format
+msgid "Custom Star Set %s"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:56
+#, php-format
+msgid "Choose Stars Set %s"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:86
+msgid "Upload Custom Icons"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:91
+msgid "\"Off\" image"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:110
+#: admin/classes/YasrProStylishAdmin.php:132
+msgid "Upload"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:115
+msgid "\"Active\" image"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:140
+#, php-format
+msgid "%s (You need a plugin like %s to upload it). %s Aspect ratio must be 1:1 and width x height at least 32x32"
+msgstr ""
+
+#: admin/classes/YasrProStylishAdmin.php:214
+msgid "Save Settings"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:79
+msgid "Reviews in comments for this post / page are ENABLED"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:81
+msgid "Reviews in comments for this post / page are DISABLED"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:221 admin/classes/YasrProUrAdmin.php:381
+msgid "User Reviews"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:237
+msgid "Insert Progress Bars"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:247
+msgid "Insert progress bars statistics for review in comments"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:255
+msgid "Insert Average Rating"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:266
+msgid "Insert the average (in stars) of all ratings in comments"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:271
+msgid "Choose Size"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:286
+msgid "Ranking from reviews"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:297
+msgid "Show up a ranking build from the reviews"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:504 admin/classes/YasrProUrAdmin.php:548
+msgid "Wrong data"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:508 admin/classes/YasrProUrAdmin.php:552
+msgid "You can't edit someone else review"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:511 admin/classes/YasrProUrAdmin.php:621
+msgid "Wrong nonce. Title can't be updated."
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:522 admin/classes/YasrProUrAdmin.php:578
+msgid "New rating: "
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:527 admin/classes/YasrProUrAdmin.php:583
+#: admin/classes/YasrProUrAdmin.php:652
+msgid "Something goes wrong"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:555
+msgid "Wrong nonce. Rating can't be updated."
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:632
+msgid "Title must be at least 2 chars"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:638
+msgid "Title must be shorter than 100 chars"
+msgstr ""
+
+#: admin/classes/YasrProUrAdmin.php:648
+msgid "Title updated"
+msgstr ""
+
+#: admin/yasr-pro-admin-functions.php:37
+msgid "You're using YASR Pro!"
+msgstr ""
+
+#: admin/yasr-pro-admin-functions.php:43
+msgid "Help"
+msgstr ""
+
+#: admin/yasr-pro-admin-functions.php:52
+msgid "Skype support"
+msgstr ""
+
+#: admin/yasr-pro-admin-functions.php:59
+msgid "Slack support"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:32
+msgid "Yasr User Reviews Options"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:38
+msgid "Reviews In Comments Options"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:45
+msgid "Insert custom text to show after yasr_pro_average_comments_ratings shortcode "
+msgstr ""
+
+#: admin/yasr-ur-settings.php:62
+msgid "Allow anonymous?"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:81
+msgid "Size?"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:99
+msgid "Enable on every post and page?"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:119
+msgid "By enabling this, in every comment form YASR will add the fields in order to enable your visitors to add their own reviews."
+msgstr ""
+
+#: admin/yasr-ur-settings.php:121
+msgid "If you choose \"Yes\" but want to exclude a specific post or page, just open the editor page and disable it. "
+msgstr ""
+
+#: admin/yasr-ur-settings.php:123
+msgid "Vice versa if you choose \"No\". "
+msgstr ""
+
+#: admin/yasr-ur-settings.php:131
+msgid "Should rating and title review be mandatory?"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:147
+msgid "Create Rich Snippet for comments?"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:177
+msgid "Custom text to display in single post or page"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:184
+msgid "Custom text to display in archive pages"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:207
+#, php-format
+msgid "You can use %s pattern to show the total count, and %s pattern to show the average"
+msgstr ""
+
+#: admin/yasr-ur-settings.php:211
+msgid "Leave a field empty to disable it."
+msgstr ""
+
+#: includes/rest/yasr-pro-rest.php:171
+msgid "No posts with this cpt found."
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:34
+msgid "Author"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:35
+msgid "Reviews"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:67
+msgid "Problem while retriving the most active reviewers chart. Did you published any review?"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:106
+msgid "UserName"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProNoStarsRankings.php:142
+msgid "Problem while retrieving the top 10 active users chart. Are you sure you have votes to show?"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProReviewBars.php:52
+#: includes/shortcodes/classes/YasrProUrAverageShortcodes.php:25
+msgid "Comment Reviews for this post are disabled. Please enable it first"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProReviewBars.php:223
+msgid "stars"
+msgstr ""
+
+#: includes/shortcodes/classes/YasrProReviewBars.php:226
+msgid "star"
+msgstr ""
+
+#: public/classes/YasrProCommentForm.php:180
+msgid "Overall Rating"
+msgstr ""
+
+#: public/classes/YasrProCommentForm.php:406
+msgid "Edit Title"
+msgstr ""
+
+#: public/classes/YasrProCommentForm.php:439
+msgid "Update"
+msgstr ""
+
+#: public/classes/YasrProCommentForm.php:443
+msgid "Undo"
+msgstr ""
+
+#: public/classes/YasrProCommentForm.php:520
+msgid "Please insert a title for the review"
+msgstr ""
+
+#: public/classes/YasrProCommentForm.php:563
+msgid "Please insert the rating for this review"
+msgstr ""
+
+#: public/classes/YasrProCommentForm.php:571
+#: public/classes/YasrProCommentForm.php:613
+msgid "Please fill all ratings."
+msgstr ""
+
+#: public/classes/YasrProCommentForm.php:806
+#, php-format
+msgid "If you want to leave a review, please %s login %s or %s register %s first"
+msgstr ""

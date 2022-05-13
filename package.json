@@ -1,0 +1,54 @@
+{
+  "name": "yet-another-stars-rating",
+  "version": "3.0.7",
+  "description": "=== Yasr - Yet Another Stars Rating === Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXE284FYMNWDC Tags: ratings, rating, postrating, google rating, 5 star, review, reviews, star rating, vote, votes Requires at least: 4.3.0 Contributors: Dudo Tested up to: 5.0.2 Requires PHP: 5.3 Stable tag: 1.8.5 License URI: http://www.gnu.org/licenses/gpl-2.0.html",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "admin": "webpack --watch --config webpack-admin.dev.js",
+    "pricing": "webpack --watch --config webpack-pricing.dev.js",
+    "edit-comments": "webpack --watch --config webpack-pro-edit-comments.dev.js",
+    "settings": "webpack --watch --config webpack-settings.dev.js",
+    "settings-pro": "webpack --watch --config webpack-pro-settings.dev.js",
+    "globals": "webpack --watch --config webpack-globals.dev.js",
+    "front-ov-multi": "webpack --watch --config webpack-front-ov-multi.dev.js",
+    "front-pro": "webpack --watch --config webpack-pro-front.dev.js",
+    "front-vv": "webpack --watch --config webpack-front-vv.dev.js",
+    "catch-infinite": "webpack --watch --config webpack-catch-infinite.dev.js",
+    "rankings": "webpack --watch --config webpack-front-rankings.dev.js",
+    "classic-editor": "webpack --watch --config webpack-classicEditor.dev.js",
+    "guten": "webpack --watch --config webpack-guten.dev.js",
+    "guten-pro": "webpack --watch --config webpack-guten-pro.dev.js",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/Dudo1985/yasr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "babel-loader": "^8.2.4",
+    "babel-preset-react-app": "^10.0.1",
+    "css-loader": "^6.7.1",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "@wordpress/element": "^4.3.0",
+    "@wordpress/hooks": "^3.5.0",
+    "@wordpress/html-entities": "^3.5.0",
+    "js-datepicker": "^5.18.0",
+    "prop-types": "^15.8.1",
+    "uuid": "^8.3.2"
+  }
+}

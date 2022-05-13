@@ -1,0 +1,101 @@
+/****** YASR USER REVIEWS ********/
+
+#yasr-pro-container-review {
+    width: 100%;
+    background-color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#yasr-pro-new-input-comment-form {
+    padding: 10px;
+}
+
+.yasr-pro-loader-update-vote-comment {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.yasr-pro-rating-and-loader-comment {
+    display: inline-block;
+}
+
+/** Title **/
+
+.yasr-pro-rating-comment-title {
+    display: block;
+    margin-bottom: 7px;
+}
+
+.yasr-pro-rating-comment-body {
+    margin-bottom: 7px;
+}
+
+.yasr-pro-visitor-title-editable-div {
+    display: block;
+}
+
+.yasr-pro-visitor-title-editable {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.yasr-pro-hidden-form-visitor-title-span {
+    display: none;
+    margin-right: 10px;
+}
+
+.yasr-pro-hidden-form-visitor-title {
+    margin-right: 10px;
+}
+
+#yasr-pro-visitor-review-title {
+    margin-top: 10px;
+}
+
+.ratingcommenteditable{
+    margin-bottom: 10px;
+}
+
+.yasr-container-custom-text-comments-rating {
+    display: inline-block;
+}
+
+.yasr_pro_multiset_comments {
+    border: solid rgba(0, 0, 0, 0.1);
+    border-width: 1px 0 0 1px;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 24px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.yasr_pro_multiset_comments td:nth-child(1) {
+    overflow-wrap: anywhere;
+}
+
+.yasr_pro_multiset_comments td {
+    border: solid rgba(0, 0, 0, 0.1);
+    border-width: 0 1px 1px 0;
+    padding: 5px;
+    vertical-align: middle;
+    width: 50%;
+}
+
+@media (max-width: 1177px) {
+    .yasr_pro_multiset_comments td {
+        width: 50%;
+    }
+}
+
+@media (min-width: 1177px) {
+    .yasr_pro_multiset_comments td:nth-child(1) {
+        width: 40%;
+    }
+    .yasr_pro_multiset_comments td:nth-child(2) {
+        width: 60%;
+    }
+}
+
+/**** END YASR USER REVIEWS ****/
