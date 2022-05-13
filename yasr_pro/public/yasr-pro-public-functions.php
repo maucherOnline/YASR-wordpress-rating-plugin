@@ -21,18 +21,6 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-//Add front js
-function yasr_pro_script() {
-    YasrScriptsLoader::loadRequiredJs();
-
-    wp_enqueue_script('reviewsInComments',
-        YASR_PRO_JS_DIR . 'reviewsInComments.js',
-        array('jquery', 'yasr-global-functions', 'yasr-window-var'),
-        YASR_VERSION_NUM,
-        true
-    );
-}
-
 function yasr_pro_ur_front_css() {
     wp_enqueue_style(
         'yasrprocss',
