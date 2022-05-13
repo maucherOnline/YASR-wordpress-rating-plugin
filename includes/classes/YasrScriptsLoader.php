@@ -23,8 +23,8 @@ class YasrScriptsLoader {
          * Here I use add_action instead of directly use wp_add_inline_style so I can
          * use remove_action if needed (e.g. Yasr Stylish)
          ***/
-        add_action('yasr_add_front_script_css',  array($this, 'loadCssStarsSet'));
-        add_action('yasr_add_admin_scripts_end', array($this, 'loadCssStarsSet'));
+        add_action('yasr_add_front_script_css',  array($this, 'loadInlineCss'));
+        add_action('yasr_add_admin_scripts_end', array($this, 'loadInlineCss'));
 
         //enqueue gutenberg stuff outside blocks
         add_action('enqueue_block_editor_assets',   array($this, 'initGutenMisc'));
@@ -92,6 +92,33 @@ class YasrScriptsLoader {
             //use a constant to be sure that yasrWindowVar is not loaded twice
             define ('YASR_GLOBAL_DATA_EXISTS', true);
         }
+    }
+
+    /**
+     * Load main css file
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.0.8
+     */
+    public static function loadRequiredCss() {
+        wp_enqueue_style(
+            'yasrcss',
+            YASR_CSS_DIR_INCLUDES . 'yasr.css',
+            false,
+            YASR_VERSION_NUM
+        );
+
+        //Run after default css are loaded
+        do_action('yasr_add_front_script_css');
+
+        if (YASR_CUSTOM_CSS_RULES) {
+            wp_add_inline_style(
+                'yasrcss',
+                YASR_CUSTOM_CSS_RULES
+            );
+        }
+
+        do_action('yasr_add_front_script_js');
     }
 
     /**
@@ -184,7 +211,7 @@ class YasrScriptsLoader {
      *
      * @author Dario Curvino <@dudo>
      */
-    public function loadCssStarsSet() {
+    public function loadInlineCss() {
         //if star selected is "rater", select the images
         if (YASR_STARS_SET === 'rater') {
             $star_grey   = YASR_IMG_DIR . 'star_0.svg';

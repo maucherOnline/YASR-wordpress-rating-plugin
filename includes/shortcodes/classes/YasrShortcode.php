@@ -152,6 +152,9 @@ abstract class YasrShortcode {
         //scripts required for all shortcodes
         YasrScriptsLoader::loadRequiredJs();
 
+        //css required for all shortcodes
+        YasrScriptsLoader::loadRequiredCss();
+
         do_action('yasr_enqueue_assets_shortcode');
     }
 

@@ -22,9 +22,6 @@ if (!defined('ABSPATH')) {
 } // Exit if accessed directly
 
 
-
-require YASR_ABSOLUTE_PATH_PUBLIC . '/yasr-public-actions.php';
-
 /**
  * Callback function for the spl_autoload_register above.
  *
