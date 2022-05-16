@@ -16,7 +16,7 @@ class YasrProReviewBars extends YasrShortcode{
 
         YasrScriptsLoader::loadOVMultiJs();
 
-        $comments_data_obj = new YasrCommentsRatingData();
+        $comments_data_obj      = new YasrCommentsRatingData();
         $comment_review_enabled = $comments_data_obj->commentReviewEnabled($this->post_id);
 
         if ($comment_review_enabled === 1) {
@@ -200,7 +200,7 @@ class YasrProReviewBars extends YasrShortcode{
         foreach ($rating_array as $single_rate) {
             //Find the bar value
             $bar_value = $single_vote_increasing_value * $single_rate['n_of_votes'];
-            $bar_value = (float)round($bar_value, 2) . '%';
+            $bar_value = round($bar_value, 2) . '%';
 
             $shortcode_html .= self::returnProgressBarsContainer($i, $this->starName($i), $bar_value, $single_rate['n_of_votes']);
 
