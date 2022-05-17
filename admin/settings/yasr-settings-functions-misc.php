@@ -266,43 +266,50 @@ function yasr_upgrade_pro_box() {
  *
 */
 function yasr_resources_box() {
-    $div = "<div class='yasr-donatedivdx' id='yasr-resources-box'>";
+    ?>
 
-    $text = '<div class="yasr-donate-title">Resources</div>';
-    $text .= '<div class="yasr-donate-single-resource">
-                <span class="dashicons dashicons-star-filled" style="color: #ccc"></span>
-                    <a target="blank" href="https://yetanotherstarsrating.com/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr_official">'
-                        . __('YASR official website', 'yet-another-stars-rating') .
-                    '</a>
-              </div>';
-    $text .= '<div class="yasr-donate-single-resource">
-                <span class="dashicons dashicons-edit" style="color: #ccc"></span>
-                    <a target="blank" href="https://yetanotherstarsrating.com/docs/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=documentation">'
-                        . __('Documentation', 'yet-another-stars-rating') .
-             '</a>
-              </div>';
-    $text .= '<div class="yasr-donate-single-resource">
-                <span class="dashicons dashicons-book-alt" style="color: #ccc"></span>
-                    <a target="blank" href="https://yetanotherstarsrating.com/docs/faq/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=faq">'
-                        . __('F.A.Q.', 'yet-another-stars-rating') .
-                    '</a>
-              </div>';
-    $text .= '<div class="yasr-donate-single-resource">
-                <span class="dashicons dashicons-video-alt3" style="color: #ccc"></span>
-                    <a target="blank" href="https://www.youtube.com/channel/UCU5jbO1PJsUUsCNbME9S-Zw">'
-             . __('Youtube channel', 'yet-another-stars-rating') .
-             '</a>
-              </div>';
-    $text .= '<div class="yasr-donate-single-resource">
-                <span class="dashicons dashicons-smiley" style="color: #ccc"></span>
-                    <a target="blank" href="https://yetanotherstarsrating.com/#yasr-pro?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr-pro">
-                        Yasr Pro
-                    </a>
-              </div>';
+    <div class='yasr-donatedivdx' id='yasr-resources-box'>
+        <div class="yasr-donate-title">Resources</div>
+        <div class="yasr-donate-single-resource">
+            <span class="dashicons dashicons-star-filled" style="color: #6c6c6c"></span>
+            <a target="blank" href="https://yetanotherstarsrating.com/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr_official">
+                <?php esc_html_e('YASR official website', 'yet-another-stars-rating') ?>
+            </a>
+        </div>
+        <div class="yasr-donate-single-resource">
+            <img src="<?php echo esc_attr(YASR_IMG_DIR . 'github.svg') ?>"
+                 width="20" height="20" alt="github logo" style="vertical-align: bottom;">
+            <a target="blank" href="https://github.com/Dudo1985/yet-another-stars-rating">
+                GitHub Page
+            </a>
+        </div>
+        <div class="yasr-donate-single-resource">
+            <span class="dashicons dashicons-edit" style="color: #6c6c6c"></span>
+            <a target="blank" href="https://yetanotherstarsrating.com/docs/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=documentation">
+                <?php esc_html_e('Documentation', 'yet-another-stars-rating') ?>
+            </a>
+        </div>
+        <div class="yasr-donate-single-resource">
+            <span class="dashicons dashicons-book-alt" style="color: #6c6c6c"></span>
+            <a target="blank" href="https://yetanotherstarsrating.com/docs/faq/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=faq">
+                <?php esc_html_e('F.A.Q.', 'yet-another-stars-rating') ?>
+            </a>
+        </div>
+        <div class="yasr-donate-single-resource">
+            <span class="dashicons dashicons-video-alt3" style="color: #6c6c6c"></span>
+            <a target="blank" href="https://www.youtube.com/channel/UCU5jbO1PJsUUsCNbME9S-Zw">
+                <?php esc_html_e('Youtube channel', 'yet-another-stars-rating') ?>
+            </a>
+        </div>
+        <div class="yasr-donate-single-resource">
+            <span class="dashicons dashicons-smiley" style="color: #6c6c6c"></span>
+            <a target="blank" href="https://yetanotherstarsrating.com/#yasr-pro?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr-pro">
+                Yasr Pro
+            </a>
+        </div>
+    </div>
 
-    $div_and_text = $div . $text . '</div>';
-
-    echo wp_kses_post($div_and_text);
+    <?php
 
 }
 
@@ -441,8 +448,8 @@ function yasr_right_settings_panel() {
 
 
 /** Change default admin footer on yasr settings pages
- *       $text is the default wordpress text
- *        Since 0.8.9
+ *  $text is the default wordpress text
+ *  Since 0.8.9
  */
 
 add_filter('admin_footer_text', 'yasr_custom_admin_footer');

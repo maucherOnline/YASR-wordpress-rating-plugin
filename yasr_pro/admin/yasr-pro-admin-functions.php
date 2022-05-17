@@ -38,7 +38,7 @@ function yasr_pro_settings_panel_support() {
              '</div>';
 
     $text .=   '<div class="yasr-donate-single-resource">
-                    <span class="dashicons dashicons-editor-help" style="color: #ccc"></span>
+                    <span class="dashicons dashicons-editor-help" style="color: #6c6c6c"></span>
                     <a href="'.esc_url($url).'">'
                         . esc_html__('Help', 'yet-another-stars-rating') .
                     '</a>
@@ -47,14 +47,14 @@ function yasr_pro_settings_panel_support() {
     if(yasr_fs()->is_plan('yasr_platinum') ) {
 
         $text .= '<div class="yasr-donate-single-resource">
-                        <span class="dashicons dashicons-format-chat" style="color: #ccc"></span>
+                        <span class="dashicons dashicons-format-chat" style="color: #6c6c6c"></span>
                             <a target="blank" href="skype:live:support_58062">'
                                 . esc_html__('Skype support', 'yet-another-stars-rating') .
                             '</a>
                    </div>';
 
         $text .= '<div class="yasr-donate-single-resource">
-                      <span class="dashicons dashicons-format-chat" style="color: #ccc"></span>
+                      <span class="dashicons dashicons-format-chat" style="color: #6c6c6c"></span>
                           <a target="blank" href="https://wordpress.slack.com/messages/D2BUTQNDP">'
                               . esc_html__('Slack support', 'yet-another-stars-rating') .
                           '</a>
