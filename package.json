@@ -49,6 +49,7 @@
     "@wordpress/html-entities": "^3.5.0",
     "js-datepicker": "^5.18.0",
     "prop-types": "^15.8.1",
+    "striptags": "^3.2.0",
     "uuid": "^8.3.2"
   }
 }

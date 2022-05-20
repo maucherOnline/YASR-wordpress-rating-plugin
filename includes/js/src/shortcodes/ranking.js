@@ -1,20 +1,8 @@
 import {decodeEntities}    from "@wordpress/html-entities";
 import {v4 as uuidv4}      from 'uuid';
-import striptags           from "striptags";
+import {YasrSetInnerHtml}  from "../react-components/YasrSetInnerHtml";
 
 const  {render} = wp.element;
-
-/**
- * Strip a string to only allow <strong> and <p> tag (no XSS possible), and return it inside a span
- *
- * @param props
- * @returns {JSX.Element}
- */
-function YasrSetInnerHTML (props) {
-    return (
-        <div dangerouslySetInnerHTML={{__html: striptags(props.html, '<strong><p>')} }></div>
-    );
-}
 
 /*
  * Print the stars using RaterJs
@@ -54,7 +42,7 @@ function YasrTextAfterStars (props) {
         text = text.replace('%average%', props.post.rating);
         return (
             <div className='yasr-most-rated-text'>
-                <YasrSetInnerHTML html={text}></YasrSetInnerHTML>
+               <YasrSetInnerHtml html={text} />
             </div>
         )
     }
