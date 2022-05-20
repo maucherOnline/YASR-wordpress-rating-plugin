@@ -201,60 +201,31 @@ function yasr_unique_multidim_array($array, $key) {
     return $temp_array;
 }
 
+/**
+ * Return true if the requested url return 200
+ *
+ * @author Dario Curvino <@dudo>
+ * @since refactor in 3.0.8
+ * @param $url
+ *
+ * @return bool
+ */
 function yasr_check_valid_url($url) {
-
-    $timeout = 5;
-
-    //Check if url is valid
-    if (filter_var($url, FILTER_VALIDATE_URL) !== false) {
-
-        //Check if curl is installed
-        if (function_exists('curl_version')) {
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-
-            //execute curl
-            $http_respond = trim(strip_tags(curl_exec($ch)));
-            $http_code    = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-            //Check the response
-            if (($http_code == '200') || ($http_code == '302')) {
-                return true;
-            }
-
-            return false;
-            //close curl
-            curl_close($ch);
-
-        } //if curl is not installed, use file_get_contents
-        else {
-            //...but only if enabled on the server!
-            if (ini_get('allow_url_fopen')) {
-
-                //Change timeout for file_get_contents
-                ini_set('default_socket_timeout', $timeout); //5 seconds
-
-                $headers         = get_headers($url, 1);
-                $string_to_check = '200 OK';
-
-                //check if in the first heade we've 200 OK
-                if (strpos($headers[0], $string_to_check) !== false) {
-                    return true;
-                }
-
-                return false;
-            } //if url_fopen is not enabled
-
-            return false;
-
-        }
-    } else {
+    if (filter_var($url, FILTER_VALIDATE_URL) === false) {
         return false;
     }
 
+    $response = wp_remote_get($url);
+
+    if(is_wp_error($response)) {
+        return false;
+    }
+
+    if(wp_remote_retrieve_response_code($response) === 200) {
+        return true;
+    }
+
+    return false;
 }
 
 
