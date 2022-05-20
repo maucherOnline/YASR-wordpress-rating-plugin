@@ -4,13 +4,13 @@ import striptags from "striptags";
 /**
  * Strip a string to only allow <strong> and <p> tag (no XSS possible), and return it inside a span
  *
- * @param props
  * @returns {JSX.Element}
+ * @param   html //destructured props
  */
-const YasrSetInnerHtml = (props) => {
+const SetInnerHtml = ({html}) => {
     return (
-        <div dangerouslySetInnerHTML={{__html: striptags(props.html, '<strong><p>')} }></div>
+        <div dangerouslySetInnerHTML={{__html: striptags(html, '<strong><p>')} }></div>
     );
 };
 
-export {YasrSetInnerHtml};
+export {SetInnerHtml};

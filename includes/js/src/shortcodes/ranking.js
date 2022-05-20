@@ -1,24 +1,9 @@
 import {decodeEntities}    from "@wordpress/html-entities";
 import {v4 as uuidv4}      from 'uuid';
-import {YasrSetInnerHtml}  from "../react-components/YasrSetInnerHtml";
+import {SetInnerHtml}      from "../react-components/setInnerHtml";
+import {InvokeRater}       from "../react-components/invokeRater";
 
 const  {render} = wp.element;
-
-/*
- * Print the stars using RaterJs
- */
-
-function YasrCallRaterJs (props) {
-    const id   = 'yasr-ranking-element-' + uuidv4();
-    const size = document.getElementById(props.tableId).dataset.rankingSize;
-
-    return (
-        <div id={id} ref={() =>
-            yasrSetRaterValue(size, id, false, 0.1, true, props.rating)
-        }>
-        </div>
-    );
-}
 
 /*
  *
@@ -42,7 +27,7 @@ function YasrTextAfterStars (props) {
         text = text.replace('%average%', props.post.rating);
         return (
             <div className='yasr-most-rated-text'>
-               <YasrSetInnerHtml html={text} />
+               <SetInnerHtml html={text} />
             </div>
         )
     }
@@ -100,18 +85,24 @@ function YasrRankingTableRightColumn (props) {
         cstText = params.get('custom_txt');
     }
 
+    const starsAttributes = {
+        rating: props.post.rating,
+        htmlId: 'yasr-ranking-element-' + uuidv4(),
+        size: document.getElementById(props.tableId).dataset.rankingSize
+    }
+
     if (txtPosition === 'before') {
         return (
             <td className={props.colClass}>
                 <YasrTextAfterStars post={props.post} tableId={props.tableId} text={cstText}/>
-                <YasrCallRaterJs rating={props.post.rating} tableId={props.tableId}/>
+                <InvokeRater {...starsAttributes} />
             </td>
         )
     }
 
     return (
         <td className={props.colClass}>
-            <YasrCallRaterJs    rating={props.post.rating} tableId={props.tableId}/>
+            <InvokeRater {...starsAttributes} />
             <YasrTextAfterStars post={props.post} tableId={props.tableId} text={cstText}/>
         </td>
     )
