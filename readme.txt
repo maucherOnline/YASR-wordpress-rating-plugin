@@ -1,5 +1,5 @@
 === Yasr - Yet Another Stars Rating ===
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXE284FYMNWDC
+Donate link: https://www.paypal.com/donate/?hosted_button_id=SVTAVUF62QZ4W
 Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo
