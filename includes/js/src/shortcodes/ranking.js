@@ -1,55 +1,6 @@
-import {ReturnTableRow} from "../react-components/returnTableRow";
+import {ReturnTableTbody} from "../react-components/returnTableTbody";
 
 const  {render} = wp.element;
-
-/**
- * Loop the data array and return the Tbody
- *
- * @author Dario Curvino <@dudo>
- * @since  3.0.8
- *
- * @param props
- * @return {JSX.Element}
- */
-function YasrRankingTableRowMap({tBodyId, show, data, source, rankingParams, tableId}) {
-    return (
-        <tbody id={tBodyId} style={{display: show}}>
-            {
-                /*Loop the array, and set the style*/
-            }
-            {data.map((post, i) => {
-                let trClass = 'yasr-rankings-td-colored';
-                let leftClass  = 'yasr-top-10-most-highest-left';
-                let rightClass = 'yasr-top-10-most-highest-right'
-                if(source === 'author_ranking') {
-                    trClass = 'yasr-rankings-td-white';
-                    leftClass  = 'yasr-top-10-overall-left';
-                    rightClass = 'yasr-top-10-overall-right'
-                }
-                if (i % 2 === 0) {
-                    trClass = 'yasr-rankings-td-white';
-                    if(source === 'author_ranking') {
-                        trClass = 'yasr-rankings-td-colored';
-                    }
-                }
-
-                return(
-                    <ReturnTableRow
-                        key={post.post_id}
-                        source={source}
-                        tableId={tableId}
-                        rankingParams={rankingParams}
-                        post={post}
-                        trClass={trClass}
-                        leftClass={leftClass}
-                        rightClass={rightClass}
-                    />
-                )
-                })
-            }
-        </tbody>
-    )
-}
 
 /**
  * @author Dario Curvino <@dudo>
@@ -354,7 +305,7 @@ class YasrRanking extends React.Component {
         const {data, source, rankingParams} = this.state;
         if(source === 'overall_rating' || source === 'author_multi') {
             return (
-                <YasrRankingTableRowMap
+                <ReturnTableTbody
                     data={data}
                     tableId={this.state.tableId}
                     tBodyId={'overall_'+this.state.tableId}
@@ -389,7 +340,7 @@ class YasrRanking extends React.Component {
             return (
                 <>
                     {this.rankingTableHead(source, defaultView)}
-                    <YasrRankingTableRowMap
+                    <ReturnTableTbody
                         data={vvMost}
                         tableId={this.state.tableId}
                         tBodyId={'most-rated-posts-'+this.state.tableId}
@@ -397,7 +348,7 @@ class YasrRanking extends React.Component {
                         show={styleMost}
                         source={source}
                     />
-                    <YasrRankingTableRowMap
+                    <ReturnTableTbody
                         data={vvHighest}
                         tableId={this.state.tableId}
                         tBodyId={'highest-rated-posts-'+this.state.tableId}
