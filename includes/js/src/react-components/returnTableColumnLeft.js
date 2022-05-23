@@ -6,16 +6,25 @@ import {decodeEntities} from "@wordpress/html-entities";
  * @author Dario Curvino <@dudo>
  * @since  3.0.8
  *
- * @param {string} colClass - Column class name
- * @param {Object} post     - Object with post link and title
+ * @param {string} colClass - Column class name*
+ * @param link              - post link
+ * @param title             - post title
  *
  * @return {JSX.Element} - html <td> element
  */
 
-const ReturnTableColumnLeft = ({colClass, post}) => {
+/**
+ *
+ * @param colClass
+ * @param link
+ * @param title
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const ReturnTableColumnLeft = ({colClass, post:{link, title}}) => {
     return (
         <td className={colClass}>
-            <a href={post.link}>{decodeEntities(post.title)}</a>
+            <a href={link}>{decodeEntities(title)}</a>
         </td>
     )
 };
