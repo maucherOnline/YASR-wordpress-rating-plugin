@@ -1,34 +1,12 @@
-import {ReturnTableColumnLeft}  from "../react-components/returnTableColumnLeft";
-import {ReturnTableColumnRight} from "../react-components/returnTableColumnRight";
+import {ReturnTableRow} from "../react-components/returnTableRow";
 
 const  {render} = wp.element;
-
-/**
- * Print row for Ranking Table
- *
- * @author Dario Curvino <@dudo>
- * @since  2.5.7
- *
- * @param props
- * @param {string} props.source - Source of data
- * @param {Object} props.post     - Object with post attributes
- *
- * @return {JSX.Element} - html <tr> element
- */
-function YasrRankingTableRow(props) {
-    return (
-        <tr className={props.trClass}>
-            <ReturnTableColumnLeft   colClass={props.leftClass} post={props.post} />
-            <ReturnTableColumnRight  {...props} />
-        </tr>
-    )
-}
 
 /**
  * Loop the data array and return the Tbody
  *
  * @author Dario Curvino <@dudo>
- * @since  2.5.7
+ * @since  3.0.8
  *
  * @param props
  * @return {JSX.Element}
@@ -56,7 +34,7 @@ function YasrRankingTableRowMap({tBodyId, show, data, source, rankingParams, tab
                 }
 
                 return(
-                    <YasrRankingTableRow
+                    <ReturnTableRow
                         key={post.post_id}
                         source={source}
                         tableId={tableId}
