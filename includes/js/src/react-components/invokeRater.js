@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Call window function yasrSetRaterValue
  *

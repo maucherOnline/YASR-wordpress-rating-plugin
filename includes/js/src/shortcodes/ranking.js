@@ -1,7 +1,7 @@
-import {decodeEntities}    from "@wordpress/html-entities";
 import {v4 as uuidv4}      from 'uuid';
 import {SetInnerHtml}      from "../react-components/setInnerHtml";
 import {InvokeRater}       from "../react-components/invokeRater";
+import {ReturnTableColumnLeft} from "../react-components/returnTableColumnLeft";
 
 const  {render} = wp.element;
 
@@ -38,26 +38,6 @@ function YasrTextAfterStars (props) {
             {text} {props.post.rating}
         </div>
     );
-}
-
-/**
- * Left column for rankings table
- *
- * @author Dario Curvino <@dudo>
- * @since  2.5.7
- *
- * @param props
- * @param {string} props.colClass - Column class name
- * @param {Object} props.post     - Object with post attributes
- *
- * @return {JSX.Element} - html <td> element
- */
-function YasrRankingTableLeftColumn (props) {
-    return (
-        <td className={props.colClass}>
-            <a href={props.post.link}>{decodeEntities(props.post.title)}</a>
-        </td>
-    )
 }
 
 /**
@@ -123,7 +103,7 @@ function YasrRankingTableRightColumn (props) {
 function YasrRankingTableRow(props) {
     return (
         <tr className={props.trClass}>
-            <YasrRankingTableLeftColumn  colClass={props.leftClass}  post={props.post} />
+            <ReturnTableColumnLeft       colClass={props.leftClass} post={props.post} />
             <YasrRankingTableRightColumn colClass={props.rightClass} post={props.post} tableId={props.tableId} rankingParams={props.rankingParams}/>
         </tr>
     )
