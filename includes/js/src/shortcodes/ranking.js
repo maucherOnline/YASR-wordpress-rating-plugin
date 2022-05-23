@@ -150,20 +150,20 @@ function YasrRankingTableRow(props) {
  * @param props
  * @return {JSX.Element}
  */
-function YasrRankingTableRowMap(props) {
+function YasrRankingTableRowMap({tBodyId, show, data, source, rankingParams, tableId}) {
     return (
-        <tbody id={props.tBodyId} style={{display: props.show}}>
+        <tbody id={tBodyId} style={{display: show}}>
             {
                 /*Loop the array, and set the style*/
             }
-            {props.data.map(function (post, i) {
+            {data.map(function (post, i) {
                 let trClass = 'yasr-rankings-td-colored';
-                if(props.source === 'author_ranking') {
+                if(source === 'author_ranking') {
                     trClass = 'yasr-rankings-td-white';
                 }
                 if (i % 2 === 0) {
                     trClass = 'yasr-rankings-td-white';
-                    if(props.source === 'author_ranking') {
+                    if(source === 'author_ranking') {
                         trClass = 'yasr-rankings-td-colored';
                     }
                 }
@@ -171,9 +171,9 @@ function YasrRankingTableRowMap(props) {
                 return(
                     <YasrRankingTableRow
                         key={post.post_id}
-                        source={props.source}
-                        tableId={props.tableId}
-                        rankingParams={props.rankingParams}
+                        source={source}
+                        tableId={tableId}
+                        rankingParams={rankingParams}
                         post={post}
                         trClass={trClass}
                     />

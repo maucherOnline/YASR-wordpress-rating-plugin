@@ -1,5 +1,6 @@
-const path = require('path');
-const webpack = require('webpack');
+const path          = require('path');
+const webpack       = require('webpack');
+const TerserPlugin  = require('terser-webpack-plugin');
 
 var config = {
     module: {},
@@ -21,6 +22,11 @@ var yasrAdmin    = Object.assign({}, config, {
             './yasr_pro/js/src/yasr-pro-settings-ur-1.js'
         ],
         'yasr_pro/js/yasr-pro-edit-comments': './yasr_pro/js/src/yasr-pro-edit-comments.js',
+    },
+    optimization: {
+        minimizer: [new TerserPlugin({
+            extractComments: false,
+        })],
     },
     output: {
         filename: '[name].js',
@@ -73,6 +79,11 @@ var yasrAdminBabel    = Object.assign({}, config, {
         filename: '[name].js',
         path: path.resolve('./')
     },
+    optimization: {
+        minimizer: [new TerserPlugin({
+            extractComments: false,
+        })],
+    },
     plugins: [
         new webpack.ProvidePlugin({
             'yasrGutenUtils': 'yasrGutenUtils'
@@ -97,6 +108,11 @@ var yasrFront    = Object.assign({}, config, {
             './yasr_pro/js/src/reviewsInComments.js',
         ]
     },
+    optimization: {
+        minimizer: [new TerserPlugin({
+            extractComments: false,
+        })],
+    },
     output: {
         filename: '[name].js',
         path: path.resolve('./')
@@ -120,6 +136,11 @@ var yasrFrontBabel  = Object.assign({}, config, {
     },
     resolve: {
         extensions: ['*', '.js', '.css']
+    },
+    optimization: {
+        minimizer: [new TerserPlugin({
+            extractComments: false,
+        })],
     },
     output: {
         filename: '[name].js',
