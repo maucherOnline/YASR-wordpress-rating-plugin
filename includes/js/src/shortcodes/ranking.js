@@ -121,22 +121,10 @@ function YasrRankingTableRightColumn (props) {
  * @return {JSX.Element} - html <tr> element
  */
 function YasrRankingTableRow(props) {
-    let leftClass = '';
-    let rightClass = '';
-
-    if (props.source === 'author_ranking') {
-        leftClass = 'yasr-top-10-overall-left';
-        rightClass = 'yasr-top-10-overall-right'
-    }
-    else if (props.source === 'visitor_votes') {
-        leftClass  = 'yasr-top-10-most-highest-left';
-        rightClass = 'yasr-top-10-most-highest-right'
-    }
-
     return (
         <tr className={props.trClass}>
-            <YasrRankingTableLeftColumn  colClass={leftClass}  post={props.post} />
-            <YasrRankingTableRightColumn colClass={rightClass} post={props.post} tableId={props.tableId} rankingParams={props.rankingParams}/>
+            <YasrRankingTableLeftColumn  colClass={props.leftClass}  post={props.post} />
+            <YasrRankingTableRightColumn colClass={props.rightClass} post={props.post} tableId={props.tableId} rankingParams={props.rankingParams}/>
         </tr>
     )
 }
@@ -156,10 +144,14 @@ function YasrRankingTableRowMap({tBodyId, show, data, source, rankingParams, tab
             {
                 /*Loop the array, and set the style*/
             }
-            {data.map(function (post, i) {
+            {data.map((post, i) => {
                 let trClass = 'yasr-rankings-td-colored';
+                let leftClass  = 'yasr-top-10-most-highest-left';
+                let rightClass = 'yasr-top-10-most-highest-right'
                 if(source === 'author_ranking') {
                     trClass = 'yasr-rankings-td-white';
+                    leftClass  = 'yasr-top-10-overall-left';
+                    rightClass = 'yasr-top-10-overall-right'
                 }
                 if (i % 2 === 0) {
                     trClass = 'yasr-rankings-td-white';
@@ -176,6 +168,8 @@ function YasrRankingTableRowMap({tBodyId, show, data, source, rankingParams, tab
                         rankingParams={rankingParams}
                         post={post}
                         trClass={trClass}
+                        leftClass={leftClass}
+                        rightClass={rightClass}
                     />
                 )
                 })
