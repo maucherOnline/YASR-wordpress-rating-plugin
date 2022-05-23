@@ -1,6 +1,9 @@
 /**
  * Call window function yasrSetRaterValue
  *
+ * @author Dario Curvino <@dudo>
+ * @since  3.0.8
+ *
  * @param props
  * @returns {JSX.Element}
  * @constructor

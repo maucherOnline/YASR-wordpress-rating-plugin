@@ -1,57 +1,7 @@
-import {v4 as uuidv4}      from 'uuid';
-import {InvokeRater}       from "../react-components/invokeRater";
-import {ReturnTableColumnLeft} from "../react-components/returnTableColumnLeft";
-import {TextAfterStars} from "../react-components/textAfterStars";
+import {ReturnTableColumnLeft}  from "../react-components/returnTableColumnLeft";
+import {ReturnTableColumnRight} from "../react-components/returnTableColumnRight";
 
 const  {render} = wp.element;
-
-/**
-* Right column for rankings table
-*
-* @author Dario Curvino <@dudo>
-* @since  2.5.7
-*
-* @param props
-* @param {string} props.colClass - Column class name
-* @param {Object} props.post     - Object with post attributes
-*
-* @return {JSX.Element} - html <td> element
-*/
-function YasrRankingTableRightColumn (props) {
-
-    let txtPosition = 'after';
-    let cstText    = JSON.parse(yasrWindowVar.textRating)
-
-    let params = new URLSearchParams(props.rankingParams);
-    if(params.get('text_position') !== null) {
-        txtPosition = params.get('text_position');
-    }
-    if(params.get('custom_txt') !== null) {
-        cstText = params.get('custom_txt');
-    }
-
-    const starsAttributes = {
-        rating: props.post.rating,
-        htmlId: 'yasr-ranking-element-' + uuidv4(),
-        size: document.getElementById(props.tableId).dataset.rankingSize
-    }
-
-    if (txtPosition === 'before') {
-        return (
-            <td className={props.colClass}>
-                <TextAfterStars post={props.post} tableId={props.tableId} text={cstText}/>
-                <InvokeRater {...starsAttributes} />
-            </td>
-        )
-    }
-
-    return (
-        <td className={props.colClass}>
-            <InvokeRater {...starsAttributes} />
-            <TextAfterStars post={props.post} tableId={props.tableId} text={cstText}/>
-        </td>
-    )
-}
 
 /**
  * Print row for Ranking Table
@@ -68,8 +18,8 @@ function YasrRankingTableRightColumn (props) {
 function YasrRankingTableRow(props) {
     return (
         <tr className={props.trClass}>
-            <ReturnTableColumnLeft       colClass={props.leftClass} post={props.post} />
-            <YasrRankingTableRightColumn colClass={props.rightClass} post={props.post} tableId={props.tableId} rankingParams={props.rankingParams}/>
+            <ReturnTableColumnLeft   colClass={props.leftClass} post={props.post} />
+            <ReturnTableColumnRight  {...props} />
         </tr>
     )
 }

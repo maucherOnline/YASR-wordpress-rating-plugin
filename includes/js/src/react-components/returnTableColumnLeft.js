@@ -13,14 +13,6 @@ import {decodeEntities} from "@wordpress/html-entities";
  * @return {JSX.Element} - html <td> element
  */
 
-/**
- *
- * @param colClass
- * @param link
- * @param title
- * @returns {JSX.Element}
- * @constructor
- */
 const ReturnTableColumnLeft = ({colClass, post:{link, title}}) => {
     return (
         <td className={colClass}>
