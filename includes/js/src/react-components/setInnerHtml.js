@@ -1,7 +1,7 @@
 import striptags from "striptags";
 
 /**
- * Strip a string to only allow <strong> and <p> tag (no XSS possible), and return it inside a span
+ * Strip a string to only allow <strong> and <p> tag (no XSS possible), and return it inside a div
  *
  * @returns {JSX.Element}
  * @param   html //destructured props

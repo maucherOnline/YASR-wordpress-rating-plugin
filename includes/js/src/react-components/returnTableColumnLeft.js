@@ -1,10 +1,10 @@
 import {decodeEntities} from "@wordpress/html-entities";
 
 /**
- * Left column for rankings table
+ * Left column for a table, with post link and title
  *
  * @author Dario Curvino <@dudo>
- * @since  2.5.7
+ * @since  3.0.8
  *
  * @param {string} colClass - Column class name
  * @param {Object} post     - Object with post link and title

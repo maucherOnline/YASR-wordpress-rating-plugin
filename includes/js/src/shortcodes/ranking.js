@@ -1,44 +1,9 @@
 import {v4 as uuidv4}      from 'uuid';
-import {SetInnerHtml}      from "../react-components/setInnerHtml";
 import {InvokeRater}       from "../react-components/invokeRater";
 import {ReturnTableColumnLeft} from "../react-components/returnTableColumnLeft";
+import {TextAfterStars} from "../react-components/textAfterStars";
 
 const  {render} = wp.element;
-
-/*
- *
- * Print text after the stars
- * if number of votes is defined, means that is the
- * [yasr_most_or_highest_rated_posts] shortcode
- *
- * @author Dario Curvino <@dudo>
- * @since  2.5.7
- *
- * @param props
- * @param {Object} props.rating  - Object with post attributes
- *
- */
-
-function YasrTextAfterStars (props) {
-    //If number_of_votes exists
-    if(typeof props.post.number_of_votes !== "undefined") {
-        let text   =  JSON.parse(yasrWindowVar.textAfterVr);
-        text = text.replace('%total_count%', props.post.number_of_votes);
-        text = text.replace('%average%', props.post.rating);
-        return (
-            <div className='yasr-most-rated-text'>
-               <SetInnerHtml html={text} />
-            </div>
-        )
-    }
-    let text = props.text;
-
-    return (
-        <div className='yasr-highest-rated-text'>
-            {text} {props.post.rating}
-        </div>
-    );
-}
 
 /**
 * Right column for rankings table
@@ -74,7 +39,7 @@ function YasrRankingTableRightColumn (props) {
     if (txtPosition === 'before') {
         return (
             <td className={props.colClass}>
-                <YasrTextAfterStars post={props.post} tableId={props.tableId} text={cstText}/>
+                <TextAfterStars post={props.post} tableId={props.tableId} text={cstText}/>
                 <InvokeRater {...starsAttributes} />
             </td>
         )
@@ -83,7 +48,7 @@ function YasrRankingTableRightColumn (props) {
     return (
         <td className={props.colClass}>
             <InvokeRater {...starsAttributes} />
-            <YasrTextAfterStars post={props.post} tableId={props.tableId} text={cstText}/>
+            <TextAfterStars post={props.post} tableId={props.tableId} text={cstText}/>
         </td>
     )
 }
