@@ -124,6 +124,7 @@ Further, it comes with a lot of hooks, you can find more info [here](https://yet
 == Related Link ==
 * [All available shortcodes in free version](https://yetanotherstarsrating.com/yasr-shortcodes/)
 * Documentation at [Yasr Official Site](https://yetanotherstarsrating.com/docs/)
+* [GitHub page](https://github.com/Dudo1985/yet-another-stars-rating)
 
 Do you want more feature? [Check out Yasr Pro!](https://yetanotherstarsrating.com/#yasr-pro)
 
@@ -202,6 +203,10 @@ Yes, YASR is 100% fully compatible with PHP 8
 == Changelog ==
 
 The full changelog can be found in the plugin's directory. Recent entries:
+
+= 3.0.8 =
+* FIXED: YASR gutenberg panel didn't shop up once hidden
+* TWEAKED: minor changes
 
 = 3.0.7 =
 * FIXED: when the value 0 is entered for the Price the ‘Offers’ field is not displayed in the Schema markup.
