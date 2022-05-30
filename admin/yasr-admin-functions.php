@@ -108,6 +108,7 @@ function yasr_add_admin_scripts($hook) {
     if ($hook === $yasr_settings_page) {
         YasrScriptsLoader::loadCodeEditor();
         YasrScriptsLoader::loadAdminSettings();
+        YasrScriptsLoader::loadTableCss();
     }
 
 }
