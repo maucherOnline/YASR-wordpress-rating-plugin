@@ -505,6 +505,7 @@ class YasrScriptsLoader {
             ($hook === 'post.php'
                 || $hook === 'post-new.php'
                 || $hook === 'widgets.php'
+                || $hook === 'site-editor.php'
                 || $hook === 'appearance_page_gutenberg-edit-site'
             )
             && yasr_is_gutenberg_page()
@@ -576,7 +577,8 @@ class YasrScriptsLoader {
         }
 
         if (property_exists($current_screen, 'base')
-            && $current_screen->base === 'appearance_page_gutenberg-edit-site'
+            && ($current_screen->base === 'appearance_page_gutenberg-edit-site'
+                || $current_screen->base === 'site-editor' )
         ) {
             return true;
         }
