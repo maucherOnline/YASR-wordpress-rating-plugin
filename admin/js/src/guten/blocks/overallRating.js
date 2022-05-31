@@ -2,7 +2,7 @@ const {registerBlockType}    = wp.blocks; // Import from wp.blocks
 const {Fragment}             = wp.element;
 const {useBlockProps}        = wp.blockEditor;
 
-import {YasrPrintSelectSize, YasrBlocksPanel} from "./yasrGutenUtils";
+import {YasrPrintSelectSize, YasrBlocksPanel, YasrBlockSizeAttribute} from "yasrGutenUtils";
 
 /**
  * Register: a Gutenberg Block.
@@ -28,13 +28,16 @@ registerBlockType(
 
                 const {attributes: {size, postId}, setAttributes, isSelected} = props;
 
-                let sizeAttribute = null;
+                const panelAttributes = {
+                    block: 'overall',
+                    size  : size,
+                    postId: postId,
+                    setAttributes: setAttributes
+                }
+
+                let sizeAttribute = YasrBlockSizeAttribute(size);
                 let postIdAttribute = null;
                 let isNum;
-
-                if (size !== 'large') {
-                    sizeAttribute = ' size="' + size + '"';
-                }
 
                 isNum = /^\d+$/.test(postId);
 
@@ -45,7 +48,7 @@ registerBlockType(
                 return (
                     <Fragment>
                         {isSelected &&
-                        <YasrBlocksPanel block='overall' size={size} postId={postId} setAttributes={setAttributes}/> }
+                        <YasrBlocksPanel {...panelAttributes} /> }
                         <div { ...blockProps }>
                             [yasr_overall_rating{sizeAttribute}{postIdAttribute}]
                             {isSelected && <YasrPrintSelectSize size={size} setAttributes={setAttributes}/>}

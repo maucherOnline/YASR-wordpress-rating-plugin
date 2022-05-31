@@ -105,37 +105,39 @@ export function YasrNoSettingsPanel (props) {
  * @constructor
  */
 export function YasrBlocksPanel (props) {
+
+    const {block, size, setAttributes, postId} = props;
+
     let bottomDesc;
-    if(props.block === 'visitors') {
+    if(block === 'visitors') {
         bottomDesc = yasrVisitorVotesDescription;
     }
-    if(props.block === 'overall') {
+    if(block === 'overall') {
         bottomDesc = yasrOverallDescription;
     }
 
     return (
         <InspectorControls>
-            {props.block === 'overall' && <YasrDivRatingOverall />}
+            {block === 'overall' && <YasrDivRatingOverall />}
             <PanelBody title='Settings'>
                 <h3>{yasrOptionalText}</h3>
 
                 <div className="yasr-guten-block-panel">
                     <label>{yasrLabelSelectSize}</label>
                     <div>
-                        <YasrPrintSelectSize size={props.size} setAttributes={props.setAttributes}/>
+                        <YasrPrintSelectSize size={size} setAttributes={setAttributes}/>
                     </div>
                 </div>
 
                 <div className="yasr-guten-block-panel">
                     <label>Post ID</label>
-                    <YasrPrintInputId postId={props.postId} setAttributes={props.setAttributes}/>
+                    <YasrPrintInputId postId={postId} setAttributes={setAttributes}/>
                     <div className="yasr-guten-block-explain">
                         Use return (&#8629;) to save.
                     </div>
                     <p>
                         {yasrLeaveThisBlankText}
                     </p>
-
                 </div>
 
                 <div className="yasr-guten-block-panel">
@@ -192,3 +194,20 @@ export function YasrDivRatingOverall (props) {
         </div>
     );
 }
+
+
+/**
+ * Return null if size === large, or a string otherwise
+ *
+ * @param size
+ * @returns {null, string}
+ */
+const YasrBlockSizeAttribute = (size) => {
+    let sizeString = null;
+    if (size !== 'large') {
+        sizeString =  ` size="${size}"`
+    }
+    return (sizeString);
+};
+
+export {YasrBlockSizeAttribute}
