@@ -2,7 +2,7 @@ const {registerBlockType}          = wp.blocks; // Import from wp.blocks
 const {Fragment}                   = wp.element;
 const {useBlockProps}              = wp.blockEditor;
 
-import {YasrPrintSelectSize, YasrBlocksPanel, YasrBlockSizeAttribute} from "yasrGutenUtils";
+import {YasrPrintSelectSize, YasrBlocksPanel, YasrBlockSizeAttribute, YasrBlockPostidAttribute} from "yasrGutenUtils";
 
 registerBlockType(
     'yet-another-stars-rating/visitor-votes', {
@@ -14,21 +14,15 @@ registerBlockType(
 
                 const { attributes: { size, postId }, setAttributes, isSelected } = props;
 
-                let sizeAttribute   = YasrBlockSizeAttribute(size);
-                let postIdAttribute = null;
-
-                let isNum = /^\d+$/.test(postId);
-
-                if (isNum === true) {
-                    postIdAttribute = ' postid="' +postId + '"';
-                }
-
                 const panelAttributes = {
                     block: 'visitors',
                     size  : size,
                     postId: postId,
                     setAttributes: setAttributes
                 }
+
+                let sizeAttribute   = YasrBlockSizeAttribute(size);
+                let postIdAttribute = YasrBlockPostidAttribute(postId);
 
                 return (
                     <Fragment>

@@ -200,7 +200,7 @@ export function YasrDivRatingOverall (props) {
  * Return null if size === large, or a string otherwise
  *
  * @param size
- * @returns {null, string}
+ * @returns {(null | string)}
  */
 const YasrBlockSizeAttribute = (size) => {
     let sizeString = null;
@@ -210,4 +210,22 @@ const YasrBlockSizeAttribute = (size) => {
     return (sizeString);
 };
 
-export {YasrBlockSizeAttribute}
+/**
+ *
+ * @param postId
+ * @returns {(null | string)}
+ */
+const YasrBlockPostidAttribute = (postId) => {
+    let isNum;
+    let postIdAttribute = null;
+
+    isNum = /^\d+$/.test(postId);
+
+    if (isNum === true) {
+        postIdAttribute = ' postid="' +postId + '"';
+    }
+
+    return postIdAttribute;
+};
+
+export {YasrBlockSizeAttribute, YasrBlockPostidAttribute}
