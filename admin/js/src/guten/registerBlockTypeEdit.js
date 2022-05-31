@@ -9,15 +9,19 @@ import {
     YasrSetBlockAttributes
 } from "yasrGutenUtils";
 
-
-
+/**
+ * Return the edit Function to be used in registerBlockType
+ *
+ * @param props
+ * @returns {JSX.Element}
+ */
 const yasrEditFunction = (props) => {
     const {attributes: {size, postId}, name, isSelected, setAttributes} = props;
 
-    const {className, shortCode, block} = YasrSetBlockAttributes(name);
+    const {className, shortCode} = YasrSetBlockAttributes(name);
 
     const panelAttributes = {
-        block:  block,
+        block:  name,
         size:   size,
         postId: postId,
         setAttributes: setAttributes

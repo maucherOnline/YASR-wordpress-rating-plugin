@@ -106,19 +106,19 @@ export function YasrNoSettingsPanel (props) {
  */
 export function YasrBlocksPanel (props) {
 
-    const {block, size, setAttributes, postId} = props;
+    const {block: name, size, setAttributes, postId} = props;
 
     let bottomDesc;
-    if(block === 'visitors') {
+    if(name === 'yet-another-stars-rating/visitor-votes') {
         bottomDesc = yasrVisitorVotesDescription;
     }
-    if(block === 'overall') {
+    if(name === 'yet-another-stars-rating/overall-rating') {
         bottomDesc = yasrOverallDescription;
     }
 
     return (
         <InspectorControls>
-            {block === 'overall' && <YasrDivRatingOverall />}
+            {name === 'overall' && <YasrDivRatingOverall />}
             <PanelBody title='Settings'>
                 <h3>{yasrOptionalText}</h3>
 
@@ -237,15 +237,18 @@ const YasrBlockPostidAttribute = (postId) => {
  */
 const YasrSetBlockAttributes = (blockName) => {
     let blockAttributes = {
-        className: null,
-        shortCode: null,
-        block:     null
+        className: null, //class name for the main div
+        shortCode: null, //shortcode
     }
 
     if(blockName === 'yet-another-stars-rating/overall-rating') {
         blockAttributes.className =  'yasr-overall-block';
         blockAttributes.shortCode =  'yasr_overall_rating';
-        blockAttributes.block     = 'overall'
+    }
+
+    if(blockName === 'yet-another-stars-rating/visitor-votes') {
+        blockAttributes.className =  'yasr-vv-block';
+        blockAttributes.shortCode =  'yasr_visitor_votes';
     }
 
     return blockAttributes;
