@@ -77,6 +77,7 @@ function yasr_add_admin_scripts($hook) {
         || $hook === 'post-new.php'
         || $hook === 'edit-comments.php'
         || $hook === 'term.php'
+        || $hook === 'widgets.php'
         || $hook === 'appearance_page_gutenberg-edit-site'
         || $hook === $yasr_settings_page
         || $hook === 'yet-another-stars-rating_page_yasr_stats_page'

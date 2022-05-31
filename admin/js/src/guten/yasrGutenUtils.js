@@ -21,10 +21,10 @@ export function YasrPrintSelectSize (props) {
     return (
         <form>
             <select value={props.size} onChange={(e) => yasrSetStarsSize(props.setAttributes, e)}>
-                <option value="--">{yasrGutenUtils.yasrSelectSizeChoose}</option>
-                <option value="small">{yasrGutenUtils.yasrSelectSizeSmall}</option>
-                <option value="medium">{yasrGutenUtils.yasrSelectSizeMedium}</option>
-                <option value="large">{yasrGutenUtils.yasrSelectSizeLarge}</option>
+                <option value="--">{yasrSelectSizeChoose}    </option>
+                <option value="small">{yasrSelectSizeSmall}  </option>
+                <option value="medium">{yasrSelectSizeMedium}</option>
+                <option value="large">{yasrSelectSizeLarge}  </option>
             </select>
         </form>
     );
@@ -68,7 +68,7 @@ function yasrSetPostId (setAttributes, event) {
 
 export function YasrProText () {
 
-    const YasrProText1 = __('To be able to customize this ranking, you need', 'yet-another-stars-rating');
+    const YasrProText1 =  __('To be able to customize this ranking, you need', 'yet-another-stars-rating');
     const YasrProText2 =  __('You can buy the plugin, including support, updates and upgrades, on',
         'yet-another-stars-rating');
 
@@ -98,11 +98,10 @@ export function YasrNoSettingsPanel (props) {
 }
 
 /**
- * This is the main panel that all YASR blocks uses
+ * This is the panel that for blocks that use size and postid attributes
  *
  * @param props
  * @return {JSX.Element}
- * @constructor
  */
 export function YasrBlocksPanel (props) {
 
@@ -149,6 +148,12 @@ export function YasrBlocksPanel (props) {
 
 }
 
+/**
+ * Return a div with the stars in order to vote for overall rating
+ *
+ * @param props
+ * @returns {JSX.Element}
+ */
 export function YasrDivRatingOverall (props) {
 
     if(JSON.parse(yasrConstantGutenberg.isFseElement) === true) {
@@ -161,6 +166,15 @@ export function YasrDivRatingOverall (props) {
                 <br />
             </div>
         );
+    }
+
+    //Outside the editor page (e.g. widgets.php) wp.data.select('core/editor') is null
+    //So, in such cases, rating in overall widget must be disabled
+    if(wp.data.select('core/editor') === null) {
+        return (
+            <>
+            </>
+        )
     }
 
     const yasrOverallRateThis = __("Rate this article / item", 'yet-another-stars-rating');

@@ -501,8 +501,14 @@ class YasrScriptsLoader {
      * @param  $hook
      */
     public function addJsConstantInGutenberg($hook) {
-        if (($hook === 'post.php' || $hook === 'post-new.php' || $hook === 'appearance_page_gutenberg-edit-site')
-            && yasr_is_gutenberg_page() ) {
+        if (
+            ($hook === 'post.php'
+                || $hook === 'post-new.php'
+                || $hook === 'widgets.php'
+                || $hook === 'appearance_page_gutenberg-edit-site'
+            )
+            && yasr_is_gutenberg_page()
+        ) {
 
             //create an empty array
             //do not add elements here, use yasrGutenbergConstants method instead
