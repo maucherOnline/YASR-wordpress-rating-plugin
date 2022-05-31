@@ -3,7 +3,7 @@ const {PanelBody}                        = wp.components;
 const {Fragment}                         = wp.element;
 const {useBlockProps, InspectorControls} = wp.blockEditor;
 
-import {YasrNoSettingsPanel} from "./yasrGutenUtils";
+import {YasrNoSettingsPanel} from "../yasrGutenUtils";
 
 registerBlockType(
     'yet-another-stars-rating/overall-rating-ranking', {

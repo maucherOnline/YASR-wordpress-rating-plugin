@@ -8,7 +8,7 @@ const ContentBelowSidebar = () => {
     return <div/>;
 };
 
-import {YasrDivRatingOverall} from 'yasrGutenUtils';
+import {YasrDivRatingOverall} from './yasrGutenUtils';
 
 /**
  * Show auto insert option

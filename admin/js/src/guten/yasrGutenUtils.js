@@ -76,12 +76,12 @@ export function YasrProText () {
         <h3>
             {YasrProText1}
             &nbsp;
-            <a href="https://yetanotherstarsrating.com/?utm_source=wp-plugin&utm_medium=gutenberg_panel&utm_campaign=yasr_editor_screen&utm_content=rankings#yasr-pro">
+            <a href="admin/js/src/guten/yasrGutenUtils?utm_source=wp-plugin&utm_medium=gutenberg_panel&utm_campaign=yasr_editor_screen&utm_content=rankings#yasr-pro">
                 Yasr Pro.
             </a><br />
             {YasrProText2}
             &nbsp;
-            <a href="https://yetanotherstarsrating.com/?utm_source=wp-plugin&utm_medium=gutenberg_panel&utm_campaign=yasr_editor_screen&utm_content=rankings">
+            <a href="admin/js/src/guten/yasrGutenUtils?utm_source=wp-plugin&utm_medium=gutenberg_panel&utm_campaign=yasr_editor_screen&utm_content=rankings">
                 yetanotherstarsrating.com
             </a>
         </h3>
