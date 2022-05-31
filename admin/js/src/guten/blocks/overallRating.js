@@ -1,13 +1,8 @@
 const {registerBlockType}    = wp.blocks; // Import from wp.blocks
-const {Fragment}             = wp.element;
 const {useBlockProps}        = wp.blockEditor;
 
-import {
-    YasrBlocksPanel,
-    YasrPrintSelectSize,
-    YasrBlockSizeAttribute,
-    YasrBlockPostidAttribute
-} from "yasrGutenUtils";
+import metadata from '../../../../../includes/blocks/overall-rating/block.json';
+import edit     from '../registerBlockTypeEdit';
 
 /**
  * Register: a Gutenberg Block.
@@ -24,36 +19,8 @@ import {
  */
 
 registerBlockType(
-    'yet-another-stars-rating/overall-rating', {
-        edit:
-            function(props) {
-                const blockProps = useBlockProps( {
-                    className: 'yasr-overall-block',
-                } );
-
-                const {attributes: {size, postId}, setAttributes, isSelected} = props;
-
-                const panelAttributes = {
-                    block: 'overall',
-                    size  : size,
-                    postId: postId,
-                    setAttributes: setAttributes
-                }
-
-                let sizeAttribute   = YasrBlockSizeAttribute(size);
-                let postIdAttribute = YasrBlockPostidAttribute(postId);
-
-                return (
-                    <Fragment>
-                        {isSelected && <YasrBlocksPanel {...panelAttributes} /> }
-                        <div { ...blockProps }>
-                            [yasr_overall_rating{sizeAttribute}{postIdAttribute}]
-                            {isSelected && <YasrPrintSelectSize size={size} setAttributes={setAttributes}/>}
-                        </div>
-                    </Fragment>
-                );
-            },
-
+    metadata, {
+        edit: edit,
         /**
          * The save function defines the way in which the different attributes should be combined
          * into the final markup, which is then serialized by Gutenberg into post_content.

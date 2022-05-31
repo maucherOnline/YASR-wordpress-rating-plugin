@@ -2,10 +2,17 @@ const {registerBlockType}          = wp.blocks; // Import from wp.blocks
 const {Fragment}                   = wp.element;
 const {useBlockProps}              = wp.blockEditor;
 
-import {YasrPrintSelectSize, YasrBlocksPanel, YasrBlockSizeAttribute, YasrBlockPostidAttribute} from "yasrGutenUtils";
+import {
+    YasrBlocksPanel,
+    YasrPrintSelectSize,
+    YasrBlockSizeAttribute,
+    YasrBlockPostidAttribute
+} from "yasrGutenUtils";
+
+import metadata from '../../../../../includes/blocks/visitor-votes/block.json';
 
 registerBlockType(
-    'yet-another-stars-rating/visitor-votes', {
+    metadata, {
         edit:
             function( props ) {
                 const blockProps = useBlockProps({

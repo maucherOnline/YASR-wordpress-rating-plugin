@@ -228,4 +228,27 @@ const YasrBlockPostidAttribute = (postId) => {
     return postIdAttribute;
 };
 
-export {YasrBlockSizeAttribute, YasrBlockPostidAttribute}
+
+/**
+ * Return an object with block attributes
+ *
+ * @param blockName
+ * @returns {object}
+ */
+const YasrSetBlockAttributes = (blockName) => {
+    let blockAttributes = {
+        className: null,
+        shortCode: null,
+        block:     null
+    }
+
+    if(blockName === 'yet-another-stars-rating/overall-rating') {
+        blockAttributes.className =  'yasr-overall-block';
+        blockAttributes.shortCode =  'yasr_overall_rating';
+        blockAttributes.block     = 'overall'
+    }
+
+    return blockAttributes;
+}
+
+export {YasrBlockSizeAttribute, YasrBlockPostidAttribute, YasrSetBlockAttributes}
