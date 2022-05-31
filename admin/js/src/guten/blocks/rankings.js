@@ -3,10 +3,12 @@ const {PanelBody}                        = wp.components;
 const {Fragment}                         = wp.element;
 const {useBlockProps, InspectorControls} = wp.blockEditor;
 
-import {YasrNoSettingsPanel} from "../yasrGutenUtils";
+import {YasrNoSettingsPanel} from "yasrGutenUtils";
+import metadataOv     from '../../../../../includes/blocks/ranking-overall-rating/block.json';
+import metadataVV     from '../../../../../includes/blocks/ranking-visitor-votes/block.json';
 
 registerBlockType(
-    'yet-another-stars-rating/overall-rating-ranking', {
+    metadataOv, {
         edit:
             function(props) {
                 const blockProps = useBlockProps( {
@@ -63,7 +65,7 @@ registerBlockType(
     });
 
 registerBlockType(
-    'yet-another-stars-rating/visitor-votes-ranking', {
+    metadataVV, {
         edit:
             function(props) {
                 const blockProps = useBlockProps( {

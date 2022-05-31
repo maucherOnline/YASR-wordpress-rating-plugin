@@ -3,11 +3,13 @@ const {PanelBody}                        = wp.components;
 const {Fragment}                         = wp.element;
 const {useBlockProps, InspectorControls} = wp.blockEditor;
 
-import {YasrNoSettingsPanel} from "../yasrGutenUtils";
+import {YasrNoSettingsPanel} from "yasrGutenUtils";
+import metadata     from '../../../../../includes/blocks/user-rate-history/block.json';
+
 
 //Most active users
 registerBlockType(
-    'yet-another-stars-rating/user-rate-history', {
+    metadata, {
         edit:
             function(props) {
                 const blockProps = useBlockProps( {

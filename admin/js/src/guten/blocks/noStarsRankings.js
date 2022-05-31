@@ -3,11 +3,14 @@ const {PanelBody}                        = wp.components;
 const {Fragment}                         = wp.element;
 const {useBlockProps, InspectorControls} = wp.blockEditor;
 
-import {YasrNoSettingsPanel} from "../yasrGutenUtils";
+import {YasrNoSettingsPanel} from "yasrGutenUtils";
+import metadataUsers     from '../../../../../includes/blocks/ranking-users/block.json';
+import metadataReviewers from '../../../../../includes/blocks/ranking-reviewers/block.json';
+
 
 //Most active users
 registerBlockType(
-    'yet-another-stars-rating/most-active-users', {
+    metadataUsers, {
         edit:
             function(props) {
                 const blockProps = useBlockProps( {
@@ -64,7 +67,7 @@ registerBlockType(
 
 //Most Active reviewers
 registerBlockType(
-    'yet-another-stars-rating/most-active-reviewers', {
+    metadataReviewers, {
         edit:
             function(props) {
                 const blockProps = useBlockProps( {
