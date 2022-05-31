@@ -118,7 +118,7 @@ export function YasrBlocksPanel (props) {
 
     return (
         <InspectorControls>
-            {name === 'overall' && <YasrDivRatingOverall />}
+            {name === 'yet-another-stars-rating/overall-rating' && <YasrDivRatingOverall />}
             <PanelBody title='Settings'>
                 <h3>{yasrOptionalText}</h3>
 
