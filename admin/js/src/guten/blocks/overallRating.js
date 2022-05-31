@@ -35,7 +35,7 @@ registerBlockType(
                     setAttributes: setAttributes
                 }
 
-                let sizeAttribute = YasrBlockSizeAttribute(size);
+                let sizeAttribute   = YasrBlockSizeAttribute(size);
                 let postIdAttribute = null;
                 let isNum;
 

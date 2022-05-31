@@ -1,34 +1,38 @@
-import {YasrBlocksPanel, YasrPrintSelectSize} from "./yasrGutenUtils";
-
 const {registerBlockType}          = wp.blocks; // Import from wp.blocks
 const {Fragment}                   = wp.element;
 const {useBlockProps}              = wp.blockEditor;
+
+import {YasrPrintSelectSize, YasrBlocksPanel, YasrBlockSizeAttribute} from "yasrGutenUtils";
 
 registerBlockType(
     'yet-another-stars-rating/visitor-votes', {
         edit:
             function( props ) {
-                const blockProps = useBlockProps( {
+                const blockProps = useBlockProps({
                     className: 'yasr-vv-block',
-                } );
+                });
+
                 const { attributes: { size, postId }, setAttributes, isSelected } = props;
 
-                let sizeAttribute   = null;
+                let sizeAttribute   = YasrBlockSizeAttribute(size);
                 let postIdAttribute = null;
 
                 let isNum = /^\d+$/.test(postId);
-
-                if (size !== 'large') {
-                    sizeAttribute = ' size="' + size + '"';
-                }
 
                 if (isNum === true) {
                     postIdAttribute = ' postid="' +postId + '"';
                 }
 
+                const panelAttributes = {
+                    block: 'visitors',
+                    size  : size,
+                    postId: postId,
+                    setAttributes: setAttributes
+                }
+
                 return (
                     <Fragment>
-                        <YasrBlocksPanel block='visitors' size={size} setAttributes={setAttributes} postId={postId}/>
+                        <YasrBlocksPanel {...panelAttributes} />
                         <div {...blockProps}>
                             [yasr_visitor_votes{sizeAttribute}{postIdAttribute}]
                             {isSelected && <YasrPrintSelectSize size={size} setAttributes={setAttributes}/>}
