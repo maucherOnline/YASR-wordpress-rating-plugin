@@ -16,7 +16,7 @@ module.exports = {
         ],
         './guten/yasr-guten-misc' : [
             './admin/js/src/guten/blocks/deprecated/deprecated_blocks.js',
-            './admin/js/src/guten/yasr-guten-panel.js'
+            './admin/js/src/guten/yasrSidebar.js'
         ]
     },
     module: {

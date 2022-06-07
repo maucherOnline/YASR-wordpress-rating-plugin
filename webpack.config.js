@@ -41,7 +41,7 @@ var yasrAdminBabel    = Object.assign({}, config, {
         ],
         'admin/js/guten/yasr-guten-misc' : [
             './admin/js/src/guten/blocks/deprecated/deprecated_blocks.js',
-            './admin/js/src/guten/yasr-guten-panel.js'
+            './admin/js/src/guten/yasrSidebar.js'
         ],
         'admin/js/yasr-settings': [
             './admin/js/src/yasr-settings-page.js',
