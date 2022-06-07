@@ -7,7 +7,7 @@ import {
     YasrBlockSizeAttribute,
     YasrPrintSelectSize,
     YasrSetBlockAttributes
-} from "./yasrGutenUtils";
+} from "yasrGutenUtils";
 
 /**
  * Return the edit Function to be used in registerBlockType

@@ -8,7 +8,7 @@ const ContentBelowSidebar = () => {
     return <div/>;
 };
 
-import {YasrDivRatingOverall} from './yasrGutenUtils';
+import {YasrDivRatingOverall} from 'yasrGutenUtils';
 
 /**
  * Show auto insert option
@@ -72,46 +72,38 @@ class YasrSideBarAutoInsert extends React.Component {
 
 }
 
-class yasrSidebar extends React.Component {
+const yasrSidebar = () => {
 
-    constructor(props) {
-        super(props);
+    let yasrAutoInsertEnabled = false;
 
-        let yasrAutoInsertEnabled = false;
-
-        //this is not for the post, but from settings
-        if (yasrConstantGutenberg.autoInsert !== 'disabled') {
-            yasrAutoInsertEnabled = true;
-        }
-
-        this.state = {yasrAutoInsertEnabled: yasrAutoInsertEnabled};
-
+    //this is not for the post, but from settings
+    if (yasrConstantGutenberg.autoInsert !== 'disabled') {
+        yasrAutoInsertEnabled = true;
     }
 
-    render() {
-        let YasrBelowSidebar = [<ContentBelowSidebar key={0}/>];
-        {wp.hooks.doAction('yasr_below_panel', YasrBelowSidebar)}
-        return (
-            <Fragment>
-                <PluginSidebarMoreMenuItem target="yasr-guten-sidebar" >
-                    { __( 'YASR post settings', 'yet-another-stars-rating' ) }
-                </PluginSidebarMoreMenuItem>
-                <PluginSidebar name="yasr-guten-sidebar" title="YASR Settings">
-                    <PanelBody>
-                        <div className="yasr-guten-block-panel yasr-guten-block-panel-center">
-                            <YasrDivRatingOverall />
-                            <div>
-                                {__('This is the same value that you find the "Yasr: Overall Rating" block.',
-                                    'yet-another-stars-rating')}
-                            </div>
-                            {this.state.yasrAutoInsertEnabled && <YasrSideBarAutoInsert />}
-                            {YasrBelowSidebar}
+    let YasrBelowSidebar = [<ContentBelowSidebar key={0}/>];
+    {wp.hooks.doAction('yasr_below_panel', YasrBelowSidebar)}
+
+    return (
+        <Fragment>
+            <PluginSidebarMoreMenuItem target="yasr-guten-sidebar" >
+                { __( 'YASR post settings', 'yet-another-stars-rating' ) }
+            </PluginSidebarMoreMenuItem>
+            <PluginSidebar name="yasr-guten-sidebar" title="YASR Settings">
+                <PanelBody>
+                    <div className="yasr-guten-block-panel yasr-guten-block-panel-center">
+                        <YasrDivRatingOverall />
+                        <div>
+                            {__('This is the same value that you find the "Yasr: Overall Rating" block.',
+                                'yet-another-stars-rating')}
                         </div>
-                    </PanelBody>
-                </PluginSidebar>
-            </Fragment>
-        );
-    }
+                        {yasrAutoInsertEnabled && <YasrSideBarAutoInsert />}
+                        {YasrBelowSidebar}
+                    </div>
+                </PanelBody>
+            </PluginSidebar>
+        </Fragment>
+    );
 }
 
 //Custom sidebar
