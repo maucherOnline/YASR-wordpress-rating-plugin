@@ -17,7 +17,7 @@ export const yasrOverallDescription      = __('Remember: only the post author ca
 export const yasrVisitorVotesDescription = __('This is the star set where your users will be able to vote', 'yet-another-stars-rating');
 
 
-export function YasrPrintSelectSize (props) {
+export const YasrPrintSelectSize = (props) => {
     return (
         <form>
             <select value={props.size} onChange={(e) => yasrSetStarsSize(props.setAttributes, e)}>
@@ -36,7 +36,7 @@ function yasrSetStarsSize(setAttributes, event) {
     event.preventDefault();
 }
 
-export function YasrPrintInputId(props) {
+export const YasrPrintInputId = (props) => {
     let postId;
     if(props.postId !== false) {
         postId = props.postId;
@@ -57,7 +57,7 @@ function yasrSetPostId (setAttributes, event) {
         const postIdValue = event.target.value;
 
         //postID is always a string, here I check if this string is made only by digits
-        var isNum = /^\d+$/.test(postIdValue);
+        let isNum = /^\d+$/.test(postIdValue);
 
         if (isNum === true || postIdValue === '') {
             setAttributes({postId: postIdValue})
@@ -66,7 +66,7 @@ function yasrSetPostId (setAttributes, event) {
     }
 }
 
-export function YasrProText () {
+export const YasrProText = () => {
 
     const YasrProText1 =  __('To be able to customize this ranking, you need', 'yet-another-stars-rating');
     const YasrProText2 =  __('You can buy the plugin, including support, updates and upgrades, on',
@@ -89,7 +89,7 @@ export function YasrProText () {
 
 }
 
-export function YasrNoSettingsPanel (props) {
+export const YasrNoSettingsPanel = () => {
     return (
         <div>
             <YasrProText/>
@@ -103,7 +103,7 @@ export function YasrNoSettingsPanel (props) {
  * @param props
  * @return {JSX.Element}
  */
-export function YasrBlocksPanel (props) {
+export const YasrBlocksPanel =  (props) => {
 
     const {block: name, size, setAttributes, postId} = props;
 
@@ -154,7 +154,7 @@ export function YasrBlocksPanel (props) {
  * @param props
  * @returns {JSX.Element}
  */
-export function YasrDivRatingOverall (props) {
+export const YasrDivRatingOverall = (props) => {
 
     if(JSON.parse(yasrConstantGutenberg.isFseElement) === true) {
         return (
@@ -216,7 +216,7 @@ export function YasrDivRatingOverall (props) {
  * @param size
  * @returns {(null | string)}
  */
-const YasrBlockSizeAttribute = (size) => {
+export const YasrBlockSizeAttribute = (size) => {
     let sizeString = null;
     if (size !== 'large') {
         sizeString =  ` size="${size}"`
@@ -229,7 +229,7 @@ const YasrBlockSizeAttribute = (size) => {
  * @param postId
  * @returns {(null | string)}
  */
-const YasrBlockPostidAttribute = (postId) => {
+export const YasrBlockPostidAttribute = (postId) => {
     let isNum;
     let postIdAttribute = null;
 
@@ -249,7 +249,7 @@ const YasrBlockPostidAttribute = (postId) => {
  * @param blockName
  * @returns {object}
  */
-const YasrSetBlockAttributes = (blockName) => {
+export const YasrSetBlockAttributes = (blockName) => {
     let blockAttributes = {
         className: null, //class name for the main div
         shortCode: null, //shortcode
@@ -267,5 +267,3 @@ const YasrSetBlockAttributes = (blockName) => {
 
     return blockAttributes;
 }
-
-export {YasrBlockSizeAttribute, YasrBlockPostidAttribute, YasrSetBlockAttributes}
