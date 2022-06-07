@@ -11,76 +11,72 @@ const ContentBelowSidebar = () => {
 import {YasrDivRatingOverall} from 'yasrGutenUtils';
 
 /**
- * Show auto insert option
+ * Auto insert block, will show only if auto insert in setting is enabled
+ *
+ * @param props
  */
-class YasrSideBarAutoInsert extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        let isThisPostExluded         = wp.data.select('core/editor').getCurrentPost().meta.yasr_auto_insert_disabled;
-        let isThisPostExludedCheckbox = false;
-
-        if (isThisPostExluded === 'yes') {
-            isThisPostExludedCheckbox = true;
-        }
-
-        this.state = {postExcluded: isThisPostExludedCheckbox};
-
-        this.yasrUpdatePostMetaAutoInsert = this.yasrUpdatePostMetaAutoInsert.bind(this);
+const YasrAutoInsert = (props) => {
+    //if auto insert is disabled in settings, just return
+    if (yasrConstantGutenberg.autoInsert === 'disabled') {
+        return (<></>);
     }
 
-    yasrUpdatePostMetaAutoInsert(event) {
-        const target = event.target;
-        const postExcluded = target.type === 'checkbox' ? target.checked : target.value;
+    let autoInsertMeta          = wp.data.select('core/editor').getCurrentPost().meta.yasr_auto_insert_disabled;
+    let autoInsertCheckboxValue = false;
 
-        this.setState({postExcluded: postExcluded});
-
-        if (postExcluded === true) {
-            wp.data.dispatch('core/editor').editPost(
-                { meta: { yasr_auto_insert_disabled: 'yes' } }
-            );
-        } else {
-            wp.data.dispatch('core/editor').editPost(
-                { meta: { yasr_auto_insert_disabled: 'no' } }
-            );
-        }
+    if (autoInsertMeta === 'yes') {
+        autoInsertCheckboxValue = true;
     }
 
-    render () {
-        return (
-            <div className="yasr-guten-block-panel-center">
-                <hr />
-                <label><span>{__('Disable auto insert for this post or page?', 'yet-another-stars-rating')}</span></label>
-                <div className="yasr-onoffswitch-big yasr-onoffswitch-big-center" id="yasr-switcher-disable-auto-insert">
-                    <input type="checkbox"
-                           name="yasr_auto_insert_disabled"
-                           className="yasr-onoffswitch-checkbox"
-                           value="yes"
-                           id="yasr-auto-insert-disabled-switch"
-                           defaultChecked={this.state.postExcluded}
-                           onChange={this.yasrUpdatePostMetaAutoInsert}
-                    />
-                    <label className="yasr-onoffswitch-label" htmlFor="yasr-auto-insert-disabled-switch">
-                        <span className="yasr-onoffswitch-inner"/>
-                        <span className="yasr-onoffswitch-switch"/>
-                    </label>
-                </div>
-            </div>
+    /**
+     * Save post meta yasr_auto_insert_disabled with switcher value
+     *
+     * @param event
+     */
+    const savePostMetaAutoInsert = (event) => {
+        const target            = event.target;
+        autoInsertCheckboxValue = target.type === 'checkbox' ? target.checked : target.value;
+
+        let metaValue = 'yes';
+
+        if (autoInsertCheckboxValue !== true) {
+            metaValue = 'no';
+        }
+
+        wp.data.dispatch('core/editor').editPost(
+            { meta: { yasr_auto_insert_disabled: metaValue } }
         );
     }
 
+    return (
+        <div className="yasr-guten-block-panel-center">
+            <hr />
+            <label><span>{__('Disable auto insert for this post or page?', 'yet-another-stars-rating')}</span></label>
+            <div className="yasr-onoffswitch-big yasr-onoffswitch-big-center" id="yasr-switcher-disable-auto-insert">
+                <input type="checkbox"
+                       name="yasr_auto_insert_disabled"
+                       className="yasr-onoffswitch-checkbox"
+                       value="yes"
+                       id="yasr-auto-insert-disabled-switch"
+                       defaultChecked={autoInsertCheckboxValue}
+                       onChange={savePostMetaAutoInsert}
+                />
+                <label className="yasr-onoffswitch-label" htmlFor="yasr-auto-insert-disabled-switch">
+                    <span className="yasr-onoffswitch-inner"/>
+                    <span className="yasr-onoffswitch-switch"/>
+                </label>
+            </div>
+        </div>
+    );
 }
 
+
+/**
+ * YASR sidebar
+ *
+ * @returns {JSX.Element}
+ */
 const yasrSidebar = () => {
-
-    let yasrAutoInsertEnabled = false;
-
-    //this is not for the post, but from settings
-    if (yasrConstantGutenberg.autoInsert !== 'disabled') {
-        yasrAutoInsertEnabled = true;
-    }
-
     let YasrBelowSidebar = [<ContentBelowSidebar key={0}/>];
     {wp.hooks.doAction('yasr_below_panel', YasrBelowSidebar)}
 
@@ -97,7 +93,7 @@ const yasrSidebar = () => {
                             {__('This is the same value that you find the "Yasr: Overall Rating" block.',
                                 'yet-another-stars-rating')}
                         </div>
-                        {yasrAutoInsertEnabled && <YasrSideBarAutoInsert />}
+                        {<YasrAutoInsert />}
                         {YasrBelowSidebar}
                     </div>
                 </PanelBody>
