@@ -1,3 +1,7 @@
+/**
+ * This is the YASR Sidebar, when an user click on the star on top right
+ */
+
 const {__}                                        = wp.i18n; // Import __() from wp.i18n
 const {registerPlugin}                            = wp.plugins;
 const {PluginSidebar, PluginSidebarMoreMenuItem}  = wp.editPost;

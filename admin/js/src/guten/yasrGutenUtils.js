@@ -1,7 +1,5 @@
 //setting costants
 const { __ }                             = wp.i18n; // Import __() from wp.i18n
-const {PanelBody}                        = wp.components;
-const {InspectorControls}                = wp.blockEditor;
 
 export const yasrOptionalText            = __('All these settings are optional', 'yet-another-stars-rating');
 export const yasrLabelSelectSize         = __('Choose Size', 'yet-another-stars-rating');
@@ -17,30 +15,32 @@ export const yasrOverallDescription      = __('Remember: only the post author ca
 export const yasrVisitorVotesDescription = __('This is the star set where your users will be able to vote', 'yet-another-stars-rating');
 
 
-export const YasrPrintSelectSize = (props) => {
-    return (
-        <form>
-            <select value={props.size} onChange={(e) => yasrSetStarsSize(props.setAttributes, e)}>
-                <option value="--">{yasrSelectSizeChoose}    </option>
-                <option value="small">{yasrSelectSizeSmall}  </option>
-                <option value="medium">{yasrSelectSizeMedium}</option>
-                <option value="large">{yasrSelectSizeLarge}  </option>
-            </select>
-        </form>
-    );
-}
-
-function yasrSetStarsSize(setAttributes, event) {
-    const selected = event.target.querySelector( 'option:checked' );
-    setAttributes( { size: selected.value } );
-    event.preventDefault();
-}
-
+/**
+ * Print the text field to insert the input id, and manage the event
+ *
+ * @param props
+ * @returns {JSX.Element}
+ */
 export const YasrPrintInputId = (props) => {
     let postId;
     if(props.postId !== false) {
         postId = props.postId;
     }
+
+    const yasrSetPostId = (setAttributes, event) => {
+        if (event.key === 'Enter') {
+            const postIdValue = event.target.value;
+
+            //postID is always a string, here I check if this string is made only by digits
+            let isNum = /^\d+$/.test(postIdValue);
+
+            if (isNum === true || postIdValue === '') {
+                setAttributes({postId: postIdValue})
+            }
+            event.preventDefault();
+        }
+    }
+
     return (
         <div>
             <input
@@ -52,100 +52,29 @@ export const YasrPrintInputId = (props) => {
     );
 }
 
-function yasrSetPostId (setAttributes, event) {
-    if (event.key === 'Enter') {
-        const postIdValue = event.target.value;
-
-        //postID is always a string, here I check if this string is made only by digits
-        let isNum = /^\d+$/.test(postIdValue);
-
-        if (isNum === true || postIdValue === '') {
-            setAttributes({postId: postIdValue})
-        }
-        event.preventDefault();
-    }
-}
-
-export const YasrProText = () => {
-
-    const YasrProText1 =  __('To be able to customize this ranking, you need', 'yet-another-stars-rating');
-    const YasrProText2 =  __('You can buy the plugin, including support, updates and upgrades, on',
-        'yet-another-stars-rating');
-
-    return (
-        <h3>
-            {YasrProText1}
-            &nbsp;
-            <a href="admin/js/src/guten/yasrGutenUtils?utm_source=wp-plugin&utm_medium=gutenberg_panel&utm_campaign=yasr_editor_screen&utm_content=rankings#yasr-pro">
-                Yasr Pro.
-            </a><br />
-            {YasrProText2}
-            &nbsp;
-            <a href="admin/js/src/guten/yasrGutenUtils?utm_source=wp-plugin&utm_medium=gutenberg_panel&utm_campaign=yasr_editor_screen&utm_content=rankings">
-                yetanotherstarsrating.com
-            </a>
-        </h3>
-    )
-
-}
-
-export const YasrNoSettingsPanel = () => {
-    return (
-        <div>
-            <YasrProText/>
-        </div>
-    );
-}
-
 /**
- * This is the panel that for blocks that use size and postid attributes
+ * This is just the select, used both in blocks panel and block itself
  *
  * @param props
- * @return {JSX.Element}
+ * @returns {JSX.Element}
  */
-export const YasrBlocksPanel =  (props) => {
-
-    const {block: name, size, setAttributes, postId} = props;
-
-    let bottomDesc;
-    if(name === 'yet-another-stars-rating/visitor-votes') {
-        bottomDesc = yasrVisitorVotesDescription;
-    }
-    if(name === 'yet-another-stars-rating/overall-rating') {
-        bottomDesc = yasrOverallDescription;
+export const YasrPrintSelectSize = (props) => {
+    const yasrSetStarsSize = (setAttributes, event) => {
+        const selected = event.target.querySelector( 'option:checked' );
+        setAttributes( { size: selected.value } );
+        event.preventDefault();
     }
 
     return (
-        <InspectorControls>
-            {name === 'yet-another-stars-rating/overall-rating' && <YasrDivRatingOverall />}
-            <PanelBody title='Settings'>
-                <h3>{yasrOptionalText}</h3>
-
-                <div className="yasr-guten-block-panel">
-                    <label>{yasrLabelSelectSize}</label>
-                    <div>
-                        <YasrPrintSelectSize size={size} setAttributes={setAttributes}/>
-                    </div>
-                </div>
-
-                <div className="yasr-guten-block-panel">
-                    <label>Post ID</label>
-                    <YasrPrintInputId postId={postId} setAttributes={setAttributes}/>
-                    <div className="yasr-guten-block-explain">
-                        Use return (&#8629;) to save.
-                    </div>
-                    <p>
-                        {yasrLeaveThisBlankText}
-                    </p>
-                </div>
-
-                <div className="yasr-guten-block-panel">
-                    {bottomDesc}
-                </div>
-            </PanelBody>
-        </InspectorControls>
+        <form>
+            <select value={props.size} onChange={(e) => yasrSetStarsSize(props.setAttributes, e)}>
+                <option value="--">{yasrSelectSizeChoose}    </option>
+                <option value="small">{yasrSelectSizeSmall}  </option>
+                <option value="medium">{yasrSelectSizeMedium}</option>
+                <option value="large">{yasrSelectSizeLarge}  </option>
+            </select>
+        </form>
     );
-
 }
 
 /**
@@ -191,6 +120,7 @@ export const YasrDivRatingOverall = (props) => {
         this.setRating(rating);
         done();
     };
+
     return (
         <div className="yasr-guten-block-panel yasr-guten-block-panel-center">
             {yasrOverallRateThis}
@@ -208,7 +138,6 @@ export const YasrDivRatingOverall = (props) => {
         </div>
     );
 }
-
 
 /**
  * Return attribute sizeString
@@ -239,6 +168,7 @@ export const YasrBlockSizeAttribute = (size, context) => {
 };
 
 /**
+ * Returns a string with postId attribute
  *
  * @param postId
  * @returns {(null | string)}
@@ -255,7 +185,6 @@ export const YasrBlockPostidAttribute = (postId) => {
 
     return postIdAttribute;
 };
-
 
 /**
  * Return an object with block attributes
@@ -280,4 +209,46 @@ export const YasrSetBlockAttributes = (blockName) => {
     }
 
     return blockAttributes;
+}
+
+/**
+ * Return an h3 with YASR Pro texts
+ *
+ * @returns {JSX.Element}
+ */
+export const YasrProText = () => {
+
+    const YasrProText1 =  __('To be able to customize this ranking, you need', 'yet-another-stars-rating');
+    const YasrProText2 =  __('You can buy the plugin, including support, updates and upgrades, on',
+        'yet-another-stars-rating');
+
+    return (
+        <h3>
+            {YasrProText1}
+            &nbsp;
+            <a href="admin/js/src/guten/yasrGutenUtils?utm_source=wp-plugin&utm_medium=gutenberg_panel&utm_campaign=yasr_editor_screen&utm_content=rankings#yasr-pro">
+                Yasr Pro.
+            </a><br />
+            {YasrProText2}
+            &nbsp;
+            <a href="admin/js/src/guten/yasrGutenUtils?utm_source=wp-plugin&utm_medium=gutenberg_panel&utm_campaign=yasr_editor_screen&utm_content=rankings">
+                yetanotherstarsrating.com
+            </a>
+        </h3>
+    )
+
+}
+
+/**
+ * Return a Div with YasrProText
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export const YasrNoSettingsPanel = () => {
+    return (
+        <div>
+            <YasrProText/>
+        </div>
+    );
 }

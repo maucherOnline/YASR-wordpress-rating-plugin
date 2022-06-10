@@ -2,12 +2,13 @@ const {Fragment}             = wp.element;
 const {useBlockProps}        = wp.blockEditor;
 
 import {
-    YasrBlocksPanel,
     YasrBlockPostidAttribute,
     YasrBlockSizeAttribute,
     YasrPrintSelectSize,
     YasrSetBlockAttributes
 } from "yasrGutenUtils";
+
+import {YasrBlocksPanel} from "./yasrBlocksPanel";
 
 /**
  * Return the edit Function to be used in registerBlockType
