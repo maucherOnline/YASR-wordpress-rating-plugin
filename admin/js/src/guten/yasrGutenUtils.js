@@ -221,6 +221,11 @@ export const YasrSetBlockAttributes = (blockName) => {
         blockAttributes.hookName  =  'yasr_top_reviewers_setting';
     }
 
+    if(blockName === 'yet-another-stars-rating/user-rate-history') {
+        blockAttributes.className =  'yasr-user-rate-history';
+        blockAttributes.shortCode =  'yasr_user_rate_history';
+    }
+
     return blockAttributes;
 }
 

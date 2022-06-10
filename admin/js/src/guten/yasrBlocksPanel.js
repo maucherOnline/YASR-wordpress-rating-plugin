@@ -35,6 +35,11 @@ export const YasrBlocksPanel = (props) => {
         {wp.hooks.doAction(hookName, hookedDiv)}
     }
 
+    //if there is no hook and settings are not true, return an empty element
+    if(blockSettings !== true && hookName === false) {
+        return <></>;
+    }
+
     return (
         <InspectorControls>
             {

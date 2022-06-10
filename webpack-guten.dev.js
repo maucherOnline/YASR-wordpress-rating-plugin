@@ -10,7 +10,6 @@ module.exports = {
             './admin/js/src/guten/yasrGutenUtils.js',
             './admin/js/src/guten/blocks/shortcodes.js',
             './admin/js/src/guten/blocks/rankings.js',
-            './admin/js/src/guten/blocks/userRateHistory.js'
         ],
         './guten/yasr-guten-misc' : [
             './admin/js/src/guten/blocks/deprecated/deprecated_blocks.js',
