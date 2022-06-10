@@ -196,6 +196,7 @@ export const YasrSetBlockAttributes = (blockName) => {
     let blockAttributes = {
         className: null, //class name for the main div
         shortCode: null, //shortcode
+        hookName: false
     }
 
     if(blockName === 'yet-another-stars-rating/overall-rating') {
@@ -206,6 +207,12 @@ export const YasrSetBlockAttributes = (blockName) => {
     if(blockName === 'yet-another-stars-rating/visitor-votes') {
         blockAttributes.className =  'yasr-vv-block';
         blockAttributes.shortCode =  'yasr_visitor_votes';
+    }
+
+    if(blockName === 'yet-another-stars-rating/most-active-users') {
+        blockAttributes.className =  'yasr-active-users-block';
+        blockAttributes.shortCode =  'yasr_most_active_users';
+        blockAttributes.hookName  =  'yasr_top_visitor_setting';
     }
 
     return blockAttributes;

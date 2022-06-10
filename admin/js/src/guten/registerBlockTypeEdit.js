@@ -19,13 +19,14 @@ import {YasrBlocksPanel} from "./yasrBlocksPanel";
 const yasrEditFunction = (props) => {
     const {attributes: {size, postId}, name, isSelected, setAttributes} = props;
 
-    const {className, shortCode} = YasrSetBlockAttributes(name);
+    const {className, shortCode, hookName} = YasrSetBlockAttributes(name);
 
     const panelAttributes = {
         block:  name,
         size:   size,
         postId: postId,
-        setAttributes: setAttributes
+        setAttributes: setAttributes,
+        hookName: hookName
     }
 
     const blockProps = useBlockProps( {

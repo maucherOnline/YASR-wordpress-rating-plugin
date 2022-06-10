@@ -7,61 +7,17 @@ import {YasrNoSettingsPanel} from "yasrGutenUtils";
 import metadataUsers     from '../../../../../includes/blocks/ranking-users/block.json';
 import metadataReviewers from '../../../../../includes/blocks/ranking-reviewers/block.json';
 
+import edit      from '../registerBlockTypeEdit';
+import saveBlock from '../registerBlockTypeSave';
 
 //Most active users
 registerBlockType(
     metadataUsers, {
-        edit:
-            function(props) {
-                const blockProps = useBlockProps( {
-                    className: 'yasr-active-users-block'
-                } );
+        edit: edit,
 
-                let YasrTopVisitorSettings = [<YasrNoSettingsPanel key={0}/>];
-                {wp.hooks.doAction('yasr_top_visitor_setting', YasrTopVisitorSettings)}
-
-                function YasrTopVisitorPanel (props) {
-                    return (
-                        <InspectorControls>
-                            <PanelBody title='Settings'>
-                                <div className="yasr-guten-block-panel">
-                                    <div>
-                                        {YasrTopVisitorSettings}
-                                    </div>
-                                </div>
-                            </PanelBody>
-                        </InspectorControls>
-                    );
-                }
-
-                return (
-                    <Fragment>
-                        <YasrTopVisitorPanel />
-                        <div {...blockProps}>
-                            [yasr_most_active_users]
-                        </div>
-                    </Fragment>
-                );
-            },
-
-        /**
-         * The save function defines the way in which the different attributes should be combined
-         * into the final markup, which is then serialized by Gutenberg into post_content.
-         *
-         * The "save" property must be specified and must be a valid function.
-         *
-         * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
-         */
-        save:
-            function(props) {
-                const blockProps = useBlockProps.save( {
-                    className: 'yasr-active-users-block'
-                } );
-                return (
-                    <div {...blockProps}>[yasr_most_active_users]</div>
-                );
-            },
-
+        save: (props) => {
+            return saveBlock(props, metadataUsers);
+        }
     }
 );
 

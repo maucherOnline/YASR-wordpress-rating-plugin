@@ -1,7 +1,6 @@
 /**
  * This is the panel that shows when a block is selected
  */
-
 const {PanelBody}                        = wp.components;
 const {InspectorControls}                = wp.blockEditor;
 
@@ -13,7 +12,7 @@ import {
     yasrVisitorVotesDescription,
     YasrDivRatingOverall,
     YasrPrintInputId,
-    YasrPrintSelectSize
+    YasrPrintSelectSize, YasrNoSettingsPanel
 } from "yasrGutenUtils";
 
 /**
@@ -23,19 +22,17 @@ import {
  * @return {JSX.Element}
  */
 export const YasrBlocksPanel = (props) => {
-    const name = props.block;
+    const {block: name, hookName} = props;
 
-    let bottomDesc;
-    let overallRating;
-    let blockSettings;
-    if (name === 'yet-another-stars-rating/visitor-votes') {
-        blockSettings = true;
-        bottomDesc    = yasrVisitorVotesDescription;
-    }
-    if (name === 'yet-another-stars-rating/overall-rating') {
-        overallRating = true;
-        blockSettings = true;
-        bottomDesc = yasrOverallDescription;
+    const {overallRating, blockSettings, bottomDesc} = YasrPanelAttributes(name);
+
+    //Create an empty element to hook into
+    let hookedDiv = <></>;
+
+    //if an hook name exists, wp.hooks.doAction
+    if(hookName !== false) {
+        hookedDiv = [<YasrNoSettingsPanel key={0}/>];
+        {wp.hooks.doAction(hookName, hookedDiv)}
     }
 
     return (
@@ -45,6 +42,7 @@ export const YasrBlocksPanel = (props) => {
                 overallRating === true && <YasrDivRatingOverall />
             }
             <PanelBody title='Settings'>
+                {hookedDiv}
                 {
                     //Return block settings if needed
                     blockSettings === true && <YasrPanelSizeAndId {...props} />
@@ -58,11 +56,38 @@ export const YasrBlocksPanel = (props) => {
 }
 
 /**
+ * Based on the name of the block return an object with the Attributes of the panel
+ *
+ * @param name
+ * @returns {{bottomDesc: boolean, blockSettings: boolean, overallRating: boolean}}
+ * @constructor
+ */
+const YasrPanelAttributes = (name) => {
+
+    let panelAttributes = {
+        bottomDesc: false,
+        overallRating: false,
+        blockSettings: false
+    }
+
+    if (name === 'yet-another-stars-rating/visitor-votes') {
+        panelAttributes.blockSettings = true;
+        panelAttributes.bottomDesc    = yasrVisitorVotesDescription;
+    }
+    if (name === 'yet-another-stars-rating/overall-rating') {
+        panelAttributes.overallRating = true;
+        panelAttributes.blockSettings = true;
+        panelAttributes.bottomDesc = yasrOverallDescription;
+    }
+
+    return panelAttributes;
+}
+
+/**
  * Return select size and input id
  *
  * @param props
  * @returns {JSX.Element}
- * @constructor
  */
 const YasrPanelSizeAndId = (props) => {
     const {block: size, setAttributes, postId} = props;

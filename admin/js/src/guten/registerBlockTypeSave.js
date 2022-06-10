@@ -17,7 +17,7 @@ const yasrSaveFunction = (props, metadata) => {
     let postIdAttribute = YasrBlockPostidAttribute(postId);
 
     return (
-        <div {...blockProps}>[{shortCode} {sizeAttribute}{postIdAttribute}]</div>
+        <div {...blockProps}>[{shortCode}{sizeAttribute}{postIdAttribute}]</div>
     );
 
 };
