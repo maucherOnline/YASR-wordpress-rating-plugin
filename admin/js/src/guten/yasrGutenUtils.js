@@ -180,7 +180,7 @@ export const YasrBlockPostidAttribute = (postId) => {
     isNum = /^\d+$/.test(postId);
 
     if (isNum === true) {
-        postIdAttribute = ' postid="' +postId + '"';
+        postIdAttribute = ` postid="${postId}"`;
     }
 
     return postIdAttribute;
@@ -213,6 +213,12 @@ export const YasrSetBlockAttributes = (blockName) => {
         blockAttributes.className =  'yasr-active-users-block';
         blockAttributes.shortCode =  'yasr_most_active_users';
         blockAttributes.hookName  =  'yasr_top_visitor_setting';
+    }
+
+    if(blockName === 'yet-another-stars-rating/most-active-reviewers') {
+        blockAttributes.className =  'yasr-reviewers-block';
+        blockAttributes.shortCode =  'yasr_top_reviewers';
+        blockAttributes.hookName  =  'yasr_top_reviewers_setting';
     }
 
     return blockAttributes;
