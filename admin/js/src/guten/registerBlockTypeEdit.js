@@ -19,14 +19,15 @@ import {YasrBlocksPanel} from "./yasrBlocksPanel";
 const yasrEditFunction = (props) => {
     const {attributes: {size, postId}, name, isSelected, setAttributes} = props;
 
-    const {className, shortCode, hookName} = YasrSetBlockAttributes(name);
+    const {className, shortCode, hookName, sizeAndId} = YasrSetBlockAttributes(name);
 
     const panelAttributes = {
-        block:  name,
-        size:   size,
-        postId: postId,
+        block:         name,
+        size:          size,
+        postId:        postId,
         setAttributes: setAttributes,
-        hookName: hookName
+        hookName:      hookName,
+        sizeAndId:     sizeAndId
     }
 
     const blockProps = useBlockProps( {
@@ -40,9 +41,9 @@ const yasrEditFunction = (props) => {
     return (
         <Fragment>
             {isSelected && <YasrBlocksPanel {...panelAttributes} /> }
-            <div { ...blockProps }>
+            <div {...blockProps}>
                 [{shortCode}{sizeAttribute}{postIdAttribute}]
-                {isSelected && <YasrPrintSelectSize size={size} setAttributes={setAttributes} />}
+                {isSelected && sizeAndId && <YasrPrintSelectSize size={size} setAttributes={setAttributes} />}
             </div>
         </Fragment>
     );

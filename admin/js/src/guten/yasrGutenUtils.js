@@ -194,19 +194,39 @@ export const YasrBlockPostidAttribute = (postId) => {
  */
 export const YasrSetBlockAttributes = (blockName) => {
     let blockAttributes = {
-        className: null, //class name for the main div
-        shortCode: null, //shortcode
-        hookName: false
+        className:     null, //class name for the main div
+        shortCode:     null, //shortcode
+        overallRating: false, //if the overall Rating div must be displayed or not
+        hookName:      false,
+        panelSettings: true, //by default, the block <PanelBody title='Settings'> is shown
+        sizeAndId:     false //by default, the block <PanelBody title='Settings'> is shown
     }
 
     if(blockName === 'yet-another-stars-rating/overall-rating') {
-        blockAttributes.className =  'yasr-overall-block';
-        blockAttributes.shortCode =  'yasr_overall_rating';
+        blockAttributes.overallRating = true;
+        blockAttributes.className  =  'yasr-overall-block';
+        blockAttributes.shortCode  =  'yasr_overall_rating';
+        blockAttributes.bottomDesc = yasrOverallDescription;
+        blockAttributes.sizeAndId  = true;
     }
 
     if(blockName === 'yet-another-stars-rating/visitor-votes') {
-        blockAttributes.className =  'yasr-vv-block';
-        blockAttributes.shortCode =  'yasr_visitor_votes';
+        blockAttributes.className   =  'yasr-vv-block';
+        blockAttributes.shortCode   =  'yasr_visitor_votes';
+        blockAttributes.bottomDesc  = yasrVisitorVotesDescription;
+        blockAttributes.sizeAndId  = true;
+    }
+
+    if(blockName === 'yet-another-stars-rating/overall-rating-ranking') {
+        blockAttributes.className =  'yasr-ov-ranking-block';
+        blockAttributes.shortCode =  'yasr_ov_ranking';
+        blockAttributes.hookName  =  'yasr_overall_rating_rankings';
+    }
+
+    if(blockName === 'yet-another-stars-rating/visitor-votes-ranking') {
+        blockAttributes.className =  'yasr-vv-ranking-block';
+        blockAttributes.shortCode =  'yasr_most_or_highest_rated_posts';
+        blockAttributes.hookName  =  'yasr_visitor_votes_rankings';
     }
 
     if(blockName === 'yet-another-stars-rating/most-active-users') {
@@ -224,6 +244,7 @@ export const YasrSetBlockAttributes = (blockName) => {
     if(blockName === 'yet-another-stars-rating/user-rate-history') {
         blockAttributes.className =  'yasr-user-rate-history';
         blockAttributes.shortCode =  'yasr_user_rate_history';
+        blockAttributes.panelSettings = false;
     }
 
     return blockAttributes;

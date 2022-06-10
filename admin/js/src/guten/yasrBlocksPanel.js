@@ -8,11 +8,11 @@ import {
     yasrLabelSelectSize,
     yasrLeaveThisBlankText,
     yasrOptionalText,
-    yasrOverallDescription,
-    yasrVisitorVotesDescription,
     YasrDivRatingOverall,
     YasrPrintInputId,
-    YasrPrintSelectSize, YasrNoSettingsPanel
+    YasrPrintSelectSize,
+    YasrNoSettingsPanel,
+    YasrSetBlockAttributes
 } from "yasrGutenUtils";
 
 /**
@@ -22,9 +22,9 @@ import {
  * @return {JSX.Element}
  */
 export const YasrBlocksPanel = (props) => {
-    const {block: name, hookName} = props;
+    const {block: name, hookName, sizeAndId} = props;
 
-    const {overallRating, blockSettings, bottomDesc} = YasrPanelAttributes(name);
+    const {overallRating, panelSettings, bottomDesc} = YasrSetBlockAttributes(name);
 
     //Create an empty element to hook into
     let hookedDiv = <></>;
@@ -36,7 +36,7 @@ export const YasrBlocksPanel = (props) => {
     }
 
     //if there is no hook and settings are not true, return an empty element
-    if(blockSettings !== true && hookName === false) {
+    if(panelSettings !== true && hookName === false) {
         return <></>;
     }
 
@@ -44,13 +44,13 @@ export const YasrBlocksPanel = (props) => {
         <InspectorControls>
             {
                 //If the block selected is overall rating, call YasrDivRatingOverall
-                overallRating === true && <YasrDivRatingOverall />
+                overallRating && <YasrDivRatingOverall />
             }
             <PanelBody title='Settings'>
                 {hookedDiv}
                 {
                     //Return block settings if needed
-                    blockSettings === true && <YasrPanelSizeAndId {...props} />
+                    panelSettings && sizeAndId && <YasrPanelSizeAndId {...props} />
                 }
                 <div className="yasr-guten-block-panel">
                     {bottomDesc}
@@ -58,34 +58,6 @@ export const YasrBlocksPanel = (props) => {
             </PanelBody>
         </InspectorControls>
     );
-}
-
-/**
- * Based on the name of the block return an object with the Attributes of the panel
- *
- * @param name
- * @returns {{bottomDesc: boolean, blockSettings: boolean, overallRating: boolean}}
- * @constructor
- */
-const YasrPanelAttributes = (name) => {
-
-    let panelAttributes = {
-        bottomDesc: false,
-        overallRating: false,
-        blockSettings: false
-    }
-
-    if (name === 'yet-another-stars-rating/visitor-votes') {
-        panelAttributes.blockSettings = true;
-        panelAttributes.bottomDesc    = yasrVisitorVotesDescription;
-    }
-    if (name === 'yet-another-stars-rating/overall-rating') {
-        panelAttributes.overallRating = true;
-        panelAttributes.blockSettings = true;
-        panelAttributes.bottomDesc = yasrOverallDescription;
-    }
-
-    return panelAttributes;
 }
 
 /**
