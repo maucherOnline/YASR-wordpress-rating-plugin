@@ -1,16 +1,16 @@
 const {registerBlockType}    = wp.blocks; // Import from wp.blocks
 
-import metadataOverall      from '../../../../../includes/blocks/overall-rating/block.json';
-import metadataVV           from '../../../../../includes/blocks/visitor-votes/block.json';
-import metadataUsers        from '../../../../../includes/blocks/ranking-users/block.json';
-import metadataReviewers    from '../../../../../includes/blocks/ranking-reviewers/block.json';
-import metadataRateHistory  from '../../../../../includes/blocks/user-rate-history/block.json';
-import metadataRankingOv    from '../../../../../includes/blocks/ranking-overall-rating/block.json';
-import metadataRankingVV    from '../../../../../includes/blocks/ranking-visitor-votes/block.json';
+import metadataOverall      from '../../../../includes/blocks/overall-rating/block.json';
+import metadataVV           from '../../../../includes/blocks/visitor-votes/block.json';
+import metadataUsers        from '../../../../includes/blocks/ranking-users/block.json';
+import metadataReviewers    from '../../../../includes/blocks/ranking-reviewers/block.json';
+import metadataRateHistory  from '../../../../includes/blocks/user-rate-history/block.json';
+import metadataRankingOv    from '../../../../includes/blocks/ranking-overall-rating/block.json';
+import metadataRankingVV    from '../../../../includes/blocks/ranking-visitor-votes/block.json';
 
 
-import edit      from '../registerBlockTypeEdit';
-import saveBlock from '../registerBlockTypeSave';
+import edit      from './registerBlockTypeEdit';
+import saveBlock from './registerBlockTypeSave';
 
 
 const allShortcodesMetadata = {

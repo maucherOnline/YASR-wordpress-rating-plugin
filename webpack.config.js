@@ -33,7 +33,7 @@ var yasrAdminBabel    = Object.assign({}, config, {
     entry: {
         'admin/js/guten/blocks/shortcodes' : [
             './admin/js/src/guten/yasrGutenUtils.js',
-            './admin/js/src/guten/blocks/shortcodes.js',
+            './admin/js/src/guten/yasrRegisterBlockType.js'
         ],
         'admin/js/guten/yasr-guten-misc' : [
             './admin/js/src/guten/blocks/deprecated/deprecated_blocks.js',
