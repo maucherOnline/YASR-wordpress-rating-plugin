@@ -2,9 +2,9 @@
 const { __ }                             = wp.i18n; // Import __() from wp.i18n
 
 export const yasrOptionalText            = __('All these settings are optional', 'yet-another-stars-rating');
-export const yasrLabelSelectSize         = __('Choose Size', 'yet-another-stars-rating');
+export const yasrLabelSelectSize         = __('Size', 'yet-another-stars-rating');
 
-export const yasrSelectSizeChoose        = __('Choose stars size', 'yet-another-stars-rating');
+export const yasrSelectSizeChoose        = __('Stars size', 'yet-another-stars-rating');
 export const yasrSelectSizeSmall         = __('Small', 'yet-another-stars-rating');
 export const yasrSelectSizeMedium        = __('Medium', 'yet-another-stars-rating');
 export const yasrSelectSizeLarge         = __('Large', 'yet-another-stars-rating');
