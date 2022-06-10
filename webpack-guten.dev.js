@@ -8,10 +8,8 @@ module.exports = {
     entry: {
         './guten/blocks/shortcodes' : [
             './admin/js/src/guten/yasrGutenUtils.js',
-            './admin/js/src/guten/blocks/overallRating.js',
-            './admin/js/src/guten/blocks/visitorVotes.js',
+            './admin/js/src/guten/blocks/shortcodes.js',
             './admin/js/src/guten/blocks/rankings.js',
-            './admin/js/src/guten/blocks/noStarsRankings.js',
             './admin/js/src/guten/blocks/userRateHistory.js'
         ],
         './guten/yasr-guten-misc' : [

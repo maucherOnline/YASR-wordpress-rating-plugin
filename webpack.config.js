@@ -33,10 +33,8 @@ var yasrAdminBabel    = Object.assign({}, config, {
     entry: {
         'admin/js/guten/blocks/shortcodes' : [
             './admin/js/src/guten/yasrGutenUtils.js',
-            './admin/js/src/guten/blocks/overallRating.js',
-            './admin/js/src/guten/blocks/visitorVotes.js',
+            './admin/js/src/guten/blocks/shortcodes.js',
             './admin/js/src/guten/blocks/rankings.js',
-            './admin/js/src/guten/blocks/noStarsRankings.js',
             './admin/js/src/guten/blocks/userRateHistory.js'
         ],
         'admin/js/guten/yasr-guten-misc' : [
