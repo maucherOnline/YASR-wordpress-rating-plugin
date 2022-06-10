@@ -24,4 +24,5 @@ registerBlockType (
         save: (props) => {
             return saveBlock(props, metadata);
         }
-    });
+    }
+);
