@@ -29,9 +29,10 @@ const yasrEditFunction = (props) => {
 
     const blockProps = useBlockProps( {
         className: className,
+        name:      name
     } );
 
-    let sizeAttribute   = YasrBlockSizeAttribute(size);
+    let sizeAttribute   = YasrBlockSizeAttribute(size, 'edit');
     let postIdAttribute = YasrBlockPostidAttribute(postId);
 
     return (

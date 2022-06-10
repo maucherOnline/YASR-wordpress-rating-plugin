@@ -211,16 +211,30 @@ export const YasrDivRatingOverall = (props) => {
 
 
 /**
- * Return null if size === large, or a string otherwise
- *
+ * Return attribute sizeString
+ **
  * @param size
+ * @param context
  * @returns {(null | string)}
  */
-export const YasrBlockSizeAttribute = (size) => {
+export const YasrBlockSizeAttribute = (size, context) => {
     let sizeString = null;
-    if (size !== 'large') {
+
+    //when is called from edit function, attribute sizeString must return only if size is small or medium
+    //large is the default attribute, no need to show it
+    if(context === 'edit') {
+        if (size === 'small' || size === 'medium') {
+            sizeString =  ` size="${size}"`
+        }
+        return sizeString;
+    }
+
+    //when this is called from save function, if size is small medium or large, attribute sizeString must return
+    //large is the default, but must be keep for compatibility with old versions
+    if (size === 'small' || size === 'medium' || size === 'large') {
         sizeString =  ` size="${size}"`
     }
+
     return (sizeString);
 };
 
