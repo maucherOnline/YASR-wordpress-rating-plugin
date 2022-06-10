@@ -6,6 +6,7 @@
     "description": "This ranking shows both the highest and most rated posts rated through the yasr_visitor_votes shortcode. For an item to appear in this chart, it has to be rated at least twice.",
     "icon": "star-half",
     "category": "yet-another-stars-rating",
+    "example": {},
     "keywords": [
         "ranking",
         "highest",
