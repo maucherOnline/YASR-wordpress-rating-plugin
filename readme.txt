@@ -204,6 +204,9 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.0.9 =
+* TWEAKED: code cleanup in gutenberg blocks
+
 = 3.0.8 =
 * FIXED: YASR gutenberg panel didn't shop up once hidden
 * TWEAKED: minor changes
