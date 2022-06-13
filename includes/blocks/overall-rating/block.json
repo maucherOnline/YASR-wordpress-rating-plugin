@@ -6,6 +6,7 @@
     "description": "Insert the author rating.",
     "icon": "star-half",
     "category": "yet-another-stars-rating",
+    "example": {},
     "keywords": [
         "rating",
         "author",

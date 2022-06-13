@@ -4,7 +4,7 @@ Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo
 Tested up to: 6.0
-Stable tag: 3.0.9
+Stable tag: 3.1.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
@@ -204,6 +204,9 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.0.9 =
+* TWEAKED: code cleanup in gutenberg blocks
+
 = 3.0.8 =
 * FIXED: YASR gutenberg panel didn't shop up once hidden
 * TWEAKED: minor changes
@@ -235,29 +238,6 @@ PREMIUM ONLY:
 = 3.0.4 =
 * FIX: Author multiset didn't get saved
 * TWEAKED: better error handling
-
-= 3.0.3 =
-* FIX: if parameter 'show_average' is enabled on a multi set, a duplicate query was run.
-* TWEAKED: loader image has height and width attributes set.
-* TWEAKED: minor changes
-[//]: # fs_premium_only_begin
-PREMIUM ONLY:
-* NEW FEATURE: new shortcode available: yasr_pro_average_comments_multiset: this print a multi set with the average ratings from reviews.
-[//]: # fs_premium_only_end
-
-= 3.0.2 =
-* Updated Freemius SDK
-
-= 3.0.1 =
-* Minor changes and new pricing page.
-
-= 3.0.0 =
-* Fix for an authenticated XSS vulnerability if 'Load results with AJAX?' is enabled
-
-= 2.9.9 =
-* TWEAKED: removed "Pro only features" box in the editor screen
-
-
 
 = Additional Info =
 See credits.txt file

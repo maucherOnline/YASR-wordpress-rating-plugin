@@ -6,6 +6,7 @@
     "description": "If user is logged in, this shortcode shows a list of all the ratings provided by the user on [yasr_visitor_votes] shortcode",
     "icon": "star-half",
     "category": "yet-another-stars-rating",
+    "example": {},
     "keywords": [
         "ratings",
         "list",

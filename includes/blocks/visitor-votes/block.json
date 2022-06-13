@@ -6,6 +6,7 @@
     "description": "Insert the ability for your visitors to vote.",
     "icon": "star-half",
     "category": "yet-another-stars-rating",
+    "example": {},
     "keywords": [
         "rating",
         "visitor",

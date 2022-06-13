@@ -501,8 +501,15 @@ class YasrScriptsLoader {
      * @param  $hook
      */
     public function addJsConstantInGutenberg($hook) {
-        if (($hook === 'post.php' || $hook === 'post-new.php' || $hook === 'appearance_page_gutenberg-edit-site')
-            && yasr_is_gutenberg_page() ) {
+        if (
+            ($hook === 'post.php'
+                || $hook === 'post-new.php'
+                || $hook === 'widgets.php'
+                || $hook === 'site-editor.php'
+                || $hook === 'appearance_page_gutenberg-edit-site'
+            )
+            && yasr_is_gutenberg_page()
+        ) {
 
             //create an empty array
             //do not add elements here, use yasrGutenbergConstants method instead
@@ -570,7 +577,8 @@ class YasrScriptsLoader {
         }
 
         if (property_exists($current_screen, 'base')
-            && $current_screen->base === 'appearance_page_gutenberg-edit-site'
+            && ($current_screen->base === 'appearance_page_gutenberg-edit-site'
+                || $current_screen->base === 'site-editor' )
         ) {
             return true;
         }
