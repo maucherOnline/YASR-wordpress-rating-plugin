@@ -1,5 +1,4 @@
-import {ReturnTableTbody} from "../react-components/returnTableTbody";
-import {ReturnTableHead} from "../react-components/returnTableHead";
+import {RankingTableBody} from "../react-components/returnRankingTableBody";
 
 const  {render} = wp.element;
 
@@ -192,135 +191,16 @@ class YasrRanking extends React.Component {
     }
 
     /**
-     * Change style attribute for assigned tbody
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  2.5.7
-     *
-     */
-    switchTBody(event) {
-        event.preventDefault();
-        const linkId        = event.target.id;
-
-        const tableId       = this.state.tableId;
-        const idLinkMost    = 'link-most-rated-posts-'+tableId;
-        const idLinkHighest = 'link-highest-rated-posts-'+tableId;
-        const bodyIdMost    = 'most-rated-posts-'+tableId;
-        const bodyIdHighest = 'highest-rated-posts-'+tableId;
-
-        //change html from a to span and vice versa
-        //https://stackoverflow.com/a/13071899/3472877
-        let anchor = document.getElementById(linkId);
-        let span   = document.createElement("span");
-
-        //Copy innerhtml and id into span element
-        span.innerHTML = anchor.innerHTML;
-        span.id        = anchor.id;
-
-        //replace <a> with <span>
-        anchor.parentNode.replaceChild(span,anchor);
-
-        if(linkId === idLinkMost) {
-            //Dispaly body for Most
-            document.getElementById(bodyIdHighest).style.display = 'none';
-            document.getElementById(bodyIdMost).style.display = '';
-
-            //Here I've to replace <span> with <a>
-            span             = document.getElementById(idLinkHighest);
-            anchor.innerHTML = span.innerHTML;
-            anchor.id        = span.id;
-            span.parentNode.replaceChild(anchor,span);
-        }
-        if(linkId === idLinkHighest) {
-            //Dispaly body for Highest
-            document.getElementById(bodyIdMost).style.display = 'none';
-            document.getElementById(bodyIdHighest).style.display = '';
-
-            //Here I've to replace <span> with <a>
-            span             = document.getElementById(idLinkMost);
-            anchor.innerHTML = span.innerHTML;
-            anchor.id        = span.id;
-            span.parentNode.replaceChild(anchor,span);
-        }
-    }
-
-    /**
-     * Print Tbody Ranking Table
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  2.5.6
-     *
-     * @return {JSX.Element} - html <tbody> element
-     */
-    rankingTableBody() {
-        const {data, source, rankingParams} = this.state;
-        if(source === 'overall_rating' || source === 'author_multi') {
-            return (
-                <ReturnTableTbody
-                    data={data}
-                    tableId={this.state.tableId}
-                    tBodyId={'overall_'+this.state.tableId}
-                    rankingParams={rankingParams}
-                    show={'table-row-group'}
-                    source={source}
-                />
-            )
-        }
-
-        else {
-            const vvMost      = data.most;
-            const vvHighest   = data.highest;
-            const display = 'table-row-group';
-            const hide    = 'none';
-
-            let defaultView = 'most';
-            let styleMost    = display;
-            let styleHighest = hide;
-
-            let params = new URLSearchParams(rankingParams);
-
-            if(params.get('view') !== null) {
-                defaultView = params.get('view');
-            }
-
-            if(defaultView === 'highest') {
-                styleMost    = hide;
-                styleHighest = display;
-            }
-
-            return (
-                <>
-                    <ReturnTableHead
-                        tableId={this.state.tableId}
-                        source={source}
-                        defaultView={defaultView}
-                    />
-                    <ReturnTableTbody
-                        data={vvMost}
-                        tableId={this.state.tableId}
-                        tBodyId={'most-rated-posts-'+this.state.tableId}
-                        rankingParams={rankingParams}
-                        show={styleMost}
-                        source={source}
-                    />
-                    <ReturnTableTbody
-                        data={vvHighest}
-                        tableId={this.state.tableId}
-                        tBodyId={'highest-rated-posts-'+this.state.tableId}
-                        rankingParams={rankingParams}
-                        show={styleHighest}
-                        source={source}
-                    />
-                </>
-            )
-        }
-    }
-
-    /**
      * Render rankings, error should never occour here
      */
     render() {
         const {error, isLoaded} = this.state;
+        const tBodyParams = {
+            data: this.state.data,
+            source: this.state.source,
+            rankingParams: this.state.rankingParams,
+            tableId: this.state.tableId
+        }
         if(error) {
             return (
                 <tbody>
@@ -346,7 +226,7 @@ class YasrRanking extends React.Component {
             } else {
                 return (
                     <>
-                        {this.rankingTableBody()}
+                        <RankingTableBody {...tBodyParams} />
                     </>
                 )
             }
