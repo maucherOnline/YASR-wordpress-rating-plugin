@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 
 var config = {
     module: {},
@@ -58,21 +57,10 @@ var yasrAdminBabel    = Object.assign({}, config, {
             }
         ]
     },
-    resolve: {
-        extensions: ['*', '.js'],
-        alias: {
-            'yasrGutenUtils': path.resolve('admin/js/src/guten/yasrGutenUtils.js')  // <-- When you build or restart dev-server, you'll get an error if the path to your utils.js file is incorrect.
-        }
-    },
     output: {
         filename: '[name].js',
         path: path.resolve('./')
-    },
-    plugins: [
-        new webpack.ProvidePlugin({
-            'yasrGutenUtils': 'yasrGutenUtils'
-        })
-    ]
+    }
 });
 
 var yasrFront    = Object.assign({}, config, {

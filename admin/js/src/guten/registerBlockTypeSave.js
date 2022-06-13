@@ -1,4 +1,4 @@
-import {YasrBlockPostidAttribute, YasrBlockSizeAttribute, YasrSetBlockAttributes} from "yasrGutenUtils";
+import {YasrBlockPostidAttribute, YasrBlockSizeAttribute, YasrSetBlockAttributes} from "./yasrGutenUtils";
 
 const {useBlockProps}        = wp.blockEditor;
 
