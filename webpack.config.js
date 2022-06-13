@@ -46,7 +46,6 @@ var yasrAdminBabel    = Object.assign({}, config, {
         'admin/js/yasr-pricing-page': './admin/js/src/yasr-pricing-page.js',
 
         'yasr_pro/js/yasr-pro-gutenberg': [
-            './yasr_pro/js/src/guten/yasr-pro-guten-blocks.js',
             './yasr_pro/js/src/guten/yasr-pro-guten-panel.js',
         ]
     },
