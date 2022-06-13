@@ -196,10 +196,9 @@ class YasrRanking extends React.Component {
      * Render rankings
      */
     render() {
-        const {error, isLoaded} = this.state;
         const tBodyParams = {
-            error: error,
-            isLoaded: isLoaded,
+            error: this.state.error,
+            isLoaded: this.state.isLoaded,
             data: this.state.data,
             source: this.state.source,
             rankingParams: this.state.rankingParams,
