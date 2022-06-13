@@ -2,6 +2,92 @@ import {RankingTableBody} from "../react-components/returnRankingTableBody";
 
 const  {render} = wp.element;
 
+/*
+    * Returns an array with the REST API urls
+    *
+    * @author Dario Curvino <@dudo>
+    * @since  2.5.7
+    *
+    * @return array of urls
+    */
+const returnRestUrl = (rankingParams, source, nonce) => {
+
+    let queryParams       = ((rankingParams !== '') ? rankingParams : '');
+    let dataSource        = source;
+    const nonceString     = '&nonce_rankings='+nonce;
+    let urlYasrRanking;
+
+    let cleanedQuery = '';
+
+    if (queryParams !== '' && queryParams !== false) {
+        let params = new URLSearchParams(queryParams);
+
+        if(params.get('order_by') !== null) {
+            cleanedQuery += 'order_by='+params.get('order_by');
+        }
+
+        if(params.get('limit') !== null) {
+            cleanedQuery += '&limit='+params.get('limit');
+        }
+
+        if(params.get('start_date') !== null && params.get('start_date') !== '0') {
+            cleanedQuery += '&start_date='+params.get('start_date');
+        }
+
+        if(params.get('end_date') !== null && params.get('end_date') !== '0') {
+            cleanedQuery += '&end_date='+params.get('end_date');
+        }
+
+        if(params.get('ctg') !== null) {
+            cleanedQuery += '&ctg='+params.get('ctg');
+        }
+        else if(params.get('cpt') !== null) {
+            cleanedQuery += '&cpt='+params.get('cpt');
+        }
+
+        if (cleanedQuery !== '') {
+            cleanedQuery = cleanedQuery.replace(/\s+/g, '');
+            cleanedQuery  = '&'+cleanedQuery;
+        }
+
+        if(dataSource === 'visitor_multi' || dataSource === 'author_multi') {
+            if(params.get('setid') !== null) {
+                cleanedQuery += '&setid=' + params.get('setid');
+            }
+        }
+
+    } else {
+        cleanedQuery = '';
+    }
+
+    if(dataSource === 'author_ranking' || dataSource === 'author_multi') {
+        urlYasrRanking = [yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&source=' + dataSource + cleanedQuery + nonceString];
+    }
+    else {
+        let requiredMost    = '';
+        let requiredHighest = '';
+
+        if(queryParams !== '') {
+            let params = new URLSearchParams(queryParams);
+            if (params.get('required_votes[most]') !== null) {
+                requiredMost = '&required_votes=' + params.get('required_votes[most]');
+            }
+
+            if (params.get('required_votes[highest]') !== null) {
+                requiredHighest = '&required_votes=' + params.get('required_votes[highest]');
+            }
+        }
+
+        urlYasrRanking = [
+            yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&show=most&source='    + dataSource + cleanedQuery + requiredMost + nonceString,
+            yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&show=highest&source=' + dataSource + cleanedQuery + requiredHighest + nonceString
+        ];
+
+    }
+
+    return urlYasrRanking;
+}
+
 /**
  * @author Dario Curvino <@dudo>
  * @since  2.5.6
@@ -43,8 +129,9 @@ class YasrRanking extends React.Component {
         }
         else {
             if (this.state.source) {
-                //fet the rest urls
-                const urlYasrRankingApi = this.returnRestUrl();
+
+                //get the rest urls
+                const urlYasrRankingApi = returnRestUrl(this.state.rankingParams, this.state.source, this.state.nonce);
                 Promise.all(urlYasrRankingApi.map((url) =>
                     fetch(url)
                         .then(response => {
@@ -103,91 +190,6 @@ class YasrRanking extends React.Component {
                 });
             }
         }
-    }
-
-    /*
-     * Returns an array with the REST API urls
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  2.5.7
-     *
-     * @return array of urls
-     */
-    returnRestUrl(){
-        let queryParams       = ((this.state.rankingParams !== '') ? this.state.rankingParams : '');
-        let dataSource        = this.state.source;
-        const nonce           = '&nonce_rankings='+this.state.nonce;
-        let urlYasrRanking;
-
-        let cleanedQuery = '';
-
-        if (queryParams !== '' && queryParams !== false) {
-            let params = new URLSearchParams(queryParams);
-
-            if(params.get('order_by') !== null) {
-                cleanedQuery += 'order_by='+params.get('order_by');
-            }
-
-            if(params.get('limit') !== null) {
-                cleanedQuery += '&limit='+params.get('limit');
-            }
-
-            if(params.get('start_date') !== null && params.get('start_date') !== '0') {
-                cleanedQuery += '&start_date='+params.get('start_date');
-            }
-
-            if(params.get('end_date') !== null && params.get('end_date') !== '0') {
-                cleanedQuery += '&end_date='+params.get('end_date');
-            }
-
-            if(params.get('ctg') !== null) {
-                cleanedQuery += '&ctg='+params.get('ctg');
-            }
-            else if(params.get('cpt') !== null) {
-                cleanedQuery += '&cpt='+params.get('cpt');
-            }
-
-            if (cleanedQuery !== '') {
-                cleanedQuery = cleanedQuery.replace(/\s+/g, '');
-                cleanedQuery  = '&'+cleanedQuery;
-            }
-
-            if(dataSource === 'visitor_multi' || dataSource === 'author_multi') {
-                if(params.get('setid') !== null) {
-                    cleanedQuery += '&setid=' + params.get('setid');
-                }
-            }
-
-        } else {
-            cleanedQuery = '';
-        }
-
-        if(dataSource === 'author_ranking' || dataSource === 'author_multi') {
-            urlYasrRanking = [yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&source=' + dataSource + cleanedQuery + nonce];
-        }
-        else {
-            let requiredMost    = '';
-            let requiredHighest = '';
-
-            if(queryParams !== '') {
-                let params = new URLSearchParams(queryParams);
-                if (params.get('required_votes[most]') !== null) {
-                    requiredMost = '&required_votes=' + params.get('required_votes[most]');
-                }
-
-                if (params.get('required_votes[highest]') !== null) {
-                    requiredHighest = '&required_votes=' + params.get('required_votes[highest]');
-                }
-            }
-
-            urlYasrRanking = [
-                yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&show=most&source='    + dataSource + cleanedQuery + requiredMost + nonce,
-                yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&show=highest&source=' + dataSource + cleanedQuery + requiredHighest + nonce
-            ];
-
-        }
-
-        return urlYasrRanking;
     }
 
     /**
