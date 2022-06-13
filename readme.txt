@@ -239,28 +239,5 @@ PREMIUM ONLY:
 * FIX: Author multiset didn't get saved
 * TWEAKED: better error handling
 
-= 3.0.3 =
-* FIX: if parameter 'show_average' is enabled on a multi set, a duplicate query was run.
-* TWEAKED: loader image has height and width attributes set.
-* TWEAKED: minor changes
-[//]: # fs_premium_only_begin
-PREMIUM ONLY:
-* NEW FEATURE: new shortcode available: yasr_pro_average_comments_multiset: this print a multi set with the average ratings from reviews.
-[//]: # fs_premium_only_end
-
-= 3.0.2 =
-* Updated Freemius SDK
-
-= 3.0.1 =
-* Minor changes and new pricing page.
-
-= 3.0.0 =
-* Fix for an authenticated XSS vulnerability if 'Load results with AJAX?' is enabled
-
-= 2.9.9 =
-* TWEAKED: removed "Pro only features" box in the editor screen
-
-
-
 = Additional Info =
 See credits.txt file
