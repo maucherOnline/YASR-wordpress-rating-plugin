@@ -6,6 +6,7 @@
     "description": "This ranking shows the highest rated posts rated through the overall_rating shortcode.",
     "icon": "star-half",
     "category": "yet-another-stars-rating",
+    "example": {},
     "keywords": [
         "ranking",
         "highest",

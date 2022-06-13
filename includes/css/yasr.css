@@ -149,7 +149,6 @@ yasr_pro_comment_reviews_stats shortcode too***/
 }
 
 .yasr-progress-bar-name {
-    flex-grow: 1;
     min-width: 72px;
     font-size: 14px !important;
 }
