@@ -1,15 +1,15 @@
-import {RankingTableBody} from "../react-components/returnRankingTableBody";
+import {YasrRankingTable} from "../react-components/returnRankingTable";
 
 const  {render} = wp.element;
 
 /*
-    * Returns an array with the REST API urls
-    *
-    * @author Dario Curvino <@dudo>
-    * @since  2.5.7
-    *
-    * @return array of urls
-    */
+* Returns an array with the REST API urls
+*
+* @author Dario Curvino <@dudo>
+* @since  2.5.7
+*
+* @return array of urls
+*/
 const returnRestUrl = (rankingParams, source, nonce) => {
 
     let queryParams       = ((rankingParams !== '') ? rankingParams : '');
@@ -193,46 +193,25 @@ class YasrRanking extends React.Component {
     }
 
     /**
-     * Render rankings, error should never occour here
+     * Render rankings
      */
     render() {
         const {error, isLoaded} = this.state;
         const tBodyParams = {
+            error: error,
+            isLoaded: isLoaded,
             data: this.state.data,
             source: this.state.source,
             rankingParams: this.state.rankingParams,
             tableId: this.state.tableId
         }
-        if(error) {
-            return (
-                <tbody>
-                    <tr>
-                        <td>
-                        {console.log(error)}
-                        Error
-                        </td>
-                    </tr>
-                </tbody>
-            )
-        } else {
-            if (isLoaded === false) {
-                return (
-                    <tbody>
-                    <tr>
-                        <td>
-                            {JSON.parse(yasrWindowVar.textLoadRanking)}
-                        </td>
-                    </tr>
-                    </tbody>
-                )
-            } else {
-                return (
-                    <>
-                        <RankingTableBody {...tBodyParams} />
-                    </>
-                )
-            }
-        }
+
+        return (
+            <>
+                <YasrRankingTable {...tBodyParams} />
+            </>
+        )
+
     }
 }
 
