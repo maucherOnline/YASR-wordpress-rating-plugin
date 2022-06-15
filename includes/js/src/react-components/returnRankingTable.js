@@ -28,7 +28,7 @@ const YasrRankingTable = (props) => {
             </tbody>
         )
     } else {
-        if(source === 'overall_rating' || source === 'author_multi') {
+        if(data.length > 0 && (source === 'overall_rating' || source === 'author_multi')) {
             return (
                 <ReturnTableTbody
                     data={data}

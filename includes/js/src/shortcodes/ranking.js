@@ -1,6 +1,6 @@
 import {YasrRankingTable} from "../react-components/returnRankingTable";
 
-const  {render} = wp.element;
+const  {render, useState, useEffect} = wp.element;
 
 /*
 * Returns an array with the REST API urls
@@ -89,49 +89,66 @@ const returnRestUrl = (rankingParams, source, nonce) => {
 }
 
 /**
- * @author Dario Curvino <@dudo>
- * @since  2.5.6
+ * @todo works only with data from html, doesn't work from rest response
+ *
+ * @param props
+ * @returns {JSX.Element}
  */
-class YasrRanking extends React.Component {
+const YasrRanking = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            isLoaded: false,
-            data: [],
-            tableId:        props.tableId,
-            source:         props.source,
-            rankingParams:  props.params,
-            nonce:          props.nonce
-        };
+    //default values from props
+    const {tableId, source, rankingParams, nonce} = props;
 
+    const tBodyParams = {
+        tableId: tableId,
+        source:   source,
+        rankingParams: rankingParams
+    }
+
+    const [error,         setError]       = useState(null);
+    const [isLoaded,      setIsLoaded]    = useState(false);
+    const [rankingData,   setRankingData] = useState([]);
+
+    /**
+     * Update isLoaded and rankingData
+     *
+     * @param data
+     */
+    const setDataIfLoaded = (data) => {
+        setIsLoaded(true);
+        setRankingData(data);
     }
 
     /**
-     * Get data here.
-     * Data can come from:
-     * rest API if ajax is enabled and no errors are found
-     * from a global variable (created with wp_localize_script) retrived from the window object
-     * if ajax is disabled or error with rest response are found
+     * Return ranking Data from html, and print console.info if not error
+     *
+     * @param error
+     * @returns {any}
      */
-    componentDidMount() {
-        const rankingData = JSON.parse(document.getElementById(this.state.tableId).dataset.rankingData);
+    const getDataFromHtml = (error = false) => {
+        const rankingData = JSON.parse(document.getElementById(tableId).dataset.rankingData);
+
+        if(error === false) {
+            console.info('Ajax Disabled, getting data from source');
+        }
+
+        setDataIfLoaded(rankingData);
+
+        return rankingData;
+    }
+
+
+    useEffect(() => {
         let data = {};
 
         //If ajax is disabled, use global value
-        if(yasrWindowVar.ajaxEnabled !== 'yes') {
-            console.info('Ajax Disabled, getting data from source');
-            this.setState({
-                isLoaded: true,
-                data: rankingData
-            });
-        }
-        else {
-            if (this.state.source) {
+        if (yasrWindowVar.ajaxEnabled !== 'yes') {
+            getDataFromHtml();
+        } else {
+            if (source) {
 
                 //get the rest urls
-                const urlYasrRankingApi = returnRestUrl(this.state.rankingParams, this.state.source, this.state.nonce);
+                const urlYasrRankingApi = returnRestUrl(rankingParams, source, nonce);
                 Promise.all(urlYasrRankingApi.map((url) =>
                     fetch(url)
                         .then(response => {
@@ -147,10 +164,10 @@ class YasrRanking extends React.Component {
                          */
                         .then(response => {
                             if (response === 'KO') {
-                                data = rankingData;
+                                data = getDataFromHtml(response);
                             } else {
-                                if(response.source === 'overall_rating' || response.source === 'author_multi') {
-                                    if(response.source === 'overall_rating') {
+                                if (response.source === 'overall_rating' || response.source === 'author_multi') {
+                                    if (response.source === 'overall_rating') {
                                         data = response.data_overall;
                                     } else {
                                         data = response.data_mv;
@@ -165,53 +182,30 @@ class YasrRanking extends React.Component {
                             }
                         })
                         .catch((error) => {
-                            data = rankingData;
+                            data = getDataFromHtml(error);
                             console.info(error);
                         })
                 ))
-                    //At the end of promise all, data can be from rest api or global var
-                    .then(r => {
-                        this.setState({
-                            isLoaded: true,
-                            data: data
-                        });
-                    })
-                    .catch((error) => {
-                        console.info((error));
-                        this.setState({
-                            isLoaded: true,
-                            data: data
-                        });
+                //At the end of promise all, data can be from rest api or global var
+                .then(r => {
+                    setDataIfLoaded(data);
+                })
+                .catch((error) => {
+                    console.info((error));
+                    setDataIfLoaded(data);
                 });
 
             } else {
-                this.setState({
-                    error: ('Invalid Data Source')
-                });
+                setError('Invalid Data Source');
             }
         }
-    }
+    }, []);
 
-    /**
-     * Render rankings
-     */
-    render() {
-        const tBodyParams = {
-            error: this.state.error,
-            isLoaded: this.state.isLoaded,
-            data: this.state.data,
-            source: this.state.source,
-            rankingParams: this.state.rankingParams,
-            tableId: this.state.tableId
-        }
-
-        return (
-            <>
-                <YasrRankingTable {...tBodyParams} />
-            </>
-        )
-
-    }
+    return (
+        <>
+            <YasrRankingTable error={error} isLoaded={isLoaded} data={rankingData} {...tBodyParams} />
+        </>
+    )
 }
 
 export function yasrDrawRankings () {
