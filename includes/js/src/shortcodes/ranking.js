@@ -97,12 +97,12 @@ const returnRestUrl = (rankingParams, source, nonce) => {
 const YasrRanking = (props) => {
 
     //default values from props
-    const {tableId, source, rankingParams, nonce} = props;
+    const {tableId, source, params, nonce} = props;
 
     const tBodyParams = {
         tableId: tableId,
-        source:   source,
-        rankingParams: rankingParams
+        source:  source,
+        rankingParams: params
     }
 
     const [error,         setError]       = useState(null);
@@ -112,11 +112,11 @@ const YasrRanking = (props) => {
     /**
      * Update isLoaded and rankingData
      *
-     * @param data
+     * @param rankingData
      */
-    const setDataIfLoaded = (data) => {
+    const setLoadedData = (rankingData) => {
         setIsLoaded(true);
-        setRankingData(data);
+        setRankingData(rankingData);
     }
 
     /**
@@ -132,69 +132,84 @@ const YasrRanking = (props) => {
             console.info('Ajax Disabled, getting data from source');
         }
 
-        setDataIfLoaded(rankingData);
+        setLoadedData(rankingData);
 
         return rankingData;
     }
 
+    /**
+     * Do the fetch
+     */
+    const getDataFromFetch = () => {
+        let data = [];
 
-    useEffect(() => {
-        let data = {};
+        //get the rest urls
+        const urlYasrRankingApi = returnRestUrl(params, source, nonce);
 
+        Promise.all(urlYasrRankingApi.map((url) =>
+            fetch(url)
+                .then(response => {
+                    if (response.ok === true) {
+                        return response.json();
+                    } else {
+                        console.info('Ajax Call Failed. Getting data from source')
+                        return 'KO';
+                    }
+                })
+                /**
+                 * If response is not ok, get data from global var
+                 */
+                .then(response => {
+                    if (response === 'KO') {
+                        data = rankingData;
+                    } else {
+                        if(response.source === 'overall_rating' || response.source === 'author_multi') {
+                            if(response.source === 'overall_rating') {
+                                data = response.data_overall;
+                            } else {
+                                data = response.data_mv;
+                            }
+                        }
+                        //if data is from visitor votes, create an array like this
+                        //data[most]
+                        //data[highest]
+                        else {
+                            data[response.show] = response.data_vv
+                        }
+                    }
+                })
+                .catch((error) => {
+                    data = rankingData;
+                    console.info(error);
+                })
+        ))
+        //At the end of promise all, data can be from rest api or global var
+        .then(r => {
+            //this.setState({
+            //    isLoaded: true,
+            //    data: data
+            //});
+            setLoadedData(data)
+
+        })
+        .catch((error) => {
+            console.info((error));
+            //this.setState({
+            //    isLoaded: true,
+            //    data: data
+            //});
+            setLoadedData(data)
+        });
+
+    }
+
+    useEffect( () => {
         //If ajax is disabled, use global value
         if (yasrWindowVar.ajaxEnabled !== 'yes') {
             getDataFromHtml();
         } else {
             if (source) {
-
-                //get the rest urls
-                const urlYasrRankingApi = returnRestUrl(rankingParams, source, nonce);
-                Promise.all(urlYasrRankingApi.map((url) =>
-                    fetch(url)
-                        .then(response => {
-                            if (response.ok === true) {
-                                return response.json();
-                            } else {
-                                console.info('Ajax Call Failed. Getting data from source')
-                                return 'KO';
-                            }
-                        })
-                        /**
-                         * If response is not ok, get data from global var
-                         */
-                        .then(response => {
-                            if (response === 'KO') {
-                                data = getDataFromHtml(response);
-                            } else {
-                                if (response.source === 'overall_rating' || response.source === 'author_multi') {
-                                    if (response.source === 'overall_rating') {
-                                        data = response.data_overall;
-                                    } else {
-                                        data = response.data_mv;
-                                    }
-                                }
-                                //if data is from visitor votes, create an array like this
-                                //data[most]
-                                //data[highest]
-                                else {
-                                    data[response.show] = response.data_vv
-                                }
-                            }
-                        })
-                        .catch((error) => {
-                            data = getDataFromHtml(error);
-                            console.info(error);
-                        })
-                ))
-                //At the end of promise all, data can be from rest api or global var
-                .then(r => {
-                    setDataIfLoaded(data);
-                })
-                .catch((error) => {
-                    console.info((error));
-                    setDataIfLoaded(data);
-                });
-
+                getDataFromFetch();
             } else {
                 setError('Invalid Data Source');
             }
