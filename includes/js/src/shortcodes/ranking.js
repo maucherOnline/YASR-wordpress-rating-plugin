@@ -92,10 +92,7 @@ const returnRestUrl = (rankingParams, source, nonce) => {
  * @param props
  * @returns {JSX.Element}
  */
-const YasrRanking = (props) => {
-
-    //default values from props
-    const {tableId, source, params, nonce} = props;
+const YasrRanking = ({tableId, source, params, nonce}) => {
 
     const tBodyParams = {
         tableId: tableId,
@@ -108,29 +105,20 @@ const YasrRanking = (props) => {
     const [rankingData,   setRankingData] = useState([]);
 
     /**
-     * When data is loaded, Update isLoaded and rankingData
-     *
-     * @param rankingData
-     */
-    const setLoadedData = (rankingData) => {
-        setIsLoaded(true);
-        setRankingData(rankingData);
-    }
-
-    /**
      * Return ranking Data from html, and print console.info if not error
      *
-     * @param error
+     * @param ajaxDisabled
      * @returns {any}
      */
-    const setDataFromHtml = (error = false) => {
+    const setDataFromHtml = (ajaxDisabled = false) => {
         const rankingData = JSON.parse(document.getElementById(tableId).dataset.rankingData);
 
-        if(error === false) {
+        if(ajaxDisabled === true) {
             console.info('Ajax Disabled, getting data from source');
         }
 
-        setLoadedData(rankingData);
+        setIsLoaded(true);
+        setRankingData(rankingData);
     }
 
     /**
@@ -183,7 +171,7 @@ const YasrRanking = (props) => {
         ))
             //At the end of promise all, set ranking data ans isLoaded to true
         .then(r => {
-            setLoadedData(data)
+            setIsLoaded(true)
         })
         .catch((error) => {
             setDataFromHtml()
@@ -195,7 +183,7 @@ const YasrRanking = (props) => {
     useEffect( () => {
         //If ajax is disabled, use global value
         if (yasrWindowVar.ajaxEnabled !== 'yes') {
-            setDataFromHtml();
+            setDataFromHtml(true);
         } else {
             if (source) {
                 setDataFromFetch();
