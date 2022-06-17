@@ -117,7 +117,6 @@ const YasrRanking = ({tableId, source, params, nonce}) => {
             console.info('Ajax Disabled, getting data from source');
         }
 
-        setIsLoaded(true);
         setRankingData(rankingData);
     }
 
@@ -169,7 +168,7 @@ const YasrRanking = ({tableId, source, params, nonce}) => {
                     console.info(error);
                 })
         ))
-            //At the end of promise all, set ranking data ans isLoaded to true
+        //At the end of promise all, set isLoaded to true
         .then(r => {
             setIsLoaded(true)
         })
@@ -184,6 +183,7 @@ const YasrRanking = ({tableId, source, params, nonce}) => {
         //If ajax is disabled, use global value
         if (yasrWindowVar.ajaxEnabled !== 'yes') {
             setDataFromHtml(true);
+            setIsLoaded(true);
         } else {
             if (source) {
                 setDataFromFetch();
