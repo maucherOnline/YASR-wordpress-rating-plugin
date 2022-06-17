@@ -88,9 +88,7 @@ const returnRestUrl = (rankingParams, source, nonce) => {
     return urlYasrRanking;
 }
 
-/**
- * @todo works only with data from html, doesn't work from rest response
- *
+/***
  * @param props
  * @returns {JSX.Element}
  */
@@ -110,7 +108,7 @@ const YasrRanking = (props) => {
     const [rankingData,   setRankingData] = useState([]);
 
     /**
-     * Update isLoaded and rankingData
+     * When data is loaded, Update isLoaded and rankingData
      *
      * @param rankingData
      */
@@ -125,7 +123,7 @@ const YasrRanking = (props) => {
      * @param error
      * @returns {any}
      */
-    const getDataFromHtml = (error = false) => {
+    const setDataFromHtml = (error = false) => {
         const rankingData = JSON.parse(document.getElementById(tableId).dataset.rankingData);
 
         if(error === false) {
@@ -133,14 +131,12 @@ const YasrRanking = (props) => {
         }
 
         setLoadedData(rankingData);
-
-        return rankingData;
     }
 
     /**
      * Do the fetch
      */
-    const getDataFromFetch = () => {
+    const setDataFromFetch = () => {
         let data = [];
 
         //get the rest urls
@@ -161,7 +157,7 @@ const YasrRanking = (props) => {
                  */
                 .then(response => {
                     if (response === 'KO') {
-                        data = rankingData;
+                        setDataFromHtml();
                     } else {
                         if(response.source === 'overall_rating' || response.source === 'author_multi') {
                             if(response.source === 'overall_rating') {
@@ -176,29 +172,22 @@ const YasrRanking = (props) => {
                         else {
                             data[response.show] = response.data_vv
                         }
+                        //only set ranking data here
+                        setRankingData(data);
                     }
                 })
                 .catch((error) => {
-                    data = rankingData;
+                    setDataFromHtml();
                     console.info(error);
                 })
         ))
-        //At the end of promise all, data can be from rest api or global var
+            //At the end of promise all, set ranking data ans isLoaded to true
         .then(r => {
-            //this.setState({
-            //    isLoaded: true,
-            //    data: data
-            //});
             setLoadedData(data)
-
         })
         .catch((error) => {
+            setDataFromHtml()
             console.info((error));
-            //this.setState({
-            //    isLoaded: true,
-            //    data: data
-            //});
-            setLoadedData(data)
         });
 
     }
@@ -206,10 +195,10 @@ const YasrRanking = (props) => {
     useEffect( () => {
         //If ajax is disabled, use global value
         if (yasrWindowVar.ajaxEnabled !== 'yes') {
-            getDataFromHtml();
+            setDataFromHtml();
         } else {
             if (source) {
-                getDataFromFetch();
+                setDataFromFetch();
             } else {
                 setError('Invalid Data Source');
             }
