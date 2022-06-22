@@ -2,21 +2,14 @@ import {YasrRankingTable} from "../react-components/returnRankingTable";
 
 const  {render, useState, useEffect} = wp.element;
 
-/*
-* Returns an array with the REST API urls
-*
-* @author Dario Curvino <@dudo>
-* @since  2.5.7
-*
-* @return array of urls
-*/
-const returnRestUrl = (rankingParams, source, nonce) => {
-
-    let queryParams       = ((rankingParams !== '') ? rankingParams : '');
-    let dataSource        = source;
-    const nonceString     = '&nonce_rankings='+nonce;
-    let urlYasrRanking;
-
+/**
+ * Return a string with query params to append to the url
+ *
+ * @param queryParams
+ * @param dataSource
+ * @returns {string}
+ */
+const returnQueryParams = (queryParams, dataSource) => {
     let cleanedQuery = '';
 
     if (queryParams !== '' && queryParams !== false) {
@@ -56,31 +49,45 @@ const returnRestUrl = (rankingParams, source, nonce) => {
             }
         }
 
-    } else {
-        cleanedQuery = '';
-    }
-
-    if(dataSource === 'author_ranking' || dataSource === 'author_multi') {
-        urlYasrRanking = [yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&source=' + dataSource + cleanedQuery + nonceString];
-    }
-    else {
-        let requiredMost    = '';
-        let requiredHighest = '';
-
-        if(queryParams !== '') {
-            let params = new URLSearchParams(queryParams);
+        if(dataSource === 'visitor_votes') {
             if (params.get('required_votes[most]') !== null) {
-                requiredMost = '&required_votes=' + params.get('required_votes[most]');
+                cleanedQuery = '&required_votes=' + params.get('required_votes[most]');
             }
 
             if (params.get('required_votes[highest]') !== null) {
-                requiredHighest = '&required_votes=' + params.get('required_votes[highest]');
+                cleanedQuery = '&required_votes=' + params.get('required_votes[highest]');
             }
         }
 
+    }
+
+    return cleanedQuery;
+}
+
+/*
+* Returns an array with the REST API urls
+*
+* @author Dario Curvino <@dudo>
+* @since  2.5.7
+*
+* @return array of urls
+*/
+const returnRestUrl = (rankingParams, source, nonce) => {
+
+    const dataSource      = source;
+    const nonceString     = '&nonce_rankings='+nonce;
+    let queryParams       = ((rankingParams !== '') ? rankingParams : '');
+    let urlYasrRanking;
+
+    const cleanedQuery = returnQueryParams(queryParams, dataSource);
+
+    if(dataSource === 'author_ranking' || dataSource === 'author_multi' || dataSource === 'overall_rating') {
+        urlYasrRanking = [yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&source=' + dataSource + cleanedQuery + nonceString];
+    }
+    else {
         urlYasrRanking = [
-            yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&show=most&source='    + dataSource + cleanedQuery + requiredMost + nonceString,
-            yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&show=highest&source=' + dataSource + cleanedQuery + requiredHighest + nonceString
+            yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&show=most&source='    + dataSource + cleanedQuery + nonceString,
+            yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&show=highest&source=' + dataSource + cleanedQuery + nonceString
         ];
 
     }
