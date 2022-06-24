@@ -1,5 +1,4 @@
 const path          = require('path');
-const webpack       = require('webpack');
 const TerserPlugin  = require('terser-webpack-plugin');
 
 var config = {
@@ -64,12 +63,6 @@ var yasrAdminBabel    = Object.assign({}, config, {
             }
         ]
     },
-    resolve: {
-        extensions: ['*', '.js'],
-        alias: {
-            'yasrGutenUtils': path.resolve('admin/js/src/guten/yasrGutenUtils.js')  // <-- When you build or restart dev-server, you'll get an error if the path to your utils.js file is incorrect.
-        }
-    },
     output: {
         filename: '[name].js',
         path: path.resolve('./')
@@ -78,12 +71,7 @@ var yasrAdminBabel    = Object.assign({}, config, {
         minimizer: [new TerserPlugin({
             extractComments: false,
         })],
-    },
-    plugins: [
-        new webpack.ProvidePlugin({
-            'yasrGutenUtils': 'yasrGutenUtils'
-        })
-    ]
+    }
 });
 
 var yasrFront    = Object.assign({}, config, {

@@ -13,7 +13,7 @@ import {
     YasrPrintSelectSize,
     YasrNoSettingsPanel,
     YasrSetBlockAttributes
-} from "yasrGutenUtils";
+} from "./yasrGutenUtils";
 
 /**
  * This is the panel that for blocks that use size and postid attributes

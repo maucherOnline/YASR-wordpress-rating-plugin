@@ -12,7 +12,7 @@ const ContentBelowSidebar = () => {
     return <div/>;
 };
 
-import {YasrDivRatingOverall} from 'yasrGutenUtils';
+import {YasrDivRatingOverall} from './yasrGutenUtils';
 
 /**
  * Auto insert block, will show only if auto insert in setting is enabled

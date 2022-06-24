@@ -122,7 +122,7 @@ It is the first (and for now only) rating plugin that uses REST API.
 Further, it comes with a lot of hooks, you can find more info [here](https://yetanotherstarsrating.com/docs/developers/) .
 
 == GitHub ==
-* [Follow development on github](https://github.com/Dudo1985/yet-another-stars-rating)
+* [Follow development on GitHub](https://github.com/Dudo1985/yet-another-stars-rating)
 
 == Related Link ==
 * [All available shortcodes in free version](https://yetanotherstarsrating.com/yasr-shortcodes/)
