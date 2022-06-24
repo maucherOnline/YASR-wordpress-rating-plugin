@@ -121,10 +121,12 @@ It is the first (and for now only) rating plugin that uses REST API.
 [Here](https://documenter.getpostman.com/view/12873985/TzJycbVz) you can find the documentation.
 Further, it comes with a lot of hooks, you can find more info [here](https://yetanotherstarsrating.com/docs/developers/) .
 
+== GitHub ==
+* [Follow development on github](https://github.com/Dudo1985/yet-another-stars-rating)
+
 == Related Link ==
 * [All available shortcodes in free version](https://yetanotherstarsrating.com/yasr-shortcodes/)
 * Documentation at [Yasr Official Site](https://yetanotherstarsrating.com/docs/)
-* [GitHub page](https://github.com/Dudo1985/yet-another-stars-rating)
 
 Do you want more feature? [Check out Yasr Pro!](https://yetanotherstarsrating.com/#yasr-pro)
 
