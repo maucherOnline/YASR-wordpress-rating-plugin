@@ -92,8 +92,6 @@ $yasr_includes_filter->cachingPluginSupport();
 $init_ajax = new YasrShortcodesAjax();
 $init_ajax->init();
 
-/****** End Getting options ******/
-
 //To better support php version < 7, I can't use an array into define
 //I can use const here, because it is a primitive value
 //https://stackoverflow.com/questions/1290318/php-constants-containing-arrays
