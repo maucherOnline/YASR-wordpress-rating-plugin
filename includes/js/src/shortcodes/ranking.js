@@ -2,7 +2,7 @@ import {YasrRanking} from "../react-components/yasrRanking";
 
 const  {render} = wp.element;
 
-function yasrDrawRankings () {
+const yasrDrawRankings = () => {
     //check if there is some shortcode with class yasr-table-chart
     const yasrRankingsInDom = document.getElementsByClassName('yasr-stars-rankings');
 
