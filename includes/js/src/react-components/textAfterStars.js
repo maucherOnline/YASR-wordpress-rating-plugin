@@ -24,9 +24,9 @@ const TextAfterStars = ({post:{number_of_votes, rating}, text}) => {
     }
 
     return (
-        <>
+        <span>
             {text} {rating}
-        </>
+        </span>
     );
 
 };

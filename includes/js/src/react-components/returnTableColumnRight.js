@@ -18,6 +18,7 @@ const ReturnTableColumnRight = ({rankingParams, tableId, colClass, post}) => {
     let cstText    = JSON.parse(yasrWindowVar.textRating)
 
     let params = new URLSearchParams(rankingParams);
+
     if(params.get('text_position') !== null) {
         txtPosition = params.get('text_position');
     }

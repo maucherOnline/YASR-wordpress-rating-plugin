@@ -15,10 +15,23 @@ import {ReturnTableColumnRight} from "./returnTableColumnRight";
  */
 
 const ReturnTableRow = (props) => {
+
+    const columnLeftAttr = {
+        colClass: props.leftClass,
+        post: props.post
+    }
+
+    const columnRightAttr = {
+        rankingParams: props.rankingParams,
+        tableId: props.tableId,
+        colClass: props.rightClass,
+        post: props.post
+    }
+
     return (
         <tr className={props.trClass}>
-            <ReturnTableColumnLeft   colClass={props.leftClass} post={props.post} />
-            <ReturnTableColumnRight  {...props} />
+            <ReturnTableColumnLeft {...columnLeftAttr} />
+            <ReturnTableColumnRight {...columnRightAttr} />
         </tr>
     )
 };
