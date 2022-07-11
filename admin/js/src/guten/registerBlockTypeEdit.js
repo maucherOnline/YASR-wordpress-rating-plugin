@@ -6,7 +6,7 @@ import {
     YasrBlockSizeAttribute,
     YasrPrintSelectSize,
     YasrSetBlockAttributes
-} from "./yasrGutenUtils.js";
+} from "./yasrGutenUtils";
 
 import {YasrBlocksPanel} from "./yasrBlocksPanel";
 

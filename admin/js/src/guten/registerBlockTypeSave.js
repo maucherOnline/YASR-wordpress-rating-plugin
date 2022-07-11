@@ -1,6 +1,6 @@
-import {YasrBlockPostidAttribute, YasrBlockSizeAttribute, YasrSetBlockAttributes} from "./yasrGutenUtils";
-
 const {useBlockProps}        = wp.blockEditor;
+
+import {YasrBlockPostidAttribute, YasrBlockSizeAttribute, YasrSetBlockAttributes} from "./yasrGutenUtils";
 
 /**
  * The Save function to use into registerBlockTypeSave
