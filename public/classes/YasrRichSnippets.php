@@ -402,6 +402,12 @@ class YasrRichSnippets {
     private function itemProduct($post_meta) {
         $global_identifer_name = $post_meta['yasr_product_global_identifier_select'];
 
+        $brand_type = YASR_PUBLISHER_TYPE == 'Organization' ? 'Organization' : 'Brand';
+        $brand_name = !empty($post_meta['yasr_product_brand']) ? $post_meta['yasr_product_brand'] : wp_strip_all_tags(YASR_PUBLISHER_NAME);
+        $rich_snippet['brand'] = array(
+            '@type' => $brand_type,
+            'name'  => $brand_name
+        );
         $rich_snippet['brand']                = $post_meta['yasr_product_brand'];
         $rich_snippet['sku']                  = $post_meta['yasr_product_sku'];
         $rich_snippet[$global_identifer_name] = $post_meta['yasr_product_global_identifier_value'];
