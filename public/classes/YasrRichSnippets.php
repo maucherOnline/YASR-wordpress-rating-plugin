@@ -154,7 +154,7 @@ class YasrRichSnippets {
      *
      * @param $post_id
      *
-     * @return array|void
+     * @return array
      */
     public function richSnippetsGetData ($post_id) {
         $data_to_return = array();
@@ -167,6 +167,38 @@ class YasrRichSnippets {
         $data_to_return['date_modified']    = get_the_modified_date('c');
         $data_to_return['is_post_a_review'] = get_post_meta($post_id, 'yasr_post_is_review', true);
 
+        $data_to_return = array_merge($data_to_return, $this->images_attributes());
+
+        $publisher_image_index = 'logo';
+        if (YASR_PUBLISHER_TYPE === 'Person') {
+            $publisher_image_index = 'image';
+        }
+
+        $data_to_return['publisher'] = array(
+            '@type'                => YASR_PUBLISHER_TYPE,
+            'name'                 => wp_strip_all_tags(YASR_PUBLISHER_NAME),
+            //already sanitized in the settings, just to be safe
+            $publisher_image_index => array(
+                '@type'  => 'ImageObject',
+                'url'    => $data_to_return['logo_image_url'],
+                'width'  => $data_to_return['logo_image_size'][0],
+                'height' => $data_to_return['logo_image_size'][1]
+            ),
+        );
+
+        return $data_to_return;
+    }
+
+    /**
+     * Helper method to returns images attributes of both publisher and featured image
+     *
+     * If a post has not featured image, publisher logo will be used instead
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.1
+     * @return array
+     */
+    private function images_attributes() {
         $logo_image_url = '';
         $post_image_url = $logo_image_url; //this will be overwritten if has_post_thumbnail is true
 
@@ -197,36 +229,19 @@ class YasrRichSnippets {
             $logo_image_size[1] = 0;
         }
 
-        //if exists featuread image get the url and overwrite the variable
+        //if exists featured image get the url and overwrite the variable
         if (has_post_thumbnail()) {
             $post_image_url          = wp_get_attachment_url(get_post_thumbnail_id());
             $post_image_url_absolute = $_SERVER['DOCUMENT_ROOT'] . parse_url($post_image_url, PHP_URL_PATH);
             $post_image_size         = @getimagesize($post_image_url_absolute); //the @ should be useless, just to be safe
         }
 
-        $publisher_image_index = 'logo';
-        if (YASR_PUBLISHER_TYPE === 'Person') {
-            $publisher_image_index = 'image';
-        }
-
-        $data_to_return['publisher'] = array(
-            '@type'                => YASR_PUBLISHER_TYPE,
-            'name'                 => wp_strip_all_tags(YASR_PUBLISHER_NAME),
-            //already sanitized in the settings, just to be safe
-            $publisher_image_index => array(
-                '@type'  => 'ImageObject',
-                'url'    => $logo_image_url,
-                'width'  => $logo_image_size[0],
-                'height' => $logo_image_size[1]
-            ),
+        return array (
+            'post_image_size' => $post_image_size,
+            'post_image_url'  => $post_image_url,
+            'logo_image_size' => $logo_image_size,
+            'logo_image_url'  => $logo_image_url
         );
-
-        $data_to_return['post_image_url']  = $post_image_url;
-        $data_to_return['post_image_size'] = $post_image_size;
-        $data_to_return['logo_image_url']  = $logo_image_url;
-        $data_to_return['logo_image_size'] = $logo_image_size;
-
-        return $data_to_return;
     }
 
     /**
