@@ -417,7 +417,11 @@ class YasrRichSnippets {
     private function itemProduct($post_meta) {
         $global_identifer_name = $post_meta['yasr_product_global_identifier_select'];
 
-        $rich_snippet['brand']                = $post_meta['yasr_product_brand'];
+        $rich_snippet['brand'] = array(
+            '@type' => 'Brand',                         //This is always just 'Brand'
+            'name'  => $post_meta['yasr_product_brand'] //the brand name of the product
+        );
+
         $rich_snippet['sku']                  = $post_meta['yasr_product_sku'];
         $rich_snippet[$global_identifer_name] = $post_meta['yasr_product_global_identifier_value'];
 
