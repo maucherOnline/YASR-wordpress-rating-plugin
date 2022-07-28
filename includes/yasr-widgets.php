@@ -22,11 +22,13 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-add_action('widgets_init', 'yasr_overall_rating_widget');
+add_action('widgets_init', 'yasr_init_widgets');
 
 // register Yasr Overall Rating widget
-function yasr_overall_rating_widget() {
+function yasr_init_widgets() {
     register_widget('Yasr_Overall_Rating_Widget');
+    register_widget('Yasr_Visitor_Votes_Widget');
+    register_widget('Yasr_Recent_Ratings_Widget');
 }
 
 /**
@@ -186,14 +188,6 @@ class Yasr_Overall_Rating_Widget extends WP_Widget {
 
 
 ////////////////////////////////////////////////////////
-
-
-add_action('widgets_init', 'yasr_visitor_votes_widget');
-
-// register Yasr Visitor Votes widget
-function yasr_visitor_votes_widget() {
-    register_widget('Yasr_Visitor_Votes_Widget');
-}
 
 
 class Yasr_Visitor_Votes_Widget extends WP_Widget {
@@ -377,14 +371,6 @@ class Yasr_Visitor_Votes_Widget extends WP_Widget {
 
 
 /////////////////////////////////////////////////////////
-
-
-add_action('widgets_init', 'yasr_recent_ratings_widget');
-
-// register recent ratings widget
-function yasr_recent_ratings_widget() {
-    register_widget('Yasr_Recent_Ratings_Widget');
-}
 
 class Yasr_Recent_Ratings_Widget extends WP_Widget {
 
