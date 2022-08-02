@@ -206,6 +206,10 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.1.1 =
+* FIXED:  Rich snippets fix for "Product itemType". See [#1](https://github.com/Dudo1985/Yet-Another-Stars-Rating/issues/1).
+* TWEAKED: updated Freemius sdk to version 2.4.5
+
 = 3.1.0 =
 * TWEAKED: A lot of under the hood changes
 * TWEAKED: Updated Freemius sdk to version 2.4.4
