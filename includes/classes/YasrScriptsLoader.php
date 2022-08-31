@@ -46,15 +46,20 @@ class YasrScriptsLoader {
     public function loadWindowVar() {
         //This is required to use wp_localize_script without dependency
         //https://wordpress.stackexchange.com/a/311279/48442
-        wp_register_script('yasr-window-var', '', array(), '', true);
+        wp_register_script('yasr-window-var', '', array(), YASR_VERSION_NUM, true);
         wp_enqueue_script('yasr-window-var');
 
         $yasr_visitor_votes_loader =
-            '<div id="loader-visitor-rating" style="display: inline-block">&nbsp; '.
+            '<div id="yasr-loader" style="display: inline-block">&nbsp; '.
                 '<img src="' . esc_url(YASR_IMG_DIR . 'loader.gif').'" 
                  title="yasr-loader" alt="yasr-loader" height="16" width="16">'.
             '</div>';
 
+        //Use this hook to customize loader,
+        $yasr_visitor_votes_loader     = apply_filters('yasr_custom_loader', $yasr_visitor_votes_loader);
+
+        //Use this hook to customize only the loader url
+        $yasr_visitor_votes_loader_url = apply_filters('yasr_custom_loader_url', YASR_IMG_DIR . 'loader.gif');
 
         $yasr_window_var = array(
             'siteUrl'              => site_url(),
@@ -63,7 +68,7 @@ class YasrScriptsLoader {
             'visitorStatsEnabled'  => YASR_VISITORS_STATS,
             'ajaxEnabled'          => YASR_ENABLE_AJAX,
             'loaderHtml'           => $yasr_visitor_votes_loader,
-            'loaderUrl'            => esc_url(YASR_IMG_DIR . 'loader.gif'),
+            'loaderUrl'            => esc_url($yasr_visitor_votes_loader_url),
             'isUserLoggedIn'       => json_encode(is_user_logged_in()),
             'isRtl'                => json_encode(is_rtl()),
             'starSingleForm'       => json_encode(esc_html__('star', 'yet-another-stars-rating')),

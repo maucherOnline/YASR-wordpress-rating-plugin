@@ -146,8 +146,7 @@ if (activeTab === 'migration_tools') {
     jQuery('#yasr-import-ratemypost-submit').on('click', function () {
 
         //show loader on click
-        document.getElementById('yasr-import-ratemypost-answer').innerHTML =
-            '<img src="' + yasrWindowVar.loaderUrl + '" alt="yasr-loader" width="16" height="16">';
+        document.getElementById('yasr-import-ratemypost-answer').innerHTML = yasrWindowVar.loaderHtml;
 
         var nonce = document.getElementById('yasr-import-rmp-nonce').value;
 
@@ -158,7 +157,7 @@ if (activeTab === 'migration_tools') {
 
         jQuery.post(ajaxurl, data, function (response) {
             response = JSON.parse(response);
-            document.getElementById('yasr-import-ratemypost-answer').innerHTML = response;
+            //document.getElementById('yasr-import-ratemypost-answer').innerHTML = response;
         });
 
     });
@@ -166,8 +165,7 @@ if (activeTab === 'migration_tools') {
     jQuery('#yasr-import-wppr-submit').on('click', function () {
 
         //show loader on click
-        document.getElementById('yasr-import-wppr-answer').innerHTML =
-            '<img src="' + yasrWindowVar.loaderUrl + '" alt="yasr-loader" width="16" height="16">';
+        document.getElementById('yasr-import-wppr-answer').innerHTML = yasrWindowVar.loaderHtml;
 
         var nonce = document.getElementById('yasr-import-wppr-nonce').value;
 
@@ -186,8 +184,7 @@ if (activeTab === 'migration_tools') {
     jQuery('#yasr-import-kksr-submit').on('click', function () {
 
         //show loader on click
-        document.getElementById('yasr-import-kksr-answer').innerHTML =
-            '<img src="' + yasrWindowVar.loaderUrl + '" alt="yasr-loader" width="16" height="16">';
+        document.getElementById('yasr-import-kksr-answer').innerHTML = yasrWindowVar.loaderHtml;
 
         var nonce = document.getElementById('yasr-import-kksr-nonce').value;
 
@@ -207,8 +204,7 @@ if (activeTab === 'migration_tools') {
     jQuery('#yasr-import-mr-submit').on('click', function () {
 
         //show loader on click
-        document.getElementById('yasr-import-mr-answer').innerHTML =
-            '<img src="' + yasrWindowVar.loaderUrl + '" alt="yasr-loader" width="16" height="16">';
+        document.getElementById('yasr-import-mr-answer').innerHTML = yasrWindowVar.loaderHtml;
 
         var nonce = document.getElementById('yasr-import-mr-nonce').value;
 

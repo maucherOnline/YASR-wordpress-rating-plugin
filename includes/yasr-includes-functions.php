@@ -307,8 +307,11 @@ function yasr_kses($string) {
         ),
         'img' => array (
             'src'   => array(),
+            'title' => array(),
+            'height' => array(),
+            'width' => array(),
+            'alt'   => array(),
             'class' => array(),
-            'alt'   => array()
         ),
         'br'     => array(),
         'strong' =>array()
