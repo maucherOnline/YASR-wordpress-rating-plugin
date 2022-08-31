@@ -157,7 +157,7 @@ if (activeTab === 'migration_tools') {
 
         jQuery.post(ajaxurl, data, function (response) {
             response = JSON.parse(response);
-            //document.getElementById('yasr-import-ratemypost-answer').innerHTML = response;
+            document.getElementById('yasr-import-ratemypost-answer').innerHTML = response;
         });
 
     });
