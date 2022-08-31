@@ -59,6 +59,7 @@ class YasrScriptsLoader {
         $yasr_visitor_votes_loader     = apply_filters('yasr_custom_loader', $yasr_visitor_votes_loader);
 
         //Use this hook to customize only the loader url
+        //since version 3.1.2, yasrWindowVar.loaderUrl it is not used in YASR, but it is useful to keep it
         $yasr_visitor_votes_loader_url = apply_filters('yasr_custom_loader_url', YASR_IMG_DIR . 'loader.gif');
 
         $yasr_window_var = array(
