@@ -175,7 +175,7 @@ if (activeTab === 'migration_tools') {
         };
 
         jQuery.post(ajaxurl, data, function (response) {
-            //response = JSON.parse(response);
+            response = JSON.parse(response);
             document.getElementById('yasr-import-wppr-answer').innerHTML = response;
         });
 
@@ -194,7 +194,7 @@ if (activeTab === 'migration_tools') {
         };
 
         jQuery.post(ajaxurl, data, function (response) {
-            //response = JSON.parse(response);
+            response = JSON.parse(response);
             document.getElementById('yasr-import-kksr-answer').innerHTML = response;
         });
 
@@ -214,7 +214,7 @@ if (activeTab === 'migration_tools') {
         };
 
         jQuery.post(ajaxurl, data, function (response) {
-            //response = JSON.parse(response);
+            response = JSON.parse(response);
             document.getElementById('yasr-import-mr-answer').innerHTML = response;
         });
 
