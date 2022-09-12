@@ -3,7 +3,7 @@ Donate link: https://www.paypal.com/donate/?hosted_button_id=SVTAVUF62QZ4W
 Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo
-Tested up to: 6.0.1
+Tested up to: 6.0.2
 Stable tag: 3.1.2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -205,6 +205,10 @@ Yes, YASR is 100% fully compatible with PHP 8
 == Changelog ==
 
 The full changelog can be found in the plugin's directory. Recent entries:
+
+= 3.1.2 =
+* TWEAKED: added new filters yasr_custom_loader and yasr_custom_loader_url to customize loader
+* FIXED: better ajax response when data is imported from another plugin
 
 = 3.1.1 =
 * FIXED:  Rich snippets fix for "Product itemType". See [#1](https://github.com/Dudo1985/Yet-Another-Stars-Rating/issues/1).

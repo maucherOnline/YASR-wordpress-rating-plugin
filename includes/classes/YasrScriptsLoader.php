@@ -55,7 +55,7 @@ class YasrScriptsLoader {
                  title="yasr-loader" alt="yasr-loader" height="16" width="16">'.
             '</div>';
 
-        //Use this hook to customize loader,
+        //Use this hook to customize loader
         $yasr_visitor_votes_loader     = apply_filters('yasr_custom_loader', $yasr_visitor_votes_loader);
 
         //Use this hook to customize only the loader url
