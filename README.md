@@ -243,6 +243,18 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+### 3.1.2
+* TWEAKED: added new filters yasr_custom_loader and yasr_custom_loader_url to customize loader
+* FIXED: better ajax response when data is imported from another plugin
+
+### 3.1.1
+* FIXED:  Rich snippets fix for "Product itemType". See [#1](https://github.com/Dudo1985/Yet-Another-Stars-Rating/issues/1).
+* TWEAKED: updated Freemius sdk to version 2.4.5
+
+### 3.1.0
+* TWEAKED: A lot of under the hood changes
+* TWEAKED: Updated Freemius sdk to version 2.4.4
+
 ### 3.0.9
 * TWEAKED: code cleanup in gutenberg blocks
 
@@ -252,12 +264,10 @@ The full changelog can be found in the plugin's directory. Recent entries:
 
 
 ### 3.0.7
-
 * FIXED: when the value 0 is entered for the Price the ‘Offers’ field is not displayed in the Schema markup.
 * TWEAKED: minor changes
 
 ### 3.0.6
-
 * FIX: translation for rankings shortcodes
 * FIX: in the classic editor, if Multi Set is used, a duplicate query were run
 * FIX: "Insert Multiset" button in shortcode creator didn't work
@@ -267,7 +277,6 @@ The full changelog can be found in the plugin's directory. Recent entries:
 * TWEAKED: under the hood changes.
 
 ### 3.0.5
-
 * FIX: set_id parameter didn't work in shortcodes yasr_multi_set_ranking and yasr_visitor_multi_set_ranking
 * FIX: rankings didn't show up when post title contains quotation marks ( " )
 * TWEAKED: In the setting page, section "Custom texts" is now renamed in "Customize strings", and it works on two columns
@@ -279,7 +288,6 @@ PREMIUM ONLY:
 [//]: # fs_premium_only_end
 
 ### 3.0.4
-
 * FIX: Author multiset didn't get saved
 * TWEAKED: better error handling
 
