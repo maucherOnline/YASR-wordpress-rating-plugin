@@ -438,12 +438,18 @@ function yasr_ask_rating() {
  * @since 1.9.5
  */
 function yasr_right_settings_panel() {
-    do_action('yasr_right_settings_panel_box');
-    yasr_upgrade_pro_box();
-    yasr_resources_box();
-    yasr_buy_cofee();
-    yasr_related_plugins();
-    yasr_ask_rating();
+    ?>
+    <div id="yasr-settings-panel-right">
+        <?php
+        do_action('yasr_right_settings_panel_box');
+        yasr_upgrade_pro_box();
+        yasr_resources_box();
+        yasr_buy_cofee();
+        yasr_related_plugins();
+        yasr_ask_rating();
+        ?>
+    </div>
+    <?php
 }
 
 

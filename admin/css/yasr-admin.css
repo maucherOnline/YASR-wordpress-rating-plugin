@@ -441,6 +441,12 @@
     text-align: left;
 }
 
+#yasr-settings-panel-right > div {
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    font-size: 14px;
+}
+
 @media (min-width: 1177px) {
 
     .yasr-settingsdiv {
@@ -459,15 +465,13 @@
         border-top: 3px solid #ddd;
     }
 
-    .yasr-donatedivdx {
-        float: right;
+    #yasr-settings-panel-right > div {
+        margin-left: auto;
+        margin-right: 0;
         min-width: 250px;
         width: 15%;
         margin-bottom: 10px;
-        background-color: #FFF;
-        border: 1px solid #DDD;
         padding: 20px;
-        font-size: 14px;
         box-shadow: 0 0 5px 0 rgba(0,0,0,0.15);
     }
 
@@ -488,13 +492,10 @@
         padding-bottom: 5px;
     }
 
-    .yasr-donatedivdx {
+    #yasr-settings-panel-right > div {
         width: 95%;
-        background-color: #FFF;
         margin-top: 10px;
-        border: 1px solid #DDD;
         padding: 10px;
-        font-size: 14px;
     }
 
     .yasr-clear-both-dynamic {

@@ -243,6 +243,9 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+### 3.1.3
+* FIXED: in the settings page, last div didn't float good
+
 ### 3.1.2
 * TWEAKED: added new filters yasr_custom_loader and yasr_custom_loader_url to customize loader
 * FIXED: better ajax response when data is imported from another plugin
