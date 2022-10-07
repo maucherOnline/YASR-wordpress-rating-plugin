@@ -24,35 +24,67 @@ class YasrSettingsMultiset {
             $option_multiset['show_average'] = 'yes';
         }
 
+        $this->addSettingsSections();
+        $this->addSettingsFields($option_multiset);
+
+    }
+
+    /**
+     * Run add_setting_section for the page
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.3
+     */
+    public function addSettingsSections() {
+
+        //Add Section for new multiset
         add_settings_section(
-            'yasr_multiset_forms_section_id',
+            'yasr_new_multiset_form_section_id',
             '',
             '',
-            'yasr_multiset_forms'
+            'yasr_new_multiset_form'
         );
 
+        //Add section for edit multiset
+        add_settings_section(
+            'yasr_edit_multiset_form_section_id',
+            '',
+            '',
+            'yasr_edit_multiset_form'
+        );
+
+        //add section for show/hide average
         add_settings_section(
             'yasr_multiset_options_section_id',
             '',
             '',
             'yasr_multiset_tab'
         );
+    }
 
+    /**
+     * Run addSettingsField for the page
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.3
+     */
+    public function addSettingsFields ($option_multiset) {
         add_settings_field(
             'add_multi_set',
             yasr_multiset_description(),
             array($this, 'formCreateMultiset'),
-            'yasr_multiset_forms',
-            'yasr_multiset_forms_section_id'
+            'yasr_new_multiset_form',
+            'yasr_new_multiset_form_section_id'
         );
 
         add_settings_field(
             'manage_multi_set',
             yasr_manage_multiset_description(),
             array($this, 'formManageMultiset'),
-            'yasr_multiset_forms',
-            'yasr_multiset_forms_section_id'
+            'yasr_edit_multiset_form',
+            'yasr_edit_multiset_form_section_id'
         );
+
         add_settings_field(
             'yasr_multiset_hide_average_id',
             __('Show average?', 'yet-another-stars-rating'),

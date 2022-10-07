@@ -61,28 +61,32 @@ function yasr_display_multi_set_form() {
     </p>
 
     <div>
+        <?php  wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set') //Must be inside the form ?>
 
-           <?php  wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set') //Must be inside the form ?>
+        <strong>
+            <?php esc_html_e("Name", 'yet-another-stars-rating') ?>
+        </strong>
 
-            <strong><?php esc_html_e("Name", 'yet-another-stars-rating') ?></strong>
+        <input type="text" name="multi-set-name" id="new-multi-set-name" class="input-text-multi-set">
+        <br />
 
-            <input type="text" name="multi-set-name" id="new-multi-set-name" class="input-text-multi-set">
-            <br />
+        <?php esc_html_e("You can insert up to nine elements", 'yet-another-stars-rating') ?>
+        <br/>
 
-            <?php esc_html_e("You can insert up to nine elements", 'yet-another-stars-rating') ?>
+        <?php for ($i = 1; $i <= 9; $i ++) {
+            echo '<strong>' . __('Element ', 'yet-another-stars-rating') . "#$i" . "</strong>";
+            ?>
+            <input type="text" name="multi-set-name-element-<?php echo $i ?>" id="multi-set-name-element-<?php echo $i ?>"
+                   class="input-text-multi-set">
             <br/>
 
-            <?php for ($i = 1; $i <= 9; $i ++) {
-                echo "<strong>" . __('Element ', 'yet-another-stars-rating') . "#$i" . "</strong>";
-                ?>
-                <input type="text" name="multi-set-name-element-<?php echo $i ?>" id="multi-set-name-element-<?php echo $i ?>"
-                       class="input-text-multi-set">
-                <br/>
+        <?php } //End foreach ?>
 
-            <?php } //End foreach ?>
-
-            <br/>
-            <input type="submit" value="<?php esc_attr_e("Create New Set", 'yet-another-stars-rating') ?>" class="button-primary"/>
+        <br/>
+        <input type="submit"
+               value="<?php esc_attr_e('Create New Set', 'yet-another-stars-rating') ?>"
+               class="button-primary"
+        />
     </div>
 
     <?php

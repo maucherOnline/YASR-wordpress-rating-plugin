@@ -62,7 +62,15 @@ $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the la
             <form method="post">
                 <?php
                     //There is no setting to save here, I'm using these functions for better UIX
-                    do_settings_sections('yasr_multiset_forms');
+                    do_settings_sections('yasr_new_multiset_form');
+                ?>
+            </form>
+
+            <!-- Must be into another form -->
+            <form method="post">
+                <?php
+                    //There is no setting to save here, I'm using these functions for better UIX
+                    do_settings_sections('yasr_edit_multiset_form');
                 ?>
             </form>
 
