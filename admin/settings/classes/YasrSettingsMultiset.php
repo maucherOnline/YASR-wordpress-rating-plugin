@@ -25,6 +25,13 @@ class YasrSettingsMultiset {
         }
 
         add_settings_section(
+            'yasr_multiset_forms_section_id',
+            '',
+            '',
+            'yasr_multiset_forms'
+        );
+
+        add_settings_section(
             'yasr_multiset_options_section_id',
             '',
             '',
@@ -35,16 +42,16 @@ class YasrSettingsMultiset {
             'add_multi_set',
             yasr_multiset_description(),
             array($this, 'formCreateMultiset'),
-            'yasr_multiset_tab',
-            'yasr_multiset_options_section_id'
+            'yasr_multiset_forms',
+            'yasr_multiset_forms_section_id'
         );
 
         add_settings_field(
             'manage_multi_set',
             yasr_manage_multiset_description(),
             array($this, 'formManageMultiset'),
-            'yasr_multiset_tab',
-            'yasr_multiset_options_section_id'
+            'yasr_multiset_forms',
+            'yasr_multiset_forms_section_id'
         );
         add_settings_field(
             'yasr_multiset_hide_average_id',
@@ -64,6 +71,12 @@ class YasrSettingsMultiset {
         <?php
     }
 
+    /**
+     * Shows a form to edit the Multi Set
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.3
+     */
     public function formManageMultiset() {
         ?>
         <div>
@@ -74,8 +87,14 @@ class YasrSettingsMultiset {
         <?php
     }
 
+    /**
+     * Show option to show/hide average
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.1.3
+     * @param $option_multiset
+     */
     public function hideAverage($option_multiset) {
-
         ?>
 
         <div class="yasr-onoffswitch-big">

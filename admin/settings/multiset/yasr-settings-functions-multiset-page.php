@@ -58,14 +58,23 @@ $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the la
 <div class="yasr-settings-div">
     <h3> <?php esc_html_e('Manage Multi Set', 'yet-another-stars-rating'); ?></h3>
         <div class="yasr-multi-set-choose-theme">
-        <!--This allow to choose if show average or no-->
-        <form action="options.php" method="post" id="yasr_multiset_form">
-            <?php
-            settings_fields('yasr_multiset_options_group');
-            do_settings_sections('yasr_multiset_tab');
-            submit_button(esc_html__('Save', 'yet-another-stars-rating'));
-            ?>
-        </form>
+
+            <form method="post">
+                <?php
+                    //There is no setting to save here, I'm using these functions for better UIX
+                    do_settings_sections('yasr_multiset_forms');
+                ?>
+            </form>
+
+
+            <!--This allow to choose if show average or no, must be inside the form-->
+            <form action="options.php" method="post" id="yasr_multiset_form">
+                <?php
+                settings_fields('yasr_multiset_options_group');
+                do_settings_sections('yasr_multiset_tab');
+                submit_button(esc_html__('Save', 'yet-another-stars-rating'));
+                ?>
+            </form>
     </div>
 
 </div>

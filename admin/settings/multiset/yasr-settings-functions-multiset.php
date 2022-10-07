@@ -61,8 +61,6 @@ function yasr_display_multi_set_form() {
     </p>
 
     <div>
-        <form action="<?php echo admin_url('options-general.php?page=yasr_settings_page&tab=manage_multi') ?>"
-              id="form_add_multi_set" method="post">
 
            <?php  wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set') //Must be inside the form ?>
 
@@ -85,7 +83,6 @@ function yasr_display_multi_set_form() {
 
             <br/>
             <input type="submit" value="<?php esc_attr_e("Create New Set", 'yet-another-stars-rating') ?>" class="button-primary"/>
-        </form>
     </div>
 
     <?php
@@ -138,9 +135,6 @@ function yasr_edit_multi_form() {
         <div class="yasr-manage-multiset-single">
 
             <h4 class="yasr-multi-set-form-headers"><?php esc_html_e("Manage Multiple Set", 'yet-another-stars-rating'); ?></h4>
-
-            <form action=" <?php echo admin_url('options-general.php?page=yasr_settings_page&tab=manage_multi') ?>"
-                  id="form_edit_multi_set" method="post">
 
                 <input type="hidden" name="yasr_edit_multi_set_form" value="<?php echo $set_type ?>"/>
 
@@ -222,8 +216,6 @@ function yasr_edit_multi_form() {
                            value="<?php esc_attr_e('Save changes', 'yet-another-stars-rating') ?>"
                            class="button-primary">
 
-            </form>
-
         </div>
 
         <?php
@@ -257,81 +249,78 @@ function yasr_get_multi_set_callback() {
 
     ?>
 
-    <form action="<?php echo admin_url('options-general.php?page=yasr_settings_page&tab=manage_multi') ?>"
-          id="form_edit_multi_set" method="post">
-        <input type="hidden" name="yasr_edit_multi_set_form" value="<?php echo $set_id ?>"/>
+    <input type="hidden" name="yasr_edit_multi_set_form" value="<?php echo $set_id ?>"/>
 
-        <table id="yasr-table-form-edit-multi-set">
-            <tr>
-                <td id="yasr-table-form-edit-multi-set-header">
-                    <?php esc_html_e('Field name', 'yet-another-stars-rating') ?>
-                </td>
+    <table id="yasr-table-form-edit-multi-set">
+        <tr>
+            <td id="yasr-table-form-edit-multi-set-header">
+                <?php esc_html_e('Field name', 'yet-another-stars-rating') ?>
+            </td>
 
-                <td id="yasr-table-form-edit-multi-set-remove">
-                    <?php esc_html_e('Remove', 'yet-another-stars-rating') ?>
-                </td>
-            </tr>
+            <td id="yasr-table-form-edit-multi-set-remove">
+                <?php esc_html_e('Remove', 'yet-another-stars-rating') ?>
+            </td>
+        </tr>
 
-            <?php
+        <?php
 
-            $i = 1;
+        $i = 1;
 
-            foreach ($set_name as $name) {
-                echo "
-                <tr>
-                    <td width='80%'>
-                        Element #$i <input type='text' value='$name->name' name='edit-multi-set-element-$i'>
-                        <input type='hidden' value='$name->id' name='db-id-for-element-$i'>
-                    </td>
-
-                    <td width='20%' style=\"text-align:center\">
-                        <input type=\"checkbox\" value=\"$name->id\" name=\"remove-element-$i\">
-                    </td>
-                </tr>
-                ";
-                $i ++;
-            }
-
-            $i = $i - 1; //This is the number of the fields
-
+        foreach ($set_name as $name) {
             echo "
-
-            <input type=\"hidden\" name=\"yasr-edit-form-number-elements\" id=\"yasr-edit-form-number-elements\" value=\"$i\">
-
-            </table>
-
-            <table width=\"100%\" class=\"yasr-edit-form-remove-entire-set\">
             <tr>
-
-                <td width=\"80%\">" . __("Remove whole set?", 'yet-another-stars-rating') . "</td>
-
-                <td width=\"20%\" style=\"text-align:center\">
-                    <input type=\"checkbox\" name=\"yasr-remove-multi-set\" value=\"$set_id\">
+                <td width='80%'>
+                    Element #$i <input type='text' value='$name->name' name='edit-multi-set-element-$i'>
+                    <input type='hidden' value='$name->id' name='db-id-for-element-$i'>
                 </td>
 
+                <td width='20%' style=\"text-align:center\">
+                    <input type=\"checkbox\" value=\"$name->id\" name=\"remove-element-$i\">
+                </td>
             </tr>
-
-            </table>
-
             ";
+            $i ++;
+        }
 
-            echo "<p>";
-            esc_html_e("If you remove something you will remove all the votes for that set or field. This operation CAN'T BE undone.", 'yet-another-stars-rating');
-            echo "</p>";
+        $i = $i - 1; //This is the number of the fields
 
-            wp_nonce_field('edit-multi-set', 'add-nonce-edit-multi-set')
+        echo "
 
-            ?>
+        <input type=\"hidden\" name=\"yasr-edit-form-number-elements\" id=\"yasr-edit-form-number-elements\" value=\"$i\">
 
-            <div id="yasr-element-limit"
-                 style="display:none; color:red"><?php esc_html_e("You can use up to 9 elements", 'yet-another-stars-rating') ?></div>
+        </table>
 
-            <input type="button" class="button-delete" id="yasr-add-field-edit-multiset"
-                   value="<?php esc_html_e('Add element', 'yet-another-stars-rating'); ?>">
+        <table width=\"100%\" class=\"yasr-edit-form-remove-entire-set\">
+        <tr>
 
-            <input type="submit" value="<?php esc_attr_e('Save changes', 'yet-another-stars-rating') ?>" class="button-primary">
+            <td width=\"80%\">" . __("Remove whole set?", 'yet-another-stars-rating') . "</td>
 
-    </form>
+            <td width=\"20%\" style=\"text-align:center\">
+                <input type=\"checkbox\" name=\"yasr-remove-multi-set\" value=\"$set_id\">
+            </td>
+
+        </tr>
+
+        </table>
+
+        ";
+
+        echo "<p>";
+        esc_html_e("If you remove something you will remove all the votes for that set or field. This operation CAN'T BE undone.", 'yet-another-stars-rating');
+        echo "</p>";
+
+        wp_nonce_field('edit-multi-set', 'add-nonce-edit-multi-set')
+
+        ?>
+
+        <div id="yasr-element-limit"
+             style="display:none; color:red"><?php esc_html_e("You can use up to 9 elements", 'yet-another-stars-rating') ?></div>
+
+        <input type="button" class="button-delete" id="yasr-add-field-edit-multiset"
+               value="<?php esc_html_e('Add element', 'yet-another-stars-rating'); ?>">
+
+        <input type="submit" value="<?php esc_attr_e('Save changes', 'yet-another-stars-rating') ?>" class="button-primary">
+
 
     <?php
 
