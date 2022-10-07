@@ -186,13 +186,16 @@ function yasr_description_allow_vote() {
  * @return string
  */
 function yasr_multiset_description () {
+    $title = esc_html__('What is a Multi Set?', 'yet-another-stars-rating');
+
     $div = '<div class="yasr-settings-description">';
 
     $description = sprintf(
         esc_html__('A Multi Set allows you to insert a rating for each aspect of your review (up to nine rows), %s
                     %s example%s . %s
                     It is possible to create up to 99 different Multi Set. %s Once you\'ve saved it, you can insert 
-                    the rates while typing your article in the %sbox below the editor.%s',
+                    the rates while typing your article in the %s box below the editor.%s %s
+                    See it in action %s here%s .',
             'yet-another-stars-rating'
         ),
         '<br />',
@@ -201,10 +204,13 @@ function yasr_multiset_description () {
         '<br />',
         '<br />',
         '<a href='.esc_url(YASR_IMG_DIR . 'yasr-multi-set-insert-rating.png') .' target="_blank">',
+        '</a>',
+        '<br />',
+        '<a href='.esc_url("https://yetanotherstarsrating.com/yasr-shortcodes/#yasr-multiset-shortcodes?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr_newmultiset_desc") .'  target="_blank">',
         '</a>'
     );
 
-    return $div .$description . '</div>';
+    return $title.$div.$description . '</div>';
 
 }
 

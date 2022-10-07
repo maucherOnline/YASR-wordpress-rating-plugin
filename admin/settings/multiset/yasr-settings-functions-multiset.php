@@ -91,17 +91,16 @@ function yasr_edit_multi_form() {
 
     $multi_set = YasrMultiSetData::returnMultiSetNames();
 
-    $n_multi_set = (int)$wpdb->num_rows; //wpdb->num_rows always store the last of the last query
+    $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the last query
 
     if ($n_multi_set > 1) {
         ?>
 
         <div class="yasr-manage-multiset">
-            <h4 class="yasr-multi-set-form-headers">
-                <?php esc_html_e('Manage Multiple Set', 'yet-another-stars-rating'); ?>
-            </h4>
 
             <?php esc_html_e('Wich set do you want to edit or remove?', 'yet-another-stars-rating') ?>
+
+            <br />
 
             <select id="yasr_select_edit_set">
                 <?php foreach ($multi_set as $name) { ?>
