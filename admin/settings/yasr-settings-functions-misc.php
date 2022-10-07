@@ -178,6 +178,52 @@ function yasr_description_allow_vote() {
     return $name . $div_desc . $description . $end_div;
 }
 
+/**
+ * Describe what is a Multiset in the setting page
+ *
+ * @author Dario Curvino <@dudo>
+ * @since  3.1.3
+ * @return string
+ */
+function yasr_multiset_description () {
+    $div = '<div class="yasr-settings-description">';
+
+    $description = sprintf(
+        esc_html__('A Multi Set allows you to insert a rating for each aspect of your review (up to nine rows), %s
+                    %s example%s . %s
+                    It is possible to create up to 99 different Multi Set. %s Once you\'ve saved it, you can insert 
+                    the rates while typing your article in the %sbox below the editor.%s',
+            'yet-another-stars-rating'
+        ),
+        '<br />',
+        '<a href='.esc_url(YASR_IMG_DIR . 'yasr-multi-set.png') .'  target="_blank">',
+        '</a>',
+        '<br />',
+        '<br />',
+        '<a href='.esc_url(YASR_IMG_DIR . 'yasr-multi-set-insert-rating.png') .' target="_blank">',
+        '</a>'
+    );
+
+    return $div .$description . '</div>';
+
+}
+
+/**
+ * Description for setting field "edit multiset"
+ *
+ * @author Dario Curvino <@dudo>
+ * @since  3.1.3
+ * @return string
+ */
+function yasr_manage_multiset_description() {
+    $title = esc_html__('Manage Multi Set', 'yet-another-stars-rating');
+
+    $div = '<div class="yasr-settings-description">';
+
+    $description = esc_html__('Add or remove an element, or the entire set,');
+
+    return $title.$div.$description.'</div>';
+}
 
 /**
  * @author Dario Curvino <@dudo>

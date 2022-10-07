@@ -40,6 +40,9 @@ class YasrSettings {
         //include multiset functions
         require(YASR_ABSOLUTE_PATH_ADMIN . '/settings/multiset/yasr-settings-functions-multiset.php');
 
+        $multiset = new YasrSettingsMultiset();
+        $multiset->init();
+
         //include style functions
         require(YASR_ABSOLUTE_PATH_ADMIN . '/settings/aspect_style/yasr-settings-style-functions.php');
 

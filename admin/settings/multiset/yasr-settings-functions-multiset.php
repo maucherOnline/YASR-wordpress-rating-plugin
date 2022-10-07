@@ -24,63 +24,6 @@ if (!defined('ABSPATH')) {
 
 /**************** Add yasr multiset options and settings ************/
 
-add_action('admin_init', 'yasr_multiset_options_init'); //This is for general options
-
-function yasr_multiset_options_init() {
-    register_setting(
-        'yasr_multiset_options_group', // A settings group name. Must exist prior to the register_setting call. This must match the group name in settings_fields()
-        'yasr_multiset_options', //The name of an option to sanitize and save.
-        'yasr_sanitize_multiset_options'
-    );
-
-    $option_multiset = get_option('yasr_multiset_options');
-
-    if ($option_multiset === false) {
-        $option_multiset = array(
-                'show_average' => 'no'
-        );
-    }
-
-    if (!isset($option_multiset['show_average'])) {
-        $option_multiset['show_average'] = 'yes';
-    }
-
-    add_settings_section('yasr_multiset_options_section_id', '', 'yasr_multiset_section_callback', 'yasr_multiset_tab');
-    add_settings_field('yasr_multiset_hide_average_id', __('Show average?', 'yet-another-stars-rating'), 'yasr_multiset_hide_average_callback', 'yasr_multiset_tab', 'yasr_multiset_options_section_id', $option_multiset);
-
-}
-
-function yasr_multiset_section_callback() {
-    //Silence
-}
-
-function yasr_multiset_hide_average_callback($option_multiset) {
-
-    ?>
-
-    <div class="yasr-onoffswitch-big">
-        <input type="checkbox" name="yasr_multiset_options[show_average]" class="yasr-onoffswitch-checkbox"
-               id="yasr-multiset-options-show-average-switch" <?php if ($option_multiset['show_average'] === 'yes') {
-            echo " checked='checked' ";
-        } ?> >
-        <label class="yasr-onoffswitch-label" for="yasr-multiset-options-show-average-switch">
-            <span class="yasr-onoffswitch-inner"></span>
-            <span class="yasr-onoffswitch-switch"></span>
-        </label>
-    </div>
-
-    <br/>
-
-    <br/>
-
-    <?php
-
-    esc_html_e('If you select no, the "Average" row will not be displayed. 
-        You can override this in the single multi set by using the parameter "show_average"',
-        'yet-another-stars-rating');
-
-}
-
 
 function yasr_sanitize_multiset_options($option_multiset) {
 
