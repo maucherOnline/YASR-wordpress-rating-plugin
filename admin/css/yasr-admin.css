@@ -690,16 +690,7 @@
 
 .yasr-multi-set-form-headers {
     text-align: center;
-}
-
-.yasr-multi-set-left {
-    float: left;
-    width: 40%;
-}
-
-.yasr-multi-set-right {
-    float: right;
-    width: 55%;
+    font-weight: 600;
 }
 
 .yasr-new-multi-set {

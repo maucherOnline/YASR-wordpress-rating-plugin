@@ -103,9 +103,12 @@ function yasr_sanitize_multiset_options($option_multiset) {
 function yasr_display_multi_set_form() {
     ?>
 
-    <h4 class="yasr-multi-set-form-headers">
-        <?php esc_html_e("Add New Multiple Set", 'yet-another-stars-rating'); ?>
-    </h4>
+    <div class="yasr-multi-set-form-headers">
+        <span>
+            <?php esc_html_e('Add new Multi Set', 'yet-another-stars-rating'); ?>
+        </span>
+    </div>
+
 
     <p>
         <em>
@@ -158,7 +161,9 @@ function yasr_edit_multi_form() {
         ?>
 
         <div class="yasr-manage-multiset">
-            <h4 class="yasr-multi-set-form-headers"><?php esc_html_e("Manage Multiple Set", 'yet-another-stars-rating'); ?></h4>
+            <h4 class="yasr-multi-set-form-headers">
+                <?php esc_html_e('Manage Multiple Set', 'yet-another-stars-rating'); ?>
+            </h4>
 
             <?php esc_html_e('Wich set do you want to edit or remove?', 'yet-another-stars-rating') ?>
 
