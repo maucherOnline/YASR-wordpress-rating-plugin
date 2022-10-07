@@ -225,6 +225,13 @@ function yasr_manage_multiset_description() {
     return $title.$div.$description.'</div>';
 }
 
+/**
+ * Show the description for "Show average" row in multi set setting page
+ *
+ * @author Dario Curvino <@dudo>
+ * @since  3.1.3
+ * @return string
+ */
 function yasr_show_average_multiset_description () {
     $title = esc_html__('Show average?', 'yet-another-stars-rating');
 

@@ -52,14 +52,6 @@ function yasr_display_multi_set_form() {
         </span>
     </div>
 
-
-    <p>
-        <em>
-        <?php esc_html_e('Name, Element#1 and Element#2 MUST be filled and must be long at least 3 characters',
-            'yet-another-stars-rating') ?>
-        </em>
-    </p>
-
     <div>
         <?php  wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set') //Must be inside the form ?>
 

@@ -130,7 +130,7 @@ class YasrMetaboxBelowEditor {
     public function addMultisetTab() {
         ?>
         <a href="#" id="yasr-metabox-below-editor-multiset-tab" class="nav-tab yasr-nav-tab">
-            <?php esc_html_e('Multi Sets', 'yet-another-stars-rating'); ?>
+            <?php esc_html_e('Multi Set', 'yet-another-stars-rating'); ?>
         </a>
         <?php
     }
@@ -249,9 +249,10 @@ class YasrMetaboxBelowEditor {
                         'yet-another-stars-rating' );
                     ?>
                     <span title="<?php esc_attr_e('Copy Shortcode', 'yet-another-stars-rating') ?>">
-                <code id="yasr-editor-copy-visitor-multiset"
-                      class="yasr-copy-shortcode">[yasr_visitor_multiset setid=<span class="yasr-editor-multiset-id"></span>]</code>
-            </span>
+                        <code id="yasr-editor-copy-visitor-multiset"
+                              class="yasr-copy-shortcode">[yasr_visitor_multiset setid=<span class="yasr-editor-multiset-id"></span>]
+                        </code>
+                    </span>
 
                     <br />
                     <?php esc_html_e('This is just a preview, you can\'t vote here.', 'yet-another-stars-rating');?>

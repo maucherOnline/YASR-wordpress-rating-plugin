@@ -52,11 +52,17 @@ class YasrMultiSet extends YasrShortcode {
     /**
      * @return string | bool
      */
-    public function printMultiset () {
+    public function printMultiset ($post_id = null, $set_id = null) {
+        if($post_id === null) {
+            $post_id = $this->post_id;
+        }
+        if($set_id === null) {
+            $set_id = $this->set_id;
+        }
 
         $this->shortcode_html = '<!-- Yasr Multi Set Shortcode-->';
 
-        $multiset_content = YasrMultiSetData::returnMultisetContent($this->post_id, $this->set_id);
+        $multiset_content = YasrMultiSetData::returnMultisetContent($post_id, $set_id);
 
         if ($multiset_content === false) {
             return $this->returnErrorData('<!-- Yasr Multi Set Shortcode-->');
