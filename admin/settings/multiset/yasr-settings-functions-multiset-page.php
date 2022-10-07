@@ -65,14 +65,24 @@ $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the la
             <th scope="row">
                 <div class="yasr-settings-description">
                     <?php
-                        esc_html_e('A Multi Set allows you to insert a rating for each aspect of your review (up to nine rows).',
-                        'yet-another-stars-rating');
-                    ?>
-                    <br />
-                    <?php
-                        esc_html_e('It is possible to create up to 99 different Multi Set. Once you\'ve saved it, you can insert 
-                        the rates while typing your article in the box below the editor, as you can see in this image (click to see it larger)',
-                        'yet-another-stars-rating');
+                    $description = sprintf(
+                        esc_html__('A Multi Set allows you to insert a rating for each aspect of your review (up to nine rows), %s
+                        %s example %s . %s
+                        It is possible to create up to 99 different Multi Set. %s Once you\'ve saved it, you can insert 
+                        the rates while typing your article in the %sbox below the editor.%s',
+                            'yet-another-stars-rating'
+                        ),
+                        '<br />',
+                                 '<a href='.esc_url(YASR_IMG_DIR . 'yasr-multi-set.png') .'>',
+                                 '</a>',
+                                 '<br />',
+                                 '<br />',
+                                 '<a href='.esc_url(YASR_IMG_DIR . 'yasr-multi-set-insert-rating.png') .'>',
+                                 '</a>'
+                    );
+
+                    echo $description;
+
                     ?>
                 </div>
             </th>
@@ -83,41 +93,6 @@ $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the la
                         <?php yasr_display_multi_set_form(); ?>
                     </div>
                 </div>
-
-                <?php /*
-                <div class="yasr-multi-set-right">
-                    <div id="yasr-multi-set-doc-box" >
-                        <?php esc_html_e(
-                            "Multi Set allows you to insert a rate for each aspect about the product / local business / 
-                            whetever you're reviewing, example in the image below.",
-                            'yet-another-stars-rating'
-                        );
-
-                        echo "<br /><br /><img src=" . YASR_IMG_DIR . "/yasr-multi-set.png alt='multiset'> <br /> <br />";
-
-                        esc_html_e(
-                            "You can create up to 99 different Multi Set and each one can contain up to 9 different fields. 
-                        Once you've saved it, you can insert the rates while typing your article in the box below the editor, 
-                        as you can see in this image (click to see it larger)",
-                            'yet-another-stars-rating'
-                        );
-
-                        echo "<br /><br /><a href=\"" . YASR_IMG_DIR . "yasr-multi-set-insert-rate.jpg\"><img src=" . YASR_IMG_DIR . "/yasr-multi-set-insert-rate-small.jpg></a> <br /> <br />";
-
-                        esc_html_e(
-                            'In order to insert your Multi Sets into a post or page, you can either past the short code that will 
-                        appear at the bottom of the box or just click on the star in the graphic editor and select "Insert Multi Set".',
-                            'yet-another-stars-rating'
-                        );
-
-                        ?>
-                        <br/> <br/>
-                        <a href="#" id="yasr-multi-set-doc-link-hide">
-                            <?php esc_html_e("Close this message", 'yet-another-stars-rating') ?>
-                        </a>
-                    </div>
-                </div>
-                */
                 ?>
             </td>
         </tr>
