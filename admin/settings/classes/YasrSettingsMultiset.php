@@ -87,7 +87,7 @@ class YasrSettingsMultiset {
 
         add_settings_field(
             'yasr_multiset_hide_average_id',
-            __('Show average?', 'yet-another-stars-rating'),
+            yasr_show_average_multiset_description(),
             array($this, 'hideAverage'),
             'yasr_multiset_tab',
             'yasr_multiset_options_section_id',
@@ -140,15 +140,7 @@ class YasrSettingsMultiset {
             </label>
         </div>
 
-        <br/>
-
-        <br/>
-
         <?php
-
-        esc_html_e('If you select no, the "Average" row will not be displayed. 
-        You can override this in the single multi set by using the parameter "show_average"',
-            'yet-another-stars-rating');
 
     }
 

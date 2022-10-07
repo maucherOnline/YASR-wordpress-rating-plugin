@@ -220,7 +220,19 @@ function yasr_manage_multiset_description() {
 
     $div = '<div class="yasr-settings-description">';
 
-    $description = esc_html__('Add or remove an element, or the entire set,');
+    $description = esc_html__('Add or remove an element, or the entire set.');
+
+    return $title.$div.$description.'</div>';
+}
+
+function yasr_show_average_multiset_description () {
+    $title = esc_html__('Show average?', 'yet-another-stars-rating');
+
+    $div = '<div class="yasr-settings-description">';
+
+    $description = esc_html__('If you select no, the "Average" row will not be displayed. 
+        You can override this in the single multi set by using the parameter "show_average".',
+        'yet-another-stars-rating');
 
     return $title.$div.$description.'</div>';
 }
