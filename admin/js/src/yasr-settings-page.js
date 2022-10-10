@@ -70,7 +70,44 @@ if (activeTab === 'style_options') {
 
 //--------------Multi Sets Page ------------------
 if (activeTab === 'manage_multi') {
-    let nMultiSet = parseInt(document.getElementById('n-multiset').value);
+    let   nMultiSet          = parseInt(document.getElementById('n-multiset').value);
+    const newElementButton   = document.getElementById('yasr-multiset-page-new-criteria-button');
+
+    /**
+     * This happens when "Add new Criteria is clicked"
+     *
+     * @param event
+     */
+    newElementButton.onclick = function (event) {
+        event.preventDefault();
+
+        let   nCriteria   = parseInt(newElementButton.value);
+
+        //Row number must be >= 5 and < 9
+        if(nCriteria < 5 || nCriteria > 9 ) {
+            return;
+        }
+
+        //Create the div
+        const newCriteria = document.createElement('div');
+
+        newCriteria.innerHTML = `
+            <div class="yasr-multiset-page-criteria-container">
+                <label for="multi-set-name-element-${nCriteria}">
+                    <span>#${nCriteria}</span>
+                </label>
+                <input type="text"
+                    name="multi-set-name-element-${nCriteria}"
+                    id="multi-set-name-element-${nCriteria}"
+                    class="input-text-multi-set"
+                    placeholder="New Criteria"'
+                />
+            </div>`;
+
+        document.getElementById('yasr-multiset-page-new-set-container').appendChild(newCriteria);
+
+        newElementButton.value = nCriteria + 1;
+    }
 
     if (nMultiSet === 1) {
         var counter = jQuery("#yasr-edit-form-number-elements").attr('value');

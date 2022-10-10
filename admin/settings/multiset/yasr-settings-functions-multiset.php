@@ -72,47 +72,51 @@ function yasr_display_multi_set_form() {
                 </div>
             </div>
 
-            <?php
+            <div id="yasr-multiset-page-new-set-container">
+                <?php
+                    for ($i = 1; $i <= 4; $i ++) {
+                        $element_n =  esc_html__('Element ', 'yet-another-stars-rating') . '#'.$i;
+                        $name      = 'multi-set-name-element-'.$i;
+                        $id        = 'multi-set-name-element-'.$i;
 
-                for ($i = 1; $i <= 4; $i ++) {
-                    $element_n =  esc_html__('Element ', 'yet-another-stars-rating') . '#'.$i;
-                    $name      = 'multi-set-name-element-'.$i;
-                    $id        = 'multi-set-name-element-'.$i;
+                        if($i === 1) {
+                            $placeholder = 'Story';;
+                        }
+                        elseif($i === 2) {
+                            $placeholder = 'Gameplay';
+                        }
+                        elseif($i === 3) {
+                            $placeholder = 'Graphics';
+                        }
+                        elseif($i === 4) {
+                            $placeholder = 'Sound';
+                        }
+                        else {
+                            $placeholder = $element_n;
+                        }
 
-                    if($i === 1) {
-                        $placeholder = 'Story';;
-                    }
-                    elseif($i === 2) {
-                        $placeholder = 'Gameplay';
-                    }
-                    elseif($i === 3) {
-                        $placeholder = 'Graphics';
-                    }
-                    elseif($i === 4) {
-                        $placeholder = 'Sound';
-                    }
-                    else {
-                        $placeholder = $element_n;
-                    }
-
-                    ?>
-                    <div class="yasr-multiset-page-criteria-container">
-                        <?php echo '#'.$i; ?>
-                        <label for="<?php echo $id ?>"></label>
-                        <input type="text"
-                            name="<?php echo $name ?>"
-                            id="<?php echo $id ?>"
-                            class="input-text-multi-set"
-                            placeholder="<?php echo $placeholder ?>"
-                        >
-                    </div>
-                    <?php
-                } //End foreach
-            ?>
+                        ?>
+                        <div class="yasr-multiset-page-criteria-container">
+                            <label for="<?php echo $id ?>">
+                                <span><?php echo '#'.$i; ?></span>
+                            </label>
+                            <input type="text"
+                                name="<?php echo $name ?>"
+                                id="<?php echo $id ?>"
+                                class="input-text-multi-set"
+                                placeholder="<?php echo $placeholder ?>"
+                            >
+                        </div>
+                        <?php
+                    } //End foreach
+                ?>
+            </div>
 
             <div>
-                <span class="dashicons dashicons-plus-alt"></span>
-                <?php esc_html_e('Add new Criteria', 'yet-another-stars-rating'); ?>
+                <button class="button-secondary" value="5" id="yasr-multiset-page-new-criteria-button">
+                    <span class="dashicons dashicons-plus-alt" style="line-height: 1.4"></span>
+                    <?php esc_html_e('Add new Criteria', 'yet-another-stars-rating'); ?>
+                </button>
             </div>
 
         </div>
