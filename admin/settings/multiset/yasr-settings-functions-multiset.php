@@ -56,7 +56,7 @@ function yasr_display_multi_set_form() {
         <?php  wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set') //Must be inside the form ?>
 
         <div>
-            <div>
+            <div class="yasr-multiset-page-criteria-container">
                 <strong>
                     <?php esc_html_e('Name', 'yet-another-stars-rating') ?>
                 </strong>
@@ -72,11 +72,9 @@ function yasr_display_multi_set_form() {
                 </div>
             </div>
 
-            <br />
-
             <?php
 
-                for ($i = 1; $i <= 9; $i ++) {
+                for ($i = 1; $i <= 4; $i ++) {
                     $element_n =  esc_html__('Element ', 'yet-another-stars-rating') . '#'.$i;
                     $name      = 'multi-set-name-element-'.$i;
                     $id        = 'multi-set-name-element-'.$i;
@@ -98,7 +96,7 @@ function yasr_display_multi_set_form() {
                     }
 
                     ?>
-                    <div>
+                    <div class="yasr-multiset-page-criteria-container">
                         <?php echo '#'.$i; ?>
                         <label for="<?php echo $id ?>"></label>
                         <input type="text"
@@ -108,17 +106,25 @@ function yasr_display_multi_set_form() {
                             placeholder="<?php echo $placeholder ?>"
                         >
                     </div>
-                    <br/>
                     <?php
                 } //End foreach
             ?>
-        </div>
 
-        <br/>
-        <input type="submit"
-               value="<?php esc_attr_e('Create New Set', 'yet-another-stars-rating') ?>"
-               class="button-primary"
-        />
+            <div>
+                <span class="dashicons dashicons-plus-alt"></span>
+                <?php esc_html_e('Add new Criteria', 'yet-another-stars-rating'); ?>
+            </div>
+
+        </div>
+        <br />
+        <div>
+            <p>
+                <input type="submit"
+                       value="<?php esc_attr_e('Create New Set', 'yet-another-stars-rating') ?>"
+                       class="button-primary"
+                />
+            </p>
+        </div>
     </div>
 
     <?php

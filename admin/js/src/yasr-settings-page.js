@@ -72,14 +72,6 @@ if (activeTab === 'style_options') {
 if (activeTab === 'manage_multi') {
     let nMultiSet = parseInt(document.getElementById('n-multiset').value);
 
-    jQuery('#yasr-multi-set-doc-link').on('click', function () {
-        jQuery('#yasr-multi-set-doc-box').toggle("slow");
-    });
-
-    jQuery('#yasr-multi-set-doc-link-hide').on('click', function () {
-        jQuery('#yasr-multi-set-doc-box').toggle("slow");
-    });
-
     if (nMultiSet === 1) {
         var counter = jQuery("#yasr-edit-form-number-elements").attr('value');
 
@@ -103,7 +95,7 @@ if (activeTab === 'manage_multi') {
 
     else if (nMultiSet > 1) {
 
-        //If more then 1 set is used...
+        //If more than 1 set is used...
         jQuery('#yasr-button-select-set-edit-form').on("click", function () {
 
             var data = {
