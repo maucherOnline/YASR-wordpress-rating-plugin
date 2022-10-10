@@ -40,7 +40,7 @@ function yasr_settings_tabs($active_tab) {
            class="nav-tab <?php if ($active_tab === 'manage_multi') {
                echo 'nav-tab-active';
            } ?>">
-            <?php esc_html_e('Multi Sets', 'yet-another-stars-rating'); ?>
+            <?php esc_html_e('Multi Criteria', 'yet-another-stars-rating'); ?>
         </a>
 
         <a href="?page=yasr_settings_page&tab=rankings"
@@ -186,27 +186,22 @@ function yasr_description_allow_vote() {
  * @return string
  */
 function yasr_multiset_description () {
-    $title = esc_html__('What is a Multi Set?', 'yet-another-stars-rating');
+    $title = esc_html__('Multi-criteria based rating system.', 'yet-another-stars-rating');
 
     $div = '<div class="yasr-settings-description">';
 
     $description = sprintf(
-        esc_html__('A Multi Set allows you to insert a rating for each aspect of your review (up to nine rows), %s
-                    %s example%s . %s
-                    It is possible to create up to 99 different Multi Set. %s Once you\'ve saved it, you can insert 
+        esc_html__('A Multi-criteria set allows you to insert a rating for each aspect of your review (up to nine rows).
+                    %s Once you\'ve saved it, you can insert 
                     the rates while typing your article in the %s box below the editor.%s %s
                     See it in action %s here%s .',
             'yet-another-stars-rating'
         ),
         '<br />',
-        '<a href='.esc_url(YASR_IMG_DIR . 'yasr-multi-set.png') .'  target="_blank">',
-        '</a>',
-        '<br />',
-        '<br />',
         '<a href='.esc_url(YASR_IMG_DIR . 'yasr-multi-set-insert-rating.png') .' target="_blank">',
         '</a>',
         '<br />',
-        '<a href='.esc_url("https://yetanotherstarsrating.com/yasr-shortcodes/#yasr-multiset-shortcodes?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr_newmultiset_desc") .'  target="_blank">',
+        '<a href='.esc_url("https://yetanotherstarsrating.com/yasr-shortcodes/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr_newmultiset_desc#yasr-multiset-shortcodes") .'  target="_blank">',
         '</a>'
     );
 

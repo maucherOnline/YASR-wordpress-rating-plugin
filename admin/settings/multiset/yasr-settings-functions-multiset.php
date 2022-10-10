@@ -47,9 +47,9 @@ function yasr_display_multi_set_form() {
     ?>
 
     <div class="yasr-multi-set-form-headers">
-        <span>
+        <p>
             <?php esc_html_e('Add new Multi Set', 'yet-another-stars-rating'); ?>
-        </span>
+        </p>
     </div>
 
     <div>

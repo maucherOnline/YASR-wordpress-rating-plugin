@@ -57,7 +57,6 @@ $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the la
 
 <div class="yasr-settings-div">
 
-    <h3> <?php esc_html_e('Manage Multi Set', 'yet-another-stars-rating'); ?></h3>
     <div>
         <form method="post">
             <?php
