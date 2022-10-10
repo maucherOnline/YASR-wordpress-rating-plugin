@@ -47,32 +47,72 @@ function yasr_display_multi_set_form() {
     ?>
 
     <div class="yasr-multi-set-form-headers">
-        <p>
+        <h3>
             <?php esc_html_e('Add new Multi Set', 'yet-another-stars-rating'); ?>
-        </p>
+        </h3>
     </div>
 
     <div>
         <?php  wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set') //Must be inside the form ?>
 
-        <strong>
-            <?php esc_html_e("Name", 'yet-another-stars-rating') ?>
-        </strong>
+        <div>
+            <div>
+                <strong>
+                    <?php esc_html_e('Name', 'yet-another-stars-rating') ?>
+                </strong>
 
-        <input type="text" name="multi-set-name" id="new-multi-set-name" class="input-text-multi-set">
-        <br />
+                <div>
+                    <label for="new-multi-set-name"></label>
+                    <input type="text"
+                           name="multi-set-name"
+                           id="new-multi-set-name"
+                           class="input-text-multi-set"
+                           placeholder="e.g. Videogame"
+                    >
+                </div>
+            </div>
 
-        <?php esc_html_e("You can insert up to nine elements", 'yet-another-stars-rating') ?>
-        <br/>
+            <br />
 
-        <?php for ($i = 1; $i <= 9; $i ++) {
-            echo '<strong>' . __('Element ', 'yet-another-stars-rating') . "#$i" . "</strong>";
+            <?php
+
+                for ($i = 1; $i <= 9; $i ++) {
+                    $element_n =  esc_html__('Element ', 'yet-another-stars-rating') . '#'.$i;
+                    $name      = 'multi-set-name-element-'.$i;
+                    $id        = 'multi-set-name-element-'.$i;
+
+                    if($i === 1) {
+                        $placeholder = 'Story';;
+                    }
+                    elseif($i === 2) {
+                        $placeholder = 'Gameplay';
+                    }
+                    elseif($i === 3) {
+                        $placeholder = 'Graphics';
+                    }
+                    elseif($i === 4) {
+                        $placeholder = 'Sound';
+                    }
+                    else {
+                        $placeholder = $element_n;
+                    }
+
+                    ?>
+                    <div>
+                        <?php echo '#'.$i; ?>
+                        <label for="<?php echo $id ?>"></label>
+                        <input type="text"
+                            name="<?php echo $name ?>"
+                            id="<?php echo $id ?>"
+                            class="input-text-multi-set"
+                            placeholder="<?php echo $placeholder ?>"
+                        >
+                    </div>
+                    <br/>
+                    <?php
+                } //End foreach
             ?>
-            <input type="text" name="multi-set-name-element-<?php echo $i ?>" id="multi-set-name-element-<?php echo $i ?>"
-                   class="input-text-multi-set">
-            <br/>
-
-        <?php } //End foreach ?>
+        </div>
 
         <br/>
         <input type="submit"
