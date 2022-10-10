@@ -104,7 +104,7 @@ if (activeTab === 'manage_multi') {
                 />
             </div>`;
 
-        document.getElementById('yasr-multiset-page-new-set-container').appendChild(newCriteria);
+        document.getElementById('yasr-multiset-page-new-set-criteria-container').appendChild(newCriteria);
 
         newElementButton.value = nCriteria + 1;
     }
