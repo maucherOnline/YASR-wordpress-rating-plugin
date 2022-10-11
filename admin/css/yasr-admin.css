@@ -690,6 +690,9 @@
 
 .yasr-multi-set-form-headers {
     font-weight: 600;
+    color: #1d2327;
+    font-size: 1.3em;
+    margin-bottom: 10px;
 }
 
 .yasr-new-multi-set {
@@ -699,10 +702,27 @@
     border: 1px solid #DDD;
 }
 
+#yasr-multiset-page-new-set-criteria-name {
+    width: 70%;
+}
+
 .yasr-multiset-page-new-set-criteria-row input[type=text] {
     width: 80%;
     border-radius: 0;
     margin-bottom: 20px;
+    border-top: none;
+    border-right: none;
+
+}
+
+.yasr-new-multi-set input[type=text]:required {
+    border-left: 2px solid #FEB209;
+    /*box-shadow: inset 3px 0 0 #FEB209;*/
+}
+
+.yasr-multiset-info {
+    vertical-align: -moz-middle-with-baseline;
+    vertical-align: -webkit-baseline-middle;
 }
 
 .yasr-manage-multiset {

@@ -104,23 +104,25 @@ class YasrSettingsMultiset {
     public function formCreateMultiset () {
         ?>
         <div class="yasr-new-multi-set">
-            <div style="width: 50%;">
+            <div style="width: 70%;">
                 <div class="yasr-multi-set-form-headers">
-                    <h3>
-                        <?php esc_html_e('Add new Multi Set', 'yet-another-stars-rating'); ?>
-                    </h3>
+                    <?php esc_html_e('Add new Multi Set', 'yet-another-stars-rating'); ?>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <span style="color: #FEB209; font-size: x-large"> | </span> = required
                 </div>
 
                 <div>
-                    <?php  wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set') //Must be inside the form ?>
+                    <?php
+                        wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set'); //Must be inside the form
+                        $multiset_name_info = esc_html__('Unique name to identify your set.', 'yet-another-stars-rating');
+                    ?>
                     <div>
-                        <div style="margin-bottom: 20px">
-                            <strong>
-                                <?php esc_html_e('Name', 'yet-another-stars-rating') ?>
-                            </strong>
-
-                            <div>
-                                <label for="new-multi-set-name"></label>
+                        <div>
+                            <br />
+                            <div id="yasr-multiset-page-new-set-criteria-name" class="yasr-multiset-page-new-set-criteria-row">
+                                <label for="new-multi-set-name">
+                                </label>
                                 <input type="text"
                                        name="multi-set-name"
                                        id="new-multi-set-name"
@@ -128,6 +130,8 @@ class YasrSettingsMultiset {
                                        placeholder="e.g. Videogame"
                                        required
                                 >
+                                <span class="dashicons dashicons-info yasr-multiset-info"
+                                      title="<?php echo esc_attr($multiset_name_info) ?>"></span>
                             </div>
                         </div>
 
