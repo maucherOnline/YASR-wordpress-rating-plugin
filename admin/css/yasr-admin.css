@@ -712,12 +712,24 @@
     margin-bottom: 20px;
     border-top: none;
     border-right: none;
-
 }
 
 .yasr-new-multi-set input[type=text]:required {
     border-left: 2px solid #FEB209;
-    /*box-shadow: inset 3px 0 0 #FEB209;*/
+}
+
+.yasr-new-multi-set input[type=text]:required:focus {
+    border-left: 2px solid #FEB209;
+}
+
+.yasr-new-multi-set input[type=text]:focus {
+    box-shadow: none;
+    border-bottom: 1px solid #646970;
+    border-left: 1px solid #8c8f94;
+}
+
+.yasr-new-multi-set input[type=text]:focus::placeholder {
+    color:transparent;
 }
 
 .yasr-multiset-info {
