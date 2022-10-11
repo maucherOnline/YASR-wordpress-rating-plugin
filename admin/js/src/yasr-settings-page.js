@@ -92,7 +92,7 @@ if (activeTab === 'manage_multi') {
         const newCriteria = document.createElement('div');
 
         newCriteria.innerHTML = `
-            <div class="yasr-multiset-page-criteria-container">
+            <div class="yasr-multiset-page-new-set-criteria-row">
                 <label for="multi-set-name-element-${nCriteria}">
                     <span>#${nCriteria}</span>
                 </label>
