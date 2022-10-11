@@ -196,7 +196,7 @@ class YasrSettingsMultiset {
                     ?>
                     <div class="yasr-multiset-page-new-set-criteria-row">
                         <label for="<?php echo esc_attr($id); ?>">
-                            <span><?php echo '#'.esc_attr($i); ?></span>
+                            <span class="yasr-sort-criteria dashicons dashicons-menu"></span>
                         </label>
                         <input type="text"
                                name="<?php echo esc_attr($name); ?>"

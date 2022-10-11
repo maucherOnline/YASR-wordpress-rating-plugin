@@ -94,7 +94,7 @@ if (activeTab === 'manage_multi') {
         newCriteria.innerHTML = `
             <div class="yasr-multiset-page-new-set-criteria-row">
                 <label for="multi-set-name-element-${nCriteria}">
-                    <span>#${nCriteria}</span>
+                     <span class="yasr-sort-criteria dashicons dashicons-menu"></span>
                 </label>
                 <input type="text"
                     name="multi-set-name-element-${nCriteria}"

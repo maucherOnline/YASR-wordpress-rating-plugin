@@ -737,6 +737,11 @@
     vertical-align: -webkit-baseline-middle;
 }
 
+.yasr-sort-criteria {
+    vertical-align: initial;
+    color: #8c8f94;
+}
+
 .yasr-manage-multiset {
     overflow: auto;
     margin-top: 10px;
