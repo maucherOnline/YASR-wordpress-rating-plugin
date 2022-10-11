@@ -95,6 +95,12 @@ class YasrSettingsMultiset {
         );
     }
 
+    /**
+     * Output the form to create a new multiset
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.3
+     */
     public function formCreateMultiset () {
         ?>
         <div class="yasr-new-multi-set">
@@ -108,7 +114,7 @@ class YasrSettingsMultiset {
                 <div>
                     <?php  wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set') //Must be inside the form ?>
                     <div>
-                        <div class="yasr-multiset-page-new-set-criteria-row">
+                        <div style="margin-bottom: 20px">
                             <strong>
                                 <?php esc_html_e('Name', 'yet-another-stars-rating') ?>
                             </strong>
@@ -120,49 +126,12 @@ class YasrSettingsMultiset {
                                        id="new-multi-set-name"
                                        class="input-text-multi-set"
                                        placeholder="e.g. Videogame"
+                                       required
                                 >
                             </div>
                         </div>
 
-                        <div id="yasr-multiset-page-new-set-criteria-container">
-                            <?php
-                            for ($i = 1; $i <= 4; $i ++) {
-                                $element_n =  esc_html__('Element ', 'yet-another-stars-rating') . '#'.$i;
-                                $name      = 'multi-set-name-element-'.$i;
-                                $id        = 'multi-set-name-element-'.$i;
-
-                                if($i === 1) {
-                                    $placeholder = 'Story';;
-                                }
-                                elseif($i === 2) {
-                                    $placeholder = 'Gameplay';
-                                }
-                                elseif($i === 3) {
-                                    $placeholder = 'Graphics';
-                                }
-                                elseif($i === 4) {
-                                    $placeholder = 'Sound';
-                                }
-                                else {
-                                    $placeholder = $element_n;
-                                }
-
-                                ?>
-                                <div class="yasr-multiset-page-new-set-criteria-row">
-                                    <label for="<?php echo $id ?>">
-                                        <span><?php echo '#'.$i; ?></span>
-                                    </label>
-                                    <input type="text"
-                                           name="<?php echo $name ?>"
-                                           id="<?php echo $id ?>"
-                                           class="input-text-multi-set"
-                                           placeholder="<?php echo $placeholder ?>"
-                                    >
-                                </div>
-                                <?php
-                            } //End foreach
-                            ?>
-                        </div>
+                        <?php $this->outputMultiCriteriaForm(); ?>
 
                         <div>
                             <button class="button-secondary" value="5" id="yasr-multiset-page-new-criteria-button">
@@ -183,6 +152,60 @@ class YasrSettingsMultiset {
                 </div>
             </div>
         </div>
+        <?php
+    }
+
+    /**
+     * Output the multicriteria form
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.3
+     */
+    public function outputMultiCriteriaForm () {
+        ?>
+            <div id="yasr-multiset-page-new-set-criteria-container">
+                <?php
+                for ($i = 1; $i <= 4; $i ++) {
+                    $element_n =  esc_html__('Element ', 'yet-another-stars-rating') . '#'.$i;
+                    $name      = 'multi-set-name-element-'.$i;
+                    $id        = 'multi-set-name-element-'.$i;
+                    $required  = '';
+
+                    if($i === 1) {
+                        $placeholder = 'Story';
+                        $required    = 'required';
+                    }
+                    elseif($i === 2) {
+                        $placeholder = 'Gameplay';
+                        $required    = 'required';
+                    }
+                    elseif($i === 3) {
+                        $placeholder = 'Graphics';
+                    }
+                    elseif($i === 4) {
+                        $placeholder = 'Sound';
+                    }
+                    else {
+                        $placeholder = $element_n;
+                    }
+
+                    ?>
+                    <div class="yasr-multiset-page-new-set-criteria-row">
+                        <label for="<?php echo esc_attr($id); ?>">
+                            <span><?php echo '#'.esc_attr($i); ?></span>
+                        </label>
+                        <input type="text"
+                               name="<?php echo esc_attr($name); ?>"
+                               id="<?php echo esc_attr($id); ?>"
+                               class="input-text-multi-set"
+                               placeholder="<?php echo esc_attr($placeholder); ?>"
+                               <?php echo esc_attr($required) ?>
+                        >
+                    </div>
+                    <?php
+                } //End foreach
+                ?>
+            </div>
         <?php
     }
 
