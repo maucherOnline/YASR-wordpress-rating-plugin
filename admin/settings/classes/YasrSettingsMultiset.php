@@ -120,7 +120,7 @@ class YasrSettingsMultiset {
                     <div>
                         <div>
                             <br />
-                            <div id="yasr-multiset-page-new-set-criteria-name" class="yasr-multiset-page-new-set-criteria-row">
+                            <div id="yasr-multiset-page-new-set-criteria-name" class="criteria-row">
                                 <label for="new-multi-set-name">
                                 </label>
                                 <input type="text"
@@ -171,8 +171,10 @@ class YasrSettingsMultiset {
                 <?php
                 for ($i = 1; $i <= 4; $i ++) {
                     $element_n =  esc_html__('Element ', 'yet-another-stars-rating') . '#'.$i;
-                    $name      = 'multi-set-name-element-'.$i;
-                    $id        = 'multi-set-name-element-'.$i;
+                    $name         = 'multi-set-name-element-'.$i;
+                    $id           = 'multi-set-name-element-'.$i;
+                    $id_container = 'criteria-row-container-'.$i;
+
                     $required  = '';
 
                     if($i === 1) {
@@ -194,7 +196,7 @@ class YasrSettingsMultiset {
                     }
 
                     ?>
-                    <div class="yasr-multiset-page-new-set-criteria-row">
+                    <div class="criteria-row" id="<?php echo esc_attr($id_container) ?>">
                         <label for="<?php echo esc_attr($id); ?>">
                             <span class="yasr-sort-criteria dashicons dashicons-menu"></span>
                         </label>
@@ -208,9 +210,10 @@ class YasrSettingsMultiset {
 
                         <?php
                             if($required !== 'required') {
-                                echo '<span class="dashicons dashicons-remove yasr-multiset-info-delete" 
+                                echo '<span class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
                                             id="remove-criteria-'.esc_attr($i).'"
-                                            data-id-criteria="'.esc_attr($id).'">
+                                            data-id-criteria="'.esc_attr($id_container).'"
+                                            onclick="removeMultisetCriteria()">
                                       </span>';
                             }
                         ?>

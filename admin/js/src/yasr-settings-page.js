@@ -1,6 +1,6 @@
 /****** Yasr Settings Page ******/
 
-import {addMultisetCriteria} from "./yasrMultiCriteriaUtils";
+import {addMultisetCriteria, removeMultisetCriteria} from "./yasrMultiCriteriaUtils";
 
 //get active Tab
 let activeTab;
@@ -74,14 +74,14 @@ if (activeTab === 'style_options') {
 if (activeTab === 'manage_multi') {
     let   nMultiSet          = parseInt(document.getElementById('n-multiset').value);
     const newElementButton   = document.getElementById('yasr-multiset-page-new-criteria-button');
+    const criteriaDelete     = document.getElementsByClassName('criteria-delete');
 
-    /**
-     * This happens when "Add new Criteria is clicked"
-     *
-     * @param event
-     */
 
-     addMultisetCriteria (newElementButton);
+    //Manage the "Add new Criteria button"
+    addMultisetCriteria (newElementButton);
+
+    //Manage the delete Multi Criteria Button
+    removeMultisetCriteria (criteriaDelete);
 
     if (nMultiSet === 1) {
         var counter = jQuery("#yasr-edit-form-number-elements").attr('value');

@@ -706,7 +706,7 @@
     width: 55%;
 }
 
-.yasr-multiset-page-new-set-criteria-row input[type=text] {
+.criteria-row input[type=text] {
     width: 70%;
     border-radius: 0;
     margin-bottom: 20px;
