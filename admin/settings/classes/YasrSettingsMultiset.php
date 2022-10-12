@@ -209,7 +209,8 @@ class YasrSettingsMultiset {
                         <?php
                             if($required !== 'required') {
                                 echo '<span class="dashicons dashicons-remove yasr-multiset-info-delete" 
-                                            id="remove-criteria-'.$i.'">
+                                            id="remove-criteria-'.esc_attr($i).'"
+                                            data-id-criteria="'.esc_attr($id).'">
                                       </span>';
                             }
                         ?>
