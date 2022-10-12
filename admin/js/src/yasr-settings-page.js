@@ -102,6 +102,7 @@ if (activeTab === 'manage_multi') {
                     class="input-text-multi-set"
                     placeholder="New Criteria"'
                 />
+                <span class="dashicons dashicons-remove yasr-multiset-info-delete" id="remove-criteria-${nCriteria}"></span>
             </div>`;
 
         document.getElementById('yasr-multiset-page-new-set-criteria-container').appendChild(newCriteria);

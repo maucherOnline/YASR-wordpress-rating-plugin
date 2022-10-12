@@ -702,12 +702,12 @@
     border: 1px solid #DDD;
 }
 
-#yasr-multiset-page-new-set-criteria-name {
-    width: 70%;
+#new-multi-set-name {
+    width: 55%;
 }
 
 .yasr-multiset-page-new-set-criteria-row input[type=text] {
-    width: 80%;
+    width: 70%;
     border-radius: 0;
     margin-bottom: 20px;
     border-top: none;
@@ -732,7 +732,7 @@
     color:transparent;
 }
 
-.yasr-multiset-info {
+.yasr-multiset-info-delete {
     vertical-align: -moz-middle-with-baseline;
     vertical-align: -webkit-baseline-middle;
 }

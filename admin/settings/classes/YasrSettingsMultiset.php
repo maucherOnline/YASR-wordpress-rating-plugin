@@ -130,7 +130,7 @@ class YasrSettingsMultiset {
                                        placeholder="e.g. Videogame"
                                        required
                                 >
-                                <span class="dashicons dashicons-info yasr-multiset-info"
+                                <span class="dashicons dashicons-info yasr-multiset-info-delete"
                                       title="<?php echo esc_attr($multiset_name_info) ?>"></span>
                             </div>
                         </div>
@@ -139,7 +139,7 @@ class YasrSettingsMultiset {
 
                         <div>
                             <button class="button-secondary" value="5" id="yasr-multiset-page-new-criteria-button">
-                                <span class="dashicons dashicons-plus-alt" style="line-height: 1.4"></span>
+                                <span class="dashicons dashicons-insert" style="line-height: 1.4"></span>
                                 <?php esc_html_e('Add new Criteria', 'yet-another-stars-rating'); ?>
                             </button>
                         </div>
@@ -205,6 +205,15 @@ class YasrSettingsMultiset {
                                placeholder="<?php echo esc_attr($placeholder); ?>"
                                <?php echo esc_attr($required) ?>
                         >
+
+                        <?php
+                            if($required !== 'required') {
+                                echo '<span class="dashicons dashicons-remove yasr-multiset-info-delete" 
+                                            id="remove-criteria-'.$i.'">
+                                      </span>';
+                            }
+                        ?>
+
                     </div>
                     <?php
                 } //End foreach
