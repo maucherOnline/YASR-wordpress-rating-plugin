@@ -7,10 +7,12 @@ export const addMultisetCriteria = (newElementButton) => {
     newElementButton.onclick = (event) => {
         event.preventDefault();
 
-        let   nCriteria   = parseInt(newElementButton.value);
+        console.log('dione');
 
-        //Row number must be >= 5 and < 9
-        if(nCriteria < 5 || nCriteria > 9 ) {
+        let  nCriteria   = parseInt(newElementButton.value);
+
+        //Row number must be >= 3 and < 9
+        if(nCriteria < 3 || nCriteria > 9 ) {
             return;
         }
 
