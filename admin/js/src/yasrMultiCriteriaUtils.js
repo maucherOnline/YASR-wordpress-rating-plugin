@@ -7,8 +7,6 @@ export const addMultisetCriteria = (newElementButton) => {
     newElementButton.onclick = (event) => {
         event.preventDefault();
 
-        console.log('dione');
-
         let  nCriteria   = parseInt(newElementButton.value);
 
         //Row number must be >= 3 and < 9
