@@ -138,7 +138,7 @@ class YasrSettingsMultiset {
                         <?php $this->outputMultiCriteriaForm(); ?>
 
                         <div>
-                            <button class="button-secondary" value="5" id="yasr-multiset-page-new-criteria-button">
+                            <button class="button-secondary" value="5" id="new-criteria-button">
                                 <span class="dashicons dashicons-insert" style="line-height: 1.4"></span>
                                 <?php esc_html_e('Add new Criteria', 'yet-another-stars-rating'); ?>
                             </button>
@@ -213,7 +213,7 @@ class YasrSettingsMultiset {
                                 echo '<span class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
                                             id="remove-criteria-'.esc_attr($i).'"
                                             data-id-criteria="'.esc_attr($id_container).'"
-                                            onclick="removeMultisetCriteria()">
+                                            onclick="">
                                       </span>';
                             }
                         ?>

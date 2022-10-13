@@ -39,25 +39,35 @@ export const addMultisetCriteria = (newElementButton) => {
 
         document.getElementById('yasr-multiset-page-new-set-criteria-container').appendChild(newCriteria);
 
+        //update the value of the button
         newElementButton.value = nCriteria + 1;
+
+        //add new event onClick on new button delete
+        removeMultisetCriteria(nCriteria);
     }
 }
 
-export const removeMultisetCriteria = (deleteButtons) => {
+/**
+ * Manage the click on buttonDelete
+ *
+ * @param startFor
+ */
+export const removeMultisetCriteria = (startFor = 3) => {
 
-    for (let i = 0; i < deleteButtons.length; i++) {
+    //Number of existing rows
+    const nOfCriteria = parseInt(document.getElementById('new-criteria-button').value) - 1;
+
+    for (let i = startFor; i <= nOfCriteria; i++) {
         (function (i) {
 
-            deleteButtons[i].onclick = (event) => {
-                let idDivToRemove = deleteButtons[i].dataset.idCriteria;
+            let buttonDelete = document.getElementById(`remove-criteria-${i}`);
+
+            console.log(`remove-criteria-${i}`);
+
+            buttonDelete.onclick = (event) => {
+                let idDivToRemove = buttonDelete.dataset.idCriteria;
                 console.log('click on delete ' + idDivToRemove);
             }
-
-            /*deleteButtons[i].onclick = (event) => {
-                console.log(deleteButtons);
-                let idDivToRemove = deleteButtons[i].dataset.idCriteria;
-                document.getElementById(idDivToRemove).remove()
-            }*/
 
         })(i);
     }//End for

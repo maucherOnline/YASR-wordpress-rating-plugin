@@ -73,15 +73,13 @@ if (activeTab === 'style_options') {
 //--------------Multi Sets Page ------------------
 if (activeTab === 'manage_multi') {
     let   nMultiSet          = parseInt(document.getElementById('n-multiset').value);
-    const newElementButton   = document.getElementById('yasr-multiset-page-new-criteria-button');
-    const criteriaDelete     = document.getElementsByClassName('criteria-delete');
-
+    const newElementButton   = document.getElementById('new-criteria-button');
 
     //Manage the "Add new Criteria button"
     addMultisetCriteria (newElementButton);
 
     //Manage the delete Multi Criteria Button
-    removeMultisetCriteria (criteriaDelete);
+    removeMultisetCriteria ();
 
     if (nMultiSet === 1) {
         var counter = jQuery("#yasr-edit-form-number-elements").attr('value');
