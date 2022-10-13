@@ -167,7 +167,7 @@ class YasrSettingsMultiset {
      */
     public function outputMultiCriteriaForm () {
         ?>
-            <div id="yasr-multiset-page-new-set-criteria-container">
+            <div id="new-set-criteria-container">
                 <?php
                 for ($i = 1; $i <= 4; $i ++) {
                     $element_n =  esc_html__('Element ', 'yet-another-stars-rating') . '#'.$i;

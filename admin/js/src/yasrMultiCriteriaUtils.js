@@ -37,7 +37,7 @@ export const addMultisetCriteria = (newElementButton) => {
                     >            
                 </span>`;
 
-        document.getElementById('yasr-multiset-page-new-set-criteria-container').appendChild(newCriteria);
+        document.getElementById('new-set-criteria-container').appendChild(newCriteria);
 
         //update the value of the button
         newElementButton.value = nCriteria + 1;
