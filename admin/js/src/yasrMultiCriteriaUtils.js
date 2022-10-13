@@ -33,7 +33,7 @@ export const addMultisetCriteria = (newElementButton) => {
                 <span 
                     class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
                     id="remove-criteria-${nCriteria}"
-                    data-id-criteria="multi-set-name-element-${nCriteria}"
+                    data-id-criteria="${newCriteria.id}"
                     >            
                 </span>`;
 
@@ -50,25 +50,29 @@ export const addMultisetCriteria = (newElementButton) => {
 /**
  * Manage the click on buttonDelete
  *
- * @param startFor
+ * @param startFor | 3 At page load, first button delete start on row 3
  */
 export const removeMultisetCriteria = (startFor = 3) => {
 
+    const newElementButton = document.getElementById('new-criteria-button');
+
     //Number of existing rows
-    const nOfCriteria = parseInt(document.getElementById('new-criteria-button').value) - 1;
+    const nOfCriteria = parseInt(newElementButton.value) - 1;
 
+    //add an onclick event for every delete button
     for (let i = startFor; i <= nOfCriteria; i++) {
-        (function (i) {
+        const buttonDelete = document.getElementById(`remove-criteria-${i}`);
 
-            let buttonDelete = document.getElementById(`remove-criteria-${i}`);
+        buttonDelete.onclick = (event) => {
+            let idDivToRemove = buttonDelete.dataset.idCriteria;
+            document.getElementById(idDivToRemove).remove();
 
-            console.log(`remove-criteria-${i}`);
+            //update the value of the button
+            newElementButton.value = newElementButton.value - 1;
+        }
 
-            buttonDelete.onclick = (event) => {
-                let idDivToRemove = buttonDelete.dataset.idCriteria;
-                console.log('click on delete ' + idDivToRemove);
-            }
-
-        })(i);
     }//End for
+
+    //call this again or "Add new criteria will not work after "
+    addMultisetCriteria(newElementButton);
 }
