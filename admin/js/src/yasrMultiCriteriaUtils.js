@@ -3,6 +3,10 @@
  *
  */
 export const addMultisetCriteria = () => {
+
+    //This is the container of all criteria input
+    const parentDiv = document.getElementById('new-set-criteria-container');
+
     const newElementButton = document.getElementById('new-criteria-button');
 
     newElementButton.onclick = (event) => {
@@ -16,7 +20,7 @@ export const addMultisetCriteria = () => {
 
         let nCriteria;
 
-        //the first element to insert must be a missingNumber, otherwiste array.lenght+1
+        //the first element to insert must be a missingNumber, otherwise array.lenght+1
         if(missingNumber !== false) {
             nCriteria   = missingNumber;
         } else {
@@ -29,44 +33,32 @@ export const addMultisetCriteria = () => {
         }
 
         //Create the div
-        const newCriteria     = document.createElement('div');
-
-        newCriteria.id        = `criteria-row-container-${nCriteria}`;
-        newCriteria.className = `criteria-row removable-criteria`;
-
-        newCriteria.setAttribute("value", nCriteria); //newCriteria.value doesnt' work here
-
-        newCriteria.innerHTML = `
-                <label for="multi-set-name-element-${nCriteria}">
-                </label>
-                <input type="text"
-                    name="multi-set-name-element-${nCriteria}"
-                    id="multi-set-name-element-${nCriteria}"
-                    class="input-text-multi-set"
-                    placeholder="New Criteria"
-                />
-                <span 
-                    class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
-                    id="remove-criteria-${nCriteria}"
-                    data-id-criteria="${newCriteria.id}"
-                    >            
-                </span>`;
+        const newDiv     = createNewCriteria(nCriteria);
 
         if(missingNumber !== false) {
-            /**
-             * @todo works only if one row at time is removed
-             */
+            //value to increase nCriteria
+            let j = 1;
 
-            const nextId     = nCriteria + 1; //read todo
-            const idNextNode = `criteria-row-container-${nextId}`;
-            // Get a reference to the parent node
-            const parentDiv = document.getElementById("new-set-criteria-container");
+            for(let i=3; i<9; i++) {
+                let nextId     = nCriteria + j;
+                let idNextNode = `criteria-row-container-${nextId}`;
 
-            // Begin test case [ 1 ] : Existing childElement (all works correctly)
-            let nextDiv = document.getElementById(idNextNode);
-            parentDiv.insertBefore(newCriteria, nextDiv);
-        } else {
-            document.getElementById('new-set-criteria-container').appendChild(newCriteria);
+                //if idNextNode exists, insert the new div before
+                if(!!document.getElementById(idNextNode) === true) {
+                    let nextDiv = document.getElementById(idNextNode);
+                    parentDiv.insertBefore(newDiv, nextDiv);
+
+                    //job done, break the loop
+                    break;
+                }
+
+                //otherwise increase J
+                j++;
+            }
+        }
+        //just do appendChild if we're adding and no field was removed
+        else {
+            document.getElementById('new-set-criteria-container').appendChild(newDiv);
         }
 
         //add new event onClick on new button delete
@@ -87,9 +79,11 @@ export const removeMultisetCriteria = (startFor = 3) => {
     for (let i = startFor; i <= nOfCriteria; i++) {
         const buttonDelete = document.getElementById(`remove-criteria-${i}`);
 
-        buttonDelete.onclick = (event) => {
-            let idDivToRemove = buttonDelete.dataset.idCriteria;
-            document.getElementById(idDivToRemove).remove();
+        if(buttonDelete !== null) {
+            buttonDelete.onclick = (event) => {
+                let idDivToRemove = buttonDelete.dataset.idCriteria;
+                document.getElementById(idDivToRemove).remove();
+            }
         }
 
     }//End for
@@ -127,8 +121,42 @@ const returnArrayMissingNumber = (array) => {
     for (let i = 1; i <= array.length; i++) {
         if (array.indexOf(i) === -1) {
             missingNumber = i;
+            break; //break at first missing number
         }
     }
 
     return missingNumber;
+}
+
+/**
+ * Return a row with new criteria
+ *
+ * @returns {*}
+ */
+const createNewCriteria = (nCriteria) => {
+    //Create the div
+    const newCriteria     = document.createElement('div');
+
+    newCriteria.id        = `criteria-row-container-${nCriteria}`;
+    newCriteria.className = `criteria-row removable-criteria`;
+
+    newCriteria.setAttribute("value", nCriteria); //newCriteria.value doesnt' work here
+
+    newCriteria.innerHTML = `
+        <label for="multi-set-name-element-${nCriteria}">
+        </label>
+        <input type="text"
+            name="multi-set-name-element-${nCriteria}"
+            id="multi-set-name-element-${nCriteria}"
+            class="input-text-multi-set"
+            placeholder="New Criteria"
+        />
+        <span 
+            class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
+            id="remove-criteria-${nCriteria}"
+            data-id-criteria="${newCriteria.id}"
+            >            
+        </span>`;
+
+    return newCriteria;
 }
