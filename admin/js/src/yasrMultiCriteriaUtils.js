@@ -9,9 +9,19 @@ export const addMultisetCriteria = () => {
         event.preventDefault();
 
         //array with all div values
-        let rows      = returnArrayElementsValues('removable-criteria');
+        let rows         = returnArrayElementsValues('removable-criteria');
 
-        let nCriteria = returnFirstIdToInsert(rows);
+        //find if there is a missing number in array
+        let missingNumber = returnArrayMissingNumber(rows);
+
+        let nCriteria;
+
+        //the first element to insert must be a missingNumber, otherwiste array.lenght+1
+        if(missingNumber !== false) {
+            nCriteria   = missingNumber;
+        } else {
+            nCriteria   = rows.length + 1;
+        }
 
         //Row number must be >= 3 and < 9
         if(nCriteria < 3 || nCriteria > 9 ) {
@@ -42,7 +52,22 @@ export const addMultisetCriteria = () => {
                     >            
                 </span>`;
 
-        document.getElementById('new-set-criteria-container').appendChild(newCriteria);
+        if(missingNumber !== false) {
+            /**
+             * @todo works only if one row at time is removed
+             */
+
+            const nextId     = nCriteria + 1; //read todo
+            const idNextNode = `criteria-row-container-${nextId}`;
+            // Get a reference to the parent node
+            const parentDiv = document.getElementById("new-set-criteria-container");
+
+            // Begin test case [ 1 ] : Existing childElement (all works correctly)
+            let nextDiv = document.getElementById(idNextNode);
+            parentDiv.insertBefore(newCriteria, nextDiv);
+        } else {
+            document.getElementById('new-set-criteria-container').appendChild(newCriteria);
+        }
 
         //add new event onClick on new button delete
         removeMultisetCriteria();
@@ -82,13 +107,8 @@ export const removeMultisetCriteria = (startFor = 3) => {
  * @returns {number[]}
  */
 const returnArrayElementsValues = (className) => {
-    let rows = [...document.getElementsByClassName(className)]
+    return [...document.getElementsByClassName(className)]
         .map(el => parseInt(el.attributes.value.value));
-
-    //be sure array is sorted
-    rows.sort();
-
-    return rows;
 }
 
 /**
@@ -97,8 +117,11 @@ const returnArrayElementsValues = (className) => {
  * @param array
  * @returns {boolean}
  */
-const returnFirstIdToInsert = (array) => {
+const returnArrayMissingNumber = (array) => {
     let missingNumber = false
+
+    //be sure array is sorted
+    array.sort()
 
     //find the first missing number in array
     for (let i = 1; i <= array.length; i++) {
@@ -107,14 +130,5 @@ const returnFirstIdToInsert = (array) => {
         }
     }
 
-    let nCriteria;
-
-    //the first element to insert must be a missingNumber, otherwiste array.lenght+1
-    if(missingNumber !== false) {
-        nCriteria   = missingNumber;
-    } else {
-        nCriteria   = array.length + 1;
-    }
-
-    return nCriteria;
+    return missingNumber;
 }
