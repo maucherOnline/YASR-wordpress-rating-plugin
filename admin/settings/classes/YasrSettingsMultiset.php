@@ -9,7 +9,7 @@ class YasrSettingsMultiset {
         register_setting(
             'yasr_multiset_options_group', // A settings group name. Must exist prior to the register_setting call. This must match the group name in settings_fields()
             'yasr_multiset_options', //The name of an option to sanitize and save.
-            'yasr_sanitize_multiset_options'
+            array($this, 'sanitize')
         );
 
         $option_multiset = get_option('yasr_multiset_options');
@@ -127,7 +127,7 @@ class YasrSettingsMultiset {
                                        name="multi-set-name"
                                        id="new-multi-set-name"
                                        class="input-text-multi-set"
-                                       placeholder="e.g. Videogame"
+                                       placeholder="Name"
                                        required
                                 >
                                 <span class="dashicons dashicons-info yasr-multiset-info-delete"
@@ -268,5 +268,29 @@ class YasrSettingsMultiset {
 
     }
 
+    /**
+     * Sanitize
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.1.3
+     * @param $option_multiset
+     *
+     * @return mixed
+     */
+    public function sanitize($option_multiset) {
+
+        if (is_array($option_multiset)) {
+            if( ! array_key_exists('show_average', $option_multiset)) {
+                $option_multiset['show_average'] = 'no';
+            } else {
+                $option_multiset['show_average'] = 'yes';
+            }
+        } else {
+            $option_multiset['show_average'] = 'no';
+        }
+
+        return $option_multiset;
+
+    }
 
 }

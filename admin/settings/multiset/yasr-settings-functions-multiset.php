@@ -24,23 +24,6 @@ if (!defined('ABSPATH')) {
 
 /**************** Add yasr multiset options and settings ************/
 
-
-function yasr_sanitize_multiset_options($option_multiset) {
-
-    if (is_array($option_multiset)) {
-        if( ! array_key_exists('show_average', $option_multiset)) {
-            $option_multiset['show_average'] = 'no';
-        } else {
-            $option_multiset['show_average'] = 'yes';
-        }
-    } else {
-        $option_multiset['show_average'] = 'no';
-    }
-
-    return $option_multiset;
-
-}
-
 function yasr_edit_multi_form() {
 
     global $wpdb;
