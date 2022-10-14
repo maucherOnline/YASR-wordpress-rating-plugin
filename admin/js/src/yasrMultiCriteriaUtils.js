@@ -9,7 +9,7 @@ export const addMultisetCriteria = () => {
         event.preventDefault();
 
         //array with all div values
-        let rows      = returnArrayValues('removable-criteria');
+        let rows      = returnArrayElementsValues('removable-criteria');
 
         let nCriteria = returnFirstIdToInsert(rows);
 
@@ -56,7 +56,7 @@ export const addMultisetCriteria = () => {
  */
 export const removeMultisetCriteria = (startFor = 3) => {
     //Number of existing rows
-    const nOfCriteria = returnArrayValues('removable-criteria').length;
+    const nOfCriteria = returnArrayElementsValues('removable-criteria').length;
 
     //add an onclick event for every delete button
     for (let i = startFor; i <= nOfCriteria; i++) {
@@ -70,7 +70,7 @@ export const removeMultisetCriteria = (startFor = 3) => {
     }//End for
 
     //call this again or "Add new criteria will not work after "
-    addMultisetCriteria(newElementButton);
+    addMultisetCriteria();
 }
 
 /**
@@ -81,7 +81,7 @@ export const removeMultisetCriteria = (startFor = 3) => {
  * @param className
  * @returns {number[]}
  */
-const returnArrayValues = (className) => {
+const returnArrayElementsValues = (className) => {
     let rows = [...document.getElementsByClassName(className)]
         .map(el => parseInt(el.attributes.value.value));
 
