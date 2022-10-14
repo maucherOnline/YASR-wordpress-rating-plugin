@@ -18,48 +18,25 @@ export const addMultisetCriteria = () => {
         //find if there is a missing number in array
         let missingNumber = returnArrayMissingNumber(rows);
 
-        let nCriteria;
+        let newRowNumber;
 
         //the first element to insert must be a missingNumber, otherwise array.lenght+1
         if(missingNumber !== false) {
-            nCriteria   = missingNumber;
+            newRowNumber   = missingNumber;
         } else {
-            nCriteria   = rows.length + 1;
+            newRowNumber   = rows.length + 1;
         }
 
         //Row number must be >= 3 and < 9
-        if(nCriteria < 3 || nCriteria > 9 ) {
+        if(newRowNumber < 3 || newRowNumber > 9 ) {
             return;
         }
 
         //Create the div
-        const newDiv     = createNewCriteria(nCriteria);
+        const newDiv     = createNewCriteria(newRowNumber);
 
-        if(missingNumber !== false) {
-            //value to increase nCriteria
-            let j = 1;
-
-            for(let i=3; i<9; i++) {
-                let nextId     = nCriteria + j;
-                let idNextNode = `criteria-row-container-${nextId}`;
-
-                //if idNextNode exists, insert the new div before
-                if(!!document.getElementById(idNextNode) === true) {
-                    let nextDiv = document.getElementById(idNextNode);
-                    parentDiv.insertBefore(newDiv, nextDiv);
-
-                    //job done, break the loop
-                    break;
-                }
-
-                //otherwise increase J
-                j++;
-            }
-        }
-        //just do appendChild if we're adding and no field was removed
-        else {
-            document.getElementById('new-set-criteria-container').appendChild(newDiv);
-        }
+        //insert (or append) the new div
+        insertNewCriteria(missingNumber, newRowNumber, parentDiv, newDiv);
 
         //add new event onClick on new button delete
         removeMultisetCriteria();
@@ -133,30 +110,66 @@ const returnArrayMissingNumber = (array) => {
  *
  * @returns {*}
  */
-const createNewCriteria = (nCriteria) => {
+const createNewCriteria = (newRowNumber) => {
     //Create the div
     const newCriteria     = document.createElement('div');
 
-    newCriteria.id        = `criteria-row-container-${nCriteria}`;
+    newCriteria.id        = `criteria-row-container-${newRowNumber}`;
     newCriteria.className = `criteria-row removable-criteria`;
 
-    newCriteria.setAttribute("value", nCriteria); //newCriteria.value doesnt' work here
+    newCriteria.setAttribute("value", newRowNumber); //newCriteria.value doesnt' work here
 
     newCriteria.innerHTML = `
-        <label for="multi-set-name-element-${nCriteria}">
+        <label for="multi-set-name-element-${newRowNumber}">
         </label>
         <input type="text"
-            name="multi-set-name-element-${nCriteria}"
-            id="multi-set-name-element-${nCriteria}"
+            name="multi-set-name-element-${newRowNumber}"
+            id="multi-set-name-element-${newRowNumber}"
             class="input-text-multi-set"
             placeholder="New Criteria"
         />
         <span 
             class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
-            id="remove-criteria-${nCriteria}"
+            id="remove-criteria-${newRowNumber}"
             data-id-criteria="${newCriteria.id}"
             >            
         </span>`;
 
     return newCriteria;
+}
+
+/**
+ * insert (or append) the new div
+ *
+ * @param missingNumber
+ * @param newRowNumber
+ * @param parentDiv
+ * @param newDiv
+ */
+const insertNewCriteria = (missingNumber, newRowNumber, parentDiv, newDiv) => {
+    if(missingNumber !== false) {
+        //value to increase newRowNumber
+        let j = 1;
+
+        for(let i=3; i<9; i++) {
+            let nextId     = newRowNumber + j;
+            let idNextNode = `criteria-row-container-${nextId}`;
+
+            //if idNextNode exists, insert the new div before
+            if(!!document.getElementById(idNextNode) === true) {
+                let nextDiv = document.getElementById(idNextNode);
+                parentDiv.insertBefore(newDiv, nextDiv);
+
+                //job done, break the loop
+                break;
+            }
+
+            //otherwise increase J
+            j++;
+        }
+    }
+    //just do appendChild if we're adding and no field was removed
+    else {
+        document.getElementById('new-set-criteria-container').appendChild(newDiv);
+    }
 }
