@@ -138,7 +138,7 @@ class YasrSettingsMultiset {
                         <?php $this->outputMultiCriteriaForm(); ?>
 
                         <div>
-                            <button class="button-secondary" value="5" id="new-criteria-button">
+                            <button class="button-secondary" id="new-criteria-button">
                                 <span class="dashicons dashicons-insert" style="line-height: 1.4"></span>
                                 <?php esc_html_e('Add new Criteria', 'yet-another-stars-rating'); ?>
                             </button>
@@ -196,9 +196,10 @@ class YasrSettingsMultiset {
                     }
 
                     ?>
-                    <div class="criteria-row" id="<?php echo esc_attr($id_container) ?>">
+                    <div class="criteria-row removable-criteria"
+                         id="<?php echo esc_attr($id_container) ?>"
+                         value="<?php echo esc_attr($i) ?>">
                         <label for="<?php echo esc_attr($id); ?>">
-                            <span class="yasr-sort-criteria dashicons dashicons-menu"></span>
                         </label>
                         <input type="text"
                                name="<?php echo esc_attr($name); ?>"

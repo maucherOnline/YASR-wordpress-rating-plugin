@@ -82,9 +82,9 @@ if (activeTab === 'manage_multi') {
     //Manage the delete Multi Criteria Button
     removeMultisetCriteria ();
 
-    const el = document.getElementById('new-set-criteria-container');
+    /*const el = document.getElementById('new-set-criteria-container');
 
-    //doc at https://github.com/SortableJS/Sortable
+    doc at https://github.com/SortableJS/Sortable
     const sortable = new Sortable(el, {
         onEnd: function (evt) {
             console.log(evt.item);
@@ -103,9 +103,9 @@ if (activeTab === 'manage_multi') {
             evt.oldDraggableIndex; // element's old index within old parent, only counting draggable elements
             evt.newDraggableIndex; // element's new index within new parent, only counting draggable elements
             evt.clone // the clone element
-            evt.pullMode;  // when item is in another sortable: `"clone"` if cloning, `true` if moving*/
+            evt.pullMode;  // when item is in another sortable: `"clone"` if cloning, `true` if moving
         },
-    });
+    });*/
 
     if (nMultiSet === 1) {
         var counter = jQuery("#yasr-edit-form-number-elements").attr('value');
