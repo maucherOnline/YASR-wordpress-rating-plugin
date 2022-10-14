@@ -77,7 +77,7 @@ if (activeTab === 'manage_multi') {
     const newElementButton   = document.getElementById('new-criteria-button');
 
     //Manage the "Add new Criteria button"
-    addMultisetCriteria (newElementButton);
+    addMultisetCriteria ();
 
     //Manage the delete Multi Criteria Button
     removeMultisetCriteria ();

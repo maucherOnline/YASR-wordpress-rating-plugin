@@ -1,14 +1,15 @@
 /**
  * Handle the "Add new Criteria" button
  *
- * @param newElementButton
  */
-export const addMultisetCriteria = (newElementButton) => {
+export const addMultisetCriteria = () => {
+    const newElementButton = document.getElementById('new-criteria-button');
+
     newElementButton.onclick = (event) => {
         event.preventDefault();
 
         //array with all div values
-        let rows = returnArrayValues('removable-criteria');
+        let rows      = returnArrayValues('removable-criteria');
 
         let nCriteria = returnFirstIdToInsert(rows);
 
@@ -18,13 +19,12 @@ export const addMultisetCriteria = (newElementButton) => {
         }
 
         //Create the div
-        const newCriteria = document.createElement('div');
+        const newCriteria     = document.createElement('div');
 
         newCriteria.id        = `criteria-row-container-${nCriteria}`;
         newCriteria.className = `criteria-row removable-criteria`;
 
-        //newCriteria.value     = nCriteria;     This doesn't work here, must use setAttribute
-        newCriteria.setAttribute("value", nCriteria);
+        newCriteria.setAttribute("value", nCriteria); //newCriteria.value doesnt' work here
 
         newCriteria.innerHTML = `
                 <label for="multi-set-name-element-${nCriteria}">
@@ -45,7 +45,7 @@ export const addMultisetCriteria = (newElementButton) => {
         document.getElementById('new-set-criteria-container').appendChild(newCriteria);
 
         //add new event onClick on new button delete
-        removeMultisetCriteria(nCriteria);
+        removeMultisetCriteria();
     }
 }
 
@@ -55,11 +55,8 @@ export const addMultisetCriteria = (newElementButton) => {
  * @param startFor | 3 At page load, first button delete start on row 3
  */
 export const removeMultisetCriteria = (startFor = 3) => {
-    const newElementButton = document.getElementById('new-criteria-button');
-
     //Number of existing rows
-    //@todo remove this and use returnArrayValues
-    const nOfCriteria = parseInt(newElementButton.value) - 1;
+    const nOfCriteria = returnArrayValues('removable-criteria').length;
 
     //add an onclick event for every delete button
     for (let i = startFor; i <= nOfCriteria; i++) {
@@ -68,9 +65,6 @@ export const removeMultisetCriteria = (startFor = 3) => {
         buttonDelete.onclick = (event) => {
             let idDivToRemove = buttonDelete.dataset.idCriteria;
             document.getElementById(idDivToRemove).remove();
-
-            //update the value of the button
-            //newElementButton.value = newElementButton.value - 1;
         }
 
     }//End for
