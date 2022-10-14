@@ -135,7 +135,7 @@ class YasrSettingsMultiset {
                             </div>
                         </div>
 
-                        <?php $this->outputMultiCriteriaForm(); ?>
+                        <?php $this->newMultiCriteria(); ?>
 
                         <div>
                             <button class="button-secondary" id="new-criteria-button">
@@ -165,7 +165,7 @@ class YasrSettingsMultiset {
      * @author Dario Curvino <@dudo>
      * @since  3.1.3
      */
-    public function outputMultiCriteriaForm () {
+    public function newMultiCriteria () {
         ?>
             <div id="new-set-criteria-container">
                 <?php
@@ -195,35 +195,50 @@ class YasrSettingsMultiset {
                         $placeholder = $element_n;
                     }
 
-                    ?>
-                    <div class="criteria-row removable-criteria"
-                         id="<?php echo esc_attr($id_container) ?>"
-                         value="<?php echo esc_attr($i) ?>">
-                        <label for="<?php echo esc_attr($id); ?>">
-                        </label>
-                        <input type="text"
-                               name="<?php echo esc_attr($name); ?>"
-                               id="<?php echo esc_attr($id); ?>"
-                               class="input-text-multi-set"
-                               placeholder="<?php echo esc_attr($placeholder); ?>"
-                               <?php echo esc_attr($required) ?>
-                        >
-
-                        <?php
-                            if($required !== 'required') {
-                                echo '<span class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
-                                            id="remove-criteria-'.esc_attr($i).'"
-                                            data-id-criteria="'.esc_attr($id_container).'"
-                                            onclick="">
-                                      </span>';
-                            }
-                        ?>
-
-                    </div>
-                    <?php
+                    $this->outputCriteria($id_container, $i, $id, $name, $placeholder, $required);
                 } //End foreach
                 ?>
             </div>
+        <?php
+    }
+
+    /**
+     * Output the single criteria row
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.1.3
+     * @param $id_container
+     * @param $i
+     * @param $id
+     * @param $name
+     * @param $placeholder
+     * @param $required
+     */
+    public function outputCriteria ($id_container, $i, $id, $name, $placeholder, $required) {
+        ?>
+        <div class="criteria-row removable-criteria"
+             id="<?php echo esc_attr($id_container) ?>"
+             value="<?php echo esc_attr($i) ?>">
+            <label for="<?php echo esc_attr($id); ?>">
+            </label>
+            <input type="text"
+                   name="<?php echo esc_attr($name); ?>"
+                   id="<?php echo esc_attr($id); ?>"
+                   class="input-text-multi-set"
+                   placeholder="<?php echo esc_attr($placeholder); ?>"
+                   <?php echo esc_attr($required) ?>
+            >
+
+            <?php
+                if($required !== 'required') {
+                    echo '<span class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
+                                id="remove-criteria-'.esc_attr($i).'"
+                                data-id-criteria="'.esc_attr($id_container).'">
+                          </span>';
+                }
+            ?>
+        </div>
+
         <?php
     }
 
