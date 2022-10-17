@@ -154,7 +154,7 @@ function yasr_edit_multi_form() {
 
         <?php
     } else {
-        esc_html_e("No Multiple Set were found", 'yet-another-stars-rating');
+        esc_html_e('No Multiple Set were found', 'yet-another-stars-rating');
     }
 
 }//End function
