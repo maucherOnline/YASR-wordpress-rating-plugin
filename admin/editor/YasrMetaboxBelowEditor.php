@@ -140,8 +140,10 @@ class YasrMetaboxBelowEditor {
      *
      * @author Dario Curvino <@dudo>
      * @since  3.0.6
+     *
      * @param $post_id
      * @param $multi_set
+     * @param $n_multi_set
      */
     public function metaboxMultiset($post_id, $multi_set, $n_multi_set) {
         wp_nonce_field('yasr_nonce_save_multi_values_action',      'yasr_nonce_save_multi_values');
