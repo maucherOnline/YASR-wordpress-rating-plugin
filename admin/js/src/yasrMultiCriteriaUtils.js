@@ -184,7 +184,7 @@ const insertNewCriteria = (missingNumber, newRowNumber, parentDiv, newDiv) => {
  *  Used in edit page, print the new set in the box below the editor
  */
 
-export const yasrAdminMultiSet = () => {
+export const yasrMultiCriteriaEditPage = () => {
 
     let divContainer               = document.getElementById('yasr-editor-multiset-container');
     let nMultiSet                  = parseInt(divContainer.getAttribute('data-nmultiset'));
@@ -228,43 +228,7 @@ export const yasrAdminMultiSet = () => {
     }
 
     //add event listener to synchronize switchers
-    if(multiSetinReview !== null) {
-
-        //this only works in classic editor
-        if(reviewsEnabled !== null) {
-            //when reviews in comment are disabled, disable also multiset switcher
-            reviewsEnabled.addEventListener('change', (event) => {
-                if (!event.currentTarget.checked) {
-                    multiSetinReview.checked = false;
-                }
-            })
-        }
-
-        //when multiset switcher is enabled, enable also reviews in comment switcher
-        multiSetinReview.addEventListener('change', (event) => {
-            if (event.currentTarget.checked === true) {
-                //if it is classic editor, check reviewsEnabled on true
-                if(reviewsEnabled !== null) {
-                    reviewsEnabled.checked = true;
-                } else {
-                    //if this is gutenberg, use document.getElementById on change to get the current state and check it
-                    document.getElementById('yasr-comment-reviews-disabled-switch').checked = true;
-                }
-
-                //update the hidden field, if only one multiset is used
-                if(yasrProReviewSetid !== null) {
-                    yasrProReviewSetid.value = setId;
-                }
-            }
-            else {
-                //update the hidden field, if only one multiset is used
-                if(yasrProReviewSetid !== null) {
-                    yasrProReviewSetid.value = '';
-                }
-            }
-        });
-
-    }
+    sincronizeEditorSwitchers (multiSetinReview, reviewsEnabled, yasrProReviewSetid, setId);
 
     if (nMultiSet > 1) {
         jQuery('#yasr_select_set').on("change", function () {
@@ -294,6 +258,52 @@ export const yasrAdminMultiSet = () => {
 
     }
 
+}
+
+/**
+ * when multiset multiSetinReview is enabled, enable also reviews in comment multiSetinReview
+ *
+ * @param multiSetinReview     | Switcher for question  Insert this Multi Set in the comment form?
+ * @param reviewsEnabled       | Switcher to enable or disable reviews in comments
+ * @param yasrProReviewSetid   | the set id to use into the comment form
+ * @param setId
+ */
+const sincronizeEditorSwitchers = (multiSetinReview, reviewsEnabled, yasrProReviewSetid, setId) => {
+    //add event listener to synchronize switchers
+    if(multiSetinReview !== null) {
+
+        //this only works in classic editor
+        if (reviewsEnabled !== null) {
+            //when reviews in comment are disabled, disable also multiset multiSetinReview
+            reviewsEnabled.addEventListener('change', (event) => {
+                if (!event.currentTarget.checked) {
+                    multiSetinReview.checked = false;
+                }
+            })
+        }
+
+        multiSetinReview.addEventListener('change', (event) => {
+            if (event.currentTarget.checked === true) {
+                //if it is classic editor, check reviewsEnabled on true
+                if (reviewsEnabled !== null) {
+                    reviewsEnabled.checked = true;
+                } else {
+                    //if this is gutenberg, use document.getElementById on change to get the current state and check it
+                    document.getElementById('yasr-comment-reviews-disabled-switch').checked = true;
+                }
+
+                //update the hidden field, if only one multiset is used
+                if (yasrProReviewSetid !== null) {
+                    yasrProReviewSetid.value = setId;
+                }
+            } else {
+                //update the hidden field, if only one multiset is used
+                if (yasrProReviewSetid !== null) {
+                    yasrProReviewSetid.value = '';
+                }
+            }
+        });
+    }
 }
 
 /**

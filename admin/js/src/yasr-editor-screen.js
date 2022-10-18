@@ -1,6 +1,6 @@
 import {copyToClipboard} from "./yasr-admin-functions";
 
-import {yasrAdminMultiSet} from "./yasrMultiCriteriaUtils";
+import {yasrMultiCriteriaEditPage} from "./yasrMultiCriteriaUtils";
 
 // executes this when the DOM is ready
 document.addEventListener('DOMContentLoaded', function(event) {
@@ -110,7 +110,7 @@ function yasrPrintMetaBoxBelowEditor () {
     let selectedItemtype = document.getElementById('yasr-metabox-below-editor-select-schema').value;
 
     if(document.getElementById('yasr-editor-multiset-container') !== null) {
-        yasrAdminMultiSet();
+        yasrMultiCriteriaEditPage();
     }
 
     yasrSwitchItemTypeDiv(selectedItemtype);
