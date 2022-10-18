@@ -2,6 +2,8 @@ import {copyToClipboard} from "./yasr-admin-functions";
 import {v4 as uuidv4} from "uuid";
 
 /**
+ * Used in settings page, add a new criteria when creating a new set
+ *
  * Handle the "Add new Criteria" button
  *
  */
@@ -142,7 +144,7 @@ const createNewCriteria = (newRowNumber) => {
 }
 
 /**
- * insert (or append) the new div
+ * insert (or append) the new div when creating the new set
  *
  * @param missingNumber
  * @param newRowNumber
@@ -178,7 +180,9 @@ const insertNewCriteria = (missingNumber, newRowNumber, parentDiv, newDiv) => {
 }
 
 
-/****** Yasr Metabox Multiple Rating ******/
+/**
+ *  Used in edit page, print the new set in the box below the editor
+ */
 
 export const yasrAdminMultiSet = () => {
 
@@ -292,8 +296,15 @@ export const yasrAdminMultiSet = () => {
 
 }
 
-//print the table
-function yasrPrintAdminMultiSet(setId, postid, nMultiSet) {
+/**
+ * First do the ajax call, then print the multiset with rating for the post
+ *
+ * @param setId
+ * @param postid
+ * @param nMultiSet
+ * @returns {boolean}
+ */
+const yasrPrintAdminMultiSet = (setId, postid, nMultiSet) => {
 
     const data_id = {
         action: 'yasr_send_id_nameset',
@@ -337,7 +348,7 @@ function yasrPrintAdminMultiSet(setId, postid, nMultiSet) {
  * @param table
  * @param authorMultiset
  */
-function yasrReturnTableMultiset (yasrMultiSetValue, table, authorMultiset=true) {
+const yasrReturnTableMultiset = (yasrMultiSetValue, table, authorMultiset=true) => {
 
     let content = '';
     let divClass   = 'yasr-multiset-admin'
@@ -376,7 +387,7 @@ function yasrReturnTableMultiset (yasrMultiSetValue, table, authorMultiset=true)
  *
  * @param authorMultiset
  */
-function yasrSetRaterAdminMulti(authorMultiset=true) {
+const yasrSetRaterAdminMulti = (authorMultiset=true) => {
 
     let divClass;
     if(authorMultiset !== false) {
@@ -439,4 +450,5 @@ function yasrSetRaterAdminMulti(authorMultiset=true) {
         })(i);
 
     } //End for
+
 }//End function
