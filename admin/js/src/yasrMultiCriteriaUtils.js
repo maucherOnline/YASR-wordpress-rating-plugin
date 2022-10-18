@@ -230,33 +230,8 @@ export const yasrMultiCriteriaEditPage = () => {
     //add event listener to synchronize switchers
     sincronizeEditorSwitchers (multiSetinReview, reviewsEnabled, yasrProReviewSetid, setId);
 
-    if (nMultiSet > 1) {
-        jQuery('#yasr_select_set').on("change", function () {
-
-            //get the multi data
-            //overwrite setID
-            setId = jQuery('#yasr_select_set').val();
-
-            jQuery("#yasr-loader-select-multi-set").show();
-
-            yasrPrintAdminMultiSet(setId, postId, nMultiSet);
-
-            //update hidden field
-            document.getElementById('yasr-multiset-id').value = setId;
-
-            if(yasrProReviewSetid !== null && yasrProReviewSetid !== '') {
-                if(yasrProReviewSetid.value === setId) {
-                    //update hidden field
-                    multiSetinReview.checked = true;
-                } else {
-                    multiSetinReview.checked = false;
-                }
-            }
-
-            return false; // prevent default click action from happening!
-        });
-
-    }
+    //show a select if more than 1 multiset is used
+    selectMultiset(nMultiSet, yasrProReviewSetid, multiSetinReview)
 
 }
 
@@ -305,6 +280,44 @@ const sincronizeEditorSwitchers = (multiSetinReview, reviewsEnabled, yasrProRevi
         });
     }
 }
+
+/**
+ * Show the select if more then one multiset is used
+ *
+ * @param nMultiSet
+ * @param yasrProReviewSetid
+ * @param multiSetinReview
+ */
+export const selectMultiset = (nMultiSet, yasrProReviewSetid, multiSetinReview) => {
+    if (nMultiSet > 1) {
+        jQuery('#yasr_select_set').on("change", function () {
+
+            //get the multi data
+            //overwrite setID
+            let setId = jQuery('#yasr_select_set').val();
+
+            jQuery("#yasr-loader-select-multi-set").show();
+
+            yasrPrintAdminMultiSet(setId, postId, nMultiSet);
+
+            //update hidden field
+            document.getElementById('yasr-multiset-id').value = setId;
+
+            if(yasrProReviewSetid !== null && yasrProReviewSetid !== '') {
+                if(yasrProReviewSetid.value === setId) {
+                    //update hidden field
+                    multiSetinReview.checked = true;
+                } else {
+                    multiSetinReview.checked = false;
+                }
+            }
+
+            return false; // prevent default click action from happening!
+        });
+
+    }
+}
+
 
 /**
  * First do the ajax call, then print the multiset with rating for the post
