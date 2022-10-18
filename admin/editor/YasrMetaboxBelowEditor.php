@@ -44,7 +44,7 @@ class YasrMetaboxBelowEditor {
         if($multi_set === false || $n_multi_set === false) {
             global $wpdb;
 
-            $multi_set = YasrMultiSetData::returnMultiSetNames();
+            $multi_set   = YasrMultiSetData::returnMultiSetNames();
             $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the count number of rows of the last query
         }
 
@@ -157,7 +157,7 @@ class YasrMetaboxBelowEditor {
         <div id="yasr-metabox-below-editor-multiset" class="yasr-metabox-below-editor-content" style="display:none">
             <?php
                 if ($n_multi_set > 1) {
-                    $this->printSelectMultiset($multi_set);
+                    self::printSelectMultiset($multi_set);
                 } //End if ($n_multi_set>1)
 
                 $this->printMultisetDiv($n_multi_set, $set_id, $post_id);
@@ -173,12 +173,18 @@ class YasrMetaboxBelowEditor {
      *
      * @author Dario Curvino <@dudo>
      * @since  3.0.6
+     *
      * @param $multi_set
+     * @param bool|string $select_text
      */
-    private function printSelectMultiset($multi_set) {
+    public static function printSelectMultiset($multi_set, $select_text=false) {
+
+        if($select_text === false) {
+            $select_text = esc_html__('Choose which set you want to use', 'yet-another-stars-rating');
+        }
         ?>
         <div style="margin-bottom: 15px">
-            <?php esc_html_e("Choose which set you want to use", 'yet-another-stars-rating'); ?>
+            <?php echo esc_html($select_text) ?>
             <br />
             <label for="yasr_select_set">
                 <select id="yasr_select_set" autocomplete="off">

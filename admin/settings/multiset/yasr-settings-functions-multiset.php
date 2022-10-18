@@ -32,7 +32,17 @@ function yasr_edit_multi_form() {
 
     $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the last query
 
+    //this is always the first set id
+    $set_id = $multi_set[0]->set_id;
+    $set_id = (int)$set_id;
+
+    $text = esc_html__('Select set to edit', 'yet-another-stars-rating');
+
     if ($n_multi_set > 1) {
+        YasrMetaboxBelowEditor::printSelectMultiset($multi_set, $text);
+    } //End if ($n_multi_set>1)
+
+    /*if ($n_multi_set > 1) {
         ?>
 
         <div class="yasr-manage-multiset">
@@ -155,7 +165,7 @@ function yasr_edit_multi_form() {
         <?php
     } else {
         esc_html_e('No Multiple Set were found', 'yet-another-stars-rating');
-    }
+    }*/
 
 }//End function
 

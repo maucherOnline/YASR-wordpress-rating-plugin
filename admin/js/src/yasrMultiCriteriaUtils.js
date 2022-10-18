@@ -200,7 +200,7 @@ export const yasrMultiCriteriaEditPage = () => {
     const reviewsEnabled           = document.getElementById('yasr-pro-comments-enabled-yes');
     const multiSetinReview         = document.getElementById('yasr-pro-multiset-review-switcher');
 
-    yasrPrintAdminMultiSet(setId, postId, nMultiSet);
+    yasrPrintMultiCriteriaEditPage(setId, postId, nMultiSet);
 
     copyRoMultiset.onclick = function (event) {
         let el = document.getElementById(event.target.id);
@@ -231,7 +231,7 @@ export const yasrMultiCriteriaEditPage = () => {
     sincronizeEditorSwitchers (multiSetinReview, reviewsEnabled, yasrProReviewSetid, setId);
 
     //show a select if more than 1 multiset is used
-    selectMultiset(nMultiSet, yasrProReviewSetid, multiSetinReview)
+    selectMultiset(nMultiSet, postId, yasrProReviewSetid, multiSetinReview)
 
 }
 
@@ -285,10 +285,11 @@ const sincronizeEditorSwitchers = (multiSetinReview, reviewsEnabled, yasrProRevi
  * Show the select if more then one multiset is used
  *
  * @param nMultiSet
+ * @param postId  bool | int
  * @param yasrProReviewSetid
  * @param multiSetinReview
  */
-export const selectMultiset = (nMultiSet, yasrProReviewSetid, multiSetinReview) => {
+export const selectMultiset = (nMultiSet, postId=false, yasrProReviewSetid = null, multiSetinReview = null) => {
     if (nMultiSet > 1) {
         jQuery('#yasr_select_set').on("change", function () {
 
@@ -298,12 +299,17 @@ export const selectMultiset = (nMultiSet, yasrProReviewSetid, multiSetinReview) 
 
             jQuery("#yasr-loader-select-multi-set").show();
 
-            yasrPrintAdminMultiSet(setId, postId, nMultiSet);
+            if (postId !== false) {
+                yasrPrintMultiCriteriaEditPage(setId, postId, nMultiSet);
+            }
+
+            //@todo { else to call a function when not in an edit context
+
 
             //update hidden field
             document.getElementById('yasr-multiset-id').value = setId;
 
-            if(yasrProReviewSetid !== null && yasrProReviewSetid !== '') {
+            if(yasrProReviewSetid !== null && yasrProReviewSetid !== '' && multiSetinReview !== null) {
                 if(yasrProReviewSetid.value === setId) {
                     //update hidden field
                     multiSetinReview.checked = true;
@@ -327,7 +333,7 @@ export const selectMultiset = (nMultiSet, yasrProReviewSetid, multiSetinReview) 
  * @param nMultiSet
  * @returns {boolean}
  */
-const yasrPrintAdminMultiSet = (setId, postid, nMultiSet) => {
+const yasrPrintMultiCriteriaEditPage = (setId, postid, nMultiSet) => {
 
     const data_id = {
         action: 'yasr_send_id_nameset',
