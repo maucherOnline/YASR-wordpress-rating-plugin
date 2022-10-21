@@ -220,23 +220,23 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 ### 1. Example of Yasr Overall Rating and Yasr Visitor Votes shortcodes
 
-[missing image]
+![Example of Yasr Overall Rating and Yasr Visitor Votes shortcodes.](https://ps.w.org/yet-another-stars-rating/assets/screenshot-1.png?rev=2147238)
 
-### 2. Yasr Multi Set
+### 2. Yasr Multi Criteria Rating
 
-[missing image]
+![Yasr Multi Criteria Rating](https://ps.w.org/yet-another-stars-rating/assets/screenshot-2.png?rev=2147238)
 
 ### 3. User's ranking showing most rated posts
 
-[missing image]
+![User's ranking showing most rated posts](https://ps.w.org/yet-another-stars-rating/assets/screenshot-3.png?rev=2147238)
 
 ### 4. User's ranking showing highest rated posts
 
-[missing image]
+![User's ranking showing highest rated posts](https://ps.w.org/yet-another-stars-rating/assets/screenshot-4.png?rev=2147238)
 
 ### 5. Ranking reviews
 
-[missing image]
+![Ranking reviews](https://ps.w.org/yet-another-stars-rating/assets/screenshot-5.png?rev=2147238)
 
 
 ## Changelog
