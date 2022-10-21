@@ -1,11 +1,11 @@
 # Yasr - Yet Another Stars Rating
 
-**Donate link:** https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXE284FYMNWDC \
-**Tags:** rating, rate post, star rating, google rating, block \
-**Requires at least:** 4.7 \
-**Contributors:** Dudo \
-**Tested up to:** 6.0.1 \
-**Stable tag:** 3.1.2 \
+**Donate link:** https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXE284FYMNWDC     
+**Tags:** rating, rate post, star rating, google rating, block  
+**Requires at least:** 4.7  
+**Contributors:** Dudo  
+**Tested up to:** 6.0.2     
+**Stable tag:** 3.1.3   
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
 Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
@@ -220,28 +220,31 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 ### 1. Example of Yasr Overall Rating and Yasr Visitor Votes shortcodes
 
-[missing image]
+![Example of Yasr Overall Rating and Yasr Visitor Votes shortcodes.](https://ps.w.org/yet-another-stars-rating/assets/screenshot-1.png?rev=2147238)
 
-### 2. Yasr Multi Set
+### 2. Yasr Multi Criteria Rating
 
-[missing image]
+![Yasr Multi Criteria Rating](https://ps.w.org/yet-another-stars-rating/assets/screenshot-2.png?rev=2147238)
 
 ### 3. User's ranking showing most rated posts
 
-[missing image]
+![User's ranking showing most rated posts](https://ps.w.org/yet-another-stars-rating/assets/screenshot-3.png?rev=2147238)
 
 ### 4. User's ranking showing highest rated posts
 
-[missing image]
+![User's ranking showing highest rated posts](https://ps.w.org/yet-another-stars-rating/assets/screenshot-4.png?rev=2147238)
 
 ### 5. Ranking reviews
 
-[missing image]
+![Ranking reviews](https://ps.w.org/yet-another-stars-rating/assets/screenshot-5.png?rev=2147238)
 
 
 ## Changelog
 
 The full changelog can be found in the plugin's directory. Recent entries:
+
+### 3.1.3
+* FIXED: in the settings page, last div didn't float good
 
 ### 3.1.2
 * TWEAKED: added new filters yasr_custom_loader and yasr_custom_loader_url to customize loader
@@ -280,12 +283,12 @@ The full changelog can be found in the plugin's directory. Recent entries:
 * FIX: set_id parameter didn't work in shortcodes yasr_multi_set_ranking and yasr_visitor_multi_set_ranking
 * FIX: rankings didn't show up when post title contains quotation marks ( " )
 * TWEAKED: In the setting page, section "Custom texts" is now renamed in "Customize strings", and it works on two columns
-(more strings will come soon)
+  (more strings will come soon)
 * TWEAKED: under the hood changes.
-[//]: # fs_premium_only_begin
-PREMIUM ONLY:
+  [//]: # fs_premium_only_begin
+  PREMIUM ONLY:
 * FIX: in admin dashboard, stars in "edit-comments.php" page didn't show up
-[//]: # fs_premium_only_end
+  [//]: # fs_premium_only_end
 
 ### 3.0.4
 * FIX: Author multiset didn't get saved
