@@ -1,12 +1,12 @@
 # Yasr - Yet Another Stars Rating
 
-**Donate link:** https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXE284FYMNWDC     
-**Tags:** rating, rate post, star rating, google rating, block  
-**Requires at least:** 4.7  
-**Contributors:** Dudo  
-**Tested up to:** 6.0.2     
-**Stable tag:** 3.1.3   
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXE284FYMNWDC     
+Tags: rating, rate post, star rating, google rating, block    
+Requires at least: 4.7  
+Contributors: Dudo  
+Tested up to: 6.0.2     
+Stable tag: 3.1.3   
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
 
