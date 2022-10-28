@@ -49,6 +49,11 @@ function yasr_rankings_preview_shortcode() {
         die();
     }
 
+    if (!current_user_can('manage_options')) {
+        die();
+    }
+
+    
     $shortcode = $_GET['shortcode'];
 
     if(!shortcode_exists($shortcode)) {
@@ -57,7 +62,7 @@ function yasr_rankings_preview_shortcode() {
 
     $full_shortcode = stripslashes($_GET['full_shortcode']);
 
-    echo json_encode(do_shortcode($full_shortcode));
+    echo json_encode(do_shortcode(wp_kses_post($full_shortcode)));
 
     die();
 }
