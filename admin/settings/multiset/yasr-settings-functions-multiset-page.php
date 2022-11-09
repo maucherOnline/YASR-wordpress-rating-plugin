@@ -74,7 +74,7 @@ $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the la
         </form>
 
 
-        <!--This allow to choose if show average or no, must be inside the form-->
+        <!--This allows to choose if show average or no, must be inside the form-->
         <form action="options.php" method="post" id="yasr_multiset_form">
             <?php
             settings_fields('yasr_multiset_options_group');

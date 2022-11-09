@@ -130,7 +130,7 @@ class YasrMetaboxBelowEditor {
     public function addMultisetTab() {
         ?>
         <a href="#" id="yasr-metabox-below-editor-multiset-tab" class="nav-tab yasr-nav-tab">
-            <?php esc_html_e('Multi Set', 'yet-another-stars-rating'); ?>
+            <?php esc_html_e('Multi Criteria', 'yet-another-stars-rating'); ?>
         </a>
         <?php
     }

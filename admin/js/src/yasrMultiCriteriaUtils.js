@@ -282,7 +282,7 @@ const sincronizeEditorSwitchers = (multiSetinReview, reviewsEnabled, yasrProRevi
 }
 
 /**
- * Show the select if more then one multiset is used
+ * Show the select if more than one multiset is used
  *
  * @param nMultiSet
  * @param postId  bool | int
@@ -323,7 +323,6 @@ export const selectMultiset = (nMultiSet, postId=false, yasrProReviewSetid = nul
 
     }
 }
-
 
 /**
  * First do the ajax call, then print the multiset with rating for the post
