@@ -112,7 +112,7 @@ More info [here](https://wordpress.org/plugins/yet-another-stars-rating/faq/)
 = Old video, but still valid. =
 [youtube https://www.youtube.com/watch?v=M47xsJMQJ1E]
 
-= New videos, talked in Italian but easily to understand (eng subs will comes) =
+= New videos, talked in Italian but easily to understand (eng subs will come) =
 [Tutorial's playlist](https://www.youtube.com/playlist?list=PLFErQFOLUVMcx8Qb9--KKme3bQ_KGri71)
 
 == Developers ==
@@ -199,12 +199,16 @@ Yes, YASR is 100% fully compatible with PHP 8
 1. Example of Yasr Overall Rating and Yasr Visitor Votes shortcodes
 2. Yasr Multi Set
 3. User's ranking showing most rated posts
-4. User's ranking showing highest rated posts
+4. User's ranking showing the highest rated posts
 5. Ranking reviews
 
 == Changelog ==
 
 The full changelog can be found in the plugin's directory. Recent entries:
+
+= 3.1.4 =
+* TWEAKED: in the setting page, there is now a new form for creating multi set
+* TWEAKED: minor changes and code cleanup
 
 = 3.1.3 =
 * FIXED: security fix

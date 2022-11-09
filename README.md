@@ -1,3 +1,6 @@
+Refer to [readme.txt](readme.txt)
+
+<!--
 # Yasr - Yet Another Stars Rating
 
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXE284FYMNWDC     
@@ -120,7 +123,7 @@ More info [here](https://wordpress.org/plugins/yet-another-stars-rating/faq/)
 
 [youtube https://www.youtube.com/watch?v=M47xsJMQJ1E]
 
-### New videos, talked in Italian but easily to understand (eng subs will comes)
+### New videos, talked in Italian but easily to understand (eng subs will come)
 
 [Tutorial's playlist](https://www.youtube.com/playlist?list=PLFErQFOLUVMcx8Qb9--KKme3bQ_KGri71)
 
@@ -298,3 +301,4 @@ The full changelog can be found in the plugin's directory. Recent entries:
 ### Additional Info
 
 See credits.txt file
+-->
