@@ -26,6 +26,13 @@ if(!is_admin()) {
     return;
 }
 
+//Customize optin image
+yasr_fs()->add_filter( 'plugin_icon' , 'yasr_change_optin_image' );
+
+function yasr_change_optin_image() {
+    return YASR_ABSOLUTE_PATH . '/includes/img/yet-another-stars-rating.png';
+}
+
 //this define must triggered after the active theme's functions.php file is loaded
 add_action('init', function (){
 
