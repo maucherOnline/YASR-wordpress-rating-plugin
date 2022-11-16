@@ -48,7 +48,7 @@ if ( ! function_exists( 'yasr_fs' ) ) {
 
         if (!isset( $yasr_fs)) {
             // Include Freemius SDK.
-            require_once __DIR__ . '/freemius/start.php';
+            require_once __DIR__ . '/vendor/freemius/wordpress-sdk/start.php';
 
             try {
                 $yasr_fs = fs_dynamic_init(array(
