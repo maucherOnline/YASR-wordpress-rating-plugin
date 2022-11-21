@@ -33,6 +33,9 @@ function yasr_change_optin_image() {
     return YASR_ABSOLUTE_PATH . '/includes/img/yet-another-stars-rating.png';
 }
 
+//deactivate the feedback form on plugin deactivation
+yasr_fs()->add_filter( 'show_deactivation_feedback_form', '__return_false' );
+
 //this define must triggered after the active theme's functions.php file is loaded
 add_action('init', function (){
 
