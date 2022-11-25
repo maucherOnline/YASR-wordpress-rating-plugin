@@ -4,30 +4,30 @@ import {yasrMultiCriteriaEditPage} from "./yasrMultiCriteriaUtils";
 
 // executes this when the DOM is ready
 document.addEventListener('DOMContentLoaded', function(event) {
+    const metaboxBelow   = document.getElementById('yasr_metabox_below_editor');
+
+    //always show snippet or multi set, if metabox is rendered
+    if(metaboxBelow !== null) {
+
+        yasrPrintMetaBoxBelowEditor();
+    }
 
     //check if is gutenberg editor
     let yasrIsGutenbergEditor = document.body.classList.contains('block-editor-page');
 
     if(yasrIsGutenbergEditor !== true) {
-        //show overall rating in the metabox
-        yasrPrintMetaBoxOverall();
+        const metaboxOverall = document.getElementById('yasr_metabox_overall_rating');
+
+        if(metaboxOverall !== null) {
+            //show overall rating in the metabox
+            yasrPrintMetaBoxOverall();
+        }
 
         //run shortcode creator
         yasrShortcodeCreator();
     }
 
-    //always show snippet or multi set
-    yasrPrintMetaBoxBelowEditor();
-
 }); //end document ready
-
-document.getElementById('yasr-metabox-below-editor-select-schema').addEventListener('change',
-    function() {
-        let selectedItemtype = this.value;
-        yasrSwitchItemTypeDiv(selectedItemtype);
-    }
-);
-
 
 /**
  * Print the stars for top right metabox
@@ -35,7 +35,6 @@ document.getElementById('yasr-metabox-below-editor-select-schema').addEventListe
  * @return void;
  */
 function yasrPrintMetaBoxOverall() {
-
     //Convert string to number
     let overallRating = parseFloat(document.getElementById('yasr-overall-rating-value').value);
     const copyOverall = document.getElementById('yasr-editor-copy-overall');
@@ -79,6 +78,15 @@ function yasrPrintMetaBoxOverall() {
  * At the page load, show Schema.org option
  */
 function yasrPrintMetaBoxBelowEditor () {
+    const selectSchema = document.getElementById('yasr-metabox-below-editor-select-schema');
+
+    selectSchema.addEventListener('change',
+        function() {
+            let selectedItemtype = this.value;
+            yasrSwitchItemTypeDiv(selectedItemtype);
+        }
+    );
+
     // When click on main tab hide multi set content
     jQuery('#yasr-metabox-below-editor-structured-data-tab').on("click", function (e) {
 

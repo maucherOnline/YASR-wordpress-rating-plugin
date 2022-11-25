@@ -131,9 +131,9 @@ class YasrEditorHooks {
 
         foreach ($post_type_where_display_metabox as $post_type) {
             add_meta_box(
-                'yasr_metabox_below_editor_metabox',
+                'yasr_metabox_below_editor',
                 __('Yet Another Stars Rating', 'yet-another-stars-rating'),
-                array($this, 'yasr_metabox_below_editor_metabox_callback'),
+                array($this, 'yasr_metabox_below_editor_callback'),
                 $post_type,
                 'normal',
                 'high'
@@ -160,7 +160,7 @@ class YasrEditorHooks {
      *
      * @author Dario Curvino <@dudo>
      */
-    public function yasr_metabox_below_editor_metabox_callback() {
+    public function yasr_metabox_below_editor_callback() {
         if (current_user_can(YASR_USER_CAPABILITY_EDIT_POST)) {
             include(YASR_ABSOLUTE_PATH_ADMIN . '/editor/YasrMetaboxBelowEditor.php');
             $metabox = new YasrMetaboxBelowEditor();
