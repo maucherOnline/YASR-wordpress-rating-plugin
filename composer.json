@@ -1,5 +1,5 @@
 {
-    "name": "dario/yet-another-stars-rating",
+    "name": "dudo1985/yet-another-stars-rating",
     "description": "=== Yasr - Yet Another Stars Rating ===",
     "require": {
         "freemius/wordpress-sdk": "^2.5"
