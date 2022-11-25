@@ -106,6 +106,10 @@
     vertical-align: super;
 }
 
+.yasr-vv-stars-title-container {
+    display: inline;
+}
+
 .yasr-stars-title {
     margin-left: 4px;
     vertical-align: baseline;

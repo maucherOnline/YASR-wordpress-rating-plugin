@@ -233,7 +233,8 @@ class YasrPublicFilters {
 
         $htmlid = 'yasr-visitor-votes-readonly-rater-' . str_shuffle(uniqid());
 
-        $vv_widget = "<div class='yasr-stars-title yasr-rater-stars'
+        $vv_widget = '<div class="yasr-vv-stars-title-container">';
+        $vv_widget .= "<div class='yasr-stars-title yasr-rater-stars'
                           id='$htmlid'
                           data-rating='$average_rating'
                           data-rater-starsize='16'
@@ -241,8 +242,8 @@ class YasrPublicFilters {
                           data-rater-readonly='true'
                           data-readonly-attribute='true'
                       ></div>";
-
         $vv_widget .= "<span class='yasr-stars-title-average'>$average_rating ($number_of_votes)</span>";
+        $vv_widget .= '</div>';
 
         YasrVisitorVotes::defineVvAttributes($stored_votes);
 
