@@ -214,26 +214,15 @@ class YasrRichSnippets {
 
             $logo_image_url_absolute = $_SERVER['DOCUMENT_ROOT'] . parse_url(YASR_PUBLISHER_LOGO, PHP_URL_PATH);
 
-            $post_image_size = @getimagesize($logo_image_url_absolute);
-            $logo_image_size = @getimagesize($logo_image_url_absolute);
+            $post_image_size = yasr_getimagesize($logo_image_url_absolute);
+            $logo_image_size = yasr_getimagesize($logo_image_url_absolute);
         }
 
         //if exists featured image get the url and overwrite the variable
         if (has_post_thumbnail()) {
             $post_image_url          = wp_get_attachment_url(get_post_thumbnail_id());
             $post_image_url_absolute = $_SERVER['DOCUMENT_ROOT'] . parse_url($post_image_url, PHP_URL_PATH);
-            $post_image_size         = @getimagesize($post_image_url_absolute); //the @ should be useless, just to be safe
-        }
-
-        //be sure that getimagesize has returned an array
-        if(!is_array($post_image_size)) {
-            $post_image_size[0] = 0;
-            $post_image_size[1] = 0;
-        }
-
-        if(!is_array($logo_image_size)) {
-            $logo_image_size[0] = 0;
-            $logo_image_size[1] = 0;
+            $post_image_size         = yasr_getimagesize($post_image_url_absolute);
         }
 
         return array (

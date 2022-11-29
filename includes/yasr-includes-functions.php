@@ -321,6 +321,34 @@ function yasr_kses($string) {
 }
 
 /**
+ * Wrapper function for getimagesize.
+ * If url is invalid or getimagesize doesn't return an array, return an array(0,0)
+ *
+ * @author Dario Curvino <@dudo>
+ * @since  3.1.5
+ * @param $url
+ *
+ * @return array
+ */
+
+function yasr_getimagesize($url) {
+    //check if url is valid
+    if (yasr_check_valid_url($url) === true) {
+        $image_size = @getimagesize($url);
+
+        //be sure that getimagesize has returned an array
+        if (!is_array($image_size)) {
+            $image_size[0] = 0;
+            $image_size[1] = 0;
+        }
+
+        return $image_size;
+    }
+
+    return array(0,0);
+}
+
+/**
  * Check if the given url is a SVG image
  *
  * @author Dario Curvino <@dudo>
