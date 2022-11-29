@@ -525,7 +525,7 @@ class YasrScriptsLoader {
             $constants_array = apply_filters('yasr_gutenberg_constants', $constants_array);
 
             //sanitize
-            $constants_array = filter_var_array($constants_array,FILTER_SANITIZE_STRING);
+            $constants_array = filter_var_array($constants_array,FILTER_UNSAFE_RAW);
 
             if(is_array($constants_array) && !empty($constants_array)) {
                 wp_localize_script(

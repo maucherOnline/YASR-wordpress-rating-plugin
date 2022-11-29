@@ -54,7 +54,7 @@ class YasrPublicFilters {
         //Excluded_cpt must be an array
         if (is_array($excluded_cpt) && !empty($excluded_cpt)) {
             //sanitize
-            $excluded_cpt = filter_var_array($excluded_cpt, FILTER_SANITIZE_STRING);
+            $excluded_cpt = filter_var_array($excluded_cpt, FILTER_UNSAFE_RAW);
 
             $post_type = get_post_type();
 
