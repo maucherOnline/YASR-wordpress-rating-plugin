@@ -319,3 +319,35 @@ function yasr_kses($string) {
 
     return wp_kses($string, $allowed_html);
 }
+
+
+/**
+ * Check if image is SVG
+ *
+ * @author Dario Curvino <@dudo>
+ * @since  2.6.8
+ *
+ * @param $url
+ *
+ * @return bool
+ */
+function yasr_check_svg_image($url) {
+    if ($url !== '') {
+
+        //check if url is valid
+        if (yasr_check_valid_url($url) === true) {
+
+            //if url is valid, check if is a svg image
+            $finfo = new finfo(FILEINFO_MIME_TYPE);
+            $type  = $finfo->buffer(file_get_contents($url));
+
+            if ($type === 'image/svg+xml') {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+    return false;
+
+}

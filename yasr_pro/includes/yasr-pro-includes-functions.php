@@ -72,36 +72,7 @@ function yasr_pro_translate() {
 }
 
 
-/**
- * Check if image is SVG
- *
- * @author Dario Curvino <@dudo>
- * @since  2.6.8
- *
- * @param $url
- *
- * @return bool
- */
-function yasr_check_svg_image($url) {
-    if ($url !== '') {
 
-        //check if url is valid
-        if (yasr_check_valid_url($url) === true) {
-
-            //ig url is valid, check if is an svg image
-            $finfo = new finfo(FILEINFO_MIME_TYPE);
-            $type  = $finfo->buffer(file_get_contents($url));
-
-            if ($type === 'image/svg+xml') {
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-    return false;
-
-}
 
 /**
  * @author Dario Curvino <@dudo>

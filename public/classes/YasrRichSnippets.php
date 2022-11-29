@@ -167,7 +167,7 @@ class YasrRichSnippets {
         $data_to_return['date_modified']    = get_the_modified_date('c');
         $data_to_return['is_post_a_review'] = get_post_meta($post_id, 'yasr_post_is_review', true);
 
-        $data_to_return = array_merge($data_to_return, $this->images_attributes());
+        $data_to_return = array_merge($data_to_return, $this->imagesAttributes());
 
         $publisher_image_index = 'logo';
         if (YASR_PUBLISHER_TYPE === 'Person') {
@@ -177,7 +177,7 @@ class YasrRichSnippets {
         $data_to_return['publisher'] = array(
             '@type'                => YASR_PUBLISHER_TYPE,
             'name'                 => wp_strip_all_tags(YASR_PUBLISHER_NAME),
-            //already sanitized in the settings, just to be safe
+
             $publisher_image_index => array(
                 '@type'  => 'ImageObject',
                 'url'    => $data_to_return['logo_image_url'],
@@ -198,18 +198,18 @@ class YasrRichSnippets {
      * @since  3.1.1
      * @return array
      */
-    private function images_attributes() {
+    private function imagesAttributes() {
         $logo_image_url = '';
-        $post_image_url = $logo_image_url; //this will be overwritten if has_post_thumbnail is true
+        $post_image_url = $logo_image_url; //this will be overwritten if it has_post_thumbnail is true
 
         if (YASR_PUBLISHER_LOGO) {
             $logo_image_url = YASR_PUBLISHER_LOGO;
-            $post_image_url = $logo_image_url; //this will be overwritten if has_post_thumbnail is true
+            $post_image_url = $logo_image_url; //this will be overwritten if it has_post_thumbnail is true
 
             $logo_image_url_absolute = $_SERVER['DOCUMENT_ROOT'] . parse_url(YASR_PUBLISHER_LOGO, PHP_URL_PATH);
 
-            $post_image_size = @getimagesize($logo_image_url_absolute);  //the @ should be useless, just to be safe
-            $logo_image_size = @getimagesize($logo_image_url_absolute);  //the @ should be useless, just to be safe
+            $post_image_size = @getimagesize($logo_image_url_absolute);
+            $logo_image_size = @getimagesize($logo_image_url_absolute);
         }
         else {
             $post_image_size[0] = 0;
