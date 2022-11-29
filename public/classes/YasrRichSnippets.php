@@ -202,6 +202,12 @@ class YasrRichSnippets {
         $logo_image_url = '';
         $post_image_url = $logo_image_url; //this will be overwritten if it has_post_thumbnail is true
 
+        //default values
+        $post_image_size[0] = 0;
+        $post_image_size[1] = 0;
+        $logo_image_size[0] = 0;
+        $logo_image_size[1] = 0;
+
         if (YASR_PUBLISHER_LOGO) {
             $logo_image_url = YASR_PUBLISHER_LOGO;
             $post_image_url = $logo_image_url; //this will be overwritten if it has_post_thumbnail is true
@@ -211,11 +217,12 @@ class YasrRichSnippets {
             $post_image_size = @getimagesize($logo_image_url_absolute);
             $logo_image_size = @getimagesize($logo_image_url_absolute);
         }
-        else {
-            $post_image_size[0] = 0;
-            $post_image_size[1] = 0;
-            $logo_image_size[0] = 0;
-            $logo_image_size[1] = 0;
+
+        //if exists featured image get the url and overwrite the variable
+        if (has_post_thumbnail()) {
+            $post_image_url          = wp_get_attachment_url(get_post_thumbnail_id());
+            $post_image_url_absolute = $_SERVER['DOCUMENT_ROOT'] . parse_url($post_image_url, PHP_URL_PATH);
+            $post_image_size         = @getimagesize($post_image_url_absolute); //the @ should be useless, just to be safe
         }
 
         //be sure that getimagesize has returned an array
@@ -227,13 +234,6 @@ class YasrRichSnippets {
         if(!is_array($logo_image_size)) {
             $logo_image_size[0] = 0;
             $logo_image_size[1] = 0;
-        }
-
-        //if exists featured image get the url and overwrite the variable
-        if (has_post_thumbnail()) {
-            $post_image_url          = wp_get_attachment_url(get_post_thumbnail_id());
-            $post_image_url_absolute = $_SERVER['DOCUMENT_ROOT'] . parse_url($post_image_url, PHP_URL_PATH);
-            $post_image_size         = @getimagesize($post_image_url_absolute); //the @ should be useless, just to be safe
         }
 
         return array (

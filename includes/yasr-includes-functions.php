@@ -320,9 +320,8 @@ function yasr_kses($string) {
     return wp_kses($string, $allowed_html);
 }
 
-
 /**
- * Check if image is SVG
+ * Check if the given url is a SVG image
  *
  * @author Dario Curvino <@dudo>
  * @since  2.6.8
