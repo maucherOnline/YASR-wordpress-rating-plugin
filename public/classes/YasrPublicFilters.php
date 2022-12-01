@@ -69,6 +69,44 @@ class YasrPublicFilters {
             }
         }
 
+        $content_and_stars = self::addStarsToContent($content);
+
+        //IF auto insert must work only in custom post type
+        if (YASR_AUTO_INSERT_CUSTOM_POST_ONLY === 'yes') {
+            $custom_post_types = YasrCustomPostTypes::getCustomPostTypes();
+            //If is a post type return content and stars
+            if (is_singular($custom_post_types)) {
+                return $content_and_stars;
+            } //else return just content
+
+            return $content;
+        }
+
+        //If page are not excluded
+        if (YASR_AUTO_INSERT_EXCLUDE_PAGES === 'no') {
+            return $content_and_stars;
+        }
+
+        if (YASR_AUTO_INSERT_EXCLUDE_PAGES === 'yes') {
+            if (is_page()) {
+                return $content;
+            } //If is a page return the content without stars
+
+            return $content_and_stars;
+        } //else return only if it is not a page
+
+    } //End function yasr_auto_insert_shortcode_callback
+
+    /**
+     * Helper function to append stars
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.5
+     * @param $content
+     *
+     * @return false|string
+     */
+    private static function addStarsToContent ($content) {
         $shortcode_align = YASR_AUTO_INSERT_ALIGN;
 
         //if it is not left, or right, default is center
@@ -130,37 +168,14 @@ class YasrPublicFilters {
 
                 case 'both':
                     $content_and_stars = $overall_rating_code . $visitor_votes_code .
-                                         $content .
-                                         $overall_rating_code . $visitor_votes_code;
+                        $content .
+                        $overall_rating_code . $visitor_votes_code;
                     break;
             } //End Switch
         }
 
-        //IF auto insert must work only in custom post type
-        if (YASR_AUTO_INSERT_CUSTOM_POST_ONLY === 'yes') {
-            $custom_post_types = YasrCustomPostTypes::getCustomPostTypes();
-            //If is a post type return content and stars
-            if (is_singular($custom_post_types)) {
-                return $content_and_stars;
-            } //else return just content
-
-            return $content;
-        }
-
-        //If page are not excluded
-        if (YASR_AUTO_INSERT_EXCLUDE_PAGES === 'no') {
-            return $content_and_stars;
-        }
-
-        if (YASR_AUTO_INSERT_EXCLUDE_PAGES === 'yes') {
-            if (is_page()) {
-                return $content;
-            } //If is a page return the content without stars
-
-            return $content_and_stars;
-        } //else return only if it is not a page
-
-    } //End function yasr_auto_insert_shortcode_callback
+        return $content_and_stars;
+    }
 
 
     /**
