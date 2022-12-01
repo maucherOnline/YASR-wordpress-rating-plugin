@@ -41,7 +41,10 @@ class YasrPublicFilters {
         //check if for this post or page auto insert is off
         $post_excluded = get_post_meta($post_id, 'yasr_auto_insert_disabled', true);
 
-        if ($post_excluded === 'yes') {
+        //hook here if you want to manually enable or disable the auto insert
+        $disable_on_this_post = apply_filters('yasr_auto_insert_disable', $post_excluded, $content);
+
+        if ($disable_on_this_post === 'yes') {
             return $content;
         }
 
@@ -248,7 +251,7 @@ class YasrPublicFilters {
         YasrVisitorVotes::defineVvAttributes($stored_votes);
 
         //Use this hook to customize widget
-        //if doesn't exists a filter for yasr_title_vv_widget, put $vv_widget into $content_after_title
+        //if doesn't exist a filter for yasr_title_vv_widget, put $vv_widget into $content_after_title
         return apply_filters('yasr_title_vv_widget', $vv_widget, $stored_votes);
     }
 
