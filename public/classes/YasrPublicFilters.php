@@ -35,7 +35,6 @@ class YasrPublicFilters {
      * @return bool|string|void
      */
     public static function autoInsert($content) {
-
         $post_id = get_the_ID();
 
         //check if for this post or page auto insert is off
@@ -48,25 +47,8 @@ class YasrPublicFilters {
             return $content;
         }
 
-        //create an empty array
-        $excluded_cpt = array();
-
-        //this hooks can be used to add cpt to exclude from the auto_insert
-        $excluded_cpt = apply_filters('yasr_auto_insert_exclude_cpt', $excluded_cpt);
-
-        //Excluded_cpt must be an array
-        if (is_array($excluded_cpt) && !empty($excluded_cpt)) {
-            //sanitize
-            $excluded_cpt = filter_var_array($excluded_cpt, FILTER_UNSAFE_RAW);
-
-            $post_type = get_post_type();
-
-            //if one element in the array is found, return content
-            foreach ($excluded_cpt as $cpt) {
-                if ($cpt === $post_type) {
-                    return $content;
-                }
-            }
+        if(self::isThisCptExcluded() === true) {
+            return $content;
         }
 
         $content_and_stars = self::addStarsToContent($content);
@@ -98,6 +80,39 @@ class YasrPublicFilters {
     } //End function yasr_auto_insert_shortcode_callback
 
     /**
+     * If the current CPT is excluded (the filter yasr_auto_insert_exclude_cpt must be used) return true
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.5
+     *
+     * @return bool
+     */
+    public static function isThisCptExcluded() {
+        //create an empty array
+        $excluded_cpt = array();
+
+        //this hooks can be used to add cpt to exclude from the auto_insert
+        $excluded_cpt = apply_filters('yasr_auto_insert_exclude_cpt', $excluded_cpt);
+
+        //Excluded_cpt must be an array
+        if (is_array($excluded_cpt) && !empty($excluded_cpt)) {
+            //sanitize
+            $excluded_cpt = filter_var_array($excluded_cpt, FILTER_UNSAFE_RAW);
+
+            $post_type = get_post_type();
+
+            //if one element in the array is found, return content
+            foreach ($excluded_cpt as $cpt) {
+                if ($cpt === $post_type) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Helper function to append stars
      *
      * @author Dario Curvino <@dudo>
@@ -106,7 +121,7 @@ class YasrPublicFilters {
      *
      * @return false|string
      */
-    private static function addStarsToContent ($content) {
+    public static function addStarsToContent ($content) {
         $shortcode_align = YASR_AUTO_INSERT_ALIGN;
 
         //if it is not left, or right, default is center
