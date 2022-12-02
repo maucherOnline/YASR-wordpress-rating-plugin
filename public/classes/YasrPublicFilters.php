@@ -35,6 +35,15 @@ class YasrPublicFilters {
      * @return bool|string|void
      */
     public static function autoInsert($content) {
+        //If this is a page and auto insert is excluded for pages, return
+        if ((YASR_AUTO_INSERT_EXCLUDE_PAGES === 'yes') && is_page()) {
+            return $content;
+        }
+
+        if (YASR_AUTO_INSERT_CUSTOM_POST_ONLY === 'yes' && YasrCustomPostTypes::isCpt() === false) {
+            return $content;
+        }
+
         $post_id = get_the_ID();
 
         //check if for this post or page auto insert is off
@@ -47,35 +56,12 @@ class YasrPublicFilters {
             return $content;
         }
 
-        if(self::isThisCptExcluded() === true) {
+        if(YasrCustomPostTypes::isCpt() && self::isThisCptExcluded() === true) {
             return $content;
         }
 
-        $content_and_stars = self::addStarsToContent($content);
-
-        //IF auto insert must work only in custom post type
-        if (YASR_AUTO_INSERT_CUSTOM_POST_ONLY === 'yes') {
-            $custom_post_types = YasrCustomPostTypes::getCustomPostTypes();
-            //If is a post type return content and stars
-            if (is_singular($custom_post_types)) {
-                return $content_and_stars;
-            } //else return just content
-
-            return $content;
-        }
-
-        //If page are not excluded
-        if (YASR_AUTO_INSERT_EXCLUDE_PAGES === 'no') {
-            return $content_and_stars;
-        }
-
-        if (YASR_AUTO_INSERT_EXCLUDE_PAGES === 'yes') {
-            if (is_page()) {
-                return $content;
-            } //If is a page return the content without stars
-
-            return $content_and_stars;
-        } //else return only if it is not a page
+        //add stars to the content
+        return self::addStarsToContent($content);
 
     } //End function yasr_auto_insert_shortcode_callback
 

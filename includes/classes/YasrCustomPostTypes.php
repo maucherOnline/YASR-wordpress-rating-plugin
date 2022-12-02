@@ -114,6 +114,22 @@ class YasrCustomPostTypes {
     }
 
     /**
+     * Check if the current post/page is CPT
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.5
+     * @return bool
+     */
+    public static function isCpt() {
+        $custom_post_types = self::getCustomPostTypes();
+        //If is a post type return content and stars
+        if (is_singular($custom_post_types)) {
+            return true;
+        } //else return just content
+        return false;
+    }
+
+    /**
      * Return rest_base if exists
      * or post_type otherwise
      *
