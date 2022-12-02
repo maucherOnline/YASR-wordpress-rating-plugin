@@ -56,7 +56,7 @@ class YasrPublicFilters {
             return $content;
         }
 
-        if(YasrCustomPostTypes::isCpt() && self::isThisCptExcluded() === true) {
+        if(self::excludePostType() === true) {
             return $content;
         }
 
@@ -66,14 +66,16 @@ class YasrPublicFilters {
     } //End function yasr_auto_insert_shortcode_callback
 
     /**
-     * If the current CPT is excluded (the filter yasr_auto_insert_exclude_cpt must be used) return true
+     * If the current post type is excluded (the filter yasr_auto_insert_exclude_cpt must be used) return true
+     *
+     * It can be ANY post type, not only CPT
      *
      * @author Dario Curvino <@dudo>
      * @since  3.1.5
      *
      * @return bool
      */
-    public static function isThisCptExcluded() {
+    public static function excludePostType() {
         //create an empty array
         $excluded_cpt = array();
 
