@@ -207,6 +207,7 @@ Yes, YASR is 100% fully compatible with PHP 8
 The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.1.5 =
+* FIXED: in the editor page, fixed js null error if YASR metabox is not rendered
 * FIXED: fixed [offset warning](https://wordpress.org/support/topic/trying-to-access-array-offset-warning/) if no valid image was given
 * TWEAKED: removed warning if PHP 8.1 is used
 * TWEAKED: added new filter yasr_auto_insert_disable
