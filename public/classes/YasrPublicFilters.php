@@ -36,7 +36,7 @@ class YasrPublicFilters {
      */
     public static function autoInsert($content) {
         //If this is a page and auto insert is excluded for pages, return
-        if ((YASR_AUTO_INSERT_EXCLUDE_PAGES === 'yes') && is_page()) {
+        if (YASR_AUTO_INSERT_EXCLUDE_PAGES === 'yes' && is_page()) {
             return $content;
         }
 
@@ -117,8 +117,8 @@ class YasrPublicFilters {
             $shortcode_align = 'center';
         }
 
-        $container_div_overall = '<div style="text-align:' . $shortcode_align . '" class="yasr-auto-insert-overall">';
-        $container_div_visitor = '<div style="text-align:' . $shortcode_align . '" class="yasr-auto-insert-visitor">';
+        $container_div_overall = "<div style='text-align:{$shortcode_align}' class='yasr-auto-insert-overall'>";
+        $container_div_visitor = "<div style='text-align:{$shortcode_align}' class='yasr-auto-insert-visitor'>";
         $closing_div           = '</div>';
 
         $overall_rating_code   = $container_div_overall . '[yasr_overall_rating size="' . YASR_AUTO_INSERT_SIZE . '"]'
