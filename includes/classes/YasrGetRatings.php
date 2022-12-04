@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
  *
  * Class YasrDatabaseRatings
  */
-class YasrDatabaseRatings {
+class YasrGetRatings {
 
     /**
      * Returns overall rating for single post or page
@@ -36,7 +36,7 @@ class YasrDatabaseRatings {
      *
      * @return mixed|null
      */
-    public static function getOverallRating ($post_id=false) {
+    public static function overallRating ($post_id=false) {
         //if values it's not passed get the post id, since version 1.6.9 this is just for yasr_add_schema function
         //and for a further check
         if (!is_int($post_id)) {
@@ -54,8 +54,14 @@ class YasrDatabaseRatings {
         return $overall_rating;
     }
 
-
-    public static function getAllOverallRatings() {
+    /**
+     * Returns *ALL* Overall Ratings*
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.5.2
+     * @return array|object|\stdClass[]|null
+     */
+    public static function allOverallRatings() {
         global $wpdb;
 
         $query = "SELECT pm.post_id,      
@@ -88,7 +94,7 @@ class YasrDatabaseRatings {
     public static function getVisitorVotes ($post_id = false) {
         global $wpdb;
 
-        //if values it's not passed get the post id, most of cases and default one
+        //if values it's not passed get the post id, most of the cases and default one
         if (!is_int($post_id)) {
             $post_id = get_the_ID();
         }

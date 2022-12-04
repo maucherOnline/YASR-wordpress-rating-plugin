@@ -88,7 +88,7 @@ class YasrOverallRating extends YasrShortcode {
             if($rating !== false) {
                 $overall_rating = $rating;
             } else {
-                $overall_rating = YasrDatabaseRatings::getOverallRating($post_id);
+                $overall_rating = YasrGetRatings::overallRating($post_id);
             }
         }  else {
             $overall_rating = $this->overall_rating;
@@ -121,7 +121,7 @@ class YasrOverallRating extends YasrShortcode {
      */
     protected function customTextBefore() {
         //Get overall Rating
-        $this->overall_rating  = YasrDatabaseRatings::getOverallRating();
+        $this->overall_rating  = YasrGetRatings::overallRating();
         $text_before_star      = apply_filters('yasr_cstm_text_before_overall', $this->overall_rating);
 
         return "<div class='yasr-container-custom-text-and-overall'>

@@ -247,7 +247,7 @@ class YasrPublicFilters {
      */
     public function filterTitleVV($post_id) {
         //returns int
-        $stored_votes = YasrDatabaseRatings::getVisitorVotes();
+        $stored_votes = YasrGetRatings::getVisitorVotes();
 
         $number_of_votes = $stored_votes['number_of_votes'];
         $average_rating  = $stored_votes['average'];
@@ -285,7 +285,7 @@ class YasrPublicFilters {
      * @return mixed|void
      */
     public function filterTitleOV ($post_id) {
-        $overall_rating = YasrDatabaseRatings::getOverallRating($post_id);
+        $overall_rating = YasrGetRatings::overallRating($post_id);
 
         //first, overall widget contains overall rating
         $overall_widget = '';

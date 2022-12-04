@@ -173,7 +173,7 @@ if ( ! function_exists( 'yasr_fs' ) ) {
     //when blog is deleted
     add_filter('wpmu_drop_tables', 'yasr_on_delete_blog');
 
-    //this add a link under the plugin name, must be in the main plugin file
+    //this adds a link under the plugin name, must be in the main plugin file
     add_filter('plugin_action_links_' . plugin_basename( __FILE__ ), 'yasr_add_links_below_plugin_name');
 
     function yasr_add_links_below_plugin_name($links) {
@@ -181,7 +181,7 @@ if ( ! function_exists( 'yasr_fs' ) ) {
         $settings_link .= __('Settings', 'yet-another-stars-rating');
         $settings_link .= '</a>';
 
-        //array_unshit adds to the begin of array
+        //array_unshit adds to the beginning of array
         array_unshift($links, $settings_link);
 
         return $links;

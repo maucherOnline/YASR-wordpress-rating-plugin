@@ -207,7 +207,7 @@ class YasrShortcodesAjax {
      * @return string
      */
     public function vvReturnResponse($post_id, $rating, $result_update_log) {
-        $row_exists = YasrDatabaseRatings::getVisitorVotes($post_id);
+        $row_exists = YasrGetRatings::getVisitorVotes($post_id);
 
         $number_of_votes = $row_exists['number_of_votes'];
         $medium_rating   = $row_exists['average'];
@@ -293,7 +293,7 @@ class YasrShortcodesAjax {
 
         $array_to_return['stars_attributes']['span_bottom'] = YasrVisitorVotes::showTextBelowStars($cookie_value, $post_id);
 
-        $array_visitor_votes = YasrDatabaseRatings::getVisitorVotes($post_id);
+        $array_visitor_votes = YasrGetRatings::getVisitorVotes($post_id);
 
         $array_to_return['number_of_votes'] = $array_visitor_votes['number_of_votes'];
         $array_to_return['sum_votes']       = $array_visitor_votes['sum_votes'];
@@ -534,7 +534,7 @@ class YasrShortcodesAjax {
             die();
         }
 
-        $votes_array    = YasrDatabaseRatings::getVisitorVotes($post_id);
+        $votes_array    = YasrGetRatings::getVisitorVotes($post_id);
         $average_rating = $votes_array['average'];
 
         $missing_vote  = null; //avoid undefined variable
