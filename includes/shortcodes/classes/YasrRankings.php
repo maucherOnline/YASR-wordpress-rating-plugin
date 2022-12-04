@@ -84,8 +84,8 @@ class YasrRankings extends YasrMultiSet {
          */
         $sql_atts = apply_filters('yasr_vv_rankings_atts', $this->shortcode_name, $atts);
 
-        $this->query_result_most_rated_visitor    = YasrRankingData::rankingVVGetResults($sql_atts, 'most');
-        $this->query_result_highest_rated_visitor = YasrRankingData::rankingVVGetResults($sql_atts, 'highest');
+        $this->query_result_most_rated_visitor    = YasrGetRatings::rankingVV($sql_atts, 'most');
+        $this->query_result_highest_rated_visitor = YasrGetRatings::rankingVV($sql_atts, 'highest');
 
         $this->returnDoubleTableRanking($this->urlencodeAtts($sql_atts), $source);
         $this->shortcode_html .= '<!--End Yasr TMost Or Highest Rated Shortcode -->';

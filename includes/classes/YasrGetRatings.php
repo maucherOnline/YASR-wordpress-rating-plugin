@@ -227,4 +227,56 @@ class YasrGetRatings {
         return false;
     }
 
+    /**
+     * Returns yasr_most_or_highest_rated_posts with no params and 10 rows.
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.5.2
+     *
+     * @param array      $atts
+     * @param            $ranking
+     *
+     * @return array|false|object|void
+     */
+    public static function rankingVV($atts, $ranking) {
+        global $wpdb;
+
+        //hooks here to return a query
+        $query = apply_filters('yasr_rankings_query_vv', $atts, $ranking);
+
+        //if no custom query is hooked
+        if ($query === $atts) {
+            $common_query = "SELECT post_id, 
+                COUNT(post_id) AS number_of_votes,
+                ROUND(SUM(vote) / COUNT(post_id),1) AS rating
+            FROM " . YASR_LOG_TABLE . ",
+                $wpdb->posts AS p
+            WHERE post_id = p.ID
+                AND p.post_status = 'publish'
+            GROUP BY post_id
+                HAVING number_of_votes > 1
+            ";
+
+            if ($ranking === 'highest') {
+                $order_by = ' ORDER BY rating DESC, number_of_votes DESC';
+            }
+            else {
+                $order_by = ' ORDER BY number_of_votes DESC, rating DESC, post_id DESC';
+            }
+
+            $limit = ' LIMIT 10';
+            $query = $common_query . $order_by . $limit;
+
+            $query_results = $wpdb->get_results($query);
+        }
+        else {
+            $query_results = $query;
+        }
+
+        if ($query_results) {
+            return $query_results;
+        }
+        return false;
+    }
+
 }

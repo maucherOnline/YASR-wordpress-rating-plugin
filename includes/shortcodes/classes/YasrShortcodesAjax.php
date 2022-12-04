@@ -708,7 +708,7 @@ class YasrShortcodesAjax {
             $ranking                = ($request['show'] === 'highest') ? $request['show'] : 'most';
             $data_to_return['show'] = $ranking;
 
-            $vv_data = YasrRankingData::rankingVVGetResults($sql_params, $ranking);
+            $vv_data = YasrGetRatings::rankingVV($sql_params, $ranking);
             if ($vv_data === false) {
                 $data_to_return = false;
             }
