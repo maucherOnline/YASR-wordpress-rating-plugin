@@ -180,7 +180,7 @@ class YasrVisitorVotes extends YasrShortcode {
             //if it is not false_already_voted means it is true_logged
             if($stars_enabled !== 'false_already_voted') {
                 //Check if a logged-in user has already rated for this post
-                $vote_if_user_already_rated = YasrGetRatings::visitorVotesUserRating($post_id);
+                $vote_if_user_already_rated = YasrGetRatings::vvCurrentUserRating($post_id);
                 //...and if vote exists, assign it into rating
                 if($vote_if_user_already_rated) {
                     $rating = $vote_if_user_already_rated;

@@ -155,7 +155,7 @@ class YasrGetRatings {
      *
      * @return bool|int
      */
-    public static function visitorVotesUserRating($post_id = false) {
+    public static function vvCurrentUserRating($post_id = false) {
         global $wpdb;
 
         $user_id      = get_current_user_id();
