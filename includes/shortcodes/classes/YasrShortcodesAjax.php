@@ -694,7 +694,7 @@ class YasrShortcodesAjax {
         $sql_params = apply_filters('yasr_filter_ranking_request', false, $request);
 
         if($source === 'overall_rating') {
-            $overall_data = YasrRankingData::rankingOverallGetResults($sql_params);
+            $overall_data = YasrGetRatings::rankingOverall($sql_params);
             if($overall_data === false){
                 $data_to_return = false;
             }

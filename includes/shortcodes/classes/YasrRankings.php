@@ -54,7 +54,7 @@ class YasrRankings extends YasrMultiSet {
         //$this->shorcode_name is the default value
         $sql_atts = apply_filters('yasr_ov_rankings_atts', $this->shortcode_name, $atts);
 
-        $this->query_highest_rated_overall = YasrRankingData::rankingOverallGetResults($sql_atts);
+        $this->query_highest_rated_overall = YasrGetRatings::rankingOverall($sql_atts);
 
         $this->returnSingleTableRanking($this->urlencodeAtts($sql_atts));
         $this->shortcode_html .= '<!--End Yasr Top 10 highest Rated Shortcode-->';

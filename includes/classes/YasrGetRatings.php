@@ -149,7 +149,7 @@ class YasrGetRatings {
     }
 
     /**
-     * Check if a user has already rated, and if so, return the rating, or false otherwise
+     * Check if current user has already rated, and if so, return the rating, or false otherwise
      *
      * @param int | bool $post_id
      *
@@ -181,6 +181,50 @@ class YasrGetRatings {
         }
 
         return (int)$rating;
+    }
+
+    /**
+     * Run $wpdb->get_results for overall Rating
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.5.2
+     *
+     * @param bool|array $atts
+     *
+     * @return array|false|object|void
+     */
+    public static function rankingOverall($atts) {
+        global $wpdb;
+
+        //return custom query_result here
+        //must returns rating and post_id
+        $query = apply_filters('yasr_rankings_query_ov', $atts);
+
+        //if query_results === $sql_params means that filters doesn't exists
+        if ($query === $atts) {
+            //default query_results
+            $query = "SELECT pm.meta_value AS rating, 
+                         pm.post_id AS post_id
+                  FROM $wpdb->postmeta AS pm, 
+                       $wpdb->posts AS p
+                  WHERE  pm.post_id = p.ID
+                      AND p.post_status = 'publish'
+                      AND pm.meta_key = 'yasr_overall_rating'
+                      AND pm.meta_value > 0
+                  ORDER BY pm.meta_value DESC,
+                           pm.post_id 
+                  LIMIT 10";
+
+            $query_results = $wpdb->get_results($query);
+        }
+        else {
+            $query_results = $query;
+        }
+
+        if ($query_results) {
+            return $query_results;
+        }
+        return false;
     }
 
 }
