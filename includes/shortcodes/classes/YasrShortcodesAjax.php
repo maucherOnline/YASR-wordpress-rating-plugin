@@ -718,7 +718,7 @@ class YasrShortcodesAjax {
         }
 
         if($source === 'author_multi') {
-            $am_data = YasrRankingData::rankingMulti($request['setid'], $sql_params);
+            $am_data = YasrGetRatings::rankingMulti($request['setid'], $sql_params);
             if($am_data === false){
                 $data_to_return = false;
             }
@@ -732,7 +732,7 @@ class YasrShortcodesAjax {
             $ranking                = ($request['show'] === 'highest') ? $request['show'] : 'most';
             $data_to_return['show'] = $ranking;
 
-            $vm_data = YasrRankingData::rankingMultiVV($request['setid'], $ranking, $sql_params);
+            $vm_data = YasrGetRatings::rankingMultiVV($request['setid'], $ranking, $sql_params);
             if($vm_data === false){
                 $data_to_return = false;
             }
