@@ -247,7 +247,7 @@ class YasrPublicFilters {
      */
     public function filterTitleVV($post_id) {
         //returns int
-        $stored_votes = YasrGetRatings::getVisitorVotes();
+        $stored_votes = YasrGetRatings::visitorVotes();
 
         $number_of_votes = $stored_votes['number_of_votes'];
         $average_rating  = $stored_votes['average'];

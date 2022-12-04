@@ -84,14 +84,14 @@ class YasrGetRatings {
      *
      * @param bool|integer $post_id
      *
-     * @return array|bool|mixed|object|null
+     * @return array|null
      *    array(
      *        'number_of_votes'  = (int)$user_votes->number_of_votes;
      *        'sum_votes'        = (int)$user_votes->sum_votes;
      *        'average'          = (int)average result
      *    )
      */
-    public static function getVisitorVotes ($post_id = false) {
+    public static function visitorVotes ($post_id = false) {
         global $wpdb;
 
         //if values it's not passed get the post id, most of the cases and default one
@@ -140,7 +140,7 @@ class YasrGetRatings {
      *
      * @return array|object|null
      */
-    public static function getAllVisitorVotes() {
+    public static function allVisitorVotes() {
         global $wpdb;
 
         $query = 'SELECT * FROM ' .YASR_LOG_TABLE.  ' ORDER BY date';
@@ -149,13 +149,13 @@ class YasrGetRatings {
     }
 
     /**
-     * Check if an user has already rated, and if so, return the rating, or false otherwise
+     * Check if a user has already rated, and if so, return the rating, or false otherwise
      *
      * @param int | bool $post_id
      *
-     * @return bool|string
+     * @return bool|int
      */
-    public static function visitorVotesHasUserVoted($post_id = false) {
+    public static function visitorVotesUserRating($post_id = false) {
         global $wpdb;
 
         $user_id      = get_current_user_id();
@@ -163,10 +163,6 @@ class YasrGetRatings {
         //just to be safe
         if (!is_int($post_id)) {
             $post_id = get_the_ID();
-        }
-
-        if (!is_int($user_id)) {
-            return false;
         }
 
         $rating = $wpdb->get_var(
@@ -181,11 +177,10 @@ class YasrGetRatings {
         );
 
         if ($rating === null) {
-            $rating = false;
-        } else {
-            $rating = (int)$rating;
+            return false;
         }
-        return $rating;
+
+        return (int)$rating;
     }
 
 }
