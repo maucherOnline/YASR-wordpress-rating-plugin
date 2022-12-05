@@ -633,4 +633,25 @@ class YasrImportRatingPlugins {
         die();
     }
 
+    /**
+     * Returns an alert box
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @param $plugin
+     * @param $number_of_queries
+     */
+    public function alertBox($plugin, $number_of_queries) {
+
+        echo '<div class="yasr-alert-box">';
+        echo wp_kses_post(sprintf(__(
+            'To import %s seems like %s %d %s INSERT queries are necessary. %s
+                There is nothing wrong with that, but some hosting provider can have a query limit/hour. %s
+                I strongly suggest to contact your hosting and ask about your plan limit',
+            'yet-another-stars-rating'
+        ),$plugin, '<strong>', $number_of_queries, '</strong>', '<br />','<br />'));
+        echo '</div>';
+
+    }
+
 }

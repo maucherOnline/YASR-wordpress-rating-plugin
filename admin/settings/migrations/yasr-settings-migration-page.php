@@ -86,7 +86,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                             $number_of_queries_wppr = (int) $import_plugin->wpprQueryNumber();
 
                             if ($number_of_queries_wppr > 1000) {
-                                yasr_import_plugin_alert_box('WP-PostRatings', $number_of_queries_wppr);
+                                $import_plugin->alertBox('WP-PostRatings', $number_of_queries_wppr);
                             }
 
                             ?>
@@ -145,7 +145,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                         $number_of_queries_kksr = (int)$import_plugin->kksrQueryNumber();
 
                         if($number_of_queries_kksr > 1000) {
-                            yasr_import_plugin_alert_box ('KK Stars Rating', $number_of_queries_kksr);
+                            $import_plugin->alertBox ('KK Stars Rating', $number_of_queries_kksr);
                         }
 
                         ?>
@@ -184,7 +184,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                                 $number_of_queries_rmp = (int)$import_plugin->rmpQueryNumber();
 
                                 if($number_of_queries_rmp > 1000) {
-                                    yasr_import_plugin_alert_box ('Rate My Post', $number_of_queries_rmp);
+                                    $import_plugin->alertBox ('Rate My Post', $number_of_queries_rmp);
                                 }
                                 ?>
                                     <div class="yasr-indented-answer">
@@ -233,7 +233,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                         $number_of_queries_mr = (int) $import_plugin->mrQueryNumber();
 
                         if ($number_of_queries_mr > 1000) {
-                            yasr_import_plugin_alert_box('Multi Rating', $number_of_queries_mr);
+                            $import_plugin->alertBox('Multi Rating', $number_of_queries_mr);
                         }
 
                         ?>
