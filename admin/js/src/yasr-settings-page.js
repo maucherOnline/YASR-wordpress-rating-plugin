@@ -152,10 +152,10 @@ if (activeTab === 'manage_multi') {
 } //end if active_tab=='manage_multi'
 
 if (activeTab === 'migration_tools') {
-    jQuery('#yasr-import-ratemypost-submit').on('click', function () {
+    jQuery('#yasr-import-rmp-submit').on('click', function () {
 
         //show loader on click
-        document.getElementById('yasr-import-ratemypost-answer').innerHTML = yasrWindowVar.loaderHtml;
+        document.getElementById('yasr-import-rmp-answer').innerHTML = yasrWindowVar.loaderHtml;
 
         var nonce = document.getElementById('yasr-import-rmp-nonce').value;
 
@@ -166,7 +166,7 @@ if (activeTab === 'migration_tools') {
 
         jQuery.post(ajaxurl, data, function (response) {
             response = JSON.parse(response);
-            document.getElementById('yasr-import-ratemypost-answer').innerHTML = response;
+            document.getElementById('yasr-import-rmp-answer').innerHTML = response;
         });
 
     });

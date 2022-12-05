@@ -148,7 +148,6 @@ $plugin_imported = get_option('yasr_plugin_imported');
                 }
 
                 if($import_plugin->searchRMP()) {
-                    $nonce_import_rmp = wp_create_nonce('yasr-import-ratemypost-action');
                     ?>
                         <span class="title-plugin-found">
                             <?php esc_html_e('Plugin found: Rate My Post' , 'yet-another-stars-rating'); ?>
@@ -165,15 +164,9 @@ $plugin_imported = get_option('yasr_plugin_imported');
                                 if($number_of_queries_rmp > 1000) {
                                     $import_plugin->alertBox ('Rate My Post', $number_of_queries_rmp);
                                 }
+
+                                $import_plugin->htmlImportButton('rmp');
                                 ?>
-                                    <div class="yasr-indented-answer">
-                                        <button class="button-primary" id="yasr-import-ratemypost-submit">
-                                            <?php esc_html_e('Import data', 'yet-another-stars-rating') ?>
-                                        </button>
-                                        <input type="hidden" id="yasr-import-rmp-nonce" value="<?php echo $nonce_import_rmp ?>">
-                                    </div>
-                                    <div id="yasr-import-ratemypost-answer" class="yasr-indented-answer">
-                                    </div>
                                 <?php
                             }
                         ?>

@@ -512,7 +512,7 @@ class YasrImportRatingPlugins {
             exit();
         }
 
-        if (!wp_verify_nonce($nonce, 'yasr-import-ratemypost-action')) {
+        if (!wp_verify_nonce($nonce, 'yasr-import-rmp-action')) {
             die('Error while checking nonce');
         }
 
