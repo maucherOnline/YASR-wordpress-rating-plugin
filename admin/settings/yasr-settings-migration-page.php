@@ -102,7 +102,6 @@ $plugin_imported = get_option('yasr_plugin_imported');
                 }
 
                 if($import_plugin->searchKKSR()){
-                    $nonce_import_kksr = wp_create_nonce('yasr-import-kksr-action');
                     ?>
                     <span class="title-plugin-found">
                          <?php esc_html_e('Plugin found: KK Star Ratings' , 'yet-another-stars-rating'); ?>
@@ -136,16 +135,8 @@ $plugin_imported = get_option('yasr_plugin_imported');
                             $import_plugin->alertBox ('KK Stars Rating', $number_of_queries_kksr);
                         }
 
+                        $import_plugin->htmlImportButton('kksr');
                         ?>
-                        <div class="yasr-indented-answer">
-                            <button class="button-primary" id="yasr-import-kksr-submit">
-                                <?php esc_html_e('Import data', 'yet-another-stars-rating') ?>
-                            </button>
-                            <input type="hidden" id="yasr-import-kksr-nonce" value="<?php echo $nonce_import_kksr ?>">
-                        </div>
-                        <div id="yasr-import-kksr-answer" class="yasr-indented-answer">
-                        </div>
-
                         <div class="yasr-space-settings-div">
                         </div>
 
@@ -191,7 +182,6 @@ $plugin_imported = get_option('yasr_plugin_imported');
                 }
 
                 if($import_plugin->searchMR()){
-                    $nonce_import_mr = wp_create_nonce('yasr-import-mr-action');
                     ?>
                     <span class="title-plugin-found">
                             <?php esc_html_e('Plugin found: Multi Rating' , 'yet-another-stars-rating'); ?>
@@ -223,17 +213,8 @@ $plugin_imported = get_option('yasr_plugin_imported');
                             $import_plugin->alertBox('Multi Rating', $number_of_queries_mr);
                         }
 
+                        $import_plugin->htmlImportButton('mr');
                         ?>
-                        <div class="yasr-indented-answer">
-                            <button class="button-primary" id="yasr-import-mr-submit">
-                                <?php esc_html_e('Import data', 'yet-another-stars-rating') ?>
-                            </button>
-                            <input type="hidden" id="yasr-import-mr-nonce"
-                                   value="<?php echo $nonce_import_mr ?>">
-                        </div>
-                        <div id="yasr-import-mr-answer" class="yasr-indented-answer">
-                        </div>
-
                         <div class="yasr-space-settings-div">
                         </div>
 
