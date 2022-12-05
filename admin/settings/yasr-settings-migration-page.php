@@ -76,11 +76,10 @@ $plugin_imported = get_option('yasr_plugin_imported');
 
                         echo wp_kses_post($info);
 
-                        if (is_array($plugin_imported) && array_key_exists('wppr', $plugin_imported)) {
-                            echo wp_kses_post('<div class="yasr-indented-answer" style="margin-top: 10px;">'
-                                 . __('You\'ve already imported WP-PostRatings data on', 'yet-another-stars-rating') .
-                                 '&nbsp;<strong>' . $plugin_imported['wppr']['date'] . '</strong>
-                              </div>');
+                        $wppr_imported = $import_plugin->alreadyImportedMessage($plugin_imported, 'wppr', 'WP-PostRatings');
+
+                        if($wppr_imported !== false) {
+                            echo wp_kses_post($wppr_imported);
                         } else {
 
                             $number_of_queries_wppr = (int) $import_plugin->wpprQueryNumber();
@@ -135,13 +134,12 @@ $plugin_imported = get_option('yasr_plugin_imported');
                     ), '<strong>', '</strong>', '<br />', '<br />', '<br />', '<br />');
                     echo '</div>';
 
-                    if (is_array($plugin_imported) && array_key_exists('kksr', $plugin_imported)) {
-                        echo '<div class="yasr-indented-answer" style="margin-top: 10px;">'
-                             .__('You\'ve already imported KK Star Rating data on', 'yet-another-stars-rating').
-                             '&nbsp;<strong>'.$plugin_imported['kksr']['date']. '</strong>
-                                  </div>';
-                    } else {
+                    $kksr_imported = $import_plugin->alreadyImportedMessage($plugin_imported, 'kksr', 'KK Star Rating');
 
+                    if($kksr_imported !== false) {
+                        echo wp_kses_post($kksr_imported);
+                    }
+                    else {
                         $number_of_queries_kksr = (int)$import_plugin->kksrQueryNumber();
 
                         if($number_of_queries_kksr > 1000) {

@@ -658,5 +658,25 @@ class YasrImportRatingPlugins {
         update_option('yasr_plugin_imported', $plugin_imported, false);
     }
 
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since
+     * @param $plugin_imported_option  | value from get_option('yasr_plugin_imported');
+     * @param $plugin_key              | plugin key to search
+     * @param $plugin_name             | plugin name that will be echoed
+     *
+     * @return false|string
+     */
+    public function alreadyImportedMessage($plugin_imported_option, $plugin_key, $plugin_name) {
+        if (is_array($plugin_imported_option) && array_key_exists($plugin_key, $plugin_imported_option)) {
+            return(
+                '<div class="yasr-indented-answer" style="margin-top: 10px;">'
+                    . sprintf(__('You\'ve already imported %s data on', 'yet-another-stars-rating'), $plugin_name) .
+                    '&nbsp;<strong>' . $plugin_imported_option['wppr']['date'] . '</strong>
+                </div>'
+            );
+        }
 
+        return false;
+    }
 }
