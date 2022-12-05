@@ -81,7 +81,7 @@ if (!current_user_can('manage_options')) {
 
                 if ($active_tab === 'migration_tools') {
                     //include migration functions
-                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/migrations/yasr-settings-migration-page.php');
+                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-migration-page.php');
                 } //End tab migration
 
                 //Adds new tab content here

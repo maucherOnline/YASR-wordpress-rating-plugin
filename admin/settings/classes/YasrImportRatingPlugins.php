@@ -368,7 +368,6 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      */
     public function wpprAjaxCallback() {
-
         if($_POST['nonce']) {
             $nonce = $_POST['nonce'];
         } else {
@@ -390,9 +389,7 @@ class YasrImportRatingPlugins {
         //It has his own table too, but can be disabled in the settings.
         //The only way to be sure is get the postmeta
 
-        $wppr = new YasrImportRatingPlugins();
-
-        $logs = $wppr->returnWPPRData();
+        $logs = $this->returnWPPRData();
 
         if(empty($logs)) {
             echo json_encode(esc_html__('No WP Post Rating data found'));
@@ -428,7 +425,7 @@ class YasrImportRatingPlugins {
             }
 
             if ($result) {
-                yasr_save_option_imported_plugin('wppr');
+                $this->savePluginImported('wppr');
 
                 $string_to_return = esc_html__('Woot! All data have been imported!', 'yet-another-stars-rating');
                 echo json_encode($string_to_return);
@@ -445,7 +442,6 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      */
     public function kksrAjaxCallback() {
-
         if($_POST['nonce']) {
             $nonce = $_POST['nonce'];
         } else {
@@ -464,9 +460,7 @@ class YasrImportRatingPlugins {
 
         //get logs
         //With KK star rating I need to import postmeta.
-        $kksr = new YasrImportRatingPlugins();
-
-        $logs= $kksr->returnKKSRData();
+        $logs= $this->returnKKSRData();
 
         if(empty($logs)) {
             echo json_encode(esc_html__('No KK Star Ratings data found'));
@@ -495,7 +489,7 @@ class YasrImportRatingPlugins {
             }
 
             if ($result) {
-                yasr_save_option_imported_plugin('kksr');
+                $this->savePluginImported('kksr');
 
                 $string_to_return = esc_html__('Woot! All data have been imported!', 'yet-another-stars-rating');
                 echo json_encode($string_to_return);
@@ -512,7 +506,6 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      */
     public function ratemypostAjaxCallback() {
-
         if($_POST['nonce']) {
             $nonce = $_POST['nonce'];
         } else {
@@ -529,10 +522,8 @@ class YasrImportRatingPlugins {
 
         global $wpdb;
 
-        $rmp = new YasrImportRatingPlugins();
-
         //get logs
-        $logs=$rmp->returnRMPData();
+        $logs=$this->returnRMPData();
 
         if(empty($logs)) {
             echo json_encode(esc_html__('No Rate My Post data found'));
@@ -555,7 +546,7 @@ class YasrImportRatingPlugins {
             }
 
             if ($result) {
-                yasr_save_option_imported_plugin('rmp');
+                $this->savePluginImported('rmp');
 
                 $string_to_return = esc_html__('Woot! All data have been imported!', 'yet-another-stars-rating');
                 echo json_encode($string_to_return);
@@ -571,7 +562,6 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      */
     public function mrAjaxCallback() {
-
         if($_POST['nonce']) {
             $nonce = $_POST['nonce'];
         } else {
@@ -588,11 +578,9 @@ class YasrImportRatingPlugins {
 
         global $wpdb;
 
-        $mr_exists = new YasrImportRatingPlugins();
-
         //get logs
         //With Multi Rating I need to import postmeta.
-        $logs=$mr_exists->returnMRData();
+        $logs= $this->returnMRData();
 
         if(empty($logs)) {
             echo json_encode(esc_html__('No Multi Rating data found'));
@@ -622,7 +610,7 @@ class YasrImportRatingPlugins {
             }
 
             if ($result) {
-                yasr_save_option_imported_plugin('mr');
+                $this->savePluginImported('mr');
 
                 $string_to_return = esc_html__('Woot! All data have been imported!', 'yet-another-stars-rating');
                 echo json_encode($string_to_return);
@@ -653,5 +641,22 @@ class YasrImportRatingPlugins {
         echo '</div>';
 
     }
+
+    /**
+     * Insert option yasr_plugin_imported
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @param $plugin
+     */
+    public function savePluginImported($plugin) {
+        //get actual data
+        $plugin_imported = get_option('yasr_plugin_imported');
+        //Add plugin just imported as a key
+        $plugin_imported[$plugin] = array('date' => date('Y-m-d H:i:s'));
+        //update option
+        update_option('yasr_plugin_imported', $plugin_imported, false);
+    }
+
 
 }
