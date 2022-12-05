@@ -679,4 +679,30 @@ class YasrImportRatingPlugins {
 
         return false;
     }
+
+    /**
+     * Print the import button
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.1.5
+     * @param $plugin_key
+     */
+    public function htmlImportButton($plugin_key) {
+        $button_id  = 'yasr-import-'.$plugin_key.'-submit';
+        $nonce_name = 'yasr-import-'.$plugin_key.'-action';
+        $id_nonce   = 'yasr-import-'.$plugin_key.'-nonce';
+        $id_answer  = 'yasr-import-'.$plugin_key.'-answer';
+        $nonce      = wp_create_nonce($nonce_name);
+
+        ?>
+        <div class="yasr-indented-answer">
+            <button class="button-primary" id="<?php echo esc_attr($button_id);?>">
+                <?php esc_html_e('Import data', 'yet-another-stars-rating') ?>
+            </button>
+            <input type="hidden" id="<?php echo esc_attr($id_nonce)?>" value="<?php echo esc_attr($nonce) ?>">
+        </div>
+        <div id="<?php echo esc_attr($id_answer)?>" class="yasr-indented-answer">
+        </div>
+        <?php
+    }
 }

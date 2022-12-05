@@ -45,7 +45,6 @@ $plugin_imported = get_option('yasr_plugin_imported');
                 }
 
                 if($import_plugin->searchWPPR()){
-                    $nonce_import_wppr = wp_create_nonce('yasr-import-wppr-action');
                     ?>
                     <span class="title-plugin-found">
                         <?php esc_html_e('Plugin found: WP-PostRatings' , 'yet-another-stars-rating'); ?>
@@ -88,17 +87,8 @@ $plugin_imported = get_option('yasr_plugin_imported');
                                 $import_plugin->alertBox('WP-PostRatings', $number_of_queries_wppr);
                             }
 
+                            $import_plugin->htmlImportButton('wppr');
                             ?>
-                            <div class="yasr-indented-answer">
-                                <button class="button-primary" id="yasr-import-wppr-submit">
-                                    <?php esc_html_e('Import data', 'yet-another-stars-rating') ?>
-                                </button>
-                                <input type="hidden" id="yasr-import-wppr-nonce"
-                                       value="<?php echo esc_attr($nonce_import_wppr) ?>">
-                            </div>
-                            <div id="yasr-import-wppr-answer" class="yasr-indented-answer">
-                            </div>
-
                             <div class="yasr-space-settings-div">
                             </div>
 
