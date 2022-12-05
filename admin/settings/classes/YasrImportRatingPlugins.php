@@ -48,7 +48,7 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      * @return bool
      */
-    public function yasr_search_wppr() {
+    public function searchWPPR() {
         //only check for active plugin, since import from table will be not used
         if (is_plugin_active('wp-postratings/wp-postratings.php')) {
             return true;
@@ -63,7 +63,7 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      * @return bool
      */
-    public function yasr_search_kksr() {
+    public function searchKKSR() {
         //only check for active plugin, since import from table will be not used
         if (is_plugin_active('kk-star-ratings/index.php')) {
             return true;
@@ -78,7 +78,7 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      * @return bool
      */
-    public function yasr_search_rmp() {
+    public function searchRMP() {
         if (is_plugin_active('rate-my-post/rate-my-post.php')) {
             return true;
         }
@@ -99,7 +99,7 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      * @return bool
      */
-    public function yasr_search_mr() {
+    public function searchMR() {
         //only check for active plugin, since import from table will be not used
         if (is_plugin_active('multi-rating/multi-rating.php')) {
             return true;
@@ -108,20 +108,20 @@ class YasrImportRatingPlugins {
     }
 
     /**
-     * Returns the number of entries for Wp post rating
+     * Returns the number of necessary INSERT query for Wp post rating
      *
      * @author Dario Curvino <@dudo>
      * @since  2.0.0
      * @return int|mixed
      */
-    public function yasr_count_wppr_query_number() {
+    public function wpprQueryNumber() {
         $number_of_query_transient = get_transient('yasr_wppr_import_query_number');
 
         if ($number_of_query_transient !== false) {
             return $number_of_query_transient;
         }
 
-        $logs = $this->yasr_return_wppr_data();
+        $logs = $this->returnWPPRData();
 
         //set counter to 0
         $i = 0;
@@ -144,20 +144,20 @@ class YasrImportRatingPlugins {
     }
 
     /**
-     * Returns the number of entries for KK star ratings
+     * Returns the number of necessary INSERT query for KK star ratings
      *
      * @author Dario Curvino <@dudo>
      * @since  2.0.0
      * @return int|mixed
      */
-    public function yasr_count_kksr_query_number() {
+    public function kksrQueryNumber() {
         $number_of_query_transient = get_transient('yasr_kksr_import_query_number');
 
         if ($number_of_query_transient !== false) {
             return $number_of_query_transient;
         }
 
-        $logs = $this->yasr_return_kksr_data();
+        $logs = $this->returnKKSRData();
 
         //set counter to 0
         $i = 0;
@@ -180,13 +180,13 @@ class YasrImportRatingPlugins {
     }
 
     /**
-     * Returns the number of entries for rate my post
+     * Returns the number of necessary INSERT query for rate my post
      *
      * @author Dario Curvino <@dudo>
      * @since  2.0.0
      * @return int|mixed
      */
-    public function yasr_count_rmp_query_number() {
+    public function rmpQueryNumber() {
         global $wpdb;
 
         $number_of_query_transient = get_transient('yasr_rmp_import_query_number');
@@ -195,7 +195,7 @@ class YasrImportRatingPlugins {
             return $number_of_query_transient;
         }
 
-        $logs = $this->yasr_return_rmp_data();
+        $logs = $this->returnRMPData();
 
         if (empty($logs)) {
             return 0;
@@ -208,20 +208,20 @@ class YasrImportRatingPlugins {
     }
 
     /**
-     * Returns the number of entries for multi rating
+     * Returns the number of necessary INSERT query for multi rating
      *
      * @author Dario Curvino <@dudo>
      * @since  2.0.0
      * @return int|mixed
      */
-    public function yasr_count_mr_query_number() {
+    public function mrQueryNumber() {
         $number_of_query_transient = get_transient('yasr_mr_import_query_number');
 
         if ($number_of_query_transient !== false) {
             return $number_of_query_transient;
         }
 
-        $logs = $this->yasr_return_mr_data();
+        $logs = $this->returnMRData();
 
         //set counter to 0
         $i = 0;
@@ -249,7 +249,7 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      * @return array|int|object|\stdClass[]
      */
-    public function yasr_return_wppr_data() {
+    public function returnWPPRData() {
         global $wpdb;
 
         $logs = $wpdb->get_results(
@@ -279,7 +279,7 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      * @return array|int|object|\stdClass[]
      */
-    public function yasr_return_kksr_data() {
+    public function returnKKSRData() {
         global $wpdb;
 
         $logs = $wpdb->get_results(
@@ -309,7 +309,7 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      * @return array|int|object|\stdClass[]
      */
-    public function yasr_return_rmp_data() {
+    public function returnRMPData() {
         global $wpdb;
 
         $rmp_table = $wpdb->prefix . 'rmp_analytics';
@@ -339,7 +339,7 @@ class YasrImportRatingPlugins {
      * @since  2.0.0
      * @return array|int|object|\stdClass[]
      */
-    public function yasr_return_mr_data() {
+    public function returnMRData() {
         global $wpdb;
 
         $logs = $wpdb->get_results(

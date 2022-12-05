@@ -49,7 +49,7 @@ function yasr_import_wppr_callback() {
 
     $wppr = new YasrImportRatingPlugins();
 
-    $logs = $wppr->yasr_return_wppr_data();
+    $logs = $wppr->returnWPPRData();
 
     if(empty($logs)) {
         echo json_encode(esc_html__('No WP Post Rating data found'));
@@ -119,7 +119,7 @@ function yasr_import_kksr_callback() {
     //With KK star rating I need to import postmeta.
     $kksr = new YasrImportRatingPlugins();
 
-    $logs= $kksr->yasr_return_kksr_data();
+    $logs= $kksr->returnKKSRData();
 
     if(empty($logs)) {
         echo json_encode(esc_html__('No KK Star Ratings data found'));
@@ -181,7 +181,7 @@ function yasr_import_ratemypost_callback() {
     $rmp = new YasrImportRatingPlugins();
 
     //get logs
-    $logs=$rmp->yasr_return_rmp_data();
+    $logs=$rmp->returnRMPData();
 
     if(empty($logs)) {
         echo json_encode(esc_html__('No Rate My Post data found'));
@@ -237,7 +237,7 @@ function yasr_import_mr_callback() {
 
     //get logs
     //With Multi Rating I need to import postmeta.
-    $logs=$mr_exists->yasr_return_mr_data();
+    $logs=$mr_exists->returnMRData();
 
     if(empty($logs)) {
         echo json_encode(esc_html__('No Multi Rating data found'));
