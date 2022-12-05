@@ -652,6 +652,13 @@ class YasrImportRatingPlugins {
     public function savePluginImported($plugin) {
         //get actual data
         $plugin_imported = get_option('yasr_plugin_imported');
+
+        //Since php 8.1, it is not possible anymore to automatically convert false into array, so I need to declare it first
+        //if plugin_imported === false
+        //https://wiki.php.net/rfc/autovivification_false
+        if($plugin_imported === false) {
+            $plugin_imported = array();
+        }
         //Add plugin just imported as a key
         $plugin_imported[$plugin] = array('date' => date('Y-m-d H:i:s'));
         //update option
