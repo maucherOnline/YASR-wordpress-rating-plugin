@@ -24,7 +24,30 @@ if (!defined('ABSPATH')) {
 /****** Check for previous rate my post INSTALLATION *******/
 class YasrImportRatingPlugins {
 
-    //Search for WP-PostRatings
+    /**
+     * Add ajax action for plugin import
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.6
+     */
+    public function addAjaxActions () {
+        add_action( 'wp_ajax_yasr_import_wppr', 'yasr_import_wppr_callback' );
+
+        add_action( 'wp_ajax_yasr_import_kksr', 'yasr_import_kksr_callback' );
+
+        add_action( 'wp_ajax_yasr_import_ratemypost', 'yasr_import_ratemypost_callback' );
+
+        add_action( 'wp_ajax_yasr_import_mr', 'yasr_import_mr_callback' );
+
+    }
+
+    /**
+     * Return true if wp post ratings is installed
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return bool
+     */
     public function yasr_search_wppr() {
         //only check for active plugin, since import from table will be not used
         if (is_plugin_active('wp-postratings/wp-postratings.php')) {
@@ -33,7 +56,13 @@ class YasrImportRatingPlugins {
         return false;
     }
 
-    //Search for KK STar Rating
+    /**
+     * Return true if KK star ratings is installed
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return bool
+     */
     public function yasr_search_kksr() {
         //only check for active plugin, since import from table will be not used
         if (is_plugin_active('kk-star-ratings/index.php')) {
@@ -42,7 +71,13 @@ class YasrImportRatingPlugins {
         return false;
     }
 
-    //Search for Rate My Post
+    /**
+     * Return true if rate my post is installed
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return bool
+     */
     public function yasr_search_rmp() {
         if (is_plugin_active('rate-my-post/rate-my-post.php')) {
             return true;
@@ -57,7 +92,13 @@ class YasrImportRatingPlugins {
         return false;
     }
 
-    //Search for Multi Rating
+    /**
+     * Return true if multi rating is installed
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return bool
+     */
     public function yasr_search_mr() {
         //only check for active plugin, since import from table will be not used
         if (is_plugin_active('multi-rating/multi-rating.php')) {
@@ -66,6 +107,13 @@ class YasrImportRatingPlugins {
         return false;
     }
 
+    /**
+     * Returns the number of entries for Wp post rating
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return int|mixed
+     */
     public function yasr_count_wppr_query_number() {
         $number_of_query_transient = get_transient('yasr_wppr_import_query_number');
 
@@ -95,6 +143,13 @@ class YasrImportRatingPlugins {
 
     }
 
+    /**
+     * Returns the number of entries for KK star ratings
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return int|mixed
+     */
     public function yasr_count_kksr_query_number() {
         $number_of_query_transient = get_transient('yasr_kksr_import_query_number');
 
@@ -124,6 +179,13 @@ class YasrImportRatingPlugins {
 
     }
 
+    /**
+     * Returns the number of entries for rate my post
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return int|mixed
+     */
     public function yasr_count_rmp_query_number() {
         global $wpdb;
 
@@ -145,6 +207,13 @@ class YasrImportRatingPlugins {
 
     }
 
+    /**
+     * Returns the number of entries for multi rating
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return int|mixed
+     */
     public function yasr_count_mr_query_number() {
         $number_of_query_transient = get_transient('yasr_mr_import_query_number');
 
@@ -173,7 +242,13 @@ class YasrImportRatingPlugins {
 
     }
 
-    //Import WpPostRating Data
+    /**
+     * Get WpPostRating Data
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return array|int|object|\stdClass[]
+     */
     public function yasr_return_wppr_data() {
         global $wpdb;
 
@@ -197,7 +272,13 @@ class YasrImportRatingPlugins {
         return $logs;
     }
 
-    //Import KK Star Rating Data
+    /**
+     * Get KK star rating data
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return array|int|object|\stdClass[]
+     */
     public function yasr_return_kksr_data() {
         global $wpdb;
 
@@ -221,6 +302,13 @@ class YasrImportRatingPlugins {
         return $logs;
     }
 
+    /**
+     * Get rate my post data
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return array|int|object|\stdClass[]
+     */
     public function yasr_return_rmp_data() {
         global $wpdb;
 
@@ -244,7 +332,13 @@ class YasrImportRatingPlugins {
         return $logs;
     }
 
-    //Import Multi Rating Data
+    /**
+     * get multi rating data
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     * @return array|int|object|\stdClass[]
+     */
     public function yasr_return_mr_data() {
         global $wpdb;
 
