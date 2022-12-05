@@ -173,12 +173,12 @@ $plugin_imported = get_option('yasr_plugin_imported');
                             <?php esc_html_e('Plugin found: Rate My Post' , 'yet-another-stars-rating'); ?>
                         </span>
                         <?php
-                            if  (is_array($plugin_imported) && array_key_exists('rmp', $plugin_imported)) {
-                                echo '<div class="yasr-indented-answer">'
-                                     .__('You\'ve already imported Rate My Post data on', 'yet-another-stars-rating').
-                                     '&nbsp;<strong>'.$plugin_imported['rmp']['date']. '</strong>
-                                     </div>';
-                            } else {
+                            $rmp_imported = $import_plugin->alreadyImportedMessage($plugin_imported, 'rmp', 'Rate My Post');
+
+                            if($rmp_imported !== false) {
+                                echo wp_kses_post($rmp_imported);
+                            }
+                            else {
                                 $number_of_queries_rmp = (int)$import_plugin->rmpQueryNumber();
 
                                 if($number_of_queries_rmp > 1000) {
@@ -221,13 +221,12 @@ $plugin_imported = get_option('yasr_plugin_imported');
                         ), '<strong>', '</strong>', '<br />', '<br />', '<br />');
                     echo '</div>';
 
-                    if (is_array($plugin_imported) && array_key_exists('mr', $plugin_imported)) {
-                        echo '<div class="yasr-indented-answer" style="margin-top: 10px;">'
-                             . __('You\'ve already imported Multi Rating data on', 'yet-another-stars-rating') .
-                             '&nbsp;<strong>' . $plugin_imported['mr']['date'] . '</strong>
-                              </div>';
-                    } else {
+                    $mr_imported = $import_plugin->alreadyImportedMessage($plugin_imported, 'mr', 'Multi Rating');
 
+                    if($mr_imported !== false) {
+                        echo wp_kses_post($mr_imported);
+                    }
+                    else {
                         $number_of_queries_mr = (int) $import_plugin->mrQueryNumber();
 
                         if ($number_of_queries_mr > 1000) {
