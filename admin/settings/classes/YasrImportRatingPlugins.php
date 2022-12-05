@@ -21,7 +21,6 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-/****** Check for previous rate my post INSTALLATION *******/
 class YasrImportRatingPlugins {
 
     /**
@@ -31,13 +30,13 @@ class YasrImportRatingPlugins {
      * @since  3.1.6
      */
     public function addAjaxActions () {
-        add_action( 'wp_ajax_yasr_import_wppr', 'yasr_import_wppr_callback' );
+        add_action( 'wp_ajax_yasr_import_wppr', array($this, 'wpprAjaxCallback') );
 
-        add_action( 'wp_ajax_yasr_import_kksr', 'yasr_import_kksr_callback' );
+        add_action( 'wp_ajax_yasr_import_kksr', array($this, 'kksrAjaxCallback') );
 
-        add_action( 'wp_ajax_yasr_import_ratemypost', 'yasr_import_ratemypost_callback' );
+        add_action( 'wp_ajax_yasr_import_ratemypost', array($this, 'ratemypostAjaxCallback') );
 
-        add_action( 'wp_ajax_yasr_import_mr', 'yasr_import_mr_callback' );
+        add_action( 'wp_ajax_yasr_import_mr', array($this, 'mrAjaxCallback') );
 
     }
 
@@ -360,6 +359,278 @@ class YasrImportRatingPlugins {
         }
 
         return $logs;
+    }
+
+    /**
+     * Ajax callback for import data from WordPress post Ratings
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     */
+    public function wpprAjaxCallback() {
+
+        if($_POST['nonce']) {
+            $nonce = $_POST['nonce'];
+        } else {
+            exit();
+        }
+
+        if (!wp_verify_nonce( $nonce, 'yasr-import-wppr-action' ) ) {
+            die('Error while checking nonce');
+        }
+
+        if (!current_user_can( 'manage_options' ) ) {
+            die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
+        }
+
+        global $wpdb;
+
+        //get logs
+        //With Wp Post Rating I need to import postmeta.
+        //It has his own table too, but can be disabled in the settings.
+        //The only way to be sure is get the postmeta
+
+        $wppr = new YasrImportRatingPlugins();
+
+        $logs = $wppr->returnWPPRData();
+
+        if(empty($logs)) {
+            echo json_encode(esc_html__('No WP Post Rating data found'));
+        } else {
+            $result = false;
+
+            /****** Insert logs ******/
+            foreach ($logs as $column) {
+
+                if($column->ratings_average > 5) {
+                    $column->ratings_average = 5;
+                }
+
+                for ($i=1; $i<=$column->ratings_users; $i++) {
+
+                    //check if rating_average is not null.
+                    //I found out that sometimes Wp Post Rating can save value with null data (sigh!!)
+                    if ($column->ratings_average !== null) {
+
+                        $result = $wpdb->replace(
+                            YASR_LOG_TABLE,
+                            array(
+                                'post_id'      => $column->post_id,
+                                'user_id'      => 0, //not stored on wp post rating
+                                'vote'         => $column->ratings_average,
+                                'date'         => 'wppostrating', //not stored on wp post rating
+                                'ip'           => 'wppostrating'//not stored on wp post rating
+                            ),
+                            array('%d', '%d', '%f', '%s', '%s')
+                        );
+                    }
+                }
+            }
+
+            if ($result) {
+                yasr_save_option_imported_plugin('wppr');
+
+                $string_to_return = esc_html__('Woot! All data have been imported!', 'yet-another-stars-rating');
+                echo json_encode($string_to_return);
+            }
+
+        }
+        die();
+    }
+
+    /**
+     * Ajax callback for import data from KK Star Ratings
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     */
+    public function kksrAjaxCallback() {
+
+        if($_POST['nonce']) {
+            $nonce = $_POST['nonce'];
+        } else {
+            exit();
+        }
+
+        if (!wp_verify_nonce( $nonce, 'yasr-import-kksr-action' ) ) {
+            die('Error while checking nonce');
+        }
+
+        if (!current_user_can( 'manage_options' ) ) {
+            die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
+        }
+
+        global $wpdb;
+
+        //get logs
+        //With KK star rating I need to import postmeta.
+        $kksr = new YasrImportRatingPlugins();
+
+        $logs= $kksr->returnKKSRData();
+
+        if(empty($logs)) {
+            echo json_encode(esc_html__('No KK Star Ratings data found'));
+        } else {
+            $result = false;
+
+            /****** Insert logs ******/
+            foreach ($logs as $column) {
+                if($column->ratings_average > 5) {
+                    $column->ratings_average = 5;
+                }
+
+                for ($i=1; $i<=$column->ratings_users; $i++) {
+                    $result = $wpdb->replace(
+                        YASR_LOG_TABLE,
+                        array(
+                            'post_id'      => $column->post_id,
+                            'user_id'      => 0, //not stored on KK star rating
+                            'vote'         => $column->ratings_average,
+                            'date'         => 'kkstarratings', //not stored KK star rating
+                            'ip'           => 'kkstarratings'//not stored KK star rating
+                        ),
+                        array('%d', '%d', '%f', '%s', '%s')
+                    );
+                }
+            }
+
+            if ($result) {
+                yasr_save_option_imported_plugin('kksr');
+
+                $string_to_return = esc_html__('Woot! All data have been imported!', 'yet-another-stars-rating');
+                echo json_encode($string_to_return);
+            }
+
+        }
+        die();
+    }
+
+    /**
+     * Ajax callback for import data from rate My Post
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     */
+    public function ratemypostAjaxCallback() {
+
+        if($_POST['nonce']) {
+            $nonce = $_POST['nonce'];
+        } else {
+            exit();
+        }
+
+        if (!wp_verify_nonce($nonce, 'yasr-import-ratemypost-action')) {
+            die('Error while checking nonce');
+        }
+
+        if (!current_user_can( 'manage_options' ) ) {
+            die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
+        }
+
+        global $wpdb;
+
+        $rmp = new YasrImportRatingPlugins();
+
+        //get logs
+        $logs=$rmp->returnRMPData();
+
+        if(empty($logs)) {
+            echo json_encode(esc_html__('No Rate My Post data found'));
+        } else {
+            $result = false;
+
+            /****** Insert logs ******/
+            foreach ($logs as $column) {
+                $result = $wpdb->replace(
+                    YASR_LOG_TABLE,
+                    array(
+                        'post_id'      => $column->post_id,
+                        'user_id'      => 0, //seems like rate my post store all users like -1, so I cant import the user_id
+                        'vote'         => $column->vote,
+                        'date'         => $column->date,
+                        'ip'           => 'ratemypost'
+                    ),
+                    array('%d', '%d', '%f', '%s', '%s')
+                );
+            }
+
+            if ($result) {
+                yasr_save_option_imported_plugin('rmp');
+
+                $string_to_return = esc_html__('Woot! All data have been imported!', 'yet-another-stars-rating');
+                echo json_encode($string_to_return);
+            }
+        }
+        die();
+    }
+
+    /**
+     * Ajax callback for import data from multi rating
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.0.0
+     */
+    public function mrAjaxCallback() {
+
+        if($_POST['nonce']) {
+            $nonce = $_POST['nonce'];
+        } else {
+            exit();
+        }
+
+        if (!wp_verify_nonce( $nonce, 'yasr-import-mr-action' ) ) {
+            die('Error while checking nonce');
+        }
+
+        if (!current_user_can( 'manage_options' ) ) {
+            die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
+        }
+
+        global $wpdb;
+
+        $mr_exists = new YasrImportRatingPlugins();
+
+        //get logs
+        //With Multi Rating I need to import postmeta.
+        $logs=$mr_exists->returnMRData();
+
+        if(empty($logs)) {
+            echo json_encode(esc_html__('No Multi Rating data found'));
+        } else {
+            $result = false;
+
+            /****** Insert logs ******/
+            foreach ($logs as $column) {
+
+                if($column->ratings_average > 5) {
+                    $column->ratings_average = 5;
+                }
+
+                for ($i=1; $i<=$column->ratings_users; $i++) {
+                    $result = $wpdb->replace(
+                        YASR_LOG_TABLE,
+                        array(
+                            'post_id'      => $column->post_id,
+                            'user_id'      => 0, //not stored on KK star rating
+                            'vote'         => $column->ratings_average,
+                            'date'         => 'multirating', //not stored KK star rating
+                            'ip'           => 'multirating'//not stored KK star rating
+                        ),
+                        array('%d', '%d', '%f', '%s', '%s')
+                    );
+                }
+            }
+
+            if ($result) {
+                yasr_save_option_imported_plugin('mr');
+
+                $string_to_return = esc_html__('Woot! All data have been imported!', 'yet-another-stars-rating');
+                echo json_encode($string_to_return);
+            }
+
+        }
+
+        die();
     }
 
 }

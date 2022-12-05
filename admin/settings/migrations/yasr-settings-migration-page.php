@@ -33,10 +33,10 @@ $plugin_imported = get_option('yasr_plugin_imported');
         <td>
             <div>
             <?php
-                $rating_plugin_exists = new YasrImportRatingPlugins;
+                $import_plugin = new YasrImportRatingPlugins;
 
-                if (!$rating_plugin_exists->searchWPPR() && !$rating_plugin_exists->searchRMP()
-                    && !$rating_plugin_exists->searchKKSR() && !$rating_plugin_exists->searchMR()) {
+                if (!$import_plugin->searchWPPR() && !$import_plugin->searchRMP()
+                    && !$import_plugin->searchKKSR() && !$import_plugin->searchMR()) {
                     ?>
                     <span class="title-noplugin-found">
                         <?php esc_html_e('No supported plugin has been found' , 'yet-another-stars-rating'); ?>
@@ -44,7 +44,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                     <?php
                 }
 
-                if($rating_plugin_exists->searchWPPR()){
+                if($import_plugin->searchWPPR()){
                     $nonce_import_wppr = wp_create_nonce('yasr-import-wppr-action');
                     ?>
                     <span class="title-plugin-found">
@@ -83,7 +83,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                               </div>');
                         } else {
 
-                            $number_of_queries_wppr = (int) $rating_plugin_exists->wpprQueryNumber();
+                            $number_of_queries_wppr = (int) $import_plugin->wpprQueryNumber();
 
                             if ($number_of_queries_wppr > 1000) {
                                 yasr_import_plugin_alert_box('WP-PostRatings', $number_of_queries_wppr);
@@ -112,7 +112,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                     <?php
                 }
 
-                if($rating_plugin_exists->searchKKSR()){
+                if($import_plugin->searchKKSR()){
                     $nonce_import_kksr = wp_create_nonce('yasr-import-kksr-action');
                     ?>
                     <span class="title-plugin-found">
@@ -142,7 +142,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                                   </div>';
                     } else {
 
-                        $number_of_queries_kksr = (int)$rating_plugin_exists->kksrQueryNumber();
+                        $number_of_queries_kksr = (int)$import_plugin->kksrQueryNumber();
 
                         if($number_of_queries_kksr > 1000) {
                             yasr_import_plugin_alert_box ('KK Stars Rating', $number_of_queries_kksr);
@@ -168,7 +168,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                     <?php
                 }
 
-                if($rating_plugin_exists->searchRMP()) {
+                if($import_plugin->searchRMP()) {
                     $nonce_import_rmp = wp_create_nonce('yasr-import-ratemypost-action');
                     ?>
                         <span class="title-plugin-found">
@@ -181,7 +181,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                                      '&nbsp;<strong>'.$plugin_imported['rmp']['date']. '</strong>
                                      </div>';
                             } else {
-                                $number_of_queries_rmp = (int)$rating_plugin_exists->rmpQueryNumber();
+                                $number_of_queries_rmp = (int)$import_plugin->rmpQueryNumber();
 
                                 if($number_of_queries_rmp > 1000) {
                                     yasr_import_plugin_alert_box ('Rate My Post', $number_of_queries_rmp);
@@ -202,7 +202,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                     <?php
                 }
 
-                if($rating_plugin_exists->searchMR()){
+                if($import_plugin->searchMR()){
                     $nonce_import_mr = wp_create_nonce('yasr-import-mr-action');
                     ?>
                     <span class="title-plugin-found">
@@ -230,7 +230,7 @@ $plugin_imported = get_option('yasr_plugin_imported');
                               </div>';
                     } else {
 
-                        $number_of_queries_mr = (int) $rating_plugin_exists->mrQueryNumber();
+                        $number_of_queries_mr = (int) $import_plugin->mrQueryNumber();
 
                         if ($number_of_queries_mr > 1000) {
                             yasr_import_plugin_alert_box('Multi Rating', $number_of_queries_mr);
