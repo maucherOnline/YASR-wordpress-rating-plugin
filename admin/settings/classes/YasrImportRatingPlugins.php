@@ -26,10 +26,33 @@ class YasrImportRatingPlugins {
     //save here get_option yasr_plugin_imported
     public $plugin_imported;
 
+    //The plugin nicename
+    public $plugin_name;
+
     public function __construct() {
         if($this->plugin_imported === NULL) {
             $this->plugin_imported = get_option('yasr_plugin_imported');
         }
+    }
+
+    /**
+     * Set the plugin name
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.1.6
+     * @param $plugin_name
+     */
+    public function setPluginName($plugin_name) {
+        $this->plugin_name = $plugin_name;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.6
+     * @return mixed
+     */
+    public function getPluginName() {
+        return $this->plugin_name;
     }
 
     /**
@@ -634,18 +657,19 @@ class YasrImportRatingPlugins {
      *
      * @author Dario Curvino <@dudo>
      * @since  3.1.6
-     * @param $plugin
+     *
      * @param $number_of_queries
      */
-    public function alertBox($plugin, $number_of_queries) {
+    public function alertBox($number_of_queries) {
+        $plugin_name = $this->getPluginName();
+
         $div  =  '<div class="yasr-alert-box">';
         $div .= sprintf(__(
             'To import %s seems like %s %d %s INSERT queries are necessary. %s
                 There is nothing wrong with that, but some hosting provider can have a query limit/hour. %s
                 I strongly suggest to contact your hosting and ask about your plan limit',
             'yet-another-stars-rating'
-        ),
-        $plugin, '<strong>', $number_of_queries, '</strong>', '<br />','<br />');
+        ), $plugin_name, '<strong>', $number_of_queries, '</strong>', '<br />','<br />');
         $div .= '</div>';
 
         return $div;
@@ -681,7 +705,9 @@ class YasrImportRatingPlugins {
      * @since  3.1.6
      */
     public function importWPPR () {
-        echo wp_kses_post($this->pluginFoundTitle('WP-PostRatings'));
+        $this->setPluginName('WP-PostRatings');
+
+        echo wp_kses_post($this->pluginFoundTitle());
 
         $number_of_stars = (int)get_option('postratings_max', false);
 
@@ -692,11 +718,9 @@ class YasrImportRatingPlugins {
             $error .= '</div>';
             echo wp_kses_post($error);
         } else {
-            echo wp_kses_post($this->noteAverageRating('WP-PostRatings'));
+            echo wp_kses_post($this->noteAverageRating());
 
-            $wppr_imported = $this->alreadyImported(
-                $this->plugin_imported, 'wppr', 'WP-PostRatings'
-            );
+            $wppr_imported = $this->alreadyImported($this->plugin_imported, 'wppr');
 
             if($wppr_imported !== false) {
                 echo wp_kses_post($wppr_imported);
@@ -705,7 +729,7 @@ class YasrImportRatingPlugins {
 
                 if ($number_of_queries_wppr > 1000) {
                     echo wp_kses_post(
-                        $this->alertBox('WP-PostRatings', $number_of_queries_wppr)
+                        $this->alertBox($number_of_queries_wppr)
                     );
                 }
                 $this->htmlImportButton('wppr');
@@ -720,11 +744,11 @@ class YasrImportRatingPlugins {
      * @since 3.1.6
      */
     public function importKKSR () {
-        echo wp_kses_post($this->pluginFoundTitle('KK Star Ratings'));
-        echo wp_kses_post($this->noteAverageRating('KK Star Ratings'));
-        $kksr_imported = $this->alreadyImported(
-            $this->plugin_imported, 'kksr', 'KK Star Rating'
-        );
+        $this->setPluginName('KK Star Ratings');
+
+        echo wp_kses_post($this->pluginFoundTitle());
+        echo wp_kses_post($this->noteAverageRating());
+        $kksr_imported = $this->alreadyImported($this->plugin_imported, 'kksr');
 
         if($kksr_imported !== false) {
             echo wp_kses_post($kksr_imported);
@@ -733,9 +757,7 @@ class YasrImportRatingPlugins {
             $number_of_queries_kksr = (int)$this->kksrQueryNumber();
 
             if($number_of_queries_kksr > 1000) {
-                echo wp_kses_post(
-                    $this->alertBox('KK Stars Rating', $number_of_queries_kksr)
-                );
+                echo wp_kses_post($this->alertBox($number_of_queries_kksr));
             }
             $this->htmlImportButton('kksr');
         }
@@ -748,10 +770,10 @@ class YasrImportRatingPlugins {
      * @since  3.1.6
      */
     public function importRMP () {
-        echo wp_kses_post($this->pluginFoundTitle('Rate My Post'));
-        $rmp_imported = $this->alreadyImported(
-            $this->plugin_imported, 'rmp', 'Rate My Post'
-        );
+        $this->setPluginName('Rate My Post');
+
+        echo wp_kses_post($this->pluginFoundTitle());
+        $rmp_imported = $this->alreadyImported($this->plugin_imported, 'rmp');
 
         if($rmp_imported !== false) {
             echo wp_kses_post($rmp_imported);
@@ -760,9 +782,7 @@ class YasrImportRatingPlugins {
             $number_of_queries_rmp = (int)$this->rmpQueryNumber();
 
             if($number_of_queries_rmp > 1000) {
-                echo wp_kses_post(
-                    $this->alertBox('Rate My Post', $number_of_queries_rmp)
-                );
+                echo wp_kses_post($this->alertBox($number_of_queries_rmp));
             }
             $this->htmlImportButton('rmp');
         }
@@ -775,11 +795,11 @@ class YasrImportRatingPlugins {
      * @since 3.1.6
      */
     public function importMR() {
-        echo wp_kses_post($this->pluginFoundTitle('Multi Rating'));
-        echo wp_kses_post($this->noteAverageRating('Multi Rating'));
-        $mr_imported = $this->alreadyImported(
-            $this->plugin_imported, 'mr', 'Multi Rating'
-        );
+        $this->setPluginName('Multi Rating');
+
+        echo wp_kses_post($this->pluginFoundTitle());
+        echo wp_kses_post($this->noteAverageRating());
+        $mr_imported = $this->alreadyImported($this->plugin_imported, 'mr');
 
         if($mr_imported !== false) {
             echo wp_kses_post($mr_imported);
@@ -788,9 +808,7 @@ class YasrImportRatingPlugins {
             $number_of_queries_mr = (int) $this->mrQueryNumber();
 
             if ($number_of_queries_mr > 1000) {
-                echo wp_kses_post(
-                    $this->alertBox('Multi Rating', $number_of_queries_mr)
-                );
+                echo wp_kses_post($this->alertBox($number_of_queries_mr));
             }
             $this->htmlImportButton('mr');
         }
@@ -800,12 +818,12 @@ class YasrImportRatingPlugins {
      * Return a span with title of the plugin found
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.1.5
-     * @param $plugin_name
+     * @since 3.1.6
      *
      * @return string
      */
-    public function pluginFoundTitle($plugin_name) {
+    public function pluginFoundTitle() {
+        $plugin_name = $this->getPluginName();
         if($plugin_name === '') {
             $class = 'title-noplugin-found';
             $text  = __('No supported plugin has been found' , 'yet-another-stars-rating');
@@ -824,12 +842,14 @@ class YasrImportRatingPlugins {
      * Returns a note to explain ho data is imported if a plugin doesn't have a full log
      *
      * @author Dario Curvino <@dudo>
-     * @since  3.1.5
+     * @since  3.1.6
      * @param $plugin_name
      *
      * @return string
      */
-    public function noteAverageRating($plugin_name) {
+    public function noteAverageRating() {
+        $plugin_name = $this->getPluginName();
+
         $head = sprintf(__(
             '%s Please note: %s depending on the settings, %s may save data in different ways.',
             'yet-another-stars-rating'),
@@ -869,19 +889,20 @@ class YasrImportRatingPlugins {
      * Return an "already imported" message with date
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.1.5
+     * @since 3.1.6
      * @param $plugin_imported_option  | value from get_option('yasr_plugin_imported');
      * @param $plugin_key              | plugin key to search
-     * @param $plugin_name             | plugin name that will be echoed
      *
      * @return false|string
      */
-    public function alreadyImported($plugin_imported_option, $plugin_key, $plugin_name) {
+    public function alreadyImported($plugin_imported_option, $plugin_key) {
+        $plugin_name = $this->getPluginName();
+
         if (is_array($plugin_imported_option) && array_key_exists($plugin_key, $plugin_imported_option)) {
             return(
                 '<div class="yasr-indented-answer" style="margin-top: 10px;">'
                     . sprintf(__('You\'ve already imported %s data on', 'yet-another-stars-rating'), $plugin_name) .
-                    '&nbsp;<strong>' . $plugin_imported_option['wppr']['date'] . '</strong>
+                    '&nbsp;<strong>' . $plugin_imported_option[$plugin_key]['date'] . '</strong>
                 </div>'
             );
         }
@@ -893,7 +914,7 @@ class YasrImportRatingPlugins {
      * Print the import button
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.1.5
+     * @since 3.1.6
      * @param $plugin_key
      */
     public function htmlImportButton($plugin_key) {
