@@ -834,9 +834,9 @@ class YasrImportRatingPlugins {
             $text  = __('Plugin found:' , 'yet-another-stars-rating');
         }
         return (
-                "<span class='$class'>
+                "<div class='$class'>
                     $text $plugin_name
-                </span>"
+                </div>"
         );
     }
 
@@ -868,7 +868,7 @@ class YasrImportRatingPlugins {
             converted to work with a 5 ratings star scale.');
         }
 
-        $info  = '<div class="yasr-indented-answer" style="margin-top: 10px;">';
+        $info  = '<div class="yasr-indented-answer">';
         $info .= $head;
         $info .= sprintf(__(
             'The only way to be sure to get ALL data is, for every single post or page, getting the total 
