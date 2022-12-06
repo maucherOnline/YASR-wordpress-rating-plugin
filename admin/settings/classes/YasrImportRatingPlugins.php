@@ -37,7 +37,6 @@ class YasrImportRatingPlugins {
         add_action( 'wp_ajax_yasr_import_ratemypost', array($this, 'ratemypostAjaxCallback') );
 
         add_action( 'wp_ajax_yasr_import_mr', array($this, 'mrAjaxCallback') );
-
     }
 
     /**
@@ -666,8 +665,34 @@ class YasrImportRatingPlugins {
     }
 
     /**
+     * Return a span with title of the plugin found
+     *
      * @author Dario Curvino <@dudo>
-     * @since
+     * @since 3.1.5
+     * @param $plugin_name
+     *
+     * @return string
+     */
+    public function pluginFoundTitle($plugin_name) {
+        if($plugin_name === '') {
+            $class = 'title-noplugin-found';
+            $text  = __('No supported plugin has been found' , 'yet-another-stars-rating');
+        } else {
+            $class = 'title-plugin-found';
+            $text  = __('Plugin found:' , 'yet-another-stars-rating');
+        }
+        return (
+                "<span class='$class'>
+                    $text $plugin_name
+                </span>"
+        );
+    }
+
+    /**
+     * Return an "already imported" message with date
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.1.5
      * @param $plugin_imported_option  | value from get_option('yasr_plugin_imported');
      * @param $plugin_key              | plugin key to search
      * @param $plugin_name             | plugin name that will be echoed
@@ -709,6 +734,8 @@ class YasrImportRatingPlugins {
             <input type="hidden" id="<?php echo esc_attr($id_nonce)?>" value="<?php echo esc_attr($nonce) ?>">
         </div>
         <div id="<?php echo esc_attr($id_answer)?>" class="yasr-indented-answer">
+        </div>
+        <div class="yasr-space-settings-div">
         </div>
         <?php
     }
