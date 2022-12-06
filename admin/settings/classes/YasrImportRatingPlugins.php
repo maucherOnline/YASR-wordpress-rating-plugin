@@ -659,6 +659,8 @@ class YasrImportRatingPlugins {
      * @since  3.1.6
      *
      * @param $number_of_queries
+     *
+     * @return string
      */
     public function alertBox($number_of_queries) {
         $plugin_name = $this->getPluginName();
@@ -843,8 +845,6 @@ class YasrImportRatingPlugins {
      *
      * @author Dario Curvino <@dudo>
      * @since  3.1.6
-     * @param $plugin_name
-     *
      * @return string
      */
     public function noteAverageRating() {
