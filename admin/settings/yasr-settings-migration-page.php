@@ -40,101 +40,19 @@ $plugin_imported = get_option('yasr_plugin_imported');
                     }
 
                     if($import_plugin->searchWPPR()){
-                        echo wp_kses_post($import_plugin->pluginFoundTitle('WP-PostRatings'));
-
-                        $number_of_stars = (int)get_option('postratings_max', false);
-
-                        if ($number_of_stars && $number_of_stars !== 5) {
-                            $error  = '<div class="yasr-indented-answer" style="margin-top: 10px;">';
-                            $error .= sprintf(__('You\' re using a star set different from 5 %s
-                                Import can not be done', 'yet-another-stars-rating'), '<br />');
-                            $error .= '</div>';
-                            echo wp_kses_post($error);
-                        } else {
-                            echo wp_kses_post($import_plugin->noteAverageRating('WP-PostRatings'));
-
-                            $wppr_imported = $import_plugin->alreadyImported(
-                                    $plugin_imported, 'wppr', 'WP-PostRatings'
-                            );
-
-                            if($wppr_imported !== false) {
-                                echo wp_kses_post($wppr_imported);
-                            } else {
-                                $number_of_queries_wppr = (int) $import_plugin->wpprQueryNumber();
-
-                                if ($number_of_queries_wppr > 1000) {
-                                    echo wp_kses_post(
-                                            $import_plugin->alertBox('WP-PostRatings', $number_of_queries_wppr)
-                                    );
-                                }
-                                $import_plugin->htmlImportButton('wppr');
-                            }
-                        }
+                        $import_plugin->importWPPR ($plugin_imported);
                     }
 
                     if($import_plugin->searchKKSR()){
-                        echo wp_kses_post($import_plugin->pluginFoundTitle('KK Star Ratings'));
-                        echo wp_kses_post($import_plugin->noteAverageRating('KK Star Ratings'));
-                        $kksr_imported = $import_plugin->alreadyImported(
-                                $plugin_imported, 'kksr', 'KK Star Rating'
-                        );
-
-                        if($kksr_imported !== false) {
-                            echo wp_kses_post($kksr_imported);
-                        }
-                        else {
-                            $number_of_queries_kksr = (int)$import_plugin->kksrQueryNumber();
-
-                            if($number_of_queries_kksr > 1000) {
-                                echo wp_kses_post(
-                                        $import_plugin->alertBox('KK Stars Rating', $number_of_queries_kksr)
-                                );
-                            }
-                            $import_plugin->htmlImportButton('kksr');
-                        }
+                        $import_plugin->importKKSR($plugin_imported);
                     }
 
                     if($import_plugin->searchRMP()) {
-                        echo wp_kses_post($import_plugin->pluginFoundTitle('Rate My Post'));
-                        $rmp_imported = $import_plugin->alreadyImported(
-                                $plugin_imported, 'rmp', 'Rate My Post'
-                        );
-
-                        if($rmp_imported !== false) {
-                            echo wp_kses_post($rmp_imported);
-                        }
-                        else {
-                            $number_of_queries_rmp = (int)$import_plugin->rmpQueryNumber();
-
-                            if($number_of_queries_rmp > 1000) {
-                                echo wp_kses_post(
-                                        $import_plugin->alertBox('Rate My Post', $number_of_queries_rmp)
-                                );
-                            }
-                            $import_plugin->htmlImportButton('rmp');
-                        }
+                        $import_plugin->importRMP($plugin_imported);
                     }
 
                     if($import_plugin->searchMR()){
-                        echo wp_kses_post($import_plugin->pluginFoundTitle('Multi Rating'));
-                        echo wp_kses_post($import_plugin->noteAverageRating('Multi Rating'));
-                        $mr_imported = $import_plugin->alreadyImported(
-                                $plugin_imported, 'mr', 'Multi Rating'
-                        );
-
-                        if($mr_imported !== false) {
-                            echo wp_kses_post($mr_imported);
-                        }
-                        else {
-                            $number_of_queries_mr = (int) $import_plugin->mrQueryNumber();
-
-                            if ($number_of_queries_mr > 1000) {
-                                echo wp_kses_post(
-                                        $import_plugin->alertBox('Multi Rating', $number_of_queries_mr)
-                                );
-                            }
-                            $import_plugin->htmlImportButton('mr');
-                        }
+                        $import_plugin->importMR($plugin_imported);
                     }
 
                     do_action('yasr_migration_page_bottom', $plugin_imported);

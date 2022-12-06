@@ -624,7 +624,7 @@ class YasrImportRatingPlugins {
      * Returns an alert box
      *
      * @author Dario Curvino <@dudo>
-     * @since  2.0.0
+     * @since  3.1.6
      * @param $plugin
      * @param $number_of_queries
      */
@@ -646,7 +646,7 @@ class YasrImportRatingPlugins {
      * Insert option yasr_plugin_imported
      *
      * @author Dario Curvino <@dudo>
-     * @since  2.0.0
+     * @since  3.1.6
      * @param $plugin
      */
     public function savePluginImported($plugin) {
@@ -665,6 +665,132 @@ class YasrImportRatingPlugins {
         update_option('yasr_plugin_imported', $plugin_imported, false);
     }
 
+    /**
+     * Print fields to import Wp PostRatings
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.6
+     * @param $plugin_imported
+     */
+    public function importWPPR ($plugin_imported) {
+        echo wp_kses_post($this->pluginFoundTitle('WP-PostRatings'));
+
+        $number_of_stars = (int)get_option('postratings_max', false);
+
+        if ($number_of_stars && $number_of_stars !== 5) {
+            $error  = '<div class="yasr-indented-answer" style="margin-top: 10px;">';
+            $error .= sprintf(__('You\' re using a star set different from 5 %s
+                                Import can not be done', 'yet-another-stars-rating'), '<br />');
+            $error .= '</div>';
+            echo wp_kses_post($error);
+        } else {
+            echo wp_kses_post($this->noteAverageRating('WP-PostRatings'));
+
+            $wppr_imported = $this->alreadyImported(
+                $plugin_imported, 'wppr', 'WP-PostRatings'
+            );
+
+            if($wppr_imported !== false) {
+                echo wp_kses_post($wppr_imported);
+            } else {
+                $number_of_queries_wppr = (int) $this->wpprQueryNumber();
+
+                if ($number_of_queries_wppr > 1000) {
+                    echo wp_kses_post(
+                        $this->alertBox('WP-PostRatings', $number_of_queries_wppr)
+                    );
+                }
+                $this->htmlImportButton('wppr');
+            }
+        }
+    }
+
+    /**
+     * Print fields to import KKSR
+     * 
+     * @author Dario Curvino <@dudo>
+     * @since 3.1.6
+     * @param $plugin_imported
+     */
+    public function importKKSR ($plugin_imported) {
+        echo wp_kses_post($this->pluginFoundTitle('KK Star Ratings'));
+        echo wp_kses_post($this->noteAverageRating('KK Star Ratings'));
+        $kksr_imported = $this->alreadyImported(
+            $plugin_imported, 'kksr', 'KK Star Rating'
+        );
+
+        if($kksr_imported !== false) {
+            echo wp_kses_post($kksr_imported);
+        }
+        else {
+            $number_of_queries_kksr = (int)$this->kksrQueryNumber();
+
+            if($number_of_queries_kksr > 1000) {
+                echo wp_kses_post(
+                    $this->alertBox('KK Stars Rating', $number_of_queries_kksr)
+                );
+            }
+            $this->htmlImportButton('kksr');
+        }
+    }
+
+    /**
+     * Print fields to import Rate My post
+     * 
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.6
+     * @param $plugin_imported
+     */
+    public function importRMP ($plugin_imported) {
+        echo wp_kses_post($this->pluginFoundTitle('Rate My Post'));
+        $rmp_imported = $this->alreadyImported(
+            $plugin_imported, 'rmp', 'Rate My Post'
+        );
+
+        if($rmp_imported !== false) {
+            echo wp_kses_post($rmp_imported);
+        }
+        else {
+            $number_of_queries_rmp = (int)$this->rmpQueryNumber();
+
+            if($number_of_queries_rmp > 1000) {
+                echo wp_kses_post(
+                    $this->alertBox('Rate My Post', $number_of_queries_rmp)
+                );
+            }
+            $this->htmlImportButton('rmp');
+        }
+    }
+
+    /**
+     * Print fields to import Multi Rating
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.1.6
+     * @param $plugin_imported
+     */
+    public function importMR($plugin_imported) {
+        echo wp_kses_post($this->pluginFoundTitle('Multi Rating'));
+        echo wp_kses_post($this->noteAverageRating('Multi Rating'));
+        $mr_imported = $this->alreadyImported(
+            $plugin_imported, 'mr', 'Multi Rating'
+        );
+
+        if($mr_imported !== false) {
+            echo wp_kses_post($mr_imported);
+        }
+        else {
+            $number_of_queries_mr = (int) $this->mrQueryNumber();
+
+            if ($number_of_queries_mr > 1000) {
+                echo wp_kses_post(
+                    $this->alertBox('Multi Rating', $number_of_queries_mr)
+                );
+            }
+            $this->htmlImportButton('mr');
+        }
+    }
+    
     /**
      * Return a span with title of the plugin found
      *
