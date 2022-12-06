@@ -629,16 +629,17 @@ class YasrImportRatingPlugins {
      * @param $number_of_queries
      */
     public function alertBox($plugin, $number_of_queries) {
-
-        echo '<div class="yasr-alert-box">';
-        echo wp_kses_post(sprintf(__(
+        $div  =  '<div class="yasr-alert-box">';
+        $div .= sprintf(__(
             'To import %s seems like %s %d %s INSERT queries are necessary. %s
                 There is nothing wrong with that, but some hosting provider can have a query limit/hour. %s
                 I strongly suggest to contact your hosting and ask about your plan limit',
             'yet-another-stars-rating'
-        ),$plugin, '<strong>', $number_of_queries, '</strong>', '<br />','<br />'));
-        echo '</div>';
+        ),
+        $plugin, '<strong>', $number_of_queries, '</strong>', '<br />','<br />');
+        $div .= '</div>';
 
+        return $div;
     }
 
     /**
@@ -689,6 +690,51 @@ class YasrImportRatingPlugins {
     }
 
     /**
+     * Returns a note to explain ho data is imported if a plugin doesn't have a full log
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.5
+     * @param $plugin_name
+     *
+     * @return string
+     */
+    public function noteAverageRating($plugin_name) {
+        $head = sprintf(__(
+            '%s Please note: %s depending on the settings, %s may save data in different ways.',
+            'yet-another-stars-rating'),
+            '<strong>', '</strong>', $plugin_name
+        ). '<br />';
+        $further_info = '';
+
+        if($plugin_name === 'KK Star Ratings') {
+            $head = sprintf(__(
+                    '%s Please note: %s KK Star Ratings doesn\'t save information about the single vote.',
+                'yet-another-stars-rating'),
+                '<strong>', '</strong>'
+            ) . '<br />';
+
+            $further_info = '<br />' .  __('If you use a rating scale different than 1 to 5, all ratings will be 
+            converted to work with a 5 ratings star scale.');
+        }
+
+        $info  = '<div class="yasr-indented-answer" style="margin-top: 10px;">';
+        $info .= $head;
+        $info .= sprintf(__(
+            'The only way to be sure to get ALL data is, for every single post or page, getting the total 
+            number of votes, and save the current average as the rating for all votes. %s
+            E.g. A post has 130 votes with an average of 4.4: since is impossible to know the single rating,
+            YASR will import 130 votes with an average of 4.4. %s
+            Because of this, statistics in front end will be disabled for all post or page published before 
+            the import.',
+            'yet-another-stars-rating'
+        ), '<br />', '<br />');
+        $info .= $further_info;
+        $info .='</div>';
+
+        return $info;
+    }
+
+    /**
      * Return an "already imported" message with date
      *
      * @author Dario Curvino <@dudo>
@@ -699,7 +745,7 @@ class YasrImportRatingPlugins {
      *
      * @return false|string
      */
-    public function alreadyImportedMessage($plugin_imported_option, $plugin_key, $plugin_name) {
+    public function alreadyImported($plugin_imported_option, $plugin_key, $plugin_name) {
         if (is_array($plugin_imported_option) && array_key_exists($plugin_key, $plugin_imported_option)) {
             return(
                 '<div class="yasr-indented-answer" style="margin-top: 10px;">'
