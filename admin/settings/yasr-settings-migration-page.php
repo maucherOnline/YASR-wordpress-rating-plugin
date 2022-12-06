@@ -22,7 +22,6 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-$plugin_imported = get_option('yasr_plugin_imported');
 ?>
 
 <h3><?php esc_html_e('Migration Tools', 'yet-another-stars-rating'); ?></h3>
@@ -40,22 +39,22 @@ $plugin_imported = get_option('yasr_plugin_imported');
                     }
 
                     if($import_plugin->searchWPPR()){
-                        $import_plugin->importWPPR ($plugin_imported);
+                        $import_plugin->importWPPR();
                     }
 
                     if($import_plugin->searchKKSR()){
-                        $import_plugin->importKKSR($plugin_imported);
+                        $import_plugin->importKKSR();
                     }
 
                     if($import_plugin->searchRMP()) {
-                        $import_plugin->importRMP($plugin_imported);
+                        $import_plugin->importRMP();
                     }
 
                     if($import_plugin->searchMR()){
-                        $import_plugin->importMR($plugin_imported);
+                        $import_plugin->importMR();
                     }
 
-                    do_action('yasr_migration_page_bottom', $plugin_imported);
+                    do_action('yasr_migration_page_bottom', $import_plugin->plugin_imported);
                 ?>
             </div>
         </td>

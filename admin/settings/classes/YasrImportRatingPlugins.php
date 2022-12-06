@@ -23,6 +23,15 @@ if (!defined('ABSPATH')) {
 
 class YasrImportRatingPlugins {
 
+    //save here get_option yasr_plugin_imported
+    public $plugin_imported;
+
+    public function __construct() {
+        if($this->plugin_imported === NULL) {
+            $this->plugin_imported = get_option('yasr_plugin_imported');
+        }
+    }
+
     /**
      * Add ajax action for plugin import
      *
@@ -651,7 +660,7 @@ class YasrImportRatingPlugins {
      */
     public function savePluginImported($plugin) {
         //get actual data
-        $plugin_imported = get_option('yasr_plugin_imported');
+        $plugin_imported = $this->plugin_imported;
 
         //Since php 8.1, it is not possible anymore to automatically convert false into array, so I need to declare it first
         //if plugin_imported === false
@@ -670,9 +679,8 @@ class YasrImportRatingPlugins {
      *
      * @author Dario Curvino <@dudo>
      * @since  3.1.6
-     * @param $plugin_imported
      */
-    public function importWPPR ($plugin_imported) {
+    public function importWPPR () {
         echo wp_kses_post($this->pluginFoundTitle('WP-PostRatings'));
 
         $number_of_stars = (int)get_option('postratings_max', false);
@@ -687,7 +695,7 @@ class YasrImportRatingPlugins {
             echo wp_kses_post($this->noteAverageRating('WP-PostRatings'));
 
             $wppr_imported = $this->alreadyImported(
-                $plugin_imported, 'wppr', 'WP-PostRatings'
+                $this->plugin_imported, 'wppr', 'WP-PostRatings'
             );
 
             if($wppr_imported !== false) {
@@ -710,13 +718,12 @@ class YasrImportRatingPlugins {
      * 
      * @author Dario Curvino <@dudo>
      * @since 3.1.6
-     * @param $plugin_imported
      */
-    public function importKKSR ($plugin_imported) {
+    public function importKKSR () {
         echo wp_kses_post($this->pluginFoundTitle('KK Star Ratings'));
         echo wp_kses_post($this->noteAverageRating('KK Star Ratings'));
         $kksr_imported = $this->alreadyImported(
-            $plugin_imported, 'kksr', 'KK Star Rating'
+            $this->plugin_imported, 'kksr', 'KK Star Rating'
         );
 
         if($kksr_imported !== false) {
@@ -739,12 +746,11 @@ class YasrImportRatingPlugins {
      * 
      * @author Dario Curvino <@dudo>
      * @since  3.1.6
-     * @param $plugin_imported
      */
-    public function importRMP ($plugin_imported) {
+    public function importRMP () {
         echo wp_kses_post($this->pluginFoundTitle('Rate My Post'));
         $rmp_imported = $this->alreadyImported(
-            $plugin_imported, 'rmp', 'Rate My Post'
+            $this->plugin_imported, 'rmp', 'Rate My Post'
         );
 
         if($rmp_imported !== false) {
@@ -767,13 +773,12 @@ class YasrImportRatingPlugins {
      *
      * @author Dario Curvino <@dudo>
      * @since 3.1.6
-     * @param $plugin_imported
      */
-    public function importMR($plugin_imported) {
+    public function importMR() {
         echo wp_kses_post($this->pluginFoundTitle('Multi Rating'));
         echo wp_kses_post($this->noteAverageRating('Multi Rating'));
         $mr_imported = $this->alreadyImported(
-            $plugin_imported, 'mr', 'Multi Rating'
+            $this->plugin_imported, 'mr', 'Multi Rating'
         );
 
         if($mr_imported !== false) {
