@@ -583,7 +583,7 @@ Many other support types will comes.
 - Wp Post Ratings
 - KK Star Ratings
 - Rate My Post
-* FIXED: in editor screen, multi set didn't shows up if more than 1 was used
+* FIXED: in editor screen, multi set didn't show up if more than 1 was used
 * TWEAKED: minor changes
 
 = 1.9.9 =

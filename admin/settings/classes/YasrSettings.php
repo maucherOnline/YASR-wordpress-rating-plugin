@@ -46,8 +46,9 @@ class YasrSettings {
         //include style functions
         require(YASR_ABSOLUTE_PATH_ADMIN . '/settings/aspect_style/yasr-settings-style-functions.php');
 
-        //load functions migration
-        require(YASR_ABSOLUTE_PATH_ADMIN . '/settings/migrations/yasr-settings-migration-functions.php');
+        $yasr_import_plugin = new YasrImportRatingPlugins;
+        //add ajax actions
+        $yasr_import_plugin->addAjaxActions();
     }
 
     /**

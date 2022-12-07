@@ -2,7 +2,11 @@
     "name": "dudo1985/yet-another-stars-rating",
     "description": "=== Yasr - Yet Another Stars Rating ===",
     "require": {
-        "freemius/wordpress-sdk": "^2.5"
+        "freemius/wordpress-sdk": "^2.5",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
     },
     "license": "GPL2",
     "authors": [

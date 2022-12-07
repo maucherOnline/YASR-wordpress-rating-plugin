@@ -63,8 +63,8 @@ function yasr_settings_tabs($active_tab) {
 
         $rating_plugin_exists = new YasrImportRatingPlugins();
 
-        if ($rating_plugin_exists->yasr_search_wppr() || $rating_plugin_exists->yasr_search_rmp()
-            || $rating_plugin_exists->yasr_search_kksr() || $rating_plugin_exists->yasr_search_mr()) {
+        if ($rating_plugin_exists->searchWPPR() || $rating_plugin_exists->searchRMP()
+            || $rating_plugin_exists->searchKKSR() || $rating_plugin_exists->searchMR()) {
             ?>
             <a href="?page=yasr_settings_page&tab=migration_tools"
                id="migration_tools"
