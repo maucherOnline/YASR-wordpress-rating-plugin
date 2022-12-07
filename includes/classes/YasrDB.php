@@ -23,9 +23,9 @@ if (!defined('ABSPATH')) {
 } // Exit if accessed directly
 
 /**
- * class for get overallRating and visitorVotes values
+ * This class is used to connect to the DB
  *
- * Class YasrDatabaseRatings
+ * Class YasrDB
  */
 class YasrDB {
 
@@ -568,7 +568,6 @@ class YasrDB {
      *
      * @return bool | array
      */
-
     public static function returnArrayFieldsRatingsAuthor($set_id, $set_fields, $post_id = false) {
         $array_to_return = array();
         $set_id          = (int) $set_id;
@@ -623,7 +622,6 @@ class YasrDB {
      * @since 2.5.2
      * @return array|object|null
      */
-
     public static function returnAllLogMulti() {
         global $wpdb;
 
