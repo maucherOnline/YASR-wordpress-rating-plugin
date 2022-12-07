@@ -32,8 +32,7 @@ class YasrProAverageMultiset extends YasrMultiSet {
         $this->shortcode_html = '<!--YASR PRO' . $this->shortcode_name .' -->';
 
         //generate an unique id to be sure that every element has a different ID
-        $unique_id              = str_shuffle(uniqid());
-        $average_multiset_html_id = $this->shortcode_name . '-' . $unique_id;
+        $average_multiset_html_id = yasr_return_dom_id($this->shortcode_name . '-');
 
         $html_stars = "<div class='yasr-overall-rating'>
                                  <div class='yasr-rater-stars'

@@ -252,7 +252,7 @@ class YasrPublicFilters {
         $number_of_votes = $stored_votes['number_of_votes'];
         $average_rating  = $stored_votes['average'];
 
-        $htmlid = 'yasr-visitor-votes-readonly-rater-' . str_shuffle(uniqid());
+        $htmlid = yasr_return_dom_id('yasr-visitor-votes-readonly-rater-');
 
         $vv_widget = '<div class="yasr-vv-stars-title-container">';
         $vv_widget .= "<div class='yasr-stars-title yasr-rater-stars'

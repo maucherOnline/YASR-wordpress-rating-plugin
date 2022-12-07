@@ -763,7 +763,7 @@ class YasrProCommentForm {
                 $loader_and_vote_updated = '';
             }
 
-            $unique_id_identifier = 'yasr-pro-multiset-comment-' . str_shuffle(uniqid());
+            $unique_id_identifier = yasr_return_dom_id('yasr-pro-multiset-comment-');
 
             //todo after data- remove 'rater'
             $html_stars = "<div class='".esc_attr($class)."'

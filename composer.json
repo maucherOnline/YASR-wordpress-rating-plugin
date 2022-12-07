@@ -3,7 +3,8 @@
     "description": "=== Yasr - Yet Another Stars Rating ===",
     "require": {
         "freemius/wordpress-sdk": "^2.5",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-fileinfo": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest"

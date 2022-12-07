@@ -464,8 +464,7 @@ class YasrProUrAdmin {
         $review_body = get_comment_text( $comment_id );
 
         //generate an unique id to be sure that every element has a different ID
-        $unique_id               = str_shuffle(uniqid());
-        $comment_rating_html_id  = 'yasr-pro-visitor-review-rater-' . $unique_id;
+        $comment_rating_html_id  = yasr_return_dom_id('yasr-pro-visitor-review-rater-');
 
         if ($rating) {
 

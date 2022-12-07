@@ -33,9 +33,7 @@ class YasrProUrAverageShortcodes extends YasrShortcode {
             $comments_stats['n_of_votes'] = 0;
         }
 
-        $unique_id = str_shuffle(uniqid());
-
-        $average_html_id = 'yasr-pro-average-comments-ratings-' . $unique_id;
+        $average_html_id = yasr_return_dom_id('yasr-pro-average-comments-ratings-');
 
         $this->shortcode_html .= "<div class='yasr-rater-stars' 
                                        id='$average_html_id' 

@@ -295,7 +295,7 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
 
             //Use a random string (uniqueid and str_shuffle to add randomness) if id is still empty
             if (!$id) {
-                $id = str_shuffle(uniqid('', true));
+                $id = str_shuffle(uniqid(''));
             }
 
             if($autocomplete !== 'on') {

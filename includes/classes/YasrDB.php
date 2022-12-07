@@ -865,7 +865,7 @@ class YasrDB {
         //if term_id is not an int, use get_post_meta
         if (!is_int($term_id)) {
             $post_id = get_the_ID();
-            //should be useless, just to be safe
+
             if (!$post_id) {
                 return false;
             }
@@ -889,7 +889,6 @@ class YasrDB {
             if (!in_array($snippet_type, $review_types, true)) {
                 $snippet_type = YASR_ITEMTYPE;
             }
-
         }
         else {
             $snippet_type = YASR_ITEMTYPE;

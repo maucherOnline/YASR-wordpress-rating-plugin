@@ -40,7 +40,7 @@ class YasrVisitorVotes extends YasrShortcode {
             $this->is_singular = 'false';
         }
 
-        $this->unique_id          = str_shuffle(uniqid());
+        $this->unique_id          = yasr_return_dom_id();
         $this->ajax_nonce_visitor = wp_create_nonce('yasr_nonce_vv');
 
     }

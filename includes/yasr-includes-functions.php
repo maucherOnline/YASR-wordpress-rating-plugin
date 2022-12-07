@@ -376,5 +376,20 @@ function yasr_check_svg_image($url) {
         return false;
     }
     return false;
+}
 
+/**
+ * This function return a random string to be used in the dom as ID value
+ *
+ * @author Dario Curvino <@dudo>
+ * @since  2.6.8
+ *
+ * @param string $prefix
+ *
+ * @return string
+ */
+function yasr_return_dom_id ($prefix='') {
+    //Do not use $more_entropy param to uniqid() function here, since it can return chars not allowed as ID value
+    //To increase likelihood of uniqueness, str_shuffle() is enough for the scope of use
+    return esc_html($prefix) . str_shuffle(uniqid());
 }

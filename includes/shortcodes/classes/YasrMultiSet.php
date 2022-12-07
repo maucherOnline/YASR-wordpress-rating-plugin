@@ -138,7 +138,7 @@ class YasrMultiSet extends YasrShortcode {
      * @return string
      */
     public function returnStarsDiv ($field_id, $average_rating, $readonly) {
-        $unique_id_identifier = 'yasr-multiset-' . str_shuffle(uniqid());
+        $unique_id_identifier = yasr_return_dom_id('yasr-multiset-');
 
         return  "<div class='yasr-multiset-visitors-rater'
                     id='$unique_id_identifier' 
@@ -221,7 +221,7 @@ class YasrMultiSet extends YasrShortcode {
         $html_average = null;
 
         //Show average row
-        $unique_id_identifier = 'yasr-multiset-' . str_shuffle(uniqid());
+        $unique_id_identifier = yasr_return_dom_id('yasr-multiset-');
 
         $html_average = "<tr>
                             <td colspan='2' class='yasr-multiset-average'>

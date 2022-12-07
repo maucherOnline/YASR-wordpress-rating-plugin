@@ -94,8 +94,7 @@ class YasrOverallRating extends YasrShortcode {
             $overall_rating = $this->overall_rating;
         }
 
-        $unique_id               = str_shuffle(uniqid());
-        $overall_rating_html_id  = 'yasr-overall-rating-rater-' . $unique_id;
+        $overall_rating_html_id  = yasr_return_dom_id('yasr-overall-rating-rater-');
 
         $html_stars = "<div class='$class'
                            id='$overall_rating_html_id'

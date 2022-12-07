@@ -174,7 +174,7 @@ class YasrRankings extends YasrMultiSet {
     protected function returnSingleTableRanking($sql_params=false, $source='overall_rating') {
         if ($this->query_highest_rated_overall) {
 
-            $table_id = 'yasr_overall_ranking_'.str_shuffle(uniqid());
+            $table_id = yasr_return_dom_id('yasr_overall_ranking_');
             $array_with_title = htmlspecialchars(
                 json_encode(self::rankingData($this->query_highest_rated_overall)),ENT_QUOTES, 'UTF-8'
             );
@@ -221,7 +221,7 @@ class YasrRankings extends YasrMultiSet {
             $array_with_title['most']    = self::rankingData($this->query_result_most_rated_visitor);
             $array_with_title['highest'] = self::rankingData($this->query_result_highest_rated_visitor);
 
-            $table_id = 'yasr_vv_ranking_' . str_shuffle(uniqid());
+            $table_id = yasr_return_dom_id('yasr_vv_ranking_');
 
             $this->shortcode_html .= "<table
                                           class='yasr-rankings yasr-stars-rankings'

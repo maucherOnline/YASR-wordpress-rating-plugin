@@ -22,7 +22,7 @@ class YasrProReviewBars extends YasrShortcode{
         if ($comment_review_enabled === 1) {
             $comments_array = $comments_data_obj->getCommentsWithRatings($this->post_id);
 
-            $unique_id = 'yasr-pro-comment-reviews-stats-'.str_shuffle(uniqid());
+            $unique_id = yasr_return_dom_id('yasr-pro-comment-reviews-stats-');
 
             $shortcode_html = '<div id="'.$unique_id.'" class="yasr-pro-comment-reviews-stats">';
 
