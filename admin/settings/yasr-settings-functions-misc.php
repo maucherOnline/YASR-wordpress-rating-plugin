@@ -91,7 +91,6 @@ function yasr_settings_tabs($active_tab) {
  * @return string
  */
 function yasr_description_auto_insert () {
-
     $name        = esc_html__('Auto Insert Options', 'yet-another-stars-rating');
 
     $div_desc    = '<div class="yasr-settings-description">';

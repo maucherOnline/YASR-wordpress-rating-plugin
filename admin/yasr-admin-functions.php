@@ -201,7 +201,7 @@ function yasr_pricing_page_callback() {
         wp_die(__('You do not have sufficient permissions to access this page.', 'yet-another-stars-rating'));
     }
 
-    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-pricing-page.php');
+    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-pricing-page.html');
 }
 
 
