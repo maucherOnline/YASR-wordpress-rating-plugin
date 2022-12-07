@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
  *
  * Class YasrDatabaseRatings
  */
-class YasrGetRatings {
+class YasrDB {
 
     /**
      * Returns overall rating for single post or page
@@ -317,7 +317,9 @@ class YasrGetRatings {
             return $query_results;
         }
         return false;
-    }/**
+    }
+
+    /**
      * @author Dario Curvino <@dudo>
      * @since  2.7.2
      *
@@ -325,7 +327,7 @@ class YasrGetRatings {
      * @param  false $sql_atts
      *
      * @return bool|array
- */
+    */
     public static function rankingMulti($set_id, $sql_atts = false) {
         global $wpdb;
         if ($set_id === null) {
@@ -372,16 +374,18 @@ class YasrGetRatings {
             return array_slice($average_array, 0, 10);
         }
 
-        //should never happens
+        //should never happen
         return false;
-    }/***
+    }
+
+    /***
      * @author Dario Curvino <@dudo>
      * @since 2.6.3
      *
      * @param $atts
      *
      * @return array|false|object|void
- */
+    */
     public static function rankingTopReviewers($atts) {
         global $wpdb;
 
@@ -416,7 +420,9 @@ class YasrGetRatings {
             return $query_results;
         }
         return false;
-    }/**
+    }
+
+    /**
      * @author Dario Curvino <@dudo>
      * @since  2.7.2
      *
@@ -425,7 +431,7 @@ class YasrGetRatings {
      * @param false           $sql_atts
      *
      * @return array|false|object
- */
+    */
     public static function rankingMultiVV($set_id, $ranking = 'most', $sql_atts = false) {
         global $wpdb;
         //if set_id is not set (e.g. in rest parameter setid is not set)

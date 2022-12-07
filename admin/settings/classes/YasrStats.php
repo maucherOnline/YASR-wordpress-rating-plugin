@@ -48,13 +48,13 @@ class YasrStats extends Yasr_WP_List_Table {
         $this->process_bulk_action();
 
         if ($this->active_tab === 'logs' || $this->active_tab === '') {
-            $data = YasrGetRatings::allVisitorVotes();
+            $data = YasrDB::allVisitorVotes();
         }
         else if($this->active_tab === 'logs_multi') {
             $data = YasrMultiSetData::returnAllLogMulti();
         }
         else if($this->active_tab === 'overall') {
-            $data = YasrGetRatings::allOverallRatings();
+            $data = YasrDB::allOverallRatings();
         }
 
         usort($data, array( $this, 'sort_data' ));

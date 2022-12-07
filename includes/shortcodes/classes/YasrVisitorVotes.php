@@ -51,7 +51,7 @@ class YasrVisitorVotes extends YasrShortcode {
      * @return string|null
      */
     public function returnShortcode() {
-        $stored_votes    = YasrGetRatings::visitorVotes($this->post_id);
+        $stored_votes    = YasrDB::visitorVotes($this->post_id);
         $number_of_votes = $stored_votes['number_of_votes'];
         $average_rating  = $stored_votes['average'];
 
@@ -180,7 +180,7 @@ class YasrVisitorVotes extends YasrShortcode {
             //if it is not false_already_voted means it is true_logged
             if($stars_enabled !== 'false_already_voted') {
                 //Check if a logged-in user has already rated for this post
-                $vote_if_user_already_rated = YasrGetRatings::vvCurrentUserRating($post_id);
+                $vote_if_user_already_rated = YasrDB::vvCurrentUserRating($post_id);
                 //...and if vote exists, assign it into rating
                 if($vote_if_user_already_rated) {
                     $rating = $vote_if_user_already_rated;

@@ -54,7 +54,7 @@ class YasrRankings extends YasrMultiSet {
         //$this->shorcode_name is the default value
         $sql_atts = apply_filters('yasr_ov_rankings_atts', $this->shortcode_name, $atts);
 
-        $this->query_highest_rated_overall = YasrGetRatings::rankingOverall($sql_atts);
+        $this->query_highest_rated_overall = YasrDB::rankingOverall($sql_atts);
 
         $this->returnSingleTableRanking($this->urlencodeAtts($sql_atts));
         $this->shortcode_html .= '<!--End Yasr Top 10 highest Rated Shortcode-->';
@@ -84,8 +84,8 @@ class YasrRankings extends YasrMultiSet {
          */
         $sql_atts = apply_filters('yasr_vv_rankings_atts', $this->shortcode_name, $atts);
 
-        $this->query_result_most_rated_visitor    = YasrGetRatings::rankingVV($sql_atts, 'most');
-        $this->query_result_highest_rated_visitor = YasrGetRatings::rankingVV($sql_atts, 'highest');
+        $this->query_result_most_rated_visitor    = YasrDB::rankingVV($sql_atts, 'most');
+        $this->query_result_highest_rated_visitor = YasrDB::rankingVV($sql_atts, 'highest');
 
         $this->returnDoubleTableRanking($this->urlencodeAtts($sql_atts), $source);
         $this->shortcode_html .= '<!--End Yasr TMost Or Highest Rated Shortcode -->';
@@ -112,7 +112,7 @@ class YasrRankings extends YasrMultiSet {
         //$this->shorcode_name is the default value
         $sql_atts = apply_filters('yasr_multi_set_ranking_atts', $this->shortcode_name, $atts);
 
-        $this->query_highest_rated_overall = YasrGetRatings::rankingMulti($this->set_id, $sql_atts);
+        $this->query_highest_rated_overall = YasrDB::rankingMulti($this->set_id, $sql_atts);
 
         $this->returnSingleTableRanking($this->urlencodeAtts($sql_atts), 'author_multi');
         $this->shortcode_html .= '<!-- Yasr Ranking by Multiset -->';
@@ -144,8 +144,8 @@ class YasrRankings extends YasrMultiSet {
          */
         $sql_atts = apply_filters('yasr_visitor_multi_set_ranking_atts', $this->shortcode_name, $atts);
 
-        $this->query_result_most_rated_visitor    = YasrGetRatings::rankingMultiVV($this->set_id, 'most', $sql_atts);
-        $this->query_result_highest_rated_visitor = YasrGetRatings::rankingMultiVV($this->set_id, 'highest', $sql_atts);
+        $this->query_result_most_rated_visitor    = YasrDB::rankingMultiVV($this->set_id, 'most', $sql_atts);
+        $this->query_result_highest_rated_visitor = YasrDB::rankingMultiVV($this->set_id, 'highest', $sql_atts);
 
         //this means no filter has run, I've to create an array with the setid
         //that will be later urlencoded

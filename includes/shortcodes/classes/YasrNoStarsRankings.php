@@ -34,7 +34,7 @@ class YasrNoStarsRankings extends YasrShortcode {
         $this->shortcode_html = '<!-- Yasr '.$this->shortcode_name.' Shortcode-->';
 
         $sql_atts = apply_filters('yasr_tr_rankings_atts', false, $atts);
-        $query_result = YasrGetRatings::rankingTopReviewers($sql_atts);
+        $query_result = YasrDB::rankingTopReviewers($sql_atts);
 
         if ($query_result) {
             $this->shortcode_html = $this->returnTableContent($query_result, $sql_atts);
@@ -61,7 +61,7 @@ class YasrNoStarsRankings extends YasrShortcode {
         $this->shortcode_html = '<!-- Yasr '.$this->shortcode_name.' Shortcode-->';
 
         $sql_atts = apply_filters('yasr_tu_rankings_atts', false, $atts);
-        $query_result = YasrGetRatings::rankingTopUsers($sql_atts);
+        $query_result = YasrDB::rankingTopUsers($sql_atts);
 
         if ($query_result) {
             $this->shortcode_html = $this->returnTableContent($query_result, $sql_atts);

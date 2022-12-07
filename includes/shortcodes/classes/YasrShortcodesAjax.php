@@ -207,7 +207,7 @@ class YasrShortcodesAjax {
      * @return string
      */
     public function vvReturnResponse($post_id, $rating, $result_update_log) {
-        $row_exists = YasrGetRatings::visitorVotes($post_id);
+        $row_exists = YasrDB::visitorVotes($post_id);
 
         $number_of_votes = $row_exists['number_of_votes'];
         $medium_rating   = $row_exists['average'];
@@ -293,7 +293,7 @@ class YasrShortcodesAjax {
 
         $array_to_return['stars_attributes']['span_bottom'] = YasrVisitorVotes::showTextBelowStars($cookie_value, $post_id);
 
-        $array_visitor_votes = YasrGetRatings::visitorVotes($post_id);
+        $array_visitor_votes = YasrDB::visitorVotes($post_id);
 
         $array_to_return['number_of_votes'] = $array_visitor_votes['number_of_votes'];
         $array_to_return['sum_votes']       = $array_visitor_votes['sum_votes'];
@@ -534,7 +534,7 @@ class YasrShortcodesAjax {
             die();
         }
 
-        $votes_array    = YasrGetRatings::visitorVotes($post_id);
+        $votes_array    = YasrDB::visitorVotes($post_id);
         $average_rating = $votes_array['average'];
 
         $missing_vote  = null; //avoid undefined variable
@@ -694,7 +694,7 @@ class YasrShortcodesAjax {
         $sql_params = apply_filters('yasr_filter_ranking_request', false, $request);
 
         if($source === 'overall_rating') {
-            $overall_data = YasrGetRatings::rankingOverall($sql_params);
+            $overall_data = YasrDB::rankingOverall($sql_params);
             if($overall_data === false){
                 $data_to_return = false;
             }
@@ -708,7 +708,7 @@ class YasrShortcodesAjax {
             $ranking                = ($request['show'] === 'highest') ? $request['show'] : 'most';
             $data_to_return['show'] = $ranking;
 
-            $vv_data = YasrGetRatings::rankingVV($sql_params, $ranking);
+            $vv_data = YasrDB::rankingVV($sql_params, $ranking);
             if ($vv_data === false) {
                 $data_to_return = false;
             }
@@ -718,7 +718,7 @@ class YasrShortcodesAjax {
         }
 
         if($source === 'author_multi') {
-            $am_data = YasrGetRatings::rankingMulti($request['setid'], $sql_params);
+            $am_data = YasrDB::rankingMulti($request['setid'], $sql_params);
             if($am_data === false){
                 $data_to_return = false;
             }
@@ -732,7 +732,7 @@ class YasrShortcodesAjax {
             $ranking                = ($request['show'] === 'highest') ? $request['show'] : 'most';
             $data_to_return['show'] = $ranking;
 
-            $vm_data = YasrGetRatings::rankingMultiVV($request['setid'], $ranking, $sql_params);
+            $vm_data = YasrDB::rankingMultiVV($request['setid'], $ranking, $sql_params);
             if($vm_data === false){
                 $data_to_return = false;
             }

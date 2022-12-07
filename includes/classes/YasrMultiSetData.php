@@ -180,7 +180,6 @@ class YasrMultiSetData {
      *
      * @return bool | array
      */
-
     public static function returnArrayFieldsRatingsAuthor($set_id, $set_fields, $post_id=false) {
         $array_to_return = array ();
         $set_id = (int)$set_id;
