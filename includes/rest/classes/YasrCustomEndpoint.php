@@ -293,7 +293,7 @@ class YasrCustomEndpoint extends WP_REST_Controller {
             return $this->returnErrorPostId();
         }
 
-        $data_to_return['yasr_visitor_multiset'] = YasrMultiSetData::returnMultisetContent($post_id, $set_id, true);
+        $data_to_return['yasr_visitor_multiset'] = YasrDB::returnMultisetContent($post_id, $set_id, true);
         if ($data_to_return['yasr_visitor_multiset'] === false) {
             return $this->returnInvalidMultiset();
         }
@@ -312,7 +312,7 @@ class YasrCustomEndpoint extends WP_REST_Controller {
      */
     protected function returnCommentMultiset($set_id, $comment_id) {
         //if comment id is valid, post_id can be ignored at all
-        $data_to_return['yasr_comment_multiset'] = YasrMultiSetData::returnMultisetContent(false, $set_id, false, $comment_id);
+        $data_to_return['yasr_comment_multiset'] = YasrDB::returnMultisetContent(false, $set_id, false, $comment_id);
         if ($data_to_return['yasr_comment_multiset'] === false) {
             return $this->returnInvalidMultiset();
         }
@@ -333,7 +333,7 @@ class YasrCustomEndpoint extends WP_REST_Controller {
             return $this->returnErrorPostId();
         }
 
-        $data_to_return['yasr_multiset'] = YasrMultiSetData::returnMultisetContent($post_id, $set_id);
+        $data_to_return['yasr_multiset'] = YasrDB::returnMultisetContent($post_id, $set_id);
         if ($data_to_return['yasr_multiset'] === false) {
             return $this->returnInvalidMultiset();
         }

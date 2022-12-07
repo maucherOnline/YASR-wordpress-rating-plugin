@@ -49,7 +49,7 @@ if ($error_edit_multi_set) {
 
 global $wpdb;
 
-$multi_set = YasrMultiSetData::returnMultiSetNames();
+$multi_set = YasrDB::returnMultiSetNames();
 $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the last query
 
 ?>

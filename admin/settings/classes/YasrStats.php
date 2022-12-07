@@ -51,7 +51,7 @@ class YasrStats extends Yasr_WP_List_Table {
             $data = YasrDB::allVisitorVotes();
         }
         else if($this->active_tab === 'logs_multi') {
-            $data = YasrMultiSetData::returnAllLogMulti();
+            $data = YasrDB::returnAllLogMulti();
         }
         else if($this->active_tab === 'overall') {
             $data = YasrDB::allOverallRatings();

@@ -17,7 +17,7 @@ class YasrProAverageMultiset extends YasrMultiSet {
             $visitor_multiset = true;
         }
 
-        return YasrMultiSetData::returnMultiSetAverage($this->post_id, $this->set_id, $visitor_multiset);
+        return YasrDB::returnMultiSetAverage($this->post_id, $this->set_id, $visitor_multiset);
     }
 
     /**

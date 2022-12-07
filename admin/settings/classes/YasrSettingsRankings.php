@@ -29,7 +29,7 @@ class YasrSettingsRankings {
 
     public function __construct($custom_post_types) {
         $this->custom_post_types = $custom_post_types;
-        $this->multi_set_array = YasrMultiSetData::returnMultiSetNames();
+        $this->multi_set_array = YasrDB::returnMultiSetNames();
 
         global $wpdb;
         //wpdb->num_rows always store the the count number of rows of the last query

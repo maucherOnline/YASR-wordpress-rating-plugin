@@ -74,7 +74,7 @@ class YasrVisitorMultiSet extends YasrMultiSet {
         //check cookie and assign default values
         $this->multisetAttributes();
 
-        $multiset_content = YasrMultiSetData::returnMultisetContent($this->post_id, $this->set_id, true);
+        $multiset_content = YasrDB::returnMultisetContent($this->post_id, $this->set_id, true);
 
         if ($multiset_content === false) {
             return $this->returnErrorData('<!-- Yasr Visitor Multi Set Shortcode-->');

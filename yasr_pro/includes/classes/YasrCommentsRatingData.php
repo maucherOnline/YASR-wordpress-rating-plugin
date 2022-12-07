@@ -130,7 +130,7 @@ class YasrCommentsRatingData {
         }
 
         //set fields name and ids
-        $set_fields = YasrMultiSetData::multisetFieldsAndID($set_id);
+        $set_fields = YasrDB::multisetFieldsAndID($set_id);
 
         if($set_fields === false) {
             return false;

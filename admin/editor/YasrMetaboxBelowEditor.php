@@ -44,7 +44,7 @@ class YasrMetaboxBelowEditor {
         if($multi_set === false || $n_multi_set === false) {
             global $wpdb;
 
-            $multi_set   = YasrMultiSetData::returnMultiSetNames();
+            $multi_set   = YasrDB::returnMultiSetNames();
             $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the count number of rows of the last query
         }
 

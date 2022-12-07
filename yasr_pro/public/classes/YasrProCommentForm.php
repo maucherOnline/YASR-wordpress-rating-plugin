@@ -220,7 +220,7 @@ class YasrProCommentForm {
      * @return string
      */
     private function printEmptyMultiSet($post_id, $set_id) {
-        $multiset_content = YasrMultiSetData::multisetFieldsAndID($set_id);
+        $multiset_content = YasrDB::multisetFieldsAndID($set_id);
 
         $html_multiset    = $this->printMultiSet($multiset_content, $set_id, $post_id);
 
@@ -471,7 +471,7 @@ class YasrProCommentForm {
             return false;
         }
 
-        $multiset_content = YasrMultiSetData::returnMultisetContent($post_id, $set_id, false, $comment_id);
+        $multiset_content = YasrDB::returnMultisetContent($post_id, $set_id, false, $comment_id);
 
         return $this->printMultiSet($multiset_content, $set_id, $post_id, $readonly, $class, $comment_id);
     }
@@ -616,7 +616,7 @@ class YasrProCommentForm {
             $rating = yasr_unique_multidim_array($rating, 'field');
 
             //count the ratings given in the multiset, and if are less of the multisetlenght, return error
-            if(count($rating) < YasrMultiSetData::multisetLength($set_id)) {
+            if(count($rating) < YasrDB::multisetLength($set_id)) {
                 $error_message= esc_html__('Please fill all ratings.', 'yasr-pro');
                 $this->commentReviewDie($comment_id, $error_message);
             }

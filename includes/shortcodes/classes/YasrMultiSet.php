@@ -62,7 +62,7 @@ class YasrMultiSet extends YasrShortcode {
 
         $this->shortcode_html = '<!-- Yasr Multi Set Shortcode-->';
 
-        $multiset_content = YasrMultiSetData::returnMultisetContent($post_id, $set_id);
+        $multiset_content = YasrDB::returnMultisetContent($post_id, $set_id);
 
         if ($multiset_content === false) {
             return $this->returnErrorData('<!-- Yasr Multi Set Shortcode-->');
@@ -196,7 +196,9 @@ class YasrMultiSet extends YasrShortcode {
         //If average row should be showed
         if ($this->showAverageMultiset() === true) {
             //get the average of the multiset
-            $multiset_average = YasrMultiSetData::returnMultiSetAverage($this->post_id, $this->set_id, $visitor_multiset, $multiset_content);
+            $multiset_average = YasrDB::returnMultiSetAverage(
+                $this->post_id, $this->set_id, $visitor_multiset, $multiset_content
+            );
 
             //return it
             return $this->returnAverageRowMultiSet($multiset_average);

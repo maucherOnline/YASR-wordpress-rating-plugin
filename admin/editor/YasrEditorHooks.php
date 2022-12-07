@@ -197,7 +197,7 @@ class YasrEditorHooks {
      */
     public function tinymcePopupContent () {
         global $wpdb;
-        $multi_set   = YasrMultiSetData::returnMultiSetNames();
+        $multi_set   = YasrDB::returnMultiSetNames();
         $n_multi_set = $wpdb->num_rows;
 
         $this->multi_set   = $multi_set;
@@ -590,10 +590,10 @@ class YasrEditorHooks {
         $post_id = (int) $_POST['post_id'];
 
         //set fields name and ids
-        $set_fields      = YasrMultiSetData::multisetFieldsAndID($set_id);
+        $set_fields      = YasrDB::multisetFieldsAndID($set_id);
 
         //set meta values
-        $array_to_return = YasrMultiSetData::returnArrayFieldsRatingsAuthor($set_id, $set_fields, $post_id);
+        $array_to_return = YasrDB::returnArrayFieldsRatingsAuthor($set_id, $set_fields, $post_id);
 
         echo json_encode($array_to_return);
 

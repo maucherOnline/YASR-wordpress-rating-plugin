@@ -142,7 +142,7 @@ class YasrDefineOptions {
      */
     public function onPluginsLoaded() {
         add_action('plugins_loaded', static function () {
-            define('YASR_FIRST_SETID', YasrMultiSetData::returnFirstSetId());
+            define('YASR_FIRST_SETID', YasrDB::returnFirstSetId());
             define('YASR_CATCH_INFINITE_SCROLL_INSTALLED', yasr_is_catch_infinite_sroll_installed());
         });
     }

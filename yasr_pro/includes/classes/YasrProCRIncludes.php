@@ -286,7 +286,7 @@ class YasrProCRIncludes {
         }
 
         //set fields name and ids
-        $average_array = YasrMultiSetData::returnMultiAuthorAverageArray($array_post_id, $set_id);
+        $average_array = YasrDB::returnMultiAuthorAverageArray($array_post_id, $set_id);
 
         //Limit the array to N results
         return array_slice($average_array, 0, $sql_params['limit']);
