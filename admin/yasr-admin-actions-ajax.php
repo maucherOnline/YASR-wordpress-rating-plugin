@@ -25,7 +25,7 @@ if (!defined('ABSPATH')) {
 //This function is also hooked into yasr-admin-actions
 add_action('wp_ajax_yasr_change_log_page', 'yasr_widget_log_dashboard_callback');
 function yasr_widget_log_dashboard_callback() {
-    $log_widget = new YasrLogDashboardWidget();
+    $log_widget = new YasrLastRatingsWidget();
     $log_widget->adminWidget();
 } //End callback function
 
@@ -34,7 +34,7 @@ function yasr_widget_log_dashboard_callback() {
 //This function is also hooked into yasr-admin-actions
 add_action('wp_ajax_yasr_change_user_log_page', 'yasr_users_dashboard_widget_callback');
 function yasr_users_dashboard_widget_callback() {
-    $log_widget = new YasrLogDashboardWidget();
+    $log_widget = new YasrLastRatingsWidget();
     $log_widget->userWidget();
 } //End callback function
 

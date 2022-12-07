@@ -214,6 +214,6 @@ function yasr_visitor_multi_set_ranking_callback($atts, $content, $shortcode_tag
 add_shortcode('yasr_user_rate_history', 'yasr_users_front_widget_callback');
 add_action('wp_ajax_yasr_change_user_log_page_front', 'yasr_users_front_widget_callback');
 function yasr_users_front_widget_callback() {
-    return (new YasrLogDashboardWidget())->userWidgetShortcode();
+    return (new YasrLastRatingsWidget())->userWidgetShortcode();
 } //End callback function
 

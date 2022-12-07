@@ -22,12 +22,15 @@ if (!defined('ABSPATH')) {
 } // Exit if accessed directly
 
 /**
- * Class YasrLogDashboardWidget
+ * Class YasrLastRatingsWidget
  *
- * Class to print the Dashboard widgets
+ * This class is used to show:
+ *  - "Recent Ratings" widget in dashboard
+ *  - "Your Ratings"   widget in dashboard
+ *  - [yasr_user_rate_history] shortcode
  *
  */
-class YasrLogDashboardWidget {
+class YasrLastRatingsWidget {
     private $limit = 8;
     private $offset = 0;
     private $page_num;
@@ -140,7 +143,6 @@ class YasrLogDashboardWidget {
         echo $this->returnWidget();
 
         $this->die_if_is_ajax();
-
     }
 
     /**
@@ -163,7 +165,7 @@ class YasrLogDashboardWidget {
     }
 
     /**
-     * Print the widget
+     * Return the widget
      * @return string|void
      */
     private function returnWidget() {
@@ -183,7 +185,7 @@ class YasrLogDashboardWidget {
         );
 
         if (!$log_result) {
-            return __("No Recent votes yet", 'yet-another-stars-rating');
+            return __('No Recent votes yet', 'yet-another-stars-rating');
         }
 
         $html_to_return = "<div class='yasr-log-container' id='$this->container_id'>";
@@ -250,7 +252,7 @@ class YasrLogDashboardWidget {
         $html_to_return .= "<div id='yasr-log-page-navigation'>";
 
         //use data attribute instead of value of #yasr-log-total-pages, because, on ajaxresponse,
-        //the "last" button could not exists
+        //the "last" button could not exist
         $html_to_return .= "<span id='$this->span_total_pages' data-yasr-log-total-pages='$this->num_of_pages'>";
         $html_to_return .= __("Pages", 'yet-another-stars-rating') . ": ($this->num_of_pages) &nbsp;&nbsp;&nbsp;";
         $html_to_return .= '</span>';
@@ -268,7 +270,6 @@ class YasrLogDashboardWidget {
      * This function will print the row with pagination
      */
     private function pagination($html_to_return) {
-
         if ($this->num_of_pages <= 3) {
             for ($i = 1; $i <= $this->num_of_pages; $i++) {
                 if ($i === $this->page_num) {
@@ -324,7 +325,6 @@ class YasrLogDashboardWidget {
         }
 
         return $html_to_return;
-
     }
 
     /**
