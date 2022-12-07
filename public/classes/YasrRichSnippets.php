@@ -65,7 +65,7 @@ class YasrRichSnippets {
         $script_type     = '<script type="application/ld+json">';
         $end_script_type = '</script>';
 
-        $review_choosen = yasr_get_itemType();
+        $review_choosen = YasrDB::getItemType();
 
         //Use this hook to write your custom microdata from scratch
         //if doesn't exists a filter for yasr_filter_schema_jsonld
@@ -331,7 +331,7 @@ class YasrRichSnippets {
         $more_rich_snippet = array();
 
         //get the select itemType
-        $review_choosen = yasr_get_itemType();
+        $review_choosen = YasrDB::getItemType();
 
         if($review_choosen === 'BlogPosting') {
             $more_rich_snippet = $this->blogPosting($rich_snippet, $rich_snippet_data);

@@ -852,4 +852,59 @@ class YasrDB {
         return $wpdb->num_rows;
     }
 
+    /**
+     * Return the postmeta itemType
+     *
+     * @param bool|int $term_id
+     *
+     * @return bool|string
+     */
+    public static function getItemType($term_id = false) {
+        $review_types = YASR_SUPPORTED_SCHEMA_TYPES;
+
+        //if term_id is not an int, use get_post_meta
+        if (!is_int($term_id)) {
+            $post_id = get_the_ID();
+            //should be useless, just to be safe
+            if (!$post_id) {
+                return false;
+            }
+            $result = get_post_meta($post_id, 'yasr_review_type', true);
+        }
+        else {
+            $result = get_term_meta($term_id, 'yasr_review_type', true);
+        }
+
+        if ($result) {
+            $snippet_type = trim($result);
+
+            //to keep compatibility with version <2.2.3
+            if ($snippet_type === 'Place') {
+                $snippet_type = 'LocalBusiness';
+            }
+            //to keep compatibility with version <2.2.3
+            if ($snippet_type === 'Other') {
+                $snippet_type = 'BlogPosting';
+            }
+            if (!in_array($snippet_type, $review_types, true)) {
+                $snippet_type = YASR_ITEMTYPE;
+            }
+
+        }
+        else {
+            $snippet_type = YASR_ITEMTYPE;
+        }
+
+        //to keep compatibility with version <2.2.3
+        if ($snippet_type === 'Place') {
+            $snippet_type = 'LocalBusiness';
+        }
+        //to keep compatibility with version <2.2.3
+        if ($snippet_type === 'Other') {
+            $snippet_type = 'BlogPosting';
+        }
+
+        return $snippet_type;
+    }
+
 }

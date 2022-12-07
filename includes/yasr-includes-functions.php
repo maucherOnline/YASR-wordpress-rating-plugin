@@ -52,7 +52,7 @@ function yasr_select_itemtype($html_id=false, $name=false, $default_option=false
     sort($itemtypes_array);
 
     if($default_option === false) {
-        $review_type_choosen = yasr_get_itemType($term_id);
+        $review_type_choosen = YasrDB::getItemType($term_id);
     } else {
         $review_type_choosen = $default_option;
     }

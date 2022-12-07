@@ -34,7 +34,6 @@ define('YASR_MULTI_SET_NAME_TABLE',   $wpdb->prefix . 'yasr_multi_set');
 define('YASR_MULTI_SET_FIELDS_TABLE', $wpdb->prefix . 'yasr_multi_set_fields');
 
 require YASR_ABSOLUTE_PATH_INCLUDES . '/yasr-includes-functions.php';
-require YASR_ABSOLUTE_PATH_INCLUDES . '/yasr-includes-db-functions.php';
 require YASR_ABSOLUTE_PATH_INCLUDES . '/yasr-widgets.php';
 require YASR_ABSOLUTE_PATH_INCLUDES . '/shortcodes/yasr-shortcode-functions.php';
 
