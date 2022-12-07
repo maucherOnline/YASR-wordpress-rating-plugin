@@ -208,6 +208,8 @@ The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.1.6 =
 * FIXED: [removed warning](https://github.com/Dudo1985/Yet-Another-Stars-Rating/commit/f360dbcd0324483341ffca6ea9bf95b75043673f) returned if PHP 8.1 is used when another rating plugin is imported forst the first time
+* TWEAKED: class YasrDatabaseRatings has now been renamed YasrDB
+* TWEAKED: all the methods in classes YasrRankingData and YasrMultiSetData has been moved into YasrDB
 
 = 3.1.5 =
 * FIXED: in the editor page, fixed js null error if YASR metabox is not rendered
