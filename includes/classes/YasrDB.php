@@ -544,7 +544,11 @@ class YasrDB {
         array_multisort(array_column($average_array, 'rating'), SORT_DESC, SORT_NUMERIC, $average_array);
 
         return $average_array;
-    }/** This functions returns an array with all the value to print the multiset
+    }
+
+    /**
+     * This functions returns an array with all the values to print the multiset
+     *
      * array (
      *     array (
      *         'id' => 0,
@@ -556,57 +560,60 @@ class YasrDB {
      *         'name' => 'Field 2',
      *         'average_rating' => 3,
      *     )
+     * )
      *
      * @param integer $set_id the set id
      * @param array   $set_fields an array with fields names and id
      * @param integer|bool $post_id the post_id
      *
      * @return bool | array
-     */public static function returnArrayFieldsRatingsAuthor($set_id, $set_fields, $post_id = false) {
-    $array_to_return = array();
-    $set_id          = (int) $set_id;
+     */
 
-    if (!$set_fields) {
-        return false;
-    }
+    public static function returnArrayFieldsRatingsAuthor($set_id, $set_fields, $post_id = false) {
+        $array_to_return = array();
+        $set_id          = (int) $set_id;
 
-    if (!is_int($post_id)) {
-        $post_id = get_the_ID();
-    }
+        if (!$set_fields) {
+            return false;
+        }
 
-    //get meta values (field id and rating)
-    $set_post_meta_values = get_post_meta($post_id, 'yasr_multiset_author_votes', true);
+        if (!is_int($post_id)) {
+            $post_id = get_the_ID();
+        }
 
-    //index
-    $i = 0;
-    //always returns field id and name
-    foreach ($set_fields as $fields_ids_and_names) {
-        $array_to_return[$i]['id']             = (int) $fields_ids_and_names['id'];
-        $array_to_return[$i]['name']           = $fields_ids_and_names['name'];
-        $array_to_return[$i]['average_rating'] = 0;
+        //get meta values (field id and rating)
+        $set_post_meta_values = get_post_meta($post_id, 'yasr_multiset_author_votes', true);
 
-        //if there is post meta
-        if ($set_post_meta_values) {
-            //first, loop saved fields and ratings
-            foreach ($set_post_meta_values as $saved_set_id) {
-                //if the saved set is the same selected
-                if ($saved_set_id['set_id'] === $set_id) {
-                    //loop the saved arrays
-                    foreach ($saved_set_id['fields_and_ratings'] as $single_value) {
-                        //if field id is the same, add the rating
-                        if ($array_to_return[$i]['id'] === $single_value->field) {
-                            //save the rating
-                            $array_to_return[$i]['average_rating'] = $single_value->rating;
+        //index
+        $i = 0;
+        //always returns field id and name
+        foreach ($set_fields as $fields_ids_and_names) {
+            $array_to_return[$i]['id']             = (int) $fields_ids_and_names['id'];
+            $array_to_return[$i]['name']           = $fields_ids_and_names['name'];
+            $array_to_return[$i]['average_rating'] = 0;
+
+            //if there is post meta
+            if ($set_post_meta_values) {
+                //first, loop saved fields and ratings
+                foreach ($set_post_meta_values as $saved_set_id) {
+                    //if the saved set is the same selected
+                    if ($saved_set_id['set_id'] === $set_id) {
+                        //loop the saved arrays
+                        foreach ($saved_set_id['fields_and_ratings'] as $single_value) {
+                            //if field id is the same, add the rating
+                            if ($array_to_return[$i]['id'] === $single_value->field) {
+                                //save the rating
+                                $array_to_return[$i]['average_rating'] = $single_value->rating;
+                            }
                         }
                     }
                 }
             }
+            //this is for list the set names
+            $i++;
         }
-        //this is for list the set names
-        $i++;
+        return $array_to_return;
     }
-    return $array_to_return;
-}
 
     /**
      * Returns *ALL* multiset votes in YASR_LOG_MULTI_SET
@@ -615,13 +622,15 @@ class YasrDB {
      * @author Dario Curvino <@dudo>
      * @since 2.5.2
      * @return array|object|null
-     */public static function returnAllLogMulti() {
-    global $wpdb;
+     */
 
-    $query = 'SELECT * FROM ' . YASR_LOG_MULTI_SET . ' ORDER BY date, set_type, post_id DESC';
+    public static function returnAllLogMulti() {
+        global $wpdb;
 
-    return $wpdb->get_results($query, ARRAY_A);
-}
+        $query = 'SELECT * FROM ' . YASR_LOG_MULTI_SET . ' ORDER BY date, set_type, post_id DESC';
+
+        return $wpdb->get_results($query, ARRAY_A);
+    }
 
     /**
      * Get from the db all the values for VisitorMultiSet
@@ -632,29 +641,30 @@ class YasrDB {
      * @param int  $comment_id
      *
      * @return array|bool
-     */public static function returnMultisetContent($post_id, $set_id, $visitor_multiset = false, $comment_id = 0) {
-    $set_id     = (int) $set_id;
-    $post_id    = (int) $post_id;
-    $comment_id = (int) $comment_id;
+     */
+    public static function returnMultisetContent($post_id, $set_id, $visitor_multiset = false, $comment_id = 0) {
+        $set_id     = (int) $set_id;
+        $post_id    = (int) $post_id;
+        $comment_id = (int) $comment_id;
 
-    if ($post_id === 0 && $comment_id === 0) {
-        return false;
+        if ($post_id === 0 && $comment_id === 0) {
+            return false;
+        }
+
+        //set fields name and ids
+        $set_fields = self::multisetFieldsAndID($set_id);
+
+        if ($set_fields === false) {
+            return false;
+        }
+
+        if ($visitor_multiset === true || $comment_id > 0) {
+            return self::returnArrayFieldsRatingsVisitor($set_id, $set_fields, $comment_id, $post_id);
+        }
+
+        //return
+        return self::returnArrayFieldsRatingsAuthor($set_id, $set_fields, $post_id);
     }
-
-    //set fields name and ids
-    $set_fields = self::multisetFieldsAndID($set_id);
-
-    if ($set_fields === false) {
-        return false;
-    }
-
-    if ($visitor_multiset === true || $comment_id > 0) {
-        return self::returnArrayFieldsRatingsVisitor($set_id, $set_fields, $comment_id, $post_id);
-    }
-
-    //return
-    return self::returnArrayFieldsRatingsAuthor($set_id, $set_fields, $post_id);
-}
 
     /**
      * Return an average of a given multiset_content if provided.
@@ -666,33 +676,34 @@ class YasrDB {
      * @param bool|array $multiset_content | This is useful to avoid double query
      *
      * @return float|int
-     */public static function returnMultiSetAverage($post_id, $set_id, $visitor_multiset, $multiset_content = false) {
-    if ($multiset_content === false) {
-        $post_id = (int) $post_id;
-        $set_id  = (int) $set_id;
+     */
+    public static function returnMultiSetAverage($post_id, $set_id, $visitor_multiset, $multiset_content = false) {
+        if ($multiset_content === false) {
+            $post_id = (int) $post_id;
+            $set_id  = (int) $set_id;
 
-        if ($visitor_multiset === true) {
-            $multiset_content = self::returnMultisetContent($post_id, $set_id, true);
+            if ($visitor_multiset === true) {
+                $multiset_content = self::returnMultisetContent($post_id, $set_id, true);
+            }
+            else {
+                $multiset_content = self::returnMultisetContent($post_id, $set_id);
+            }
         }
-        else {
-            $multiset_content = self::returnMultisetContent($post_id, $set_id);
+
+        if (!is_array($multiset_content)) {
+            return 0;
         }
-    }
+        //default values
+        $multiset_vote_sum    = 0;
+        $multiset_rows_number = 0;
 
-    if (!is_array($multiset_content)) {
-        return 0;
-    }
-    //default values
-    $multiset_vote_sum    = 0;
-    $multiset_rows_number = 0;
+        foreach ($multiset_content as $set_content) {
+            $multiset_vote_sum    = $multiset_vote_sum + $set_content['average_rating'];
+            $multiset_rows_number = $multiset_rows_number + 1;
+        }
 
-    foreach ($multiset_content as $set_content) {
-        $multiset_vote_sum    = $multiset_vote_sum + $set_content['average_rating'];
-        $multiset_rows_number = $multiset_rows_number + 1;
+        return round($multiset_vote_sum / $multiset_rows_number, 1);
     }
-
-    return round($multiset_vote_sum / $multiset_rows_number, 1);
-}
 
     /** This functions returns an array with all the value to print the multiset
      * array (
@@ -715,67 +726,68 @@ class YasrDB {
      * @param int   $post_id the post_id
      *
      * @return bool | array
-     */public static function returnArrayFieldsRatingsVisitor($set_id, $set_fields, $comment_id, $post_id) {
-    $array_to_return = array();
+     */
+    public static function returnArrayFieldsRatingsVisitor($set_id, $set_fields, $comment_id, $post_id) {
+        $array_to_return = array();
 
-    global $wpdb;
+        global $wpdb;
 
-    $set_id     = (int) $set_id;
-    $comment_id = (int) $comment_id;
-    $post_id    = (int) $post_id;
+        $set_id     = (int) $set_id;
+        $comment_id = (int) $comment_id;
+        $post_id    = (int) $post_id;
 
-    if (!$set_fields) {
-        return false;
-    }
-
-    if ($post_id < 1) {
-        $and_post_id = '';
-    }
-    else {
-        $and_post_id = 'AND l.post_id=' . $post_id;
-    }
-
-    //get meta values (field id and rating)
-    $ratings = $wpdb->get_results(
-        $wpdb->prepare(
-            "SELECT CAST((SUM(l.vote)/COUNT(l.vote)) AS DECIMAL(2,1)) AS average_rating,
-                            COUNT(l.vote) AS number_of_votes,
-                            field_id AS field
-                        FROM " . YASR_LOG_MULTI_SET . " AS l
-                        WHERE l.set_type=%d 
-                            AND l.comment_id=%d " . esc_sql($and_post_id) . "
-                        GROUP BY l.field_id
-                        ORDER BY l.field_id", $set_id, $comment_id
-        ), ARRAY_A
-    );
-
-    //index
-    $i = 0;
-    //always returns field id and name
-    foreach ($set_fields as $fields_ids_and_names) {
-        $array_to_return[$i]['id']              = (int) $fields_ids_and_names['id'];
-        $array_to_return[$i]['name']            = $fields_ids_and_names['name'];
-        $array_to_return[$i]['average_rating']  = 0;
-        $array_to_return[$i]['number_of_votes'] = 0;
-
-        //if there are ratings
-        if ($ratings) {
-            //loop the saved arrays
-            foreach ($ratings as $single_value) {
-                //if field id is the same, add the rating
-                if ($array_to_return[$i]['id'] === (int) $single_value['field']) {
-                    $array_to_return[$i]['average_rating']  = $single_value['average_rating'];
-                    $array_to_return[$i]['number_of_votes'] = (int) $single_value['number_of_votes'];
-                }
-            }
-
+        if (!$set_fields) {
+            return false;
         }
-        //this is for list the set names
-        $i++;
-    }
 
-    return $array_to_return;
-}
+        if ($post_id < 1) {
+            $and_post_id = '';
+        }
+        else {
+            $and_post_id = 'AND l.post_id=' . $post_id;
+        }
+
+        //get meta values (field id and rating)
+        $ratings = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT CAST((SUM(l.vote)/COUNT(l.vote)) AS DECIMAL(2,1)) AS average_rating,
+                                COUNT(l.vote) AS number_of_votes,
+                                field_id AS field
+                            FROM " . YASR_LOG_MULTI_SET . " AS l
+                            WHERE l.set_type=%d 
+                                AND l.comment_id=%d " . esc_sql($and_post_id) . "
+                            GROUP BY l.field_id
+                            ORDER BY l.field_id", $set_id, $comment_id
+            ), ARRAY_A
+        );
+
+        //index
+        $i = 0;
+        //always returns field id and name
+        foreach ($set_fields as $fields_ids_and_names) {
+            $array_to_return[$i]['id']              = (int) $fields_ids_and_names['id'];
+            $array_to_return[$i]['name']            = $fields_ids_and_names['name'];
+            $array_to_return[$i]['average_rating']  = 0;
+            $array_to_return[$i]['number_of_votes'] = 0;
+
+            //if there are ratings
+            if ($ratings) {
+                //loop the saved arrays
+                foreach ($ratings as $single_value) {
+                    //if field id is the same, add the rating
+                    if ($array_to_return[$i]['id'] === (int) $single_value['field']) {
+                        $array_to_return[$i]['average_rating']  = $single_value['average_rating'];
+                        $array_to_return[$i]['number_of_votes'] = (int) $single_value['number_of_votes'];
+                    }
+                }
+
+            }
+            //this is for list the set names
+            $i++;
+        }
+
+        return $array_to_return;
+    }
 
     /**
      * This function returns an multidimensional array of multiset ID and Fields
@@ -793,27 +805,28 @@ class YasrDB {
      * @param int $set_id
      *
      * @return array|bool
-     */public static function multisetFieldsAndID($set_id) {
-    $set_id = (int) $set_id;
+     */
+    public static function multisetFieldsAndID($set_id) {
+        $set_id = (int) $set_id;
 
-    global $wpdb;
+        global $wpdb;
 
-    $result = $wpdb->get_results(
-        $wpdb->prepare(
-            "SELECT f.field_id AS id, 
-                    f.field_name AS name
-                    FROM " . YASR_MULTI_SET_FIELDS_TABLE . " AS f
-                    WHERE f.parent_set_id=%d
-                    ORDER BY f.field_id
-                    ", $set_id
-        ), ARRAY_A
-    );
+        $result = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT f.field_id AS id, 
+                        f.field_name AS name
+                        FROM " . YASR_MULTI_SET_FIELDS_TABLE . " AS f
+                        WHERE f.parent_set_id=%d
+                        ORDER BY f.field_id
+                        ", $set_id
+            ), ARRAY_A
+        );
 
-    if (empty($result)) {
-        return false;
+        if (empty($result)) {
+            return false;
+        }
+        return $result;
     }
-    return $result;
-}
 
     /**
      * Returns the length of a MultiSet
@@ -824,20 +837,21 @@ class YasrDB {
      * @param $set_id
      *
      * @return int
-     */public static function multisetLength($set_id) {
-    $set_id = (int) $set_id;
+     */
+    public static function multisetLength($set_id) {
+        $set_id = (int) $set_id;
 
-    global $wpdb;
+        global $wpdb;
 
-    $result = $wpdb->get_results(
-        $wpdb->prepare(
-            "SELECT f.field_id AS id
-                    FROM " . YASR_MULTI_SET_FIELDS_TABLE . " AS f
-                    WHERE f.parent_set_id=%d", $set_id
-        )
-    );
+        $result = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT f.field_id AS id
+                        FROM " . YASR_MULTI_SET_FIELDS_TABLE . " AS f
+                        WHERE f.parent_set_id=%d", $set_id
+            )
+        );
 
-    return (int) $wpdb->num_rows;
-}
+        return $wpdb->num_rows;
+    }
 
 }
