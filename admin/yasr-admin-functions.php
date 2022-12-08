@@ -164,15 +164,6 @@ function yasr_add_pages() {
         yasr_fs()->add_filter( 'templates/pricing.php', 'yasr_pricing_page_callback' );
     }
 
-    if (yasr_fs()->is_free_plan() && !yasr_fs()->is_trial()) {
-        global $submenu;
-        $permalink                       = '#';
-        $contact_us_string               = YASR_LOCKED_FEATURE . '&nbsp;' .
-            esc_html__('Contact Us', 'yet-another-stars-rating');
-
-        $submenu['yasr_settings_page'][] = array($contact_us_string, 'manage_options', $permalink);
-    }
-
 }
 
 // Settings Page Content

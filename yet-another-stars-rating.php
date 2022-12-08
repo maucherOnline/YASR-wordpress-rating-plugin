@@ -65,7 +65,7 @@ if ( ! function_exists( 'yasr_fs' ) ) {
                     ),
                     'menu'           => array(
                         'slug'    => 'yasr_settings_page',
-                        'contact' => false,
+                        'contact' => true,
                         'support' => false,
                     ),
                 ));
