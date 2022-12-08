@@ -429,16 +429,27 @@ function yasr_related_plugins() {
  * @return string
  */
 function yasr_movie_helper() {
+    $url = add_query_arg(
+        array(
+            'tab'       => 'plugin-information',
+            'plugin'    => 'yet-another-movie',
+            'TB_iframe' => 'true',
+            'width'     => '772',
+            'height'    => '670'
+        ),
+        network_admin_url( 'plugin-install.php' )
+    );
+
     $movie_helper_description = esc_html__('Movie Helper allows you to easily add links to movie and tv shows, just by searching
     them while you\'re writing your content. Search, click, done!', 'yet-another-stars-rating');
-
-    $text = '<div style="text-align: center">';
-    $text .= '<a href="https://wordpress.org/plugins/yet-another-movie/" target="_blank">
-                <img src="'.esc_attr(YASR_IMG_DIR).'/movie_helper.svg" alt="Movie Helper" >
-              </a>';
-    $text .= '</div>';
+    $text = '<h4>Movie Helper</h4>';
     $text .= '<div style="margin-top: 15px;">';
     $text .= $movie_helper_description;
+    $text .= '</div>';
+    $text .= '<div style="margin-top: 15px;"> 
+                <a href="'. esc_url( $url ).'" 
+                   class="install-now button thickbox open-plugin-details-modal"
+                   target="_blank">'. __( 'Install', 'yet-another-stars-rating' ).'</a>';
     $text .= '</div>';
 
     return $text;
@@ -450,15 +461,26 @@ function yasr_movie_helper() {
  * @return string
  */
 function yasr_cnrt() {
-    $text = '<div style="text-align: center">';
-    $text .= '<a href="https://wordpress.org/plugins/comments-not-replied-to/">';
-    $text .= '<img src="'.esc_attr(YASR_IMG_DIR).'/cnrt.png" alt="cnrt" width="110">';
-    $text .= '<div>Comments Not Replied To</div>';
-    $text .= '</a>';
-    $text .= '</div>';
+    $url = add_query_arg(
+        array(
+            'tab'       => 'plugin-information',
+            'plugin'    => 'comments-not-replied-to',
+            'TB_iframe' => 'true',
+            'width'     => '772',
+            'height'    => '670'
+        ),
+        network_admin_url( 'plugin-install.php' )
+    );
+
+    $text  = '<h4>Comments Not Replied To</h4>';
     $text .= '<div style="margin-top: 15px;">';
     $text .= esc_html__('"Comments Not Replied To" introduces a new area in the administrative dashboard that allows you to
         see what comments to which you - as the site author - have not yet replied.', 'yet-another-stars-rating');
+    $text .= '</div>';
+    $text .= '<div style="margin-top: 15px;"> 
+                <a href="'. esc_url( $url ).'" 
+                   class="install-now button thickbox open-plugin-details-modal"
+                   target="_blank">'. __( 'Install', 'yet-another-stars-rating' ).'</a>';
     $text .= '</div>';
 
     return $text;
@@ -497,6 +519,7 @@ function yasr_ask_rating() {
  * @since 1.9.5
  */
 function yasr_right_settings_panel() {
+    add_thickbox();
     ?>
     <div id="yasr-settings-panel-right">
         <?php
