@@ -289,12 +289,19 @@ function yasr_upgrade_pro_box() {
             </h2>
             <div class="yasr-upgrade-to-pro">
                 <ul>
-                    <li><strong><?php esc_html_e(' User Reviews', 'yet-another-stars-rating'); ?></strong></li>
-                    <li><strong><?php esc_html_e(' Custom Rankings', 'yet-another-stars-rating'); ?></strong></li>
-                    <li><strong><?php esc_html_e(' 20 + ready to use themes', 'yet-another-stars-rating'); ?></strong></li>
-                    <li><strong><?php esc_html_e(' Upload your own theme', 'yet-another-stars-rating'); ?></strong></li>
-                    <li><strong><?php esc_html_e(' Dedicate support', 'yet-another-stars-rating'); ?></strong></li>
-                    <li><strong><?php esc_html_e(' ...And much more!!', 'yet-another-stars-rating'); ?></strong></li>
+                    <li><strong><?php esc_html_e('User Reviews', 'yet-another-stars-rating'); ?></strong></li>
+                    <li><strong><?php esc_html_e('Custom Rankings', 'yet-another-stars-rating'); ?></strong></li>
+                    <li><strong><?php esc_html_e('20+ ready to use themes', 'yet-another-stars-rating'); ?></strong></li>
+                    <li><strong><?php esc_html_e('Upload your own theme', 'yet-another-stars-rating'); ?></strong></li>
+                    <li><strong><?php esc_html_e('Fake ratings', 'yet-another-stars-rating'); ?></strong></li>
+                    <li><strong><?php esc_html_e('Dedicate support', 'yet-another-stars-rating'); ?></strong></li>
+                    <li>
+                        <strong>
+                            <a href="https://yetanotherstarsrating.com/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr-pro#yasr-pro">
+                                <?php esc_html_e('...And much more!!', 'yet-another-stars-rating'); ?>
+                            </a>
+                        </strong>
+                    </li>
                 </ul>
                 <a href="<?php echo esc_url(yasr_fs()->get_upgrade_url()); ?>">
                     <button class="button button-primary">
@@ -362,7 +369,7 @@ function yasr_resources_box() {
         </div>
         <div class="yasr-donate-single-resource">
             <span class="dashicons dashicons-smiley" style="color: #6c6c6c"></span>
-            <a target="blank" href="https://yetanotherstarsrating.com/#yasr-pro?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr-pro">
+            <a target="blank" href="https://yetanotherstarsrating.com/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr-pro#yasr-pro">
                 Yasr Pro
             </a>
         </div>
