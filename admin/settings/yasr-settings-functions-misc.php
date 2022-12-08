@@ -355,12 +355,6 @@ function yasr_resources_box() {
             </a>
         </div>
         <div class="yasr-donate-single-resource">
-            <span class="dashicons dashicons-book-alt" style="color: #6c6c6c"></span>
-            <a target="blank" href="https://yetanotherstarsrating.com/docs/faq/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=faq">
-                <?php esc_html_e('F.A.Q.', 'yet-another-stars-rating') ?>
-            </a>
-        </div>
-        <div class="yasr-donate-single-resource">
             <span class="dashicons dashicons-video-alt3" style="color: #6c6c6c"></span>
             <a target="blank" href="https://www.youtube.com/channel/UCU5jbO1PJsUUsCNbME9S-Zw">
                 <?php esc_html_e('Youtube channel', 'yet-another-stars-rating') ?>
