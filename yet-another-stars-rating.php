@@ -66,7 +66,7 @@ if ( ! function_exists( 'yasr_fs' ) ) {
                     'menu'           => array(
                         'slug'    => 'yasr_settings_page',
                         'contact' => true,
-                        'support' => false,
+                        'support' => true,
                     ),
                 ));
             } catch (Freemius_Exception $e) {

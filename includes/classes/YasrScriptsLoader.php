@@ -486,9 +486,9 @@ class YasrScriptsLoader {
         $scan = scandir(YASR_ABSOLUTE_BLOCKS_PATH);
 
         foreach($scan as $dir) {
-            //be sure it is a dir and it is not . and ..
+            //be sure it is a dir, and it is not . and ..
             if ($dir !== '.' && $dir !== '..' && is_dir(YASR_ABSOLUTE_BLOCKS_PATH . '/' . $dir)) {
-                //use regist_block_type if wp version > 5.8
+                //use register_block_type if wp version > 5.8
                 if ($use_register_post_type === true) {
                     register_block_type(YASR_ABSOLUTE_BLOCKS_PATH .'/'.$dir.'/block.json');
                 }
