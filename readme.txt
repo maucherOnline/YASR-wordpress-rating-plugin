@@ -119,7 +119,7 @@ More info [here](https://wordpress.org/plugins/yet-another-stars-rating/faq/)
 While YASR - Yet Another Stars Rating does not require any coding, it is developer friendly!
 It is the first (and for now only) rating plugin that uses REST API.
 [Here](https://documenter.getpostman.com/view/12873985/TzJycbVz) you can find the documentation.
-Further, it comes with a lot of hooks, you can find more info [here](https://yetanotherstarsrating.com/docs/developers/) .
+Further, it comes with a lot of hooks, you can find more info [here](https://github.com/Dudo1985/Yet-Another-Stars-Rating/tree/master/docs) .
 
 == GitHub ==
 * [Follow development on GitHub](https://github.com/Dudo1985/yet-another-stars-rating)
