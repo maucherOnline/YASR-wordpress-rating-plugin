@@ -54,13 +54,23 @@ class YasrMetaboxBelowEditor {
         <div>
             <div style="display: table">
                 <?php
-                    //use this hook to add new tabs
+                    /**
+                     * Use this hook to add new tabs into the metabox below the editor
+                     */
                     do_action('yasr_metabox_below_editor_add_tab');
                 ?>
             </div>
 
             <?php
-                //Use this hook to add new content
+                /**
+                 * Use this hook to add new content into the metabox below the editor
+                 *
+                 * @since 1.5.2
+                 *
+                 * @param $post_id       int
+                 * @param $multi_set     mixed
+                 * @param $n_multi_set   mixed
+                 */
                 do_action('yasr_metabox_below_editor_content', $post_id, $multi_set, $n_multi_set);
             ?>
 

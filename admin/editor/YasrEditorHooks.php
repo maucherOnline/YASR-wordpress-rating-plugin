@@ -132,7 +132,7 @@ class YasrEditorHooks {
         foreach ($post_type_where_display_metabox as $post_type) {
             add_meta_box(
                 'yasr_metabox_below_editor',
-                __('Yet Another Stars Rating', 'yet-another-stars-rating'),
+                'Yet Another Stars Rating',
                 array($this, 'yasr_metabox_below_editor_callback'),
                 $post_type,
                 'normal',

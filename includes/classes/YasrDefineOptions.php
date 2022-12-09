@@ -135,7 +135,7 @@ class YasrDefineOptions {
     }
 
     /**
-     * Do these defines on plugins_loaded
+     * Do This defines on plugins_loaded
      *
      * @author Dario Curvino <@dudo>
      * @since 3.0.5
