@@ -42,7 +42,6 @@ wp_nonce_field('yasr_nonce_is_post_review_action', 'yasr_nonce_is_post_review');
 wp_nonce_field('yasr_nonce_comment_review_enabled_action', 'yasr_nonce_comment_review_enabled');
 wp_nonce_field('yasr_pro_nonce_fake_ratings_action', 'yasr_pro_nonce_fake_ratings');
 
-
 ?>
 
 <div id="yasr-matabox-top-right">
@@ -114,6 +113,11 @@ wp_nonce_field('yasr_pro_nonce_fake_ratings_action', 'yasr_pro_nonce_fake_rating
 
     } //End if auto insert enabled
 
+    /**
+     * Hook here to add content at the bottom of the metabox
+     *
+     * @param $post_id int
+     */
     do_action( 'yasr_add_content_bottom_topright_metabox', $post_id ); ?>
 
 </div>

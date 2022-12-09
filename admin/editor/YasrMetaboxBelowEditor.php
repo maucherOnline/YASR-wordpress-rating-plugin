@@ -65,8 +65,6 @@ class YasrMetaboxBelowEditor {
                 /**
                  * Use this hook to add new content into the metabox below the editor
                  *
-                 * @since 1.5.2
-                 *
                  * @param $post_id       int
                  * @param $multi_set     mixed
                  * @param $n_multi_set   mixed
@@ -231,7 +229,15 @@ class YasrMetaboxBelowEditor {
                  data-setid="<?php echo esc_attr($set_id) ?>"
                  data-postid="<?php echo esc_attr($post_id) ?>">
 
-                <?php do_action('yasr_add_content_multiset_tab_top', $post_id, $set_id); ?>
+                <?php
+                    /**
+                     * Hook here to add new content at the beginning of the div
+                     *
+                     * @param $post_id int
+                     * @param $set_id  int
+                     */
+                    do_action('yasr_add_content_multiset_tab_top', $post_id, $set_id);
+                ?>
 
                 <input type="hidden" name="yasr_multiset_author_votes" id="yasr-multiset-author-votes" value="">
                 <input type="hidden" name="yasr_multiset_id" id="yasr-multiset-id" value="<?php echo esc_attr($set_id) ?>">
@@ -299,14 +305,22 @@ class YasrMetaboxBelowEditor {
             <div class="yasr-metabox-editor-pro-only-box-padding">
                 <div class="yasr-metabox-editor-title-pro-only">
                     <?php
-                    esc_html_e('Pro Only features', 'yet-another-stars-rating');
-                    echo '&nbsp;'.YASR_LOCKED_FEATURE;
+                        esc_html_e('Pro Only features', 'yet-another-stars-rating');
+                        echo '&nbsp;'.YASR_LOCKED_FEATURE;
                     ?>
                 </div>
 
                 <div class="yasr-settings-row">
                     <div class="yasr-settings-col-30">
-                        <?php do_action('yasr_add_content_multiset_tab_pro', $post_id, $set_id); ?>
+                        <?php
+                            /**
+                             * Hook here to add new content
+                             *
+                             * @param $post_id int
+                             * @param $set_id  int
+                             */
+                            do_action('yasr_add_content_multiset_tab_pro', $post_id, $set_id);
+                        ?>
 
                         <div class="yasr-metabox-editor-title">
                             <?php

@@ -87,6 +87,11 @@ function yasr_add_admin_scripts($hook) {
     ) {
         YasrScriptsLoader::loadRequiredJs();
 
+        /**
+         * Add custom script in one of the page used by YASR, at the beginning
+         *
+         * @param $hook string
+         */
         do_action('yasr_add_admin_scripts_begin', $hook);
 
         YasrScriptsLoader::loadTippy();
@@ -99,6 +104,11 @@ function yasr_add_admin_scripts($hook) {
             YASR_VERSION_NUM
         );
 
+        /**
+         * Add custom script in one of the page used by YASR, at the end
+         *
+         * @param $hook string
+         */
         do_action('yasr_add_admin_scripts_end', $hook);
     }
 

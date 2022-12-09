@@ -24,102 +24,114 @@ Argument | Type | Description
 `$multi_set` |  | mixed
 `$n_multi_set` |  | mixed
 
-**Changelog**
-
-Version | Description
-------- | -----------
-`1.5.2` | 
-
-Source: [../admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 65](admin/editor/YasrMetaboxBelowEditor.php#L65-L74)
+Source: [../admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 65](admin/editor/YasrMetaboxBelowEditor.php#L65-L72)
 
 ### `yasr_add_content_multiset_tab_top`
 
+*Hook here to add new content at the beginning of the div*
+
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$post_id` |  | 
-`$set_id` |  | 
+`$post_id` |  | int
+`$set_id` |  | int
 
-Source: [../admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 234](admin/editor/YasrMetaboxBelowEditor.php#L234-L234)
+Source: [../admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 233](admin/editor/YasrMetaboxBelowEditor.php#L233-L239)
 
 ### `yasr_add_content_multiset_tab_pro`
 
+*Hook here to add new content*
+
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$post_id` |  | 
-`$set_id` |  | 
+`$post_id` |  | int
+`$set_id` |  | int
 
-Source: [../admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 309](admin/editor/YasrMetaboxBelowEditor.php#L309-L309)
+Source: [../admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 316](admin/editor/YasrMetaboxBelowEditor.php#L316-L322)
 
 ### `yasr_add_content_bottom_topright_metabox`
 
+*Hook here to add content at the bottom of the metabox*
+
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$post_id` |  | 
+`$post_id` |  | int
 
-Source: [../admin/editor/yasr-metabox-top-right.php](admin/editor/yasr-metabox-top-right.php), [line 117](admin/editor/yasr-metabox-top-right.php#L117-L117)
+Source: [../admin/editor/yasr-metabox-top-right.php](admin/editor/yasr-metabox-top-right.php), [line 116](admin/editor/yasr-metabox-top-right.php#L116-L121)
 
 ### `yasr_on_save_post`
 
+*Hook here to add actions when YASR save data on save_post*
+
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
 `$this->post_id` |  | 
 
-Source: [../admin/editor/YasrOnSavePost.php](admin/editor/YasrOnSavePost.php), [line 56](admin/editor/YasrOnSavePost.php#L56-L56)
+Source: [../admin/editor/YasrOnSavePost.php](admin/editor/YasrOnSavePost.php), [line 56](admin/editor/YasrOnSavePost.php#L56-L61)
 
 ### `yasr_action_on_overall_rating`
 
+*Do action before overall rating is saved, works only in classic editor*
+
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
 `$this->post_id` |  | 
-`$rating` |  | 
+`$rating` |  | float
 
-Source: [../admin/editor/YasrOnSavePost.php](admin/editor/YasrOnSavePost.php), [line 96](admin/editor/YasrOnSavePost.php#L96-L96)
+Source: [../admin/editor/YasrOnSavePost.php](admin/editor/YasrOnSavePost.php), [line 100](admin/editor/YasrOnSavePost.php#L100-L106)
 
 ### `yasr_add_tabs_on_tinypopupform`
 
+*Use this action to add tabs inside shortcode creator for tinymce*
 
-Source: [../admin/editor/YasrEditorHooks.php](admin/editor/YasrEditorHooks.php), [line 212](admin/editor/YasrEditorHooks.php#L212-L212)
+
+Source: [../admin/editor/YasrEditorHooks.php](admin/editor/YasrEditorHooks.php), [line 212](admin/editor/YasrEditorHooks.php#L212-L215)
 
 ### `yasr_add_content_on_tinypopupform`
 
+*Use this action to add content inside shortcode creator*
+
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$n_multi_set` |  | 
-`$multi_set` |  | 
+`$n_multi_set` |  | int
+`$multi_set` |  | string the multiset name
 
-Source: [../admin/editor/YasrEditorHooks.php](admin/editor/YasrEditorHooks.php), [line 223](admin/editor/YasrEditorHooks.php#L223-L223)
+Source: [../admin/editor/YasrEditorHooks.php](admin/editor/YasrEditorHooks.php), [line 225](admin/editor/YasrEditorHooks.php#L225-L231)
 
 ### `yasr_add_admin_scripts_begin`
 
+*Add custom script in one of the page used by YASR, at the beginning*
+
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$hook` |  | 
+`$hook` |  | string
 
-Source: [../admin/yasr-admin-functions.php](admin/yasr-admin-functions.php), [line 90](admin/yasr-admin-functions.php#L90-L90)
+Source: [../admin/yasr-admin-functions.php](admin/yasr-admin-functions.php), [line 90](admin/yasr-admin-functions.php#L90-L95)
 
 ### `yasr_add_admin_scripts_end`
 
+*Add custom script in one of the page used by YASR, at the end*
+
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$hook` |  | 
+`$hook` |  | string
 
-Source: [../admin/yasr-admin-functions.php](admin/yasr-admin-functions.php), [line 102](admin/yasr-admin-functions.php#L102-L102)
+Source: [../admin/yasr-admin-functions.php](admin/yasr-admin-functions.php), [line 107](admin/yasr-admin-functions.php#L107-L112)
 
 ### `yasr_settings_tab_content`
 
