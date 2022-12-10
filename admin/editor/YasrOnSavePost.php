@@ -106,7 +106,6 @@ class YasrOnSavePost {
         do_action('yasr_action_on_overall_rating', $this->post_id, $rating);
 
         update_post_meta($this->post_id, 'yasr_overall_rating', $rating);
-
     }
 
     /**

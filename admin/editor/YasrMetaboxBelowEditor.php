@@ -62,13 +62,7 @@ class YasrMetaboxBelowEditor {
             </div>
 
             <?php
-                /**
-                 * Use this hook to add new content into the metabox below the editor
-                 *
-                 * @param $post_id       int
-                 * @param $multi_set     mixed
-                 * @param $n_multi_set   mixed
-                 */
+                /** */
                 do_action('yasr_metabox_below_editor_content', $post_id, $multi_set, $n_multi_set);
             ?>
 
