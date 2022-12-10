@@ -325,10 +325,6 @@ class YasrShortcodesAjax {
             $set_id   = (int) $_POST['set_id'];
             $nonce    = $_POST['nonce'];
 
-            if (!is_int($post_id) || !is_int($set_id)) {
-                die($this->returnErrorResponse(__('Missing post id or set id', 'yet-another-stars-rating')));
-            }
-
             if (!is_array($rating)) {
                 die($this->returnErrorResponse(__('Error with rating', 'yet-another-stars-rating')));
             }
