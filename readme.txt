@@ -136,7 +136,7 @@ Do you want more feature? [Check out Yasr Pro!](https://yetanotherstarsrating.co
 
 == Installation ==
 1. Navigate to Dashboard -> Plugins -> Add New and search for YASR
-2. Click on "Installa Now" and than "Activate"
+2. Click on "Install Now" and then "Activate"
 
 == Frequently Asked Questions ==
 
@@ -207,10 +207,11 @@ Yes, YASR is 100% fully compatible with PHP 8
 The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.1.6 =
-* FIXED: [removed warning](https://github.com/Dudo1985/Yet-Another-Stars-Rating/commit/f360dbcd0324483341ffca6ea9bf95b75043673f) returned if PHP 8.1 is used when another rating plugin is imported forst the first time
+* FIXED: [removed warning](https://github.com/Dudo1985/Yet-Another-Stars-Rating/commit/f360dbcd0324483341ffca6ea9bf95b75043673f) returned if PHP 8.1 is used when a rating plugin is imported forst the first time
 * TWEAKED: class YasrDatabaseRatings has now been renamed YasrDB
 * TWEAKED: all the methods in classes YasrRankingData and YasrMultiSetData has been moved into YasrDB, files YasrRankingData.php and YasrMultiSetData.php have been deleted
 * TWEAKED: function yasr_get_itemType has been moved into YasrDB, file yasr-includes-db-functions.php has been deleted
+* TWEAKED: added docs' dir, for devs
 
 = 3.1.5 =
 * FIXED: in the editor page, fixed js null error if YASR metabox is not rendered
