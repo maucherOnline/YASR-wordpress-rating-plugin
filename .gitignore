@@ -6,3 +6,9 @@ package-lock.json
 /vendor/composer
 /vendor/autoload.php
 /vendor/bin/
+/vendor/nikic/
+/vendor/phpdocumentor/
+/vendor/pronamic/
+/vendor/psr/
+/vendor/symfony/
+/vendor/webmozart/

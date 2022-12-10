@@ -7,9 +7,15 @@
         "ext-fileinfo": "*"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-latest",
+        "pronamic/wp-documentor": "^1.3"
     },
     "license": "GPL2",
+    "scripts": {
+        "generate-doc": [
+            "vendor/bin/wp-documentor parse . --format=markdown --output=docs/yasr_hooks.md --prefix=yasr_ --exclude=vendor"
+        ]
+    },
     "authors": [
         {
             "name": "Dudo1985",

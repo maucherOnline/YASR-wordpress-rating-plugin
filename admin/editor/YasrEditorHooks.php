@@ -132,7 +132,7 @@ class YasrEditorHooks {
         foreach ($post_type_where_display_metabox as $post_type) {
             add_meta_box(
                 'yasr_metabox_below_editor',
-                __('Yet Another Stars Rating', 'yet-another-stars-rating'),
+                'Yet Another Stars Rating',
                 array($this, 'yasr_metabox_below_editor_callback'),
                 $post_type,
                 'normal',
@@ -208,7 +208,10 @@ class YasrEditorHooks {
         <div id="yasr-tinypopup-form" style="display: none;">
             <h2 class="nav-tab-wrapper yasr-underline">
                 <?php
-                    //Use this action to add tabs inside shortcode creator
+
+                    /**
+                     * Use this action to add tabs inside shortcode creator for tinymce
+                     */
                     do_action('yasr_add_tabs_on_tinypopupform');
                 ?>
                 <a href="https://yetanotherstarsrating.com/yasr-basics-shortcode/?utm_source=wp-plugin&utm_medium=tinymce-popup&utm_campaign=yasr_editor_screen"
@@ -219,7 +222,12 @@ class YasrEditorHooks {
             </h2>
 
             <?php
-                //Use this action to add content inside shortcode creator
+                /**
+                 * Use this action to add content inside shortcode creator
+                 *
+                 * @param $n_multi_set int
+                 * @param $multi_set   string the multiset name
+                 */
                 do_action('yasr_add_content_on_tinypopupform', $n_multi_set, $multi_set);
             ?>
 

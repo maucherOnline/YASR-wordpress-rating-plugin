@@ -53,11 +53,16 @@ class YasrOnSavePost {
             $this->excludeAutoInsert();
         }
 
+        /**
+         * Hook here to add actions when YASR save data on save_post
+         *
+         * @param $post_id int
+         */
         do_action('yasr_on_save_post', $this->post_id);
     }
 
     /**
-     * Save Overall Rating post_meta, is yasr_overall_rating isset
+     * Save Overall Rating post_meta, if yasr_overall_rating isset, works only with classic editor
      *
      * @author Dario Curvino <@dudo>
      */
@@ -92,11 +97,15 @@ class YasrOnSavePost {
             return;
         }
 
-        //Put an action to hook into
+        /**
+         * Do action before overall rating is saved, works only in classic editor
+         *
+         * @param $post_id int
+         * @param $rating  float
+         */
         do_action('yasr_action_on_overall_rating', $this->post_id, $rating);
 
         update_post_meta($this->post_id, 'yasr_overall_rating', $rating);
-
     }
 
     /**
