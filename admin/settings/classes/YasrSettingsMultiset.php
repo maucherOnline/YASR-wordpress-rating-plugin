@@ -70,24 +70,21 @@ class YasrSettingsMultiset {
      */
     public function addSettingsFields ($option_multiset) {
         add_settings_field(
-            'add_multi_set',
-            yasr_multiset_description(),
+            'add_multi_set', $this->descriptionMultiset(),
             array($this, 'formCreateMultiset'),
             'yasr_new_multiset_form',
             'yasr_new_multiset_form_section_id'
         );
 
         add_settings_field(
-            'manage_multi_set',
-            yasr_manage_multiset_description(),
+            'manage_multi_set', $this->descriptionManageMultiset(),
             array($this, 'formManageMultiset'),
             'yasr_edit_multiset_form',
             'yasr_edit_multiset_form_section_id'
         );
 
         add_settings_field(
-            'yasr_multiset_hide_average_id',
-            yasr_show_average_multiset_description(),
+            'yasr_multiset_hide_average_id', $this->descriptionShowAverage(),
             array($this, 'hideAverage'),
             'yasr_multiset_tab',
             'yasr_multiset_options_section_id',
@@ -306,6 +303,72 @@ class YasrSettingsMultiset {
 
         return $option_multiset;
 
+    }
+
+    /**
+     * Describe what is a Multiset in the setting page
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.3
+     * @return string
+     */
+    public function descriptionMultiset() {
+        $title = esc_html__('Multi-criteria based rating system.', 'yet-another-stars-rating');
+
+        $div = '<div class="yasr-settings-description">';
+
+        $description = sprintf(
+            esc_html__(
+                'A Multi-criteria set allows you to insert a rating for each aspect of your review (up to nine rows).
+                    %s Once you\'ve saved it, you can insert 
+                    the rates while typing your article in the %s box below the editor.%s %s
+                    See it in action %s here%s .', 'yet-another-stars-rating'
+            ), '<br />', '<a href=' . esc_url(YASR_IMG_DIR . 'yasr-multi-set-insert-rating.png') . ' target="_blank">',
+            '</a>', '<br />', '<a href=' . esc_url(
+                "https://yetanotherstarsrating.com/yasr-shortcodes/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr_newmultiset_desc#yasr-multiset-shortcodes"
+            ) . '  target="_blank">', '</a>'
+        );
+
+        return $title . $div . $description . '</div>';
+
+    }
+
+    /**
+     * Description for setting field "edit multiset"
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.3
+     * @return string
+     */
+    public function descriptionManageMultiset() {
+        $title = esc_html__('Manage Multi Set', 'yet-another-stars-rating');
+
+        $div = '<div class="yasr-settings-description">';
+
+        $description = esc_html__('Add or remove an element, or the entire set.');
+
+        return $title . $div . $description . '</div>';
+    }
+
+    /**
+     * Show the description for "Show average" row in multi set setting page
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.3
+     * @return string
+     */
+    public function descriptionShowAverage() {
+        $title = esc_html__('Show average?', 'yet-another-stars-rating');
+
+        $div = '<div class="yasr-settings-description">';
+
+        $description = esc_html__(
+            'If you select no, the "Average" row will not be displayed. 
+        You can override this in the single multi set by using the parameter "show_average".',
+            'yet-another-stars-rating'
+        );
+
+        return $title . $div . $description . '</div>';
     }
 
 }
