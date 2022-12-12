@@ -136,11 +136,9 @@ function yasr_add_pages() {
 
     global $yasr_settings_page;
 
-    $settings_menu_title =  '<span class="dashicons dashicons-admin-settings"></span>&nbsp;' .
-        esc_html__('Settings', 'yet-another-stars-rating');
+    $settings_menu_title = esc_html__('Settings', 'yet-another-stars-rating');
 
-    $stats_menu_title    = '<span class="dashicons dashicons-chart-line"></span>&nbsp;' .
-        esc_html__('Manage Ratings', 'yet-another-stars-rating');
+    $stats_menu_title    = esc_html__('Manage Ratings', 'yet-another-stars-rating');
 
     //Add Settings Page
     $yasr_settings_page = add_menu_page(
