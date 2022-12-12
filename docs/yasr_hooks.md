@@ -14,17 +14,15 @@ Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelo
 
 ### `yasr_metabox_below_editor_content`
 
-*Use this hook to add new content into the metabox below the editor*
-
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$post_id` |  | int
-`$multi_set` |  | bool\|array\|object\|\stdClass[]\|null
-`$n_multi_set` |  | bool\|int
+`$post_id` |  | 
+`$multi_set` |  | 
+`$n_multi_set` |  | 
 
-Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 65](admin/editor/YasrMetaboxBelowEditor.php#L65-L72)
+Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 65](admin/editor/YasrMetaboxBelowEditor.php#L65-L66)
 
 ### `yasr_add_content_multiset_tab_top`
 
@@ -37,7 +35,7 @@ Argument | Type | Description
 `$post_id` |  | int
 `$set_id` |  | int
 
-Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 233](admin/editor/YasrMetaboxBelowEditor.php#L233-L239)
+Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 227](admin/editor/YasrMetaboxBelowEditor.php#L227-L233)
 
 ### `yasr_add_content_multiset_tab_pro`
 
@@ -50,7 +48,7 @@ Argument | Type | Description
 `$post_id` |  | int
 `$set_id` |  | int
 
-Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 316](admin/editor/YasrMetaboxBelowEditor.php#L316-L322)
+Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 310](admin/editor/YasrMetaboxBelowEditor.php#L310-L316)
 
 ### `yasr_add_content_bottom_topright_metabox`
 
@@ -181,12 +179,12 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$active_tab` |  | 
 
-Source: [./admin/settings/yasr-settings-functions-misc.php](admin/settings/yasr-settings-functions-misc.php), [line 62](admin/settings/yasr-settings-functions-misc.php#L62-L62)
+Source: [./admin/settings/classes/YasrSettings.php](admin/settings/classes/YasrSettings.php), [line 1096](admin/settings/classes/YasrSettings.php#L1096-L1096)
 
 ### `yasr_right_settings_panel_box`
 
 
-Source: [./admin/settings/yasr-settings-functions-misc.php](admin/settings/yasr-settings-functions-misc.php), [line 533](admin/settings/yasr-settings-functions-misc.php#L533-L533)
+Source: [./admin/settings/classes/YasrSettings.php](admin/settings/classes/YasrSettings.php), [line 1266](admin/settings/classes/YasrSettings.php#L1266-L1266)
 
 ### `yasr_migration_page_bottom`
 
@@ -246,7 +244,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$array_action_visitor_multiset_vote` |  | 
 
-Source: [./includes/shortcodes/classes/YasrShortcodesAjax.php](includes/shortcodes/classes/YasrShortcodesAjax.php), [line 349](includes/shortcodes/classes/YasrShortcodesAjax.php#L349-L349)
+Source: [./includes/shortcodes/classes/YasrShortcodesAjax.php](includes/shortcodes/classes/YasrShortcodesAjax.php), [line 345](includes/shortcodes/classes/YasrShortcodesAjax.php#L345-L345)
 
 ### `yasr_enqueue_assets_shortcode`
 
@@ -472,7 +470,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `'yasr_multi_visitor_cookie'` |  | 
 
-Source: [./includes/shortcodes/classes/YasrShortcodesAjax.php](includes/shortcodes/classes/YasrShortcodesAjax.php), [line 502](includes/shortcodes/classes/YasrShortcodesAjax.php#L502-L502)
+Source: [./includes/shortcodes/classes/YasrShortcodesAjax.php](includes/shortcodes/classes/YasrShortcodesAjax.php), [line 498](includes/shortcodes/classes/YasrShortcodesAjax.php#L498-L498)
 
 ### `yasr_mv_saved_text`
 
@@ -482,7 +480,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `__('Rating Saved', 'yet-another-stars-rating')` |  | 
 
-Source: [./includes/shortcodes/classes/YasrShortcodesAjax.php](includes/shortcodes/classes/YasrShortcodesAjax.php), [line 511](includes/shortcodes/classes/YasrShortcodesAjax.php#L511-L511)
+Source: [./includes/shortcodes/classes/YasrShortcodesAjax.php](includes/shortcodes/classes/YasrShortcodesAjax.php), [line 507](includes/shortcodes/classes/YasrShortcodesAjax.php#L507-L507)
 
 ### `yasr_filter_ranking_request`
 
@@ -493,7 +491,7 @@ Argument | Type | Description
 `false` |  | 
 `$request` |  | 
 
-Source: [./includes/shortcodes/classes/YasrShortcodesAjax.php](includes/shortcodes/classes/YasrShortcodesAjax.php), [line 694](includes/shortcodes/classes/YasrShortcodesAjax.php#L694-L694)
+Source: [./includes/shortcodes/classes/YasrShortcodesAjax.php](includes/shortcodes/classes/YasrShortcodesAjax.php), [line 690](includes/shortcodes/classes/YasrShortcodesAjax.php#L690-L690)
 
 ### `yasr_add_sources_ranking_request`
 
@@ -506,7 +504,7 @@ Argument | Type | Description
 `$request` |  | 
 `$sql_params` |  | 
 
-Source: [./includes/shortcodes/classes/YasrShortcodesAjax.php](includes/shortcodes/classes/YasrShortcodesAjax.php), [line 745](includes/shortcodes/classes/YasrShortcodesAjax.php#L745-L745)
+Source: [./includes/shortcodes/classes/YasrShortcodesAjax.php](includes/shortcodes/classes/YasrShortcodesAjax.php), [line 741](includes/shortcodes/classes/YasrShortcodesAjax.php#L741-L741)
 
 ### `yasr_mv_cookie`
 
@@ -662,13 +660,13 @@ Argument | Type | Description
 `$this->shortcode_name` |  | 
 `$atts` |  | 
 
-Source: [./includes/shortcodes/classes/YasrRankings.php](includes/shortcodes/classes/YasrRankings.php), [line 55](includes/shortcodes/classes/YasrRankings.php#L55-L55)
+Source: [./includes/shortcodes/classes/YasrRankings.php](includes/shortcodes/classes/YasrRankings.php), [line 54](includes/shortcodes/classes/YasrRankings.php#L54-L54)
 
 ### `yasr_vv_rankings_atts`
 
 *Hook here to use shortcode atts.*
 
-If not used, will works with no support for atts
+If not used, will work with no support for atts
 
 **Arguments**
 
@@ -677,7 +675,7 @@ Argument | Type | Description
 `$this->shortcode_name` |  | 
 `$atts` | `string\|array` | Shortcode atts
 
-Source: [./includes/shortcodes/classes/YasrRankings.php](includes/shortcodes/classes/YasrRankings.php), [line 78](includes/shortcodes/classes/YasrRankings.php#L78-L85)
+Source: [./includes/shortcodes/classes/YasrRankings.php](includes/shortcodes/classes/YasrRankings.php), [line 77](includes/shortcodes/classes/YasrRankings.php#L77-L84)
 
 ### `yasr_multi_set_ranking_atts`
 
@@ -688,7 +686,7 @@ Argument | Type | Description
 `$this->shortcode_name` |  | 
 `$atts` |  | 
 
-Source: [./includes/shortcodes/classes/YasrRankings.php](includes/shortcodes/classes/YasrRankings.php), [line 113](includes/shortcodes/classes/YasrRankings.php#L113-L113)
+Source: [./includes/shortcodes/classes/YasrRankings.php](includes/shortcodes/classes/YasrRankings.php), [line 112](includes/shortcodes/classes/YasrRankings.php#L112-L112)
 
 ### `yasr_visitor_multi_set_ranking_atts`
 
@@ -703,7 +701,7 @@ Argument | Type | Description
 `$this->shortcode_name` |  | 
 `$atts` | `string\|array` | Shortcode atts
 
-Source: [./includes/shortcodes/classes/YasrRankings.php](includes/shortcodes/classes/YasrRankings.php), [line 138](includes/shortcodes/classes/YasrRankings.php#L138-L145)
+Source: [./includes/shortcodes/classes/YasrRankings.php](includes/shortcodes/classes/YasrRankings.php), [line 137](includes/shortcodes/classes/YasrRankings.php#L137-L144)
 
 ### `yasr_filter_ip`
 
@@ -829,6 +827,70 @@ Argument | Type | Description
 `$constants_array` |  | 
 
 Source: [./includes/classes/YasrScriptsLoader.php](includes/classes/YasrScriptsLoader.php), [line 525](includes/classes/YasrScriptsLoader.php#L525-L525)
+
+### `yasr_rankings_query_ov`
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$atts` |  | 
+
+Source: [./includes/classes/YasrRankingData.php](includes/classes/YasrRankingData.php), [line 52](includes/classes/YasrRankingData.php#L52-L52)
+
+### `yasr_rankings_query_vv`
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$atts` |  | 
+`$ranking` |  | 
+
+Source: [./includes/classes/YasrRankingData.php](includes/classes/YasrRankingData.php), [line 98](includes/classes/YasrRankingData.php#L98-L98)
+
+### `yasr_rankings_query_tr`
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$atts` |  | 
+
+Source: [./includes/classes/YasrRankingData.php](includes/classes/YasrRankingData.php), [line 148](includes/classes/YasrRankingData.php#L148-L148)
+
+### `yasr_rankings_query_tu`
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$atts` |  | 
+
+Source: [./includes/classes/YasrRankingData.php](includes/classes/YasrRankingData.php), [line 192](includes/classes/YasrRankingData.php#L192-L192)
+
+### `yasr_rankings_multi_query`
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$sql_atts` |  | 
+`$set_id` |  | 
+
+Source: [./includes/classes/YasrRankingData.php](includes/classes/YasrRankingData.php), [line 238](includes/classes/YasrRankingData.php#L238-L238)
+
+### `yasr_rankings_multivv_query`
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$sql_atts` |  | 
+`$ranking` |  | 
+`$set_id` |  | 
+
+Source: [./includes/classes/YasrRankingData.php](includes/classes/YasrRankingData.php), [line 301](includes/classes/YasrRankingData.php#L301-L301)
 
 
 <p align="center"><a href="https://github.com/pronamic/wp-documentor"><img src="https://cdn.jsdelivr.net/gh/pronamic/wp-documentor@main/logos/pronamic-wp-documentor.svgo-min.svg" alt="Pronamic WordPress Documentor" width="32" height="32"></a><br><em>Generated by <a href="https://github.com/pronamic/wp-documentor">Pronamic WordPress Documentor</a> <code>1.2.0</code></em><p>
