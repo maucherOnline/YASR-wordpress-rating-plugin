@@ -44,7 +44,7 @@ class YasrProLoadAdmin {
         add_action('enqueue_block_editor_assets',  array($this, 'loadGutenbergScripts'));
 
         //Show support boxes
-        add_action('yasr_right_settings_panel_box', 'yasr_pro_settings_panel_support');
+        add_action('yasr_right_settings_panel_box', array($this, 'platinumSupport'));
 
         //This will load fake rating metabox
         $this->yasr_fake_ratings  = new YasrProFakeRatings();
@@ -183,6 +183,35 @@ class YasrProLoadAdmin {
                 array('wp-i18n'),
                 YASR_VERSION_NUM, true
             );
+        }
+    }
+
+    public function platinumSupport() {
+        if(yasr_fs()->is_plan('yasr_platinum') ) {
+            $div = '<div class="yasr-donatedivdx" id="yasr-ask-five-stars">';
+
+            $text = '<div class="yasr-donate-title">
+                     <span class="dashicons dashicons-unlock"></span>'
+                . esc_html__('You\'re using YASR Platinum!', 'yet-another-stars-rating') .
+                '</div>';
+
+            $text .= '<div class="yasr-donate-single-resource">
+                        <span class="dashicons dashicons-format-chat" style="color: #6c6c6c"></span>
+                            <a target="blank" href="skype:live:support_58062">'
+                . esc_html__('Skype support', 'yet-another-stars-rating') .
+                '</a>
+                   </div>';
+
+            $text .= '<div class="yasr-donate-single-resource">
+                      <span class="dashicons dashicons-format-chat" style="color: #6c6c6c"></span>
+                          <a target="blank" href="https://wordpress.slack.com/messages/D2BUTQNDP">'
+                . esc_html__('Slack support', 'yet-another-stars-rating') .
+                '</a>
+                   </div>';
+
+            $div_and_text = $div . $text . '</div>';
+
+            echo wp_kses_post($div_and_text);
         }
     }
 
