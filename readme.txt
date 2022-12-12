@@ -212,6 +212,7 @@ The full changelog can be found in the plugin's directory. Recent entries:
 * TWEAKED: all the methods in classes YasrRankingData and YasrMultiSetData has been moved into YasrDB, files YasrRankingData.php and YasrMultiSetData.php have been deleted
 * TWEAKED: function yasr_get_itemType has been moved into YasrDB, file yasr-includes-db-functions.php has been deleted
 * TWEAKED: added docs' dir, for devs
+* TWEAKED: removed dashicons from submenu page name, added links "Contact Us" and "Support"
 * TWEAKED: updated Freemius SDK to version 2.5.3
 
 = 3.1.5 =
