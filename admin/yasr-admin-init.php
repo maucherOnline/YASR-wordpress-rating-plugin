@@ -71,7 +71,6 @@ require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-admin-functions.php';
 require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-admin-actions.php';
 require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-admin-actions-ajax.php';
 require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-admin-filters.php';
-require YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-functions-misc.php';
 
 /**
  * Callback function for the spl_autoload_register above.

@@ -132,6 +132,6 @@ if (isset($_GET['tab'])) {
 
     <div class="yasr-clear-both-dynamic"></div>
 
-    <?php yasr_right_settings_panel(); ?>
+    <?php YasrSettings::printRightColumn(); ?>
 
 </div><!--End div wrap-->

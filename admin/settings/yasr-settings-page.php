@@ -94,7 +94,7 @@ if (!current_user_can('manage_options')) {
 
     <div class="yasr-clear-both-dynamic"></div>
     <?php
-        yasr_right_settings_panel();
+        YasrSettings::printRightColumn();
     ?>
     <!--End div wrap-->
 </div>
