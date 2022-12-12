@@ -39,7 +39,7 @@ if (!current_user_can('manage_options')) {
         }
 
         //Do the settings tab
-        yasr_settings_tabs($active_tab);
+        YasrSettings::printTabs($active_tab);
         ?>
             <div class="yasr-settingsdiv">
                 <div class="yasr-settings-table">

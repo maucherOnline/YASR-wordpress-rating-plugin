@@ -31,7 +31,6 @@ class YasrProStylishAdmin {
         add_action('yasr_style_options_add_settings_field', array ($this, 'addSettingsFields'));
 
         add_filter('yasr_sanitize_style_options', array($this, 'sanitizeOptions'));
-
     }
 
 

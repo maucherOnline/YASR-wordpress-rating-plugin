@@ -73,8 +73,7 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_use_auto_insert_id',
-            yasr_description_auto_insert(),
+            'yasr_use_auto_insert_id', $this->descriptionAutoInsert(),
             array($this, 'autoInsert'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -82,8 +81,7 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_stars_title',
-            yasr_description_stars_title(),
+            'yasr_stars_title', $this->descriptionStarsTitle(),
             array($this, 'starsTitle'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -91,8 +89,7 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_show_overall_in_loop',
-            yasr_description_archive_page(),
+            'yasr_show_overall_in_loop', $this->descriptionArchivePage(),
             array($this, 'archivePages'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -100,8 +97,7 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_visitors_stats',
-            yasr_description_vv_stats(),
+            'yasr_visitors_stats', $this->descriptionVVStats(),
             array($this, 'vvStats'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -109,8 +105,7 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_allow_only_logged_in_id',
-            yasr_description_allow_vote(),
+            'yasr_allow_only_logged_in_id', $this->descriptionAllowVote(),
             array($this, 'loggedOnly'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -118,8 +113,7 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_choose_snippet_id',
-            yasr_description_strucutured_data(),
+            'yasr_choose_snippet_id', $this->descriptionStructuredData(),
             array($this, 'snippets'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -128,7 +122,7 @@ class YasrSettings {
 
         add_settings_field(
             'yasr_custom_text',
-            wp_kses_post(yasr_description_cstm_txt()),
+            wp_kses_post($this->descriptionCSTMTxt()),
             array($this, 'customText'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -1029,5 +1023,227 @@ class YasrSettings {
 
         return $html_to_return;
     }
+
+    /**
+     * Print settings tabs
+     *
+     * @param $active_tab
+     *
+     * @return void
+     */
+    public static function printTabs($active_tab) {
+        ?>
+
+        <h2 class="nav-tab-wrapper yasr-no-underline">
+
+            <a href="?page=yasr_settings_page&tab=general_settings"
+               id="general_settings"
+               class="nav-tab <?php if ($active_tab === 'general_settings') {
+                   echo 'nav-tab-active';
+               } ?>">
+                <?php esc_html_e('General Settings', 'yet-another-stars-rating'); ?>
+            </a>
+
+            <a href="?page=yasr_settings_page&tab=style_options"
+               id="style_options"
+               class="nav-tab <?php if ($active_tab === 'style_options') {
+                   echo 'nav-tab-active';
+               } ?>">
+                <?php
+                esc_html_e('Aspect & Styles', 'yet-another-stars-rating');
+                //Print the lock/unlock dashicon only in the pro version
+                if (yasr_fs()->is__premium_only()) { //these if can't be merged
+                    if (yasr_fs()->can_use_premium_code()) {
+                        echo YASR_LOCKED_FEATURE;
+                    }
+                }
+                ?>
+            </a>
+
+            <a href="?page=yasr_settings_page&tab=manage_multi"
+               id="manage_multi"
+               class="nav-tab <?php if ($active_tab === 'manage_multi') {
+                   echo 'nav-tab-active';
+               } ?>">
+                <?php esc_html_e('Multi Criteria', 'yet-another-stars-rating'); ?>
+            </a>
+
+            <a href="?page=yasr_settings_page&tab=rankings"
+               id="rankings"
+               class="nav-tab <?php if ($active_tab === 'rankings') {
+                   echo 'nav-tab-active';
+               } ?>">
+                <?php
+                esc_html_e("Rankings", 'yet-another-stars-rating');
+                //Print the lock/unlock dashicon only in the pro version
+                if (yasr_fs()->is__premium_only()) { //these if can't be merged
+                    if (yasr_fs()->can_use_premium_code()) {
+                        echo YASR_LOCKED_FEATURE;
+                    }
+                }
+                ?>
+            </a>
+
+            <?php do_action('yasr_add_settings_tab', $active_tab);
+
+            $rating_plugin_exists = new YasrImportRatingPlugins();
+
+            if ($rating_plugin_exists->searchWPPR() || $rating_plugin_exists->searchRMP()
+                || $rating_plugin_exists->searchKKSR()
+                || $rating_plugin_exists->searchMR()
+            ) {
+                ?>
+                <a href="?page=yasr_settings_page&tab=migration_tools"
+                   id="migration_tools"
+                   class="nav-tab <?php if ($active_tab === 'migration_tools') {
+                       echo 'nav-tab-active';
+                   } ?>">
+                    <?php esc_html_e("Migration Tools", 'yet-another-stars-rating'); ?>
+                </a>
+                <?php
+            }
+
+            ?>
+
+        </h2>
+
+        <?php
+    }
+
+    /**
+     * Return the description of auto insert
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.6.6
+     * @return string
+     */
+    public function descriptionAutoInsert() {
+        $name = esc_html__('Auto Insert Options', 'yet-another-stars-rating');
+
+        $div_desc    = '<div class="yasr-settings-description">';
+        $description = sprintf(
+            esc_html__(
+                'Automatically adds YASR in your posts or pages. %s
+            Disable this if you prefer to use shortcodes.', 'yet-another-stars-rating'
+            ), '<br />'
+        );
+        $end_div     = '</div>';
+
+        return $name . $div_desc . $description . $end_div;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  2.6.6
+     * @return string
+     */
+    public function descriptionStarsTitle() {
+    $name = esc_html__('Enable stars next to the title?', 'yet-another-stars-rating');
+
+    $div_desc    = '<div class="yasr-settings-description">';
+    $description = esc_html__('Enable this if you want to show stars next to the title.', 'yet-another-stars-rating');
+    $description .= '<br />';
+    $description .= esc_html__('Please note that this may not work with all themes', 'yet-another-stars-rating');
+    $end_div     = '.</div>';
+
+    return $name . $div_desc . $description . $end_div;
+}
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  2.6.6
+     * @return string
+     */
+    public function descriptionArchivePage() {
+        $name = esc_html__('Archive Pages', 'yet-another-stars-rating');
+
+        $div_desc = '<div class="yasr-settings-description">';
+        $description
+                  = esc_html__(
+            'Enable or disable these settings if you want to show ratings in archive pages (categories, tags, etc.)',
+            'yet-another-stars-rating'
+        );
+        $end_div  = '.</div>';
+
+        return $name . $div_desc . $description . $end_div;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  2.6.6
+     * @return string
+     */
+    public function descriptionVVStats() {
+        $name = esc_html__('Show stats for visitors votes?', 'yet-another-stars-rating');
+
+        $div_desc    = '<div class="yasr-settings-description">';
+        $description = sprintf(
+            esc_html__(
+                'Enable or disable the chart bar icon (and tooltip hover it) next to the %syasr_visitor_votes%s shortcode',
+                'yet-another-stars-rating'
+            ), '<em>', '</em>'
+        );
+        $end_div     = '.</div>';
+
+        return $name . $div_desc . $description . $end_div;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  2.6.6
+     * @return string
+     */
+    public function descriptionAllowVote() {
+        $name = esc_html__('Who is allowed to vote?', 'yet-another-stars-rating');
+
+        $div_desc    = '<div class="yasr-settings-description">';
+        $description = sprintf(
+            esc_html__(
+                'Select who can rate your posts for %syasr_visitor_votes%s and %syasr_visitor_multiset%s shortcodes',
+                'yet-another-stars-rating'
+            ), '<em>', '</em>', '<em>', '</em>'
+        );
+        $end_div     = '.</div>';
+
+        return $name . $div_desc . $description . $end_div;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  2.6.6
+     * @return string
+     */
+    public function descriptionCSTMTxt() {
+        $name = esc_html__('Customize strings', 'yet-another-stars-rating');
+
+        $div_desc    = '<div class="yasr-settings-description">';
+        $description = '<p>' . esc_html__('Customize YASR strings.', 'yet-another-stars-rating') . '</p>';
+        $end_div     = '</div>';
+
+        return $name . $div_desc . $description . $end_div;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  2.6.6
+     * @return string
+     */
+    public function descriptionStructuredData() {
+        $name = esc_html__('Stuctured data options', 'yet-another-stars-rating');
+
+        $div_desc    = '<div class="yasr-settings-description">';
+        $description = esc_html__(
+            'If ratings in a post or page are found, YASR will create structured data to show them in search results
+    (SERP)', 'yet-another-stars-rating'
+        );
+        $description .= '<br /><a href="https://yetanotherstarsrating.com/docs/rich-snippet/reviewrating-and-aggregaterating/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr_rischnippets_desc"
+                        target="_blank">';
+        $description .= esc_html__('More info here', 'yet-another-stars-rating');
+        $description .= '</a>';
+        $end_div     = '.</div>';
+
+        return $name . $div_desc . $description . $end_div;
+    }
+
 
 }

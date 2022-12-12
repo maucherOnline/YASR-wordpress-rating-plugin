@@ -28,7 +28,6 @@ if (!defined('ABSPATH')) {
  * Class YasrRankings
  */
 class YasrRankings extends YasrMultiSet {
-
     protected $query_highest_rated_overall;
     public    $query_result_most_rated_visitor;
     public    $query_result_highest_rated_visitor;
@@ -77,7 +76,7 @@ class YasrRankings extends YasrMultiSet {
 
         /**
          * Hook here to use shortcode atts.
-         * If not used, will works with no support for atts
+         * If not used, will work with no support for atts
          *
          * @param string       $this->shortcode_name  Name of shortcode caller
          * @param string|array $atts  Shortcode atts
