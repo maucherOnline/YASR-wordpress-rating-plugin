@@ -34,7 +34,6 @@ class YasrSettingsRankings {
         global $wpdb;
         //wpdb->num_rows always store the the count number of rows of the last query
         $this->n_multi_set = $wpdb->num_rows;
-
     }
 
     public function selectRanking () {
@@ -445,6 +444,34 @@ class YasrSettingsRankings {
             <?php
         }
 
+    }
+
+    /**
+     * do the shortcode for ranking preview
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.6.3
+     */
+    public static function rankingPreview() {
+        if (!isset($_GET['shortcode']) || !isset($_GET['full_shortcode'])) {
+            die();
+        }
+
+        if (!current_user_can('manage_options')) {
+            die();
+        }
+
+        $shortcode = $_GET['shortcode'];
+
+        if (!shortcode_exists($shortcode)) {
+            die(json_encode(esc_html__('This shortcode was not found.', 'yet-another-stars-rating')));
+        }
+
+        $full_shortcode = stripslashes($_GET['full_shortcode']);
+
+        echo json_encode(do_shortcode(wp_kses_post($full_shortcode)));
+
+        die();
     }
 
 }

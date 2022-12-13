@@ -46,6 +46,9 @@ class YasrSettings {
         //include style functions
         require(YASR_ABSOLUTE_PATH_ADMIN . '/settings/aspect_style/yasr-settings-style-functions.php');
 
+        //add ajax endpoint to preview the rankings
+        add_action('wp_ajax_yasr_rankings_preview_shortcode', array('YasrSettingsRankings', 'rankingPreview'));
+
         $yasr_import_plugin = new YasrImportRatingPlugins;
         //add ajax actions
         $yasr_import_plugin->addAjaxActions();
@@ -55,7 +58,6 @@ class YasrSettings {
          *  $text is the default WordPress text
          *  Since 0.8.9
          */
-
         add_filter('admin_footer_text', array($this, 'customFooter'));
 
     }

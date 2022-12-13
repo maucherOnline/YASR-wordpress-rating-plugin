@@ -24,6 +24,8 @@ if (!defined('ABSPATH')) {
 
 $custom_post_types = YasrCustomPostTypes::getCustomPostTypes();
 $cr_setting = new YasrSettingsRankings($custom_post_types);
+
+
 ?>
 
 <h3> <?php esc_html_e('Rankings Options', 'yasr-pro');?> </h3>
