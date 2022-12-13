@@ -65,7 +65,6 @@ add_action('init', function (){
 
 });
 
-require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-update-functions.php';
 require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-admin-functions.php';
 
 /**
