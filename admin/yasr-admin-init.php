@@ -68,7 +68,6 @@ add_action('init', function (){
 
 require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-update-functions.php';
 require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-admin-functions.php';
-require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-admin-actions.php';
 require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-admin-actions-ajax.php';
 require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-admin-filters.php';
 

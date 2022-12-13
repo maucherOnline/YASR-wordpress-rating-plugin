@@ -55,6 +55,10 @@ class YasrEditorHooks {
         $yasr_save_post = new YasrOnSavePost();
         add_action('save_post', array($yasr_save_post, 'yasrSavePost'));
 
+        //delete data when post is deleted
+        add_action('delete_post', array($this, 'deletePostData'));
+
+
     }
 
     /**
@@ -622,4 +626,44 @@ class YasrEditorHooks {
         }
         return $custom_post_types;
     }
+
+    /**
+     * Delete data value from yasr tabs when a post or page is deleted
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $post_id
+     *
+     * @since  0.3.3, moved into class since 3.1.7
+     * @return void
+     */
+    public function deletePostData($post_id) {
+        if (!current_user_can('delete_posts')) {
+            return;
+        }
+
+        global $wpdb;
+
+        delete_metadata('post', $post_id, 'yasr_overall_rating');
+        delete_metadata('post', $post_id, 'yasr_review_type');
+        delete_metadata('post', $post_id, 'yasr_multiset_author_votes');
+
+        //Delete multi value
+        $wpdb->delete(
+            YASR_LOG_MULTI_SET, array(
+                'post_id' => $post_id
+            ), array(
+                '%d'
+            )
+        );
+
+        $wpdb->delete(
+            YASR_LOG_TABLE, array(
+                'post_id' => $post_id
+            ), array(
+                '%d'
+            )
+        );
+    }
+
 }//End Class
