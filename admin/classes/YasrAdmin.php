@@ -20,7 +20,7 @@ class YasrAdmin {
         }
 
         $this->loadActions();
-
+        $this->loadAjaxActions();
         $this->freemiusHooks();
     }
 
@@ -35,6 +35,21 @@ class YasrAdmin {
         add_action('plugins_loaded', array($this, 'widgetLastRatings'));
 
         add_action('plugins_loaded', array($this, 'editCategoryForm'));
+    }
+
+    /**
+     * add ajax endpoint in admin side
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.7
+     * @return void
+     */
+    private function loadAjaxActions() {
+        add_action('wp_ajax_yasr_change_log_page',      array($this, 'loadDashboardWidgetAdmin'));
+
+        add_action('wp_ajax_yasr_change_user_log_page', array($this, 'loadDashboardWidgetUser'));
+
+        add_action('wp_ajax_yasr_rankings_preview_shortcode', 'yasr_rankings_preview_shortcode');
     }
 
     /**
@@ -75,11 +90,11 @@ class YasrAdmin {
     public function widgetLastRatings() {
         //This is for the admins (show all votes in the site)
         if (current_user_can('manage_options')) {
-            add_action('wp_dashboard_setup', array($this, 'lastRatingAdmin'));
+            add_action('wp_dashboard_setup', array($this, 'lastRatingsAdmin'));
         }
 
         //This is for all the users to see where they've voted
-        add_action('wp_dashboard_setup', array($this, 'lastRatingUser'));
+        add_action('wp_dashboard_setup', array($this, 'lastRatingsUser'));
     }
 
     /**
@@ -89,11 +104,11 @@ class YasrAdmin {
      * @since  3.1.7
      * @return void
      */
-    public function lastRatingAdmin() {
+    public function lastRatingsAdmin() {
         wp_add_dashboard_widget(
             'yasr_widget_log_dashboard', //slug for widget
             'Recent Ratings', //widget name
-            'yasr_widget_log_dashboard_callback' //function callback
+            array($this, 'loadDashboardWidgetAdmin') //function callback
         );
     }
 
@@ -104,13 +119,38 @@ class YasrAdmin {
      * @since  3.1.7
      * @return void
      */
-    public function lastRatingUser() {
+    public function lastRatingsUser() {
         wp_add_dashboard_widget(
             'yasr_users_dashboard_widget', //slug for widget
             'Your Ratings', //widget name
-            'yasr_users_dashboard_widget_callback' //function callback
+            array($this, 'loadDashboardWidgetUser') //function callback
         );
     }
+
+    /**
+     * This method is hooked both in loadAjaxActions and lastRatingsAdmin
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.7
+     * @return void
+     */
+    public function loadDashboardWidgetAdmin() {
+        $log_widget = new YasrLastRatingsWidget();
+        $log_widget->adminWidget();
+    } //End callback function
+
+
+    /**
+     * This method is hooked both in loadAjaxActions and lastRatingsUser
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.7
+     * @return void
+     */
+    function loadDashboardWidgetUser() {
+        $log_widget = new YasrLastRatingsWidget();
+        $log_widget->userWidget();
+    } //End callback function
 
     /**
      * Hook into category page to show YASR select
