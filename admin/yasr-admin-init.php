@@ -111,6 +111,9 @@ function yasr_autoload_admin_classes($class) {
 //AutoLoad Yasr Shortcode Classes, only when a object is created
 spl_autoload_register('yasr_autoload_admin_classes');
 
+$yasr_admin = new YasrAdmin();
+$yasr_admin->init();
+
 $yasr_settings = new YasrSettings();
 $yasr_settings->init();
 

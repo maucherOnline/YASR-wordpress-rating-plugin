@@ -44,6 +44,6 @@ $yasr_custom_endpoint->restApiInit();
 //Filter existing CPT to work with YASR
 /****
  * Since version 2.4.5 this is comment out,
- * to avoid security problems tha may occour
+ * to avoid security problems tha may occur
  */
 //YasrCustomPostTypes::addFilterExistingCpt();

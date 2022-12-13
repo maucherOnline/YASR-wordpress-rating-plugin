@@ -37,7 +37,6 @@ class YasrVisitorMultiSet extends YasrMultiSet {
     /**
      * Print Yasr Visitor MultiSet
      *
-     * @param void
      * @return string
      */
     public function printVisitorMultiSet () {
@@ -146,7 +145,6 @@ class YasrVisitorMultiSet extends YasrMultiSet {
      * $this->star_readonly
      * $this->span_message_content
      *
-     * @param void
      * @return void
      *
      */
