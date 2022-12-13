@@ -3,7 +3,7 @@ Donate link: https://www.paypal.com/donate/?hosted_button_id=SVTAVUF62QZ4W
 Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo
-Tested up to: 6.1
+Tested up to: 6.1.1
 Stable tag: 3.1.6
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -210,7 +210,7 @@ The full changelog can be found in the plugin's directory. Recent entries:
 * FIXED: [removed warning](https://github.com/Dudo1985/Yet-Another-Stars-Rating/commit/f360dbcd0324483341ffca6ea9bf95b75043673f) returned if PHP 8.1 is used when a rating plugin is imported
 * TWEAKED: classes YasrDatabaseRatings, YasrRankingData and YasrMultiSetData have been deprecated, all the method moved into YasrDB
 * TWEAKED: function yasr_get_itemType has been moved into YasrDB, file yasr-includes-db-functions.php has been deleted
-* TWEAKED: added docs' dir, for devs
+* TWEAKED: added docs' dir, which contains all the hooks used by YASR
 * TWEAKED: removed dashicons from submenu page name, added links "Contact Us" and "Support"
 * TWEAKED: updated Freemius SDK to version 2.5.3
 

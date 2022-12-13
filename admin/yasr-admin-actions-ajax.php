@@ -53,7 +53,6 @@ function yasr_rankings_preview_shortcode() {
         die();
     }
 
-    
     $shortcode = $_GET['shortcode'];
 
     if(!shortcode_exists($shortcode)) {
