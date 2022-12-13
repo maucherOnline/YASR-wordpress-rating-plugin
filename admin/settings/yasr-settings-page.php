@@ -76,7 +76,7 @@ if (!current_user_can('manage_options')) {
                 } //End tab style
 
                 if ($active_tab === 'rankings') {
-                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/rankings/yasr-ranking-builder.php');
+                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-rankings.php');
                 } //End tab ur options
 
                 if ($active_tab === 'migration_tools') {
