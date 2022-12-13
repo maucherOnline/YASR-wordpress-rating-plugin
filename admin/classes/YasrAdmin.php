@@ -20,6 +20,8 @@ class YasrAdmin {
         }
 
         $this->loadActions();
+
+        $this->freemiusHooks();
     }
 
     /**
@@ -29,10 +31,37 @@ class YasrAdmin {
      * @since  3.1.7
      * @return void
      */
-    public function loadActions() {
+    private function loadActions() {
         add_action('plugins_loaded', array($this, 'widgetLastRatings'));
 
         add_action('plugins_loaded', array($this, 'editCategoryForm'));
+    }
+
+    /**
+     * Freemius hooks, actions and filters
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.7
+     * @return void
+     */
+    private function freemiusHooks() {
+        /**
+         * https://freemius.com/help/documentation/selling-with-freemius/free-trials/
+         *
+         * With this hook I change the default Freemius behavior to show trial message after 1 week instead of 1 day
+         */
+        yasr_fs()->add_filter( 'show_first_trial_after_n_sec', static function ($day_in_sec) {
+            return WEEK_IN_SECONDS;
+        } );
+
+        /**
+         * https://freemius.com/help/documentation/selling-with-freemius/free-trials/
+         *
+         * With this hook I change the default Freemius behavior to show trial every 60 days instead of 30
+         */
+        yasr_fs()->add_filter( 'reshow_trial_after_every_n_sec', static function ($thirty_days_in_sec) {
+            return 2 * MONTH_IN_SECONDS;
+        } );
     }
 
 
@@ -96,6 +125,5 @@ class YasrAdmin {
             $edit_category->init();
         }
     }
-
 
 }
