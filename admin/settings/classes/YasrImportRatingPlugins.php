@@ -138,6 +138,43 @@ class YasrImportRatingPlugins {
     }
 
     /**
+     * If a supported rating plugin is found, define YASR_RATING_PLUGIN_FOUND with an array of plugins founds, or false otherwise
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.7
+     * @return void
+     */
+    public function supportedPluginFound () {
+        $plugin_to_import = array();
+
+        $wppr_found = $this->searchWPPR();
+        $rmp_found  = $this->searchRMP();
+        $kksr_found = $this->searchKKSR();
+        $mr_found   = $this->searchMR();
+
+        if($wppr_found === true) {
+            $plugin_to_import[] = 'wppr';
+        }
+        if($rmp_found === true) {
+            $plugin_to_import[] = 'rmp';
+        }
+        if($kksr_found === true) {
+            $plugin_to_import[] = 'kksr';
+        }
+        if($mr_found === true) {
+            $plugin_to_import[] = 'mr';
+        }
+
+        if(!defined('YASR_RATING_PLUGIN_FOUND')) {
+            if(!empty($plugin_to_import)) {
+                define('YASR_RATING_PLUGIN_FOUND', json_encode($plugin_to_import));
+            } else {
+                define('YASR_RATING_PLUGIN_FOUND', false);
+            }
+        }
+    }
+
+    /**
      * Returns the number of necessary INSERT query for Wp post rating
      *
      * @author Dario Curvino <@dudo>

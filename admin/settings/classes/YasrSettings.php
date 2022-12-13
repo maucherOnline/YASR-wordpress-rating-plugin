@@ -801,7 +801,7 @@ class YasrSettings {
                 //Tags are not allowed for any fields
                 $allowed_tags = '';
 
-                //except these ones
+                //except these
                 if ($key === 'text_before_overall' || $key === 'text_before_visitor_rating' ||
                     $key === 'text_after_visitor_rating' || $key === 'custom_text_must_sign_in'  ||
                     $key === 'custom_text_rating_saved'  || $key === 'custom_text_rating_updated' ||
@@ -837,7 +837,7 @@ class YasrSettings {
 
         /** The following steps are needed to avoid undefined index if a setting is saved to "no"  **/
 
-        //if in array doesn't exists [auto_insert_enabled] key, create it and set to 0
+        //if in array doesn't exist [auto_insert_enabled] key, create it and set to 0
         if (!array_key_exists('auto_insert_enabled', $output)) {
             $output['auto_insert_enabled'] = 0;
         }
@@ -846,7 +846,7 @@ class YasrSettings {
             $output['auto_insert_enabled'] = 1;
         }
 
-        //if in array doesn't exists [stars title] key, create it and set to 'no'
+        //if in array doesn't exist [stars title] key, create it and set to 'no'
         if (!array_key_exists('stars_title', $output)) {
             $output['stars_title'] = 'no';
         }
@@ -1041,6 +1041,9 @@ class YasrSettings {
      * @return void
      */
     public static function printTabs($active_tab) {
+        $rating_plugin_exists = new YasrImportRatingPlugins();
+        $rating_plugin_exists->supportedPluginFound();
+
         ?>
 
         <h2 class="nav-tab-wrapper yasr-no-underline">
@@ -1095,19 +1098,14 @@ class YasrSettings {
 
             <?php do_action('yasr_add_settings_tab', $active_tab);
 
-            $rating_plugin_exists = new YasrImportRatingPlugins();
-
-            if ($rating_plugin_exists->searchWPPR() || $rating_plugin_exists->searchRMP()
-                || $rating_plugin_exists->searchKKSR()
-                || $rating_plugin_exists->searchMR()
-            ) {
+            if(defined('YASR_RATING_PLUGIN_FOUND') && YASR_RATING_PLUGIN_FOUND !== false) {
                 ?>
                 <a href="?page=yasr_settings_page&tab=migration_tools"
                    id="migration_tools"
                    class="nav-tab <?php if ($active_tab === 'migration_tools') {
                        echo 'nav-tab-active';
                    } ?>">
-                    <?php esc_html_e("Migration Tools", 'yet-another-stars-rating'); ?>
+                    <?php esc_html_e('Migration Tools', 'yet-another-stars-rating'); ?>
                 </a>
                 <?php
             }

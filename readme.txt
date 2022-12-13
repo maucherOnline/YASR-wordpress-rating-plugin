@@ -206,6 +206,9 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.1.7 =
+* FIXED: Duplicate query in tabs "Migration Tools"
+
 = 3.1.6 =
 * FIXED: [removed warning](https://github.com/Dudo1985/Yet-Another-Stars-Rating/commit/f360dbcd0324483341ffca6ea9bf95b75043673f) returned if PHP 8.1 is used when a rating plugin is imported
 * TWEAKED: classes YasrDatabaseRatings, YasrRankingData and YasrMultiSetData have been deprecated, all the method moved into YasrDB

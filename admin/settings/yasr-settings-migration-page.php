@@ -22,6 +22,16 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
+if(!defined('YASR_RATING_PLUGIN_FOUND')) {
+    return;
+}
+
+if(YASR_RATING_PLUGIN_FOUND === false) {
+    return;
+}
+
+$import_plugin = new YasrImportRatingPlugins;
+
 ?>
 
 <h3><?php esc_html_e('Migration Tools', 'yet-another-stars-rating'); ?></h3>
@@ -31,27 +41,23 @@ if (!defined('ABSPATH')) {
         <td>
             <div>
                 <?php
-                    $import_plugin = new YasrImportRatingPlugins;
+                    $rating_plugin_found = json_decode(YASR_RATING_PLUGIN_FOUND, true);
+                    if(is_array($rating_plugin_found)) {
+                        if(in_array('wppr', $rating_plugin_found)) {
+                            $import_plugin->importWPPR();
+                        }
 
-                    if (!$import_plugin->searchWPPR() && !$import_plugin->searchRMP()
-                        && !$import_plugin->searchKKSR() && !$import_plugin->searchMR()) {
-                        echo wp_kses_post($import_plugin->pluginFoundTitle(''));
-                    }
+                        if(in_array('kksr', $rating_plugin_found)) {
+                            $import_plugin->importKKSR();
+                        }
 
-                    if($import_plugin->searchWPPR()){
-                        $import_plugin->importWPPR();
-                    }
+                        if(in_array('rmp', $rating_plugin_found)) {
+                            $import_plugin->importrmp();
+                        }
 
-                    if($import_plugin->searchKKSR()){
-                        $import_plugin->importKKSR();
-                    }
-
-                    if($import_plugin->searchRMP()) {
-                        $import_plugin->importRMP();
-                    }
-
-                    if($import_plugin->searchMR()){
-                        $import_plugin->importMR();
+                        if(in_array('mr', $rating_plugin_found)) {
+                            $import_plugin->importMR();
+                        }
                     }
 
                     do_action('yasr_migration_page_bottom', $import_plugin->plugin_imported);
