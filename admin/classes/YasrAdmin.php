@@ -6,7 +6,6 @@ if (!defined('ABSPATH')) {
 
 
 /**
- *
  * Class YasrAdmin
  *
  * @author Dario Curvino <@dudo>
@@ -32,6 +31,8 @@ class YasrAdmin {
      * @return void
      */
     private function loadActions() {
+        add_action('admin_enqueue_scripts', array($this, 'addAdminScripts'));
+
         add_action('plugins_loaded', array($this, 'updateVersion'));
         add_action('plugins_loaded', array($this, 'widgetLastRatings'));
         add_action('plugins_loaded', array($this, 'editCategoryForm'));
@@ -78,7 +79,88 @@ class YasrAdmin {
     }
 
     /**
-     * Update ver
+     * Load Scripts in admin side
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $hook | current page in the admin side
+     *
+     * @return void
+     */
+    public function addAdminScripts($hook) {
+        global $yasr_settings_page;
+
+        if ($hook === 'yet-another-stars-rating_page_yasr_pricing_page'
+            || $hook === 'yet-another-stars-rating_page_yasr_settings_page-pricing') {
+
+            if(!isset($_GET['trial'])) {
+                wp_enqueue_style(
+                    'yasrcss-pricing',
+                    YASR_CSS_DIR_ADMIN . 'yasr-pricing-page.css',
+                    false,
+                    YASR_VERSION_NUM
+                );
+
+                YasrScriptsLoader::loadPrincingPage();
+            }
+        }
+
+        if ($hook === 'index.php'
+            || $hook === 'edit.php'
+            || $hook === 'post.php'
+            || $hook === 'post-new.php'
+            || $hook === 'edit-comments.php'
+            || $hook === 'term.php'
+            || $hook === 'widgets.php'
+            || $hook === 'site-editor.php'
+            || $hook === 'appearance_page_gutenberg-edit-site'
+            || $hook === $yasr_settings_page
+            || $hook === 'yet-another-stars-rating_page_yasr_stats_page'
+            || $hook === 'yet-another-stars-rating_page_yasr_pricing_page'
+            || $hook === 'yet-another-stars-rating_page_yasr_settings_page-pricing'
+        ) {
+            YasrScriptsLoader::loadRequiredJs();
+
+            /**
+             * Add custom script in one of the page used by YASR, at the beginning
+             *
+             * @param $hook string
+             */
+            do_action('yasr_add_admin_scripts_begin', $hook);
+
+            YasrScriptsLoader::loadTippy();
+            YasrScriptsLoader::loadYasrAdmin();
+
+            wp_enqueue_style(
+                'yasrcss',
+                YASR_CSS_DIR_ADMIN . 'yasr-admin.css',
+                false,
+                YASR_VERSION_NUM
+            );
+
+            /**
+             * Add custom script in one of the page used by YASR, at the end
+             *
+             * @param $hook string
+             */
+            do_action('yasr_add_admin_scripts_end', $hook);
+        }
+
+        if ($hook === 'post.php' || $hook === 'post-new.php') {
+            YasrScriptsLoader::loadClassicEditor();
+        }
+
+        //add this only in yasr setting page (admin.php?page=yasr_settings_page)
+        if ($hook === $yasr_settings_page) {
+            YasrScriptsLoader::loadCodeEditor();
+            YasrScriptsLoader::loadAdminSettings();
+            YasrScriptsLoader::loadTableCss();
+        }
+
+    }
+
+    /**
+     * Update version number and backward compatibility
      *
      * @author Dario Curvino <@dudo>
      * @since  3.1.7
