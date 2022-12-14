@@ -2,7 +2,12 @@
 
 class YasrSettingsMultiset {
     public function init () {
-        add_action('admin_init', array($this, 'manageMultiset')); //This is for general options
+        //This is for general options
+        add_action('admin_init', array($this, 'manageMultiset'));
+
+        //Add Ajax Endpoint to manage more multi set
+        add_action('wp_ajax_yasr_get_multi_set', array($this, 'editFormAjax'));
+
     }
 
     public function manageMultiset () {
@@ -263,7 +268,8 @@ class YasrSettingsMultiset {
                 }
 
                 if ($n_multi_set === 1) {
-                    $this->printForm($multi_set);
+                    $set_id     = $multi_set[0]->set_id;
+                    $this->printForm($set_id);
                 } //End if n_multi_set >1
 
                 //n_multiset > 1 here
@@ -282,13 +288,12 @@ class YasrSettingsMultiset {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @param $multi_set
+     * @param $set_id
      *
      * @since  3.1.7
      * @return void
      */
-    private function printForm($multi_set) {
-        $set_id     = $multi_set[0]->set_id;
+    public function printForm($set_id) {
         $set_fields = YasrDB::multisetFieldsAndID($set_id);
         ?>
         <form action=" <?php echo esc_url(admin_url('options-general.php?page=yasr_settings_page&tab=manage_multi')); ?>"
@@ -457,6 +462,22 @@ class YasrSettingsMultiset {
         </div>
         <?php
     }
+
+    /**
+     * Ajax Callback to print the edit form
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.7
+     * @return void
+     */
+    public function editFormAjax() {
+        $set_id = (int)$_POST['set_id'];
+
+        $this->printForm($set_id);
+
+        die();
+    } //End function
+
     /**
      * Show option to show/hide average
      *
