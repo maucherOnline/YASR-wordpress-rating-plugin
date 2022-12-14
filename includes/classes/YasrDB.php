@@ -788,7 +788,7 @@ class YasrDB {
     }
 
     /**
-     * This function returns an multidimensional array of multiset ID and Fields
+     * This function returns a multidimensional array of multiset ID and Fields
      *    array (
      *        array (
      *            'id' => '0',
@@ -805,7 +805,7 @@ class YasrDB {
      * @return array|bool
      */
     public static function multisetFieldsAndID($set_id) {
-        $set_id = (int) $set_id;
+        $set_id = (int)$set_id;
 
         global $wpdb;
 
