@@ -159,48 +159,12 @@ class YasrMetaboxBelowEditor {
         <div id="yasr-metabox-below-editor-multiset" class="yasr-metabox-below-editor-content" style="display:none">
             <?php
                 if ($n_multi_set > 1) {
-                    self::printSelectMultiset($multi_set);
-                } //End if ($n_multi_set>1)
+                    YasrPhpFieldsHelper::printSelectMultiset($multi_set);
+                }
 
                 $this->printMultisetDiv($n_multi_set, $set_id, $post_id);
                 $this->printMultisetProFeatures($post_id, $set_id);
             ?>
-        </div>
-
-        <?php
-    }
-
-    /**
-     * Print HTML Select
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  3.0.6
-     *
-     * @param $multi_set
-     * @param bool|string $select_text
-     */
-    public static function printSelectMultiset($multi_set, $select_text=false) {
-
-        if($select_text === false) {
-            $select_text = esc_html__('Choose which set you want to use', 'yet-another-stars-rating');
-        }
-        ?>
-        <div style="margin-bottom: 15px">
-            <?php echo esc_html($select_text) ?>
-            <br />
-            <label for="yasr_select_set">
-                <select id="yasr_select_set" autocomplete="off">
-                    <?php
-                    foreach ($multi_set as $name) {
-                        echo "<option value='".esc_attr($name->set_id)."'>".esc_attr($name->set_name)."</option>";
-                    } //End foreach
-                    ?>
-                </select>
-            </label>
-
-            <span id="yasr-loader-select-multi-set" style="display:none;" >&nbsp;
-            <img src="<?php echo esc_url(YASR_IMG_DIR . "/loader.gif") ?>" alt="yasr-loader">
-        </span>
         </div>
 
         <?php

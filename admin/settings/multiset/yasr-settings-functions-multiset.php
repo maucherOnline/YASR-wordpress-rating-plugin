@@ -25,26 +25,24 @@ if (!defined('ABSPATH')) {
 /**************** Add yasr multiset options and settings ************/
 
 function yasr_edit_multi_form() {
-
     global $wpdb;
 
-    $multi_set = YasrDB::returnMultiSetNames();
-
-    $n_multi_set = (int)$wpdb->num_rows; //wpdb->num_rows always store the last of the last query
+    $multi_set   = YasrDB::returnMultiSetNames();
+    $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the last query
 
     if ($n_multi_set > 1) {
         ?>
 
         <div class="yasr-manage-multiset">
-            <h4 class="yasr-multi-set-form-headers"><?php esc_html_e("Manage Multiple Set", 'yet-another-stars-rating'); ?></h4>
+            <h4 class="yasr-multi-set-form-headers">
+                <?php esc_html_e("Manage Multiple Set", 'yet-another-stars-rating'); ?>
+            </h4>
 
-            <?php esc_html_e('Wich set do you want to edit or remove?', 'yet-another-stars-rating') ?>
-            <p>&nbsp;</p>
-            <select id="yasr_select_edit_set">
-                <?php foreach ($multi_set as $name) { ?>
-                    <option value="<?php echo $name->set_id ?>"><?php echo $name->set_name ?></option>
-                <?php } //End foreach ?>
-            </select>
+            <?php
+                $title = __('Wich set do you want to edit or remove?', 'yet-another-stars-rating');
+                $id    = 'yasr_select_edit_set';
+                YasrPhpFieldsHelper::printSelectMultiset($multi_set, $title, $id);
+            ?>
 
             <button href="#" class="button-delete" id="yasr-button-select-set-edit-form"><?php esc_html_e('Select'); ?></button>
         </div>

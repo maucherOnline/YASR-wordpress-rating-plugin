@@ -337,6 +337,47 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
             return $cleaned_array;
         }
 
+        /**
+         * Print HTML Select to change multi set
+         *
+         * @author Dario Curvino <@dudo>
+         *
+         * @param $multi_set
+         * @param bool|string $select_text
+         * @param bool|string $select_id
+         *
+         * @since  3.0.6
+         */
+        public static function printSelectMultiset($multi_set, $select_text = false, $select_id = false) {
+            if ($select_text === false) {
+                $select_text = esc_html__('Choose which set you want to use', 'yet-another-stars-rating');
+            }
+            if ($select_id === false) {
+                $select_id = 'yasr_select_set';
+            }
+            ?>
+            <div style="margin-bottom: 15px">
+                <?php echo esc_html($select_text) ?>
+                <br/>
+                <label for="<?php echo esc_attr($select_id) ?>">
+                    <select id="<?php echo esc_attr($select_id) ?>" autocomplete="off">
+                        <?php
+                        foreach ($multi_set as $name) {
+                            echo "<option value='" . esc_attr($name->set_id) . "'>" . esc_attr($name->set_name)
+                                . "</option>";
+                        } //End foreach
+                        ?>
+                    </select>
+                </label>
+
+                <span id="yasr-loader-select-multi-set" style="display:none;">&nbsp;
+                    <img src="<?php echo esc_url(YASR_IMG_DIR . "/loader.gif") ?>" alt="yasr-loader">
+                </span>
+            </div>
+
+            <?php
+        }
+
 
     }
 
