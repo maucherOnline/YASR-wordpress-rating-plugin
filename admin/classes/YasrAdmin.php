@@ -226,7 +226,7 @@ class YasrAdmin {
             wp_die(__('You do not have sufficient permissions to access this page.', 'yet-another-stars-rating'));
         }
 
-        include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-page.php');
+        include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings.php');
     } //End yasr_settings_page_content
 
     /**

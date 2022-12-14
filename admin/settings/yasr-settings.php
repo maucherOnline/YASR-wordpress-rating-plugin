@@ -59,7 +59,7 @@ if (!current_user_can('manage_options')) {
                 } //End if tab 'general_settings'
 
                 if ($active_tab === 'manage_multi') {
-                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/multiset/yasr-settings-functions-multiset-page.php');
+                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-multiset.php');
                 } //End if ($active_tab=='manage_multi')
 
                 if ($active_tab === 'style_options') {
@@ -81,7 +81,7 @@ if (!current_user_can('manage_options')) {
 
                 if ($active_tab === 'migration_tools') {
                     //include migration functions
-                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-migration-page.php');
+                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-migration.php');
                 } //End tab migration
 
                 //Adds new tab content here

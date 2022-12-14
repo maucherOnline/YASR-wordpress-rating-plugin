@@ -139,7 +139,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$active_tab` |  | 
 
-Source: [./admin/settings/yasr-settings-page.php](admin/settings/yasr-settings-page.php), [line 88](admin/settings/yasr-settings-page.php#L88-L88)
+Source: [./admin/settings/yasr-settings-page.php](admin/settings/yasr-settings.php), [line 88](admin/settings/yasr-settings.php#L88-L88)
 
 ### `yasr_add_stats_tab`
 
@@ -194,7 +194,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$import_plugin->plugin_imported` |  | 
 
-Source: [./admin/settings/yasr-settings-migration-page.php](admin/settings/yasr-settings-migration-page.php), [line 63](admin/settings/yasr-settings-migration-page.php#L63-L63)
+Source: [./admin/settings/yasr-settings-migration-page.php](admin/settings/yasr-settings-migration.php), [line 63](admin/settings/yasr-settings-migration.php#L63-L63)
 
 ### `yasr_ur_add_custom_form_fields`
 
