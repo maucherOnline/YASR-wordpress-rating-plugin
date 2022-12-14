@@ -614,8 +614,6 @@ class YasrSettingsMultiset {
             return;
         }
 
-        global $wpdb;
-
         if (!current_user_can('manage_options')) {
             /** @noinspection ForgottenDebugOutputInspection */
             wp_die('You are not allowed to be on this page.');
@@ -634,7 +632,6 @@ class YasrSettingsMultiset {
 
         $multi_set_name        = ucfirst(strtolower($_POST['multi-set-name']));
         $multi_set_name_exists = $this->multisetNameExists($multi_set_name);
-        $element_filled = 2;
 
         if($multi_set_name_exists !== false) {
             return array($multi_set_name_exists);
@@ -650,17 +647,18 @@ class YasrSettingsMultiset {
         }
 
         $array_error = array();
+        $fields_name = array();
+        $elements_filled = 0;
+
         //@todo increase number of element that can be stored
-        //If filled get the element from 3 to 9
         for ($i = 1; $i <= 9; $i ++) {
-
             if (isset($_POST["multi-set-name-element-$i"]) && $_POST["multi-set-name-element-$i"] != '') {
-                $multi_set_name_element_[$i] = $_POST["multi-set-name-element-$i"];
+                $fields_name[$i] = $_POST["multi-set-name-element-$i"];
 
-                $length_ok = $this->checkStringLength($multi_set_name_element_[$i], $i);
+                $length_ok = $this->checkStringLength($fields_name[$i], $i);
 
                 if($length_ok === 'ok') {
-                    $element_filled ++;
+                    $elements_filled ++;
                 } else {
                     $array_error[] = $length_ok;
                 }
@@ -671,76 +669,7 @@ class YasrSettingsMultiset {
             return $array_error;
         }
 
-        //If there isn't any error write in the table
-
-            $name_table_new_id = false; //avoid undefined
-
-            //get the highest id in table
-            $highest_id = $wpdb->get_results("SELECT set_id FROM " . YASR_MULTI_SET_NAME_TABLE . " ORDER BY set_id DESC LIMIT 1 ");
-
-            if (!$highest_id) {
-                $name_table_new_id = 1;
-            }
-
-            foreach ($highest_id as $id) {
-                $name_table_new_id = $id->set_id + 1;
-            }
-
-            $insert_multi_name_success = $wpdb->replace(
-                YASR_MULTI_SET_NAME_TABLE,
-                array(
-                    'set_id'   => $name_table_new_id,
-                    'set_name' => $multi_set_name
-                ),
-                array('%d', '%s')
-            );
-
-            //If multi set name has been inserted, now we're going to insert elements
-            if ($insert_multi_name_success) {
-                $field_table_new_id = false; //avoid undefined
-                $insert_set_value   = false; //avoid undefined
-
-                //get the highest id in table
-                $highest_id = $wpdb->get_results("SELECT id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " ORDER BY id DESC LIMIT 1 ");
-
-                if (!$highest_id) {
-                    $field_table_new_id = 1;
-                }
-
-                foreach ($highest_id as $id) {
-                    $field_table_new_id = $id->id + 1;
-                }
-
-                for ($i = 1; $i <= $element_filled; $i ++) {
-                    $insert_set_value = $wpdb->replace(
-                        YASR_MULTI_SET_FIELDS_TABLE,
-                        array(
-                            'id'            => $field_table_new_id,
-                            'parent_set_id' => $name_table_new_id,
-                            'field_name'    => $multi_set_name_element_[$i],
-                            'field_id'      => $i
-                        ),
-                        array('%d', '%d', '%s', '%d')
-                    );
-                    $field_table_new_id ++; //Avoid overwrite
-                } //End for
-
-                if ($insert_set_value) {
-                    echo "<div class=\"updated\"><p><strong>";
-                    esc_html_e('Settings Saved', 'yet-another-stars-rating');
-                    echo "</strong></p></div> ";
-                } else {
-                    esc_html_e('Something goes wrong trying insert set field name. Please report it',
-                        'yet-another-stars-rating');
-                }
-
-            } //End if $insert_multi_name_success
-
-            else {
-                esc_html_e('Something goes wrong trying insert Multi Set name. Please report it',
-                    'yet-another-stars-rating');
-            }
-
+        $this->saveMultiset($multi_set_name, $elements_filled, $fields_name);
     }
 
     /**
@@ -796,6 +725,107 @@ class YasrSettingsMultiset {
         }
 
         return 'ok';
+    }
+
+    /**
+     * Save Multi Set data
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $multi_set_name
+     * @param $elements_filled
+     * @param $fields
+     *
+     * @since 3.1.7
+     * @return void
+     */
+    private function saveMultiset($multi_set_name, $elements_filled, $fields) {
+        $insert_multi_name_success = $this->saveMultisetName($multi_set_name);
+
+        //If multi set name has been inserted, now we're going to insert elements
+        if ($insert_multi_name_success) {
+
+            $insert_set_value = $this->saveMultisetFields($elements_filled, $fields);
+
+            if ($insert_set_value) {
+                echo "<div class=\"updated\"><p><strong>";
+                esc_html_e('Settings Saved', 'yet-another-stars-rating');
+                echo "</strong></p></div> ";
+            } else {
+                esc_html_e('Something goes wrong trying insert set field name. Please report it',
+                    'yet-another-stars-rating');
+            }
+
+        } //End if $insert_multi_name_success
+
+        else {
+            esc_html_e('Something goes wrong trying insert Multi Set name. Please report it',
+                'yet-another-stars-rating');
+        }
+    }
+
+    /**
+     * Save Multiset name and return query result
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $multi_set_name
+     *
+     * @since
+     * @return bool|int|\mysqli_result|resource|null
+     */
+    private function saveMultisetName ($multi_set_name) {
+        global $wpdb;
+
+        return $wpdb->replace(
+            YASR_MULTI_SET_NAME_TABLE,
+            array(
+                'set_name' => $multi_set_name
+            ),
+            array('%s')
+        );
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @param int   $elements_filled
+     * @param array $fields
+     *
+     * @since
+     * @return bool|int|\mysqli_result|resource|null
+     */
+    private function saveMultisetFields ($elements_filled, $fields) {
+        global $wpdb;
+
+        //get the highest id in table
+        $parent_set_id = $wpdb->get_results(
+            "SELECT set_id 
+                              FROM " . YASR_MULTI_SET_NAME_TABLE . " 
+                              ORDER BY set_id 
+                              DESC LIMIT 1", ARRAY_A);
+
+        if (!$parent_set_id) {
+            $parent_set_id = 1;
+        } else {
+            $parent_set_id = $parent_set_id[0]['set_id'];
+        }
+
+        $insert_set_value   = false; //avoid undefined
+
+        for ($i = 1; $i <= $elements_filled; $i ++) {
+            $insert_set_value = $wpdb->replace(
+                YASR_MULTI_SET_FIELDS_TABLE,
+                array(
+                    'parent_set_id' => $parent_set_id,
+                    'field_name'    => $fields[$i],
+                    'field_id'      => $i
+                ),
+                array('%d', '%s', '%d')
+            );
+        } //End for
+
+        return $insert_set_value;
     }
 
 }

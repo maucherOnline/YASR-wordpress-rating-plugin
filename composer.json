@@ -4,7 +4,8 @@
     "require": {
         "freemius/wordpress-sdk": "^2.5",
         "ext-json": "*",
-        "ext-fileinfo": "*"
+        "ext-fileinfo": "*",
+        "ext-mysqli": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
