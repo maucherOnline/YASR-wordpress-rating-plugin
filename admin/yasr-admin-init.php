@@ -65,8 +65,6 @@ add_action('init', function (){
 
 });
 
-require YASR_ABSOLUTE_PATH_ADMIN . '/yasr-admin-functions.php';
-
 /**
  * Callback function for the spl_autoload_register above.
  *

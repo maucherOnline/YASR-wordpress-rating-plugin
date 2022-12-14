@@ -168,10 +168,10 @@ if ( ! function_exists( 'yasr_fs' ) ) {
     }
 
     //this is called when in multisite a new blog is added
-    add_action('wp_insert_site', 'yasr_on_create_blog', 10, 6);
+    add_action('wp_insert_site', array("\YasrAdmin", "onCreateBlog"), 10, 6);
 
     //when blog is deleted
-    add_filter('wpmu_drop_tables', 'yasr_on_delete_blog');
+    add_filter('wpmu_drop_tables', array("\YasrAdmin", "onDeleteBlog"));
 
     //this adds a link under the plugin name, must be in the main plugin file
     add_filter('plugin_action_links_' . plugin_basename( __FILE__ ), 'yasr_add_links_below_plugin_name');

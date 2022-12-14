@@ -92,7 +92,7 @@ Source: [./admin/editor/YasrOnSavePost.php](admin/editor/YasrOnSavePost.php), [l
 *Use this action to add tabs inside shortcode creator for tinymce*
 
 
-Source: [./admin/editor/YasrEditorHooks.php](admin/editor/YasrEditorHooks.php), [line 212](admin/editor/YasrEditorHooks.php#L212-L215)
+Source: [./admin/editor/YasrEditorHooks.php](admin/editor/YasrEditorHooks.php), [line 216](admin/editor/YasrEditorHooks.php#L216-L219)
 
 ### `yasr_add_content_on_tinypopupform`
 
@@ -105,7 +105,7 @@ Argument | Type | Description
 `$n_multi_set` |  | int
 `$multi_set` |  | string the multiset name
 
-Source: [./admin/editor/YasrEditorHooks.php](admin/editor/YasrEditorHooks.php), [line 225](admin/editor/YasrEditorHooks.php#L225-L231)
+Source: [./admin/editor/YasrEditorHooks.php](admin/editor/YasrEditorHooks.php), [line 229](admin/editor/YasrEditorHooks.php#L229-L235)
 
 ### `yasr_add_admin_scripts_begin`
 
@@ -117,7 +117,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$hook` |  | string
 
-Source: [./admin/yasr-admin-functions.php](admin/yasr-admin-functions.php), [line 90](admin/yasr-admin-functions.php#L90-L95)
+Source: [./admin/classes/YasrAdmin.php](admin/classes/YasrAdmin.php), [line 128](admin/classes/YasrAdmin.php#L128-L133)
 
 ### `yasr_add_admin_scripts_end`
 
@@ -129,7 +129,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$hook` |  | string
 
-Source: [./admin/yasr-admin-functions.php](admin/yasr-admin-functions.php), [line 107](admin/yasr-admin-functions.php#L107-L112)
+Source: [./admin/classes/YasrAdmin.php](admin/classes/YasrAdmin.php), [line 145](admin/classes/YasrAdmin.php#L145-L150)
 
 ### `yasr_settings_tab_content`
 
@@ -179,7 +179,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$active_tab` |  | 
 
-Source: [./admin/settings/classes/YasrSettings.php](admin/settings/classes/YasrSettings.php), [line 1096](admin/settings/classes/YasrSettings.php#L1096-L1096)
+Source: [./admin/settings/classes/YasrSettings.php](admin/settings/classes/YasrSettings.php), [line 1101](admin/settings/classes/YasrSettings.php#L1101-L1101)
 
 ### `yasr_right_settings_panel_box`
 
@@ -194,7 +194,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$import_plugin->plugin_imported` |  | 
 
-Source: [./admin/settings/yasr-settings-migration-page.php](admin/settings/yasr-settings-migration-page.php), [line 57](admin/settings/yasr-settings-migration-page.php#L57-L57)
+Source: [./admin/settings/yasr-settings-migration-page.php](admin/settings/yasr-settings-migration-page.php), [line 63](admin/settings/yasr-settings-migration-page.php#L63-L63)
 
 ### `yasr_ur_add_custom_form_fields`
 
@@ -315,7 +315,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$source_array` |  | 
 
-Source: [./admin/settings/classes/YasrSettingsRankings.php](admin/settings/classes/YasrSettingsRankings.php), [line 62](admin/settings/classes/YasrSettingsRankings.php#L62-L62)
+Source: [./admin/settings/classes/YasrSettingsRankings.php](admin/settings/classes/YasrSettingsRankings.php), [line 61](admin/settings/classes/YasrSettingsRankings.php#L61-L61)
 
 ### `yasr_ur_display_custom_fields`
 
@@ -514,7 +514,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `'yasr_multi_visitor_cookie'` |  | 
 
-Source: [./includes/shortcodes/classes/YasrVisitorMultiSet.php](includes/shortcodes/classes/YasrVisitorMultiSet.php), [line 115](includes/shortcodes/classes/YasrVisitorMultiSet.php#L115-L115)
+Source: [./includes/shortcodes/classes/YasrVisitorMultiSet.php](includes/shortcodes/classes/YasrVisitorMultiSet.php), [line 114](includes/shortcodes/classes/YasrVisitorMultiSet.php#L114-L114)
 
 ### `yasr_must_sign_in`
 
@@ -524,7 +524,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `''` |  | 
 
-Source: [./includes/shortcodes/classes/YasrVisitorMultiSet.php](includes/shortcodes/classes/YasrVisitorMultiSet.php), [line 170](includes/shortcodes/classes/YasrVisitorMultiSet.php#L170-L170)
+Source: [./includes/shortcodes/classes/YasrVisitorMultiSet.php](includes/shortcodes/classes/YasrVisitorMultiSet.php), [line 168](includes/shortcodes/classes/YasrVisitorMultiSet.php#L168-L168)
 
 ### `yasr_vv_ro_shortcode`
 

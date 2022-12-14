@@ -426,4 +426,46 @@ class YasrAdmin {
         return false;
     }
 
+    /**
+     * Multisite support, on new site creation
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param \WP_Site $new_site
+     *
+     * @return void
+     */
+    public static function onCreateBlog(WP_Site $new_site) {
+        if (is_plugin_active_for_network('yet-another-stars-rating/yet-another-stars-rating.php')) {
+            switch_to_blog($new_site->blog_id);
+            YasrOnInstall::createTables();
+            restore_current_blog();
+        }
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $tables
+     *
+     * @return mixed
+     */
+    public static function onDeleteBlog($tables) {
+        global $wpdb;
+
+        $prefix = $wpdb->prefix . 'yasr_';  //Table prefix
+
+        $yasr_multi_set_table  = $prefix . 'multi_set';
+        $yasr_multi_set_fields = $prefix . 'multi_set_fields';
+        $yasr_log_multi_set    = $prefix . 'log_multi_set';
+        $yasr_log_table        = $prefix . 'log';
+
+        $tables[] = $yasr_multi_set_table;
+        $tables[] = $yasr_multi_set_fields;
+        $tables[] = $yasr_log_multi_set;
+        $tables[] = $yasr_log_table;
+
+        return $tables;
+    }
+
 }
