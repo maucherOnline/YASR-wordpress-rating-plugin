@@ -263,54 +263,7 @@ class YasrSettingsMultiset {
                 }
 
                 if ($n_multi_set === 1) {
-                    $set_id     = $multi_set[0]->set_id;
-                    $set_fields = YasrDB::multisetFieldsAndID($set_id);
-                    ?>
-
-                    <form action=" <?php echo admin_url('options-general.php?page=yasr_settings_page&tab=manage_multi') ?>"
-                          id="form_edit_multi_set" method="post">
-
-                        <input type="hidden" name="yasr_edit_multi_set_form" value="<?php echo esc_attr($set_id); ?>"/>
-
-                        <table id="yasr-table-form-edit-multi-set">
-                            <tr>
-                                <td id="yasr-table-form-edit-multi-set-header">
-                                    <?php esc_html_e('Field name', 'yet-another-stars-rating') ?>
-                                </td>
-
-                                <td id="yasr-table-form-edit-multi-set-remove">
-                                    <?php esc_html_e('Remove', 'yet-another-stars-rating') ?>
-                                </td>
-                            </tr>
-
-                            <?php
-                                $i = $this->editFormPrintRow($set_fields);
-                                $this->editFormPrintRemoveRow($i, $set_id);
-                            ?>
-                        </table>
-                        <?
-                            wp_nonce_field('edit-multi-set', 'add-nonce-edit-multi-set')
-                        ?>
-
-                        <div id="yasr-element-limit" style="display:none; color:red">
-                            <?php esc_html_e("You can use up to 9 elements", 'yet-another-stars-rating') ?>
-                        </div>
-
-                        <div>
-                            <input type="button"
-                                   class="button-delete"
-                                   id="yasr-add-field-edit-multiset"
-                                   value="<?php esc_attr_e('Add element', 'yet-another-stars-rating'); ?>"
-                            >
-
-                            <input type="submit"
-                                   value="<?php esc_attr_e('Save changes', 'yet-another-stars-rating') ?>"
-                                   class="button-primary">
-                        </div>
-
-                    </form>
-
-                    <?php
+                    $this->printForm($multi_set);
                 } //End if n_multi_set >1
 
                 //n_multiset > 1 here
@@ -321,6 +274,55 @@ class YasrSettingsMultiset {
             <div id="yasr-multi-set-response" style="display:none">
             </div>
         </div>
+        <?php
+    }
+
+    /**
+     * Print the form to edit the multi set
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $multi_set
+     *
+     * @since  3.1.7
+     * @return void
+     */
+    private function printForm($multi_set) {
+        $set_id     = $multi_set[0]->set_id;
+        $set_fields = YasrDB::multisetFieldsAndID($set_id);
+        ?>
+        <form action=" <?php echo esc_url(admin_url('options-general.php?page=yasr_settings_page&tab=manage_multi')); ?>"
+              id="form_edit_multi_set" method="post">
+
+            <input type="hidden" name="yasr_edit_multi_set_form" value="<?php echo esc_attr($set_id); ?>"/>
+
+            <table id="yasr-table-form-edit-multi-set">
+                <tr>
+                    <th id="yasr-table-form-edit-multi-set-header">
+                        <?php esc_html_e('Field name', 'yet-another-stars-rating') ?>
+                    </th>
+
+                    <th id="yasr-table-form-edit-multi-set-remove">
+                        <?php esc_html_e('Remove', 'yet-another-stars-rating') ?>
+                    </th>
+                </tr>
+
+                <?php
+                    $i = $this->editFormPrintRow($set_fields);
+                    $this->editFormPrintRemoveRow($i, $set_id);
+                ?>
+            </table>
+            <?
+                wp_nonce_field('edit-multi-set', 'add-nonce-edit-multi-set')
+            ?>
+
+            <div id='yasr-element-limit' style="display:none; color:red">
+                <?php esc_html_e("You can use up to 9 elements", 'yet-another-stars-rating') ?>
+            </div>
+
+            <?php $this->editFormPrintButtons(); ?>
+
+        </form>
         <?php
     }
 
@@ -410,8 +412,8 @@ class YasrSettingsMultiset {
                id="yasr-edit-form-number-elements"
                value="<?php echo esc_attr($i)?>"
         >
-        <tr class="yasr-edit-form-remove-entire-set">
-            <td width=\"80%\">
+        <tr class="yasr-edit-form-remove-entire-set" id="yasr-edit-form-remove-entire-set">
+            <td width="80%">
                 <?php echo esc_html__('Remove whole set?', 'yet-another-stars-rating')?>
             </td>
 
@@ -433,6 +435,28 @@ class YasrSettingsMultiset {
         <?php
     }
 
+    /**
+     * Print edit forms buttons
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.7
+     * @return void
+     */
+    private function editFormPrintButtons () {
+        ?>
+        <div>
+            <input type="button"
+                   class="button-delete"
+                   id="yasr-add-field-edit-multiset"
+                   value="<?php esc_attr_e('Add element', 'yet-another-stars-rating'); ?>"
+            >
+
+            <input type="submit"
+                   value="<?php esc_attr_e('Save changes', 'yet-another-stars-rating') ?>"
+                   class="button-primary">
+        </div>
+        <?php
+    }
     /**
      * Show option to show/hide average
      *

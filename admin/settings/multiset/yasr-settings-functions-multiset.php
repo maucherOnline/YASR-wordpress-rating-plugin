@@ -22,9 +22,6 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-/**************** Add yasr multiset options and settings ************/
-
-
 /****** Get and output multiple set in a form and table, used in settings page ******/
 
 add_action('wp_ajax_yasr_get_multi_set', 'yasr_get_multi_set_callback');

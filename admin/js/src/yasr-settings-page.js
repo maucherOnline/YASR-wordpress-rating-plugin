@@ -81,13 +81,8 @@ if (activeTab === 'manage_multi') {
     //Manage the delete Multi Criteria Button
     removeMultisetCriteria ();
 
-    // executes this when the DOM is ready
-    /*document.addEventListener('DOMContentLoaded', function(event) {
-        selectMultiset(nMultiSet)
-    });*/
-
     if (nMultiSet === 1) {
-        var counter = jQuery("#yasr-edit-form-number-elements").attr('value');
+        let counter = jQuery("#yasr-edit-form-number-elements").attr('value');
 
         counter++;
 
@@ -99,9 +94,12 @@ if (activeTab === 'manage_multi') {
                 return false;
             }
 
-            var newTextBoxDiv = jQuery(document.createElement('tr'));
-            newTextBoxDiv.html('<td colspan="2">Element #' + counter + ' <input type="text" name="edit-multi-set-element-' + counter + '" value="" ></td>');
-            newTextBoxDiv.appendTo("#yasr-table-form-edit-multi-set");
+            const elementBefore  = document.getElementById('yasr-edit-form-remove-entire-set');
+            const parent         = elementBefore.parentNode;
+            const newTextBoxDiv  = document.createElement('tr');
+            newTextBoxDiv.innerHTML =`<td colspan="2">Element #${counter} <input type="text" name="edit-multi-set-element-${counter}" value="" ></td>`
+            parent.insertBefore(newTextBoxDiv, elementBefore)
+
             counter++;
         });
 
