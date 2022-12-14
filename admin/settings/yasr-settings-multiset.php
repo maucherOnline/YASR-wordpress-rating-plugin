@@ -30,8 +30,10 @@ $error_edit_multi_set = yasr_process_edit_multi_set_form(); //defined in yasr-se
 if ($error_new_multi_set) {
     echo "<div class='error'> <p> <strong>";
 
-    echo esc_html($error_new_multi_set);
-    echo "<br />";
+    foreach ($error_new_multi_set as $error) {
+        echo wp_kses_post ($error);
+        echo "<br />";
+    }
 
     echo "</strong></p></div>";
 }

@@ -607,7 +607,7 @@ class YasrSettingsMultiset {
     /**
      * @author Dario Curvino <@dudo>
      * @since
-     * @return array|void|string
+     * @return array|void
      */
     public function saveNewMultiSet() {
         if (!isset($_POST['multi-set-name'])) {
@@ -629,61 +629,46 @@ class YasrSettingsMultiset {
             || $_POST['multi-set-name-element-1'] === ''
             || $_POST['multi-set-name-element-2'] === '') {
 
-            return __('Multi Set\'s name and first 2 elements can\'t be empty', 'yet-another-stars-rating');
+            return array(__('Multi Set\'s name and first 2 elements can\'t be empty', 'yet-another-stars-rating'));
         }
 
         $multi_set_name        = ucfirst(strtolower($_POST['multi-set-name']));
         $multi_set_name_exists = $this->multisetNameExists($multi_set_name);
-
-        if($multi_set_name_exists !== false) {
-            return $multi_set_name_exists;
-        }
-
-        $multi_set_name_element_ = array();
-
-        $multi_set_name_element_[1] = $_POST['multi-set-name-element-1'];
-        $multi_set_name_element_[2] = $_POST['multi-set-name-element-2'];
-
-        //If multi set name is shorter than 3 chars return error
-        if (mb_strlen($multi_set_name) < 3
-            || mb_strlen($multi_set_name_element_[1]) < 3
-            || mb_strlen($multi_set_name_element_[2]) < 3) {
-            return __('Content field must be longer than 3 chars', 'yet-another-stars-rating');
-        }
-
-        if (mb_strlen($multi_set_name) > 40
-            || mb_strlen($multi_set_name_element_[1]) > 40
-            || mb_strlen($multi_set_name_element_[2]) > 40) {
-            return __('Content field must be shorter than 40 chars', 'yet-another-stars-rating');
-        }
-
         $element_filled = 2;
 
+        if($multi_set_name_exists !== false) {
+            return array($multi_set_name_exists);
+        }
+
+        //If multi set name is shorter than 3 chars return error
+        if (mb_strlen($multi_set_name) < 3) {
+            return array(__('Multi Set name must be longer than 3 chars', 'yet-another-stars-rating'));
+        }
+
+        if (mb_strlen($multi_set_name) > 40) {
+            return array(__('Multi Set name must be shorter than 40 chars', 'yet-another-stars-rating'));
+        }
+
+        $array_error = array();
         //@todo increase number of element that can be stored
         //If filled get the element from 3 to 9
-        for ($i = 3; $i <= 9; $i ++) {
+        for ($i = 1; $i <= 9; $i ++) {
 
             if (isset($_POST["multi-set-name-element-$i"]) && $_POST["multi-set-name-element-$i"] != '') {
-
                 $multi_set_name_element_[$i] = $_POST["multi-set-name-element-$i"];
 
-                if (mb_strlen($multi_set_name_element_[$i]) < 3) {
-                    return sprintf(
-                        __('Field # %d must be at least 3 characters', 'yet-another-stars-rating'),
-                        $i
-                    );
-                }
+                $length_ok = $this->checkStringLength($multi_set_name_element_[$i], $i);
 
-                if (mb_strlen($multi_set_name_element_[$i]) > 40) {
-                    return sprintf(
-                        __('Field # %d must be shorter than 40 characters', 'yet-another-stars-rating'),
-                        $i
-                    );
+                if($length_ok === 'ok') {
+                    $element_filled ++;
+                } else {
+                    $array_error[] = $length_ok;
                 }
-
-                $element_filled ++;
             }
+        }
 
+        if(!empty($array_error)) {
+            return $array_error;
         }
 
         //If there isn't any error write in the table
@@ -779,6 +764,38 @@ class YasrSettingsMultiset {
         }
 
         return false;
+    }
+
+    /**
+     * Return 'ok' if string is of the correct length, or an error otherwise
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $string
+     * @param $i
+     *
+     * @since  3.1.7
+     * @return string
+     */
+    private function checkStringLength($string, $i) {
+        $i = (int)$i;
+        $length = mb_strlen($string);
+
+        if ($length < 3) {
+            return sprintf(
+                __('Field # %d must be at least 3 characters', 'yet-another-stars-rating'),
+                $i
+            );
+        }
+
+        if ($length > 40) {
+            return sprintf(
+                __('Field # %d must be shorter than 40 characters', 'yet-another-stars-rating'),
+                $i
+            );
+        }
+
+        return 'ok';
     }
 
 }
