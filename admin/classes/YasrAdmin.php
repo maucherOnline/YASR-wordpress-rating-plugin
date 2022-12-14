@@ -31,7 +31,11 @@ class YasrAdmin {
      * @return void
      */
     private function loadActions() {
+        //Load yasr scripts
         add_action('admin_enqueue_scripts', array($this, 'addAdminScripts'));
+
+        //Add yasr settings pages
+        add_action('admin_menu',     array($this, 'addYasrMenu'));
 
         add_action('plugins_loaded', array($this, 'updateVersion'));
         add_action('plugins_loaded', array($this, 'widgetLastRatings'));
@@ -157,6 +161,102 @@ class YasrAdmin {
             YasrScriptsLoader::loadTableCss();
         }
 
+    }
+
+    /**
+     * Add YASR Menu
+     *
+     * @author Dario Curvino <@dudo>
+     * @return void
+     */
+    function addYasrMenu() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
+        global $yasr_settings_page;
+
+        $settings_menu_title = esc_html__('Settings', 'yet-another-stars-rating');
+
+        $stats_menu_title    = esc_html__('Manage Ratings', 'yet-another-stars-rating');
+
+        //Add Settings Page
+        $yasr_settings_page = add_menu_page(
+            'Yet Another Stars Rating: settings',
+            'Yet Another Stars Rating', //Menu Title
+            'manage_options', //capability
+            'yasr_settings_page', //menu slug
+            array($this, 'addSettingsPages'), //The function to be called to output the content for this page.
+            'dashicons-star-half'
+        );
+
+        add_submenu_page(
+            'yasr_settings_page',
+            'Yet Another Stars Rating: settings',
+            $settings_menu_title,
+            'manage_options',
+            'yasr_settings_page'
+        );
+
+        add_submenu_page(
+            'yasr_settings_page',
+            'Yet Another Stars Rating: All Ratings',
+            $stats_menu_title,
+            'manage_options',
+            'yasr_stats_page',
+            array($this, 'addStatsPage')
+        );
+
+        //Filter the pricing page only if trial is not set
+        if(isset($_GET['page']) && $_GET['page'] === 'yasr_settings_page-pricing' && !isset($_GET['trial'])) {
+            yasr_fs()->add_filter( 'templates/pricing.php', array($this, 'pricingPage') );
+        }
+
+    }
+
+    /**
+     * Add Yasr settings pages
+     *
+     * @author Dario Curvino <@dudo>
+     * @return void
+     */
+    function addSettingsPages() {
+        if (!current_user_can('manage_options')) {
+            /** @noinspection ForgottenDebugOutputInspection */
+            wp_die(__('You do not have sufficient permissions to access this page.', 'yet-another-stars-rating'));
+        }
+
+        include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-page.php');
+    } //End yasr_settings_page_content
+
+    /**
+     * Add Yasr stats pages
+     *
+     * @author Dario Curvino <@dudo>
+     * @return void
+     */
+    function addStatsPage() {
+        if (!current_user_can('manage_options')) {
+            /** @noinspection ForgottenDebugOutputInspection */
+            wp_die(__('You do not have sufficient permissions to access this page.', 'yet-another-stars-rating'));
+        }
+
+        include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-stats-page.php');
+    }
+
+    /**
+     * Custom pricing page
+     *
+     * @author Dario Curvino <@dudo>
+     * @return void
+     */
+    function pricingPage() {
+        if (!current_user_can('manage_options')) {
+            /** @noinspection ForgottenDebugOutputInspection */
+            wp_die(__('You do not have sufficient permissions to access this page.', 'yet-another-stars-rating'));
+        }
+
+        include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-pricing-page.html');
     }
 
     /**
