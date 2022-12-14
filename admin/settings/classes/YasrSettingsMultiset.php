@@ -302,17 +302,8 @@ class YasrSettingsMultiset {
             <input type="hidden" name="yasr_edit_multi_set_form" value="<?php echo esc_attr($set_id); ?>"/>
 
             <table id="yasr-table-form-edit-multi-set">
-                <tr>
-                    <th id="yasr-table-form-edit-multi-set-header">
-                        <?php esc_html_e('Field name', 'yet-another-stars-rating') ?>
-                    </th>
-
-                    <th id="yasr-table-form-edit-multi-set-remove">
-                        <?php esc_html_e('Remove', 'yet-another-stars-rating') ?>
-                    </th>
-                </tr>
-
                 <?php
+                    $this->editFormPrintHeaders();
                     $i = $this->editFormPrintRow($set_fields);
                     $this->editFormPrintRemoveRow($i, $set_id);
                 ?>
@@ -321,7 +312,7 @@ class YasrSettingsMultiset {
                 wp_nonce_field('edit-multi-set', 'add-nonce-edit-multi-set')
             ?>
 
-            <div id='yasr-element-limit' style="display:none; color:red">
+            <div id="yasr-element-limit" style="display:none; color:red">
                 <?php esc_html_e("You can use up to 9 elements", 'yet-another-stars-rating') ?>
             </div>
 
@@ -355,6 +346,25 @@ class YasrSettingsMultiset {
     }
 
     /**
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.7
+     * @return void
+     */
+    private function editFormPrintHeaders() {
+        ?>
+        <tr>
+            <th id="yasr-table-form-edit-multi-set-header">
+                <?php esc_html_e('Field name', 'yet-another-stars-rating') ?>
+            </th>
+
+            <th id="yasr-table-form-edit-multi-set-remove">
+                <?php esc_html_e('Remove', 'yet-another-stars-rating') ?>
+            </th>
+        </tr>
+        <?php
+    }
+
+    /**
      * Print the single row for edit form and return the number of set fields
      *
      * @author Dario Curvino <@dudo>
@@ -374,20 +384,20 @@ class YasrSettingsMultiset {
             <tr>
                 <td width="80%">
                     Element #<?php echo esc_html($i) ?>
-                    <input type='text'
-                           value='<?php echo esc_attr($field['name']);?> '
-                           name='<?php  echo esc_attr($input_name) ?>'
+                    <input type="text"
+                           value="<?php echo esc_attr($field['name']);?>"
+                           name="<?php  echo esc_attr($input_name) ?>"
                     />
-                    <input type='hidden'
-                           value='<?php echo esc_attr($field['id']) ?>'
-                           name='<?php  echo esc_attr($hidden_name) ?>'
+                    <input type="hidden"
+                           value="<?php echo esc_attr($field['id']) ?>"
+                           name="<?php  echo esc_attr($hidden_name) ?>"
                     />
                 </td>
 
-                <td width='20%' style='text-align:center'>
-                    <input type='checkbox'
-                           value='<?php echo esc_attr($field['id']) ?>'
-                           name='<?php echo esc_attr($checkbox_name) ?>'
+                <td width="20%" style="text-align:center">
+                    <input type="checkbox"
+                           value="<?php echo esc_attr($field['id']) ?>"
+                           name="<?php echo esc_attr($checkbox_name) ?>"
                     >
                 </td>
             </tr>
