@@ -402,4 +402,28 @@ class YasrAdmin {
         }
     }
 
+    /**
+     * Check if the current page is the Gutenberg block editor.
+     *
+     * @since  2.2.3
+     * @return bool
+     */
+    public static function isGutenbergPage() {
+        if (function_exists('is_gutenberg_page') && is_gutenberg_page()) {
+            // The Gutenberg plugin is on.
+            return true;
+        }
+        $current_screen = get_current_screen();
+
+        if ($current_screen !== null
+            && method_exists($current_screen, 'is_block_editor')
+            && $current_screen->is_block_editor()
+        ) {
+            // Gutenberg page on 5+.
+            return true;
+        }
+
+        return false;
+    }
+
 }

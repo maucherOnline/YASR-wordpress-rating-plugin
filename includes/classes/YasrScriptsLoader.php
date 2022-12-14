@@ -514,7 +514,7 @@ class YasrScriptsLoader {
                 || $hook === 'site-editor.php'
                 || $hook === 'appearance_page_gutenberg-edit-site'
             )
-            && yasr_is_gutenberg_page()
+            && YasrAdmin::isGutenbergPage()
         ) {
 
             //create an empty array

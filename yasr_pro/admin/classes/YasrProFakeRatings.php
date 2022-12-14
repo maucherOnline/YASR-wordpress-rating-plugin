@@ -148,7 +148,7 @@ class YasrProFakeRatings {
         }
 
         //if is ajax is still false, this must be a gutenberg page
-        if($is_ajax === false && yasr_is_gutenberg_page()) {
+        if($is_ajax === false && YasrAdmin::isGutenbergPage()) {
             return;
         }
 
