@@ -294,7 +294,7 @@ class YasrSettingsMultiset {
      * @return void
      */
     public function printForm($set_id) {
-        $set_fields = YasrDB::multisetFieldsAndID($set_id);
+        $set_fields = YasrDB::multisetFieldsAndID((int)$set_id);
         ?>
         <form action=" <?php echo esc_url(admin_url('options-general.php?page=yasr_settings_page&tab=manage_multi')); ?>"
               id="form_edit_multi_set" method="post">
@@ -317,7 +317,6 @@ class YasrSettingsMultiset {
             </div>
 
             <?php $this->editFormPrintButtons(); ?>
-
         </form>
         <?php
     }
@@ -481,10 +480,11 @@ class YasrSettingsMultiset {
      * @return void
      */
     public function editFormAjax() {
+        if(!current_user_can('manage_options')) {
+            die('Not Allowed');
+        }
         $set_id = (int)$_POST['set_id'];
-
         $this->printForm($set_id);
-
         die();
     } //End function
 
