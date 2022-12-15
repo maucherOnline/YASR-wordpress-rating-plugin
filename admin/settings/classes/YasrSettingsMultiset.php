@@ -1,6 +1,8 @@
 <?php
 
 class YasrSettingsMultiset {
+
+
     public function init () {
         //This is for general options
         add_action('admin_init', array($this, 'manageMultiset'));
@@ -277,6 +279,8 @@ class YasrSettingsMultiset {
                     $this->manageManyMultiset($multi_set);
                 }
             ?>
+            <input type="hidden" value="<?php echo esc_attr($n_multi_set); ?>" id="n-multiset">
+
             <div id="yasr-multi-set-response" style="display:none">
             </div>
         </div>

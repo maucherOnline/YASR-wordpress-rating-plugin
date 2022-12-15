@@ -25,6 +25,7 @@ if (!defined('ABSPATH')) {
 $save_multi = new YasrSettingsMultiset();
 
 $error_new_multi_set  = $save_multi->saveNewMultiSet(); //defined in yasr-settings-functions
+
 $error_edit_multi_set = yasr_process_edit_multi_set_form(); //defined in yasr-settings-functions
 
 if ($error_new_multi_set) {
@@ -51,11 +52,7 @@ if ($error_edit_multi_set) {
 
 global $wpdb;
 
-$multi_set = YasrDB::returnMultiSetNames();
-$n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the last query
-
 ?>
-<input type="hidden" value="<?php echo esc_attr($n_multi_set); ?>" id="n-multiset">
 
 <div class="yasr-settings-div">
 
