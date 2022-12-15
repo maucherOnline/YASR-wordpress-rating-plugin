@@ -25,7 +25,6 @@ if (!defined('ABSPATH')) {
 $save_multi = new YasrSettingsMultiset();
 
 $error_new_multi_set  = $save_multi->saveNewMultiSet(); //defined in yasr-settings-functions
-
 $error_edit_multi_set = yasr_process_edit_multi_set_form(); //defined in yasr-settings-functions
 
 if ($error_new_multi_set) {
@@ -49,13 +48,9 @@ if ($error_edit_multi_set) {
 
     echo "</strong></p></div>";
 }
-
-global $wpdb;
-
 ?>
 
 <div class="yasr-settings-div">
-
     <div>
         <form method="post">
             <?php
@@ -72,7 +67,6 @@ global $wpdb;
             ?>
         </form>
 
-
         <!--This allows to choose if show average or no, must be inside the form-->
         <form action="options.php" method="post" id="yasr_multiset_form">
             <?php
@@ -82,5 +76,4 @@ global $wpdb;
             ?>
         </form>
     </div>
-
 </div>
