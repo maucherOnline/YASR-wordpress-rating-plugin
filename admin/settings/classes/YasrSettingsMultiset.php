@@ -2,14 +2,12 @@
 
 class YasrSettingsMultiset {
 
-
     public function init () {
         //This is for general options
         add_action('admin_init', array($this, 'manageMultiset'));
 
         //Add Ajax Endpoint to manage more multi set
         add_action('wp_ajax_yasr_get_multi_set', array($this, 'editFormAjax'));
-
     }
 
     public function manageMultiset () {
@@ -33,7 +31,6 @@ class YasrSettingsMultiset {
 
         $this->addSettingsSections();
         $this->addSettingsFields($option_multiset);
-
     }
 
     /**
@@ -271,7 +268,7 @@ class YasrSettingsMultiset {
 
                 if ($n_multi_set === 1) {
                     $set_id     = $multi_set[0]->set_id;
-                    $this->printForm($set_id);
+                    $this->formEditMultiset($set_id);
                 } //End if n_multi_set >1
 
                 //n_multiset > 1 here
@@ -287,6 +284,8 @@ class YasrSettingsMultiset {
         <?php
     }
 
+
+
     /**
      * Print the form to edit the multi set
      *
@@ -297,7 +296,7 @@ class YasrSettingsMultiset {
      * @since  3.1.7
      * @return void
      */
-    public function printForm($set_id) {
+    public function formEditMultiset($set_id) {
         $set_fields = YasrDB::multisetFieldsAndID((int)$set_id);
         ?>
         <form action=" <?php echo esc_url(admin_url('options-general.php?page=yasr_settings_page&tab=manage_multi')); ?>"
@@ -307,9 +306,9 @@ class YasrSettingsMultiset {
 
             <table id="yasr-table-form-edit-multi-set">
                 <?php
-                    $this->editFormPrintHeaders();
-                    $i = $this->editFormPrintRow($set_fields);
-                    $this->editFormPrintRemoveRow($i, $set_id);
+                    $this->formEditMultisetPrintHeaders();
+                    $i = $this->formEditMultisetPrintRow($set_fields);
+                    $this->formEditMultisetPrintRemoveRow($i, $set_id);
                 ?>
             </table>
             <?
@@ -353,7 +352,7 @@ class YasrSettingsMultiset {
      * @since  3.1.7
      * @return void
      */
-    private function editFormPrintHeaders() {
+    private function formEditMultisetPrintHeaders() {
         ?>
         <tr>
             <th id="yasr-table-form-edit-multi-set-header">
@@ -377,7 +376,7 @@ class YasrSettingsMultiset {
      * @since  refactor in 3.1.7
      * @return int
      */
-    private function editFormPrintRow($set_fields) {
+    private function formEditMultisetPrintRow($set_fields) {
         $i = 1;
         foreach ($set_fields as $field) {
             $input_name    = 'edit-multi-set-element-'.$i;
@@ -423,7 +422,7 @@ class YasrSettingsMultiset {
      * @since 3.1.7
      * @return void
      */
-    private function editFormPrintRemoveRow($i, $set_id) {
+    private function formEditMultisetPrintRemoveRow($i, $set_id) {
         ?>
         <input type="hidden"
                name="yasr-edit-form-number-elements"
@@ -488,7 +487,7 @@ class YasrSettingsMultiset {
             die('Not Allowed');
         }
         $set_id = (int)$_POST['set_id'];
-        $this->printForm($set_id);
+        $this->formEditMultiset($set_id);
         die();
     } //End function
 
@@ -673,7 +672,7 @@ class YasrSettingsMultiset {
             return $array_error;
         }
 
-        $this->saveMultiset($multi_set_name, $elements_filled, $fields_name);
+        $this->insertMultiset($multi_set_name, $elements_filled, $fields_name);
     }
 
     /**
@@ -736,14 +735,14 @@ class YasrSettingsMultiset {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @param $multi_set_name
-     * @param $elements_filled
-     * @param $fields
+     * @param string $multi_set_name
+     * @param int    $elements_filled
+     * @param array  $fields
      *
      * @since 3.1.7
      * @return void
      */
-    private function saveMultiset($multi_set_name, $elements_filled, $fields) {
+    private function insertMultiset($multi_set_name, $elements_filled, $fields) {
         $insert_multi_name_success = $this->saveMultisetName($multi_set_name);
 
         //If multi set name has been inserted, now we're going to insert elements
