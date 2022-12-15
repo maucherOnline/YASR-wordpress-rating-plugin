@@ -35,7 +35,7 @@ Argument | Type | Description
 `$post_id` |  | int
 `$set_id` |  | int
 
-Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 227](admin/editor/YasrMetaboxBelowEditor.php#L227-L233)
+Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 191](admin/editor/YasrMetaboxBelowEditor.php#L191-L197)
 
 ### `yasr_add_content_multiset_tab_pro`
 
@@ -48,7 +48,7 @@ Argument | Type | Description
 `$post_id` |  | int
 `$set_id` |  | int
 
-Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 310](admin/editor/YasrMetaboxBelowEditor.php#L310-L316)
+Source: [./admin/editor/YasrMetaboxBelowEditor.php](admin/editor/YasrMetaboxBelowEditor.php), [line 274](admin/editor/YasrMetaboxBelowEditor.php#L274-L280)
 
 ### `yasr_add_content_bottom_topright_metabox`
 
@@ -131,16 +131,6 @@ Argument | Type | Description
 
 Source: [./admin/classes/YasrAdmin.php](admin/classes/YasrAdmin.php), [line 145](admin/classes/YasrAdmin.php#L145-L150)
 
-### `yasr_settings_tab_content`
-
-**Arguments**
-
-Argument | Type | Description
--------- | ---- | -----------
-`$active_tab` |  | 
-
-Source: [./admin/settings/yasr-settings-page.php](admin/settings/yasr-settings.php), [line 88](admin/settings/yasr-settings.php#L88-L88)
-
 ### `yasr_add_stats_tab`
 
 **Arguments**
@@ -171,6 +161,16 @@ Argument | Type | Description
 
 Source: [./admin/settings/aspect_style/yasr-settings-style-functions.php](admin/settings/aspect_style/yasr-settings-style-functions.php), [line 49](admin/settings/aspect_style/yasr-settings-style-functions.php#L49-L49)
 
+### `yasr_migration_page_bottom`
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$import_plugin->plugin_imported` |  | 
+
+Source: [./admin/settings/yasr-settings-migration.php](admin/settings/yasr-settings-migration.php), [line 63](admin/settings/yasr-settings-migration.php#L63-L63)
+
 ### `yasr_add_settings_tab`
 
 **Arguments**
@@ -186,15 +186,15 @@ Source: [./admin/settings/classes/YasrSettings.php](admin/settings/classes/YasrS
 
 Source: [./admin/settings/classes/YasrSettings.php](admin/settings/classes/YasrSettings.php), [line 1266](admin/settings/classes/YasrSettings.php#L1266-L1266)
 
-### `yasr_migration_page_bottom`
+### `yasr_settings_tab_content`
 
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
-`$import_plugin->plugin_imported` |  | 
+`$active_tab` |  | 
 
-Source: [./admin/settings/yasr-settings-migration-page.php](admin/settings/yasr-settings-migration.php), [line 63](admin/settings/yasr-settings-migration.php#L63-L63)
+Source: [./admin/settings/yasr-settings.php](admin/settings/yasr-settings.php), [line 88](admin/settings/yasr-settings.php#L88-L88)
 
 ### `yasr_ur_add_custom_form_fields`
 
