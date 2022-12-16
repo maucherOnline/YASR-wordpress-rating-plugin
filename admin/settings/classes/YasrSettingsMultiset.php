@@ -697,22 +697,26 @@ class YasrSettingsMultiset {
      * @return void
      */
     private function insertMultiset($multi_set_name, $elements_filled, $fields) {
+        $error_message = __('Something goes wrong trying insert set field name. Please report it',
+            'yet-another-stars-rating');
+
         $insert_multi_name_success = $this->saveMultisetName($multi_set_name);
 
         //If multi set name has been inserted, now we're going to insert elements
         if ($insert_multi_name_success !== false) {
             $insert_set_value = $this->saveMultisetFields($elements_filled, $fields);
 
+            //Everything is ok
             if ($insert_set_value) {
-                $this->printSuccess(__('Settings Saved', 'yet-another-stars-rating'));
-            } else {
-                esc_html_e('Something goes wrong trying insert set field name. Please report it',
-                    'yet-another-stars-rating');
+                YasrSettings::printSuccess(__('Settings Saved', 'yet-another-stars-rating'));
+            }
+            //If there was an error saving the fields, delete the set name and print error
+            else {
                 $this->deleteMultisetName($multi_set_name);
+                YasrSettings::printError($error_message);
             }
         }  else {
-            esc_html_e('Something goes wrong trying insert Multi Set name. Please report it',
-                'yet-another-stars-rating');
+            YasrSettings::printError($error_message);
         }
     }
 
@@ -849,32 +853,6 @@ class YasrSettingsMultiset {
             ),
             array('%s')
         );
-    }
-
-    /**
-     * Print a div with class "notice-success"
-     *
-     * https://digwp.com/2016/05/wordpress-admin-notices/
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @param $message
-     *
-     * @since  3.1.7
-     * @return void
-     */
-    private function printSuccess($message) {
-        ?>
-        <div class="notice notice-success">
-            <p>
-                <strong>
-                    <?php
-                        echo esc_html($message);
-                    ?>
-                </strong>
-            </p>
-        </div>
-        <?php
     }
 
 }

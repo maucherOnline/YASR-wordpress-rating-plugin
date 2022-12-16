@@ -31,6 +31,7 @@ if (!defined('ABSPATH')) {
  * Class YasrSettings
  */
 class YasrSettings {
+
     /**
      * Init Settings
      */
@@ -1566,6 +1567,56 @@ class YasrSettings {
         }
 
         return false;
+    }
+
+    /**
+     * Print a div with class "notice-success"
+     * https://digwp.com/2016/05/wordpress-admin-notices/
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $message
+     *
+     * @since  3.1.7
+     * @return void
+     */
+    public static function printSuccess($message) {
+        ?>
+        <div class="notice notice-success">
+            <p>
+                <strong>
+                    <?php
+                    echo esc_html($message);
+                    ?>
+                </strong>
+            </p>
+        </div>
+        <?php
+    }
+
+    /**
+     * Print a div with class "notice-error"
+     * https://digwp.com/2016/05/wordpress-admin-notices/
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $message
+     *
+     * @since  3.1.7
+     * @return void
+     */
+    public static function printError($message) {
+        ?>
+        <div class="notice notice-error">
+            <p>
+                <strong>
+                    <?php
+                    echo esc_html($message);
+                    ?>
+                </strong>
+            </p>
+        </div>
+        <?php
     }
 
 }
