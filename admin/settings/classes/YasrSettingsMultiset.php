@@ -868,10 +868,8 @@ class YasrSettingsMultiset {
         }
 
         for ($i = 0; $i <= 9; $i ++) {
-
             //Then, check if the user want to remove some field
             if (isset($_POST["remove-element-$i"]) && !isset($_POST["yasr-remove-multi-set"])) {
-
                 $field_to_remove = $_POST["remove-element-$i"];
 
                 //remove field
@@ -897,6 +895,7 @@ class YasrSettingsMultiset {
                 if ($remove_field === false) {
                     YasrSettings::printNoticeError(__("Something goes wrong trying to delete a Multi Set's element. Please report it",
                         'yet-another-stars-rating'));
+                    return;
                 }
 
 
@@ -946,25 +945,11 @@ class YasrSettingsMultiset {
 
                     //if field name in db is different from field name in form update it
                     if ($field_name_in_database != $field_name) {
+                        $field_updated = $this->updateMultisetField($field_name, $set_id, $field_id);
 
-                        $insert_field_name = $wpdb->update(
-                            YASR_MULTI_SET_FIELDS_TABLE,
-
-                            array(
-                                'field_name' => $field_name,
-                            ),
-                            array(
-                                'parent_set_id' => $set_id,
-                                'field_id'      => $field_id
-                            ),
-
-                            array('%s'),
-                            array('%d', '%d')
-
-                        );
-
-                        if ($insert_field_name == false) {
-                            $array_errors[] = __("Something goes wrong trying to update a Multi Set's element. Please report it", 'yet-another-stars-rating');
+                        if ($field_updated === false) {
+                            YasrSettings::printNoticeError(__("Something goes wrong trying to update a Multi Set's element. Please report it",
+                                'yet-another-stars-rating'));
                         }
 
                     } //End if ($field_name_in_database != $field_name) {
@@ -996,7 +981,7 @@ class YasrSettingsMultiset {
                 elseif ($field_name != '') {
 
                     //from version 2.0.9 id is auto_increment by default, still doing this to compatibility for
-                    //existing installs where auto_increment didn't work because set_id=1 alredy exists
+                    //existing installs where auto_increment didn't work because set_id=1 already exists
 
                     $field_table_new_id = false; //avoid undefined
                     $new_field_id       = false; //avoid undefined
@@ -1038,7 +1023,63 @@ class YasrSettingsMultiset {
 
     } //End yasr_process_edit_multi_set_form() function
 
+    /**
+     * If multi set name is saved, but there is an error on saving fields, delete the row with the multiset name
+     * Here is safe to use set_name, instead of id, because a set name is saved only if doesn't exist another with the
+     * same name
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $set_name
+     *
+     * @since 3.1.7
+     * @return void
+     */
+    private function deleteMultisetName($set_name) {
+        global $wpdb;
 
+        $wpdb->delete(
+            YASR_MULTI_SET_NAME_TABLE,
+            array(
+                'set_name' => $set_name
+            ),
+            array('%s')
+        );
+    }
+
+    /**
+     * Update a field
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $field_name
+     * @param $set_id
+     * @param $field_id
+     *
+     * @since
+     * @return bool|int|\mysqli_result|resource|null
+     */
+    private function updateMultisetField($field_name, $set_id, $field_id) {
+        global $wpdb;
+
+        return $wpdb->update(
+            YASR_MULTI_SET_FIELDS_TABLE,
+
+            //value to update
+            array(
+                'field_name' => $field_name,
+            ),
+            //where
+            array(
+                'parent_set_id' => $set_id,
+                'field_id'      => $field_id
+            ),
+
+            array('%s'),
+            array('%d', '%d')
+
+        );
+    }
 
     /**
      * Return 'ok' if string is of the correct length, or an error otherwise
@@ -1070,30 +1111,6 @@ class YasrSettingsMultiset {
         }
 
         return 'ok';
-    }
-
-    /**
-     * If multi set name is saved, but there is an error on saving fields, delete the row with the multiset name
-     * Here is safe to use set_name, instead of id, because a set name is saved only if doesn't exist another with the
-     * same name
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @param $set_name
-     *
-     * @since 3.1.7
-     * @return void
-     */
-    private function deleteMultisetName($set_name) {
-        global $wpdb;
-
-        $wpdb->delete(
-            YASR_MULTI_SET_NAME_TABLE,
-            array(
-                'set_name' => $set_name
-            ),
-            array('%s')
-        );
     }
 
 }
