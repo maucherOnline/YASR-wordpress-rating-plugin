@@ -867,6 +867,8 @@ class YasrSettingsMultiset {
 
         }
 
+        $array_errors_wrong_len=array();
+
         for ($i = 0; $i <= 9; $i ++) {
             //Then, check if the user want to remove some field
             if (isset($_POST["remove-element-$i"]) && !isset($_POST["yasr-remove-multi-set"])) {
@@ -909,26 +911,12 @@ class YasrSettingsMultiset {
                 $field_name = $_POST["edit-multi-set-element-$i"];
                 $field_id = $_POST["db-id-for-element-$i"];
 
-                /*$length_ok = $this->checkStringLength($field_name, $i);
+                $length_ok = $this->checkStringLength($field_name, $i);
 
                 if($length_ok !== 'ok') {
-                    $elements_filled ++;
-                } else {
-                    $array_error[] = $length_ok;
-                }*/
-
-                //if elements name is shorter than 3 chars
-                if (mb_strlen($field_name) < 3) {
-                    $array_errors[] = sprintf(
-                        __('Field # %d must be at least 3 characters', 'yet-another-stars-rating'),
-                        $i);
+                    $array_errors_wrong_len[] = $length_ok;
                 }
-
-                if (mb_strlen($field_name) > 40) {
-                    $array_errors[] = sprintf(
-                        __('Field # %d must be shorter than 40 characters', 'yet-another-stars-rating'),
-                        $i);
-                } else {
+                else {
 
                     //Check if field name is changed
                     $field_name_in_db = $wpdb->get_results(
@@ -1018,6 +1006,9 @@ class YasrSettingsMultiset {
 
         } //End for
 
+        if(!empty($array_errors_wrong_len)) {
+            YasrSettings::printNoticeError($array_errors_wrong_len);
+        }
 
         YasrSettings::printNoticeSuccess(__('Settings Saved'));
 
