@@ -1597,7 +1597,7 @@ class YasrSettings {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @param $message
+     * @param string | array $message
      *
      * @since  3.1.7
      * @return void
@@ -1608,7 +1608,13 @@ class YasrSettings {
             <p>
                 <strong>
                     <?php
-                    echo esc_html($message);
+                        if(is_array($message)) {
+                            foreach ($message as $error) {
+                                echo esc_html($error).'<br />';
+                            }
+                        } else {
+                            echo esc_html($message);
+                        }
                     ?>
                 </strong>
             </p>

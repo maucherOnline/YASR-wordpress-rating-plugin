@@ -618,7 +618,7 @@ class YasrSettingsMultiset {
      *
      * @author Dario Curvino <@dudo>
      * @since  3.1.7
-     * @return array|void
+     * @return void
      */
     public function saveNewMultiSet() {
         if (!isset($_POST['multi-set-name'])) {
@@ -637,24 +637,27 @@ class YasrSettingsMultiset {
         if ($_POST['multi-set-name'] === ''
             || $_POST['multi-set-name-element-1'] === ''
             || $_POST['multi-set-name-element-2'] === '') {
-
-            return array(__('Multi Set\'s name and first 2 elements can\'t be empty', 'yet-another-stars-rating'));
+            YasrSettings::printNoticeError(
+                    __('Multi Set\'s name and first 2 elements can\'t be empty',
+                'yet-another-stars-rating')
+            );
+            return;
         }
 
         $multi_set_name        = ucfirst(strtolower($_POST['multi-set-name']));
         $multi_set_name_exists = $this->multisetNameExists($multi_set_name);
 
         if($multi_set_name_exists !== false) {
-            return array($multi_set_name_exists);
+            YasrSettings::printNoticeError($multi_set_name_exists);
         }
 
         //If multi set name is shorter than 3 chars return error
         if (mb_strlen($multi_set_name) < 3) {
-            return array(__('Multi Set name must be longer than 3 chars', 'yet-another-stars-rating'));
+            YasrSettings::printNoticeError(__('Multi Set name must be longer than 3 chars', 'yet-another-stars-rating'));
         }
 
         if (mb_strlen($multi_set_name) > 40) {
-            return array(__('Multi Set name must be shorter than 40 chars', 'yet-another-stars-rating'));
+            YasrSettings::printNoticeError(__('Multi Set name must be shorter than 40 chars', 'yet-another-stars-rating'));
         }
 
         $array_error = array();
@@ -677,7 +680,8 @@ class YasrSettingsMultiset {
         }
 
         if(!empty($array_error)) {
-            return $array_error;
+            YasrSettings::printNoticeError($array_error);
+            return;
         }
 
         $this->insertMultiset($multi_set_name, $elements_filled, $fields_name);
@@ -693,7 +697,7 @@ class YasrSettingsMultiset {
      * @param int    $elements_filled
      * @param array  $fields
      *
-     * @since 3.1.7
+     * @since  refactor 3.1.7
      * @return void
      */
     private function insertMultiset($multi_set_name, $elements_filled, $fields) {
@@ -800,234 +804,235 @@ class YasrSettingsMultiset {
     }
 
 
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  refactor 3.1.7
+     * @return array|void
+     */
     public function editMultiset() {
+        if (!isset($_POST['yasr_edit_multi_set_form'])) {
+            return;
+        }
 
-        $error = false;
+        if (!current_user_can('manage_options')) {
+            /** @noinspection ForgottenDebugOutputInspection */
+            wp_die('You are not allowed to be on this page.');
+        }
 
-        if (isset($_POST['yasr_edit_multi_set_form'])) {
+        $set_id                    = $_POST['yasr_edit_multi_set_form'];
+        $number_of_stored_elements = $_POST['yasr-edit-form-number-elements'];
 
-            $set_id = $_POST['yasr_edit_multi_set_form'];
-            $number_of_stored_elements = $_POST['yasr-edit-form-number-elements'];
+        global $wpdb;
 
-            global $wpdb;
+        $array_errors = array();
 
-            $array_errors = array();
+        // Check nonce field
+        check_admin_referer('edit-multi-set', 'add-nonce-edit-multi-set');
 
-            if (!current_user_can('manage_options')) {
-                /** @noinspection ForgottenDebugOutputInspection */
-                wp_die('You are not allowed to be on this page.');
+        //Check if user want to delete entire set
+        if (isset($_POST["yasr-remove-multi-set"])) {
+
+            $remove_set = $wpdb->delete(
+                YASR_MULTI_SET_NAME_TABLE,
+                array(
+                    'set_id' => $set_id,
+                ),
+                array('%d')
+            );
+
+            $remove_set_values = $wpdb->delete(
+                YASR_MULTI_SET_FIELDS_TABLE,
+                array(
+                    'parent_set_id' => $set_id,
+                ),
+                array('%d')
+            );
+
+            $remove_set_votes = $wpdb->delete(
+                YASR_LOG_MULTI_SET,
+                array(
+                    'set_type' => $set_id,
+                ),
+                array('%d')
+            );
+
+            if ($remove_set === false) {
+                YasrSettings::printNoticeError(
+                        __('Something goes wrong trying to delete a Multi Set . Please report it',
+                    'yet-another-stars-rating'));
+                return;
             }
 
-            // Check nonce field
-            check_admin_referer('edit-multi-set', 'add-nonce-edit-multi-set');
+        }
 
-            //Check if user want to delete entire set
-            if (isset($_POST["yasr-remove-multi-set"])) {
+        for ($i = 0; $i <= 9; $i ++) {
 
-                $remove_set = $wpdb->delete(
-                    YASR_MULTI_SET_NAME_TABLE,
-                    array(
-                        'set_id' => $set_id,
-                    ),
-                    array('%d')
-                );
+            //Then, check if the user want to remove some field
+            if (isset($_POST["remove-element-$i"]) && !isset($_POST["yasr-remove-multi-set"])) {
 
-                $remove_set_values = $wpdb->delete(
+                $field_to_remove = $_POST["remove-element-$i"];
+
+                //remove field
+                $remove_field = $wpdb->delete(
                     YASR_MULTI_SET_FIELDS_TABLE,
                     array(
                         'parent_set_id' => $set_id,
+                        'field_id'      => $field_to_remove
                     ),
-                    array('%d')
+                    array('%d', '%d')
                 );
 
-                $remove_set_votes = $wpdb->delete(
+                //remove data
+                $remove_values = $wpdb->delete(
                     YASR_LOG_MULTI_SET,
                     array(
                         'set_type' => $set_id,
+                        'field_id' => $field_to_remove
                     ),
-                    array('%d')
+                    array('%d', '%d')
                 );
 
-                if ($remove_set == false) {
-                    $error          = true;
-                    $array_errors[] .= __("Something goes wrong trying to delete a Multi Set . Please report it", 'yet-another-stars-rating');
+                if ($remove_field === false) {
+                    YasrSettings::printNoticeError(__("Something goes wrong trying to delete a Multi Set's element. Please report it",
+                        'yet-another-stars-rating'));
                 }
 
-            }
 
-            for ($i = 0; $i <= 9; $i ++) {
+            }  //End if isset $_POST['remove-element-$i']
 
-                //Than, check if the user want to remove some field
-                if (isset($_POST["remove-element-$i"]) && !isset($_POST["yasr-remove-multi-set"])) {
 
-                    $field_to_remove = $_POST["remove-element-$i"];
+            //update the stored elements with the new ones
+            if (isset($_POST["edit-multi-set-element-$i"]) && !isset($_POST["yasr-remove-multi-set"])
+                && !isset($_POST["remove-element-$i"]) && $i <= $number_of_stored_elements) {
 
-                    $remove_field = $wpdb->delete(
-                        YASR_MULTI_SET_FIELDS_TABLE,
-                        array(
-                            'parent_set_id' => $set_id,
-                            'field_id'      => $field_to_remove
-                        ),
-                        array('%d', '%d')
-                    );
+                $field_name = $_POST["edit-multi-set-element-$i"];
+                $field_id = $_POST["db-id-for-element-$i"];
 
-                    $remove_values = $wpdb->delete(
-                        YASR_LOG_MULTI_SET,
-                        array(
-                            'set_type' => $set_id,
-                            'field_id' => $field_to_remove
-                        ),
-                        array('%d', '%d')
-                    );
+                /*$length_ok = $this->checkStringLength($field_name, $i);
 
-                    if ($remove_field == false) {
-                        $error          = true;
-                        $array_errors[] = __("Something goes wrong trying to delete a Multi Set's element. Please report it", 'yet-another-stars-rating');
+                if($length_ok !== 'ok') {
+                    $elements_filled ++;
+                } else {
+                    $array_error[] = $length_ok;
+                }*/
+
+                //if elements name is shorter than 3 chars
+                if (mb_strlen($field_name) < 3) {
+                    $array_errors[] = sprintf(
+                        __('Field # %d must be at least 3 characters', 'yet-another-stars-rating'),
+                        $i);
+                }
+
+                if (mb_strlen($field_name) > 40) {
+                    $array_errors[] = sprintf(
+                        __('Field # %d must be shorter than 40 characters', 'yet-another-stars-rating'),
+                        $i);
+                } else {
+
+                    //Check if field name is changed
+                    $field_name_in_db = $wpdb->get_results(
+                        $wpdb->prepare(
+                            "SELECT field_name FROM "
+                            . YASR_MULTI_SET_FIELDS_TABLE .
+                            " WHERE field_id=%d AND parent_set_id=%d",
+                            $field_id, $set_id));
+
+                    $field_name_in_database = null; //avoid undefined
+                    foreach ($field_name_in_db as $field_in_db) {
+                        $field_name_in_database = $field_in_db->field_name;
                     }
 
+                    //if field name in db is different from field name in form update it
+                    if ($field_name_in_database != $field_name) {
 
-                }  //End if isset $_POST['remove-element-$i']
-
-
-                //update the stored elements with the new ones
-                if (isset($_POST["edit-multi-set-element-$i"]) && !isset($_POST["yasr-remove-multi-set"])
-                    && !isset($_POST["remove-element-$i"]) && $i <= $number_of_stored_elements) {
-
-                    $field_name = $_POST["edit-multi-set-element-$i"];
-                    $field_id = $_POST["db-id-for-element-$i"];
-
-                    //if elements name is shorter than 3 chars
-                    if (mb_strlen($field_name) < 3) {
-                        $array_errors[] = sprintf(
-                            __('Field # %d must be at least 3 characters', 'yet-another-stars-rating'),
-                            $i);
-                        $error = true;
-                    }
-
-                    if (mb_strlen($field_name) > 40) {
-                        $array_errors[] = sprintf(
-                            __('Field # %d must be shorter than 40 characters', 'yet-another-stars-rating'),
-                            $i);
-                        $error = true;
-                    } else {
-
-                        //Check if field name is changed
-                        $field_name_in_db = $wpdb->get_results(
-                            $wpdb->prepare(
-                                "SELECT field_name FROM "
-                                . YASR_MULTI_SET_FIELDS_TABLE .
-                                " WHERE field_id=%d AND parent_set_id=%d",
-                                $field_id, $set_id));
-
-                        $field_name_in_database = null; //avoid undefined
-                        foreach ($field_name_in_db as $field_in_db) {
-                            $field_name_in_database = $field_in_db->field_name;
-                        }
-
-                        //if field name in db is different from field name in form update it
-                        if ($field_name_in_database != $field_name) {
-
-                            $insert_field_name = $wpdb->update(
-                                YASR_MULTI_SET_FIELDS_TABLE,
-
-                                array(
-                                    'field_name' => $field_name,
-                                ),
-                                array(
-                                    'parent_set_id' => $set_id,
-                                    'field_id'      => $field_id
-                                ),
-
-                                array('%s'),
-                                array('%d', '%d')
-
-                            );
-
-                            if ($insert_field_name == false) {
-                                $error          = true;
-                                $array_errors[] = __("Something goes wrong trying to update a Multi Set's element. Please report it", 'yet-another-stars-rating');
-                            }
-
-                        } //End if ($field_name_in_database != $field_name) {
-
-                    }
-
-                } //End if (isset($_POST["edit-multi-set-element-$i"]) && !isset($_POST["remove-element-$i"]) && $i<=$number_of_stored_elements )
-
-
-                //If $i > number of stored elements, user is adding new elements, so we're going to insert the new ones
-                if (isset($_POST["edit-multi-set-element-$i"]) && !isset($_POST["yasr-remove-multi-set"]) && !isset($_POST["remove-element-$i"]) && $i > $number_of_stored_elements) {
-
-                    $field_name = $_POST["edit-multi-set-element-$i"];
-
-                    //if elements name is shorter than 3 chars return error. I use mb_strlen($field_name) > 1
-                    //because I don't wont return error if an user add an empty field. An empty field will be
-                    //just ignored
-                    if (mb_strlen($field_name) > 1 && mb_strlen($field_name) < 3) {
-                        $array_errors[] = sprintf(
-                            __('Field # %d must be at least 3 characters', 'yet-another-stars-rating'),
-                            $i);
-                        $error = true;
-                    }
-
-                    if (mb_strlen($field_name) > 40) {
-                        $array_errors[] = sprintf(
-                            __('Field # %d must be shorter than 40 characters', 'yet-another-stars-rating'),
-                            $i);
-                        $error          = true;
-                    } //if field is not empty
-                    elseif ($field_name != '') {
-
-                        //from version 2.0.9 id is auto_increment by default, still doing this to compatibility for
-                        //existing installs where auto_increment didn't work because set_id=1 alredy exists
-
-                        $field_table_new_id = false; //avoid undefined
-                        $new_field_id       = false; //avoid undefined
-
-                        $highest_id = $wpdb->get_results("SELECT id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " ORDER BY id DESC LIMIT 1 ");
-
-                        $highest_field_id = $wpdb->get_results("SELECT field_id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " ORDER BY field_id DESC LIMIT 1 ");
-
-                        foreach ($highest_id as $id) {
-                            $field_table_new_id = $id->id + 1;
-                        }
-
-                        foreach ($highest_field_id as $id) {
-                            $new_field_id = $id->field_id + 1;
-                        }
-
-                        $insert_set_value = $wpdb->replace(
+                        $insert_field_name = $wpdb->update(
                             YASR_MULTI_SET_FIELDS_TABLE,
+
                             array(
-                                'id'            => $field_table_new_id,
-                                'parent_set_id' => $set_id,
-                                'field_name'    => $field_name,
-                                'field_id'      => $new_field_id
+                                'field_name' => $field_name,
                             ),
-                            array('%d', '%d', '%s', '%d')
+                            array(
+                                'parent_set_id' => $set_id,
+                                'field_id'      => $field_id
+                            ),
+
+                            array('%s'),
+                            array('%d', '%d')
+
                         );
 
-                        if ($insert_set_value === false) {
-                            $error          = true;
-                            $array_errors[] = __("Something goes wrong trying to insert set field name in edit form. Please report it", 'yet-another-stars-rating');
+                        if ($insert_field_name == false) {
+                            $array_errors[] = __("Something goes wrong trying to update a Multi Set's element. Please report it", 'yet-another-stars-rating');
                         }
 
-                    } //end else
+                    } //End if ($field_name_in_database != $field_name) {
+
                 }
 
-            } //End for
+            } //End if (isset($_POST["edit-multi-set-element-$i"]) && !isset($_POST["remove-element-$i"]) && $i<=$number_of_stored_elements )
 
-            if ($error) {
-                return $array_errors;
+
+            //If $i > number of stored elements, user is adding new elements, so we're going to insert the new ones
+            if (isset($_POST["edit-multi-set-element-$i"]) && !isset($_POST["yasr-remove-multi-set"]) && !isset($_POST["remove-element-$i"]) && $i > $number_of_stored_elements) {
+
+                $field_name = $_POST["edit-multi-set-element-$i"];
+
+                //if elements name is shorter than 3 chars return error. I use mb_strlen($field_name) > 1
+                //because I don't wont return error if an user add an empty field. An empty field will be
+                //just ignored
+                if (mb_strlen($field_name) > 1 && mb_strlen($field_name) < 3) {
+                    $array_errors[] = sprintf(
+                        __('Field # %d must be at least 3 characters', 'yet-another-stars-rating'),
+                        $i);
+                }
+
+                if (mb_strlen($field_name) > 40) {
+                    $array_errors[] = sprintf(
+                        __('Field # %d must be shorter than 40 characters', 'yet-another-stars-rating'),
+                        $i);
+                } //if field is not empty
+                elseif ($field_name != '') {
+
+                    //from version 2.0.9 id is auto_increment by default, still doing this to compatibility for
+                    //existing installs where auto_increment didn't work because set_id=1 alredy exists
+
+                    $field_table_new_id = false; //avoid undefined
+                    $new_field_id       = false; //avoid undefined
+
+                    $highest_id = $wpdb->get_results("SELECT id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " ORDER BY id DESC LIMIT 1 ");
+
+                    $highest_field_id = $wpdb->get_results("SELECT field_id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " ORDER BY field_id DESC LIMIT 1 ");
+
+                    foreach ($highest_id as $id) {
+                        $field_table_new_id = $id->id + 1;
+                    }
+
+                    foreach ($highest_field_id as $id) {
+                        $new_field_id = $id->field_id + 1;
+                    }
+
+                    $insert_set_value = $wpdb->replace(
+                        YASR_MULTI_SET_FIELDS_TABLE,
+                        array(
+                            'id'            => $field_table_new_id,
+                            'parent_set_id' => $set_id,
+                            'field_name'    => $field_name,
+                            'field_id'      => $new_field_id
+                        ),
+                        array('%d', '%d', '%s', '%d')
+                    );
+
+                    if ($insert_set_value === false) {
+                        $array_errors[] = __("Something goes wrong trying to insert set field name in edit form. Please report it", 'yet-another-stars-rating');
+                    }
+
+                } //end else
             }
 
-            echo "<div class=\"updated\"><p><strong>";
-            esc_html_e("Settings Saved", 'yet-another-stars-rating');
-            echo "</strong></p></div> ";
+        } //End for
 
 
-        } //End if isset( $_POST['yasr_edit_multi_set_form']
-
+        YasrSettings::printNoticeSuccess(__('Settings Saved'));
 
     } //End yasr_process_edit_multi_set_form() function
 
@@ -1050,14 +1055,14 @@ class YasrSettingsMultiset {
 
         if ($length < 3) {
             return sprintf(
-                __('Field # %d must be at least 3 characters', 'yet-another-stars-rating'),
+                __('Field # %d must be at least 3 chars', 'yet-another-stars-rating'),
                 $i
             );
         }
 
         if ($length > 40) {
             return sprintf(
-                __('Field # %d must be shorter than 40 characters', 'yet-another-stars-rating'),
+                __('Field # %d must be shorter than 40 chars', 'yet-another-stars-rating'),
                 $i
             );
         }

@@ -24,20 +24,10 @@ if (!defined('ABSPATH')) {
 
 $save_multi = new YasrSettingsMultiset();
 
-$error_new_multi_set  = $save_multi->saveNewMultiSet(); //defined in yasr-settings-functions
+$save_multi->saveNewMultiSet(); //defined in yasr-settings-functions
 $error_edit_multi_set = $save_multi->editMultiset(); //defined in yasr-settings-functions
 
-if ($error_new_multi_set) {
-    echo "<div class='error'> <p> <strong>";
-
-    foreach ($error_new_multi_set as $error) {
-        echo wp_kses_post ($error);
-        echo "<br />";
-    }
-
-    echo "</strong></p></div>";
-}
-
+/*
 if ($error_edit_multi_set) {
     echo "<div class='error'> <p> <strong>";
 
@@ -47,7 +37,7 @@ if ($error_edit_multi_set) {
     }
 
     echo "</strong></p></div>";
-}
+}*/
 ?>
 
 <div class="yasr-settings-div">
