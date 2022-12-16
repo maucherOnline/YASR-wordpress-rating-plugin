@@ -866,75 +866,32 @@ class YasrSettingsMultiset {
         $set_id                    = (int)$_POST['yasr_edit_multi_set_form'];
         $number_of_stored_elements = (int)$_POST['yasr-edit-form-number-elements'];
 
-        global $wpdb;
-
         //If is checked to remove all the set, delete set and return
         if($this->editMultisetRemoveSetChecked($set_id) === true) {
             return;
         }
 
-        $array_errors_wrong_len=array();
-
         for ($i = 0; $i <= 9; $i ++) {
-
             //find if exists some fields to delete, WITHOUT RETURN if true
             $remove_field_checked = $this->editMultisetRemoveFieldChecked($i, $set_id);
-
             if($remove_field_checked === 'error') {
                 return;
             }
 
-            //update the stored elements with the new ones
-            if (isset($_POST["edit-multi-set-element-$i"]) && $i <= $number_of_stored_elements) {
+            $field_updated = $this->editMultisetFieldUpdated($i, $number_of_stored_elements, $set_id);
+            if($field_updated === 'error') {
+                return;
+            }
 
-                $field_name = $_POST["edit-multi-set-element-$i"];
-                $field_id   = $_POST["db-id-for-element-$i"];
-
-                $length_ok = $this->checkStringLength($field_name, $i);
-
-                if($length_ok !== 'ok') {
-                    $array_errors_wrong_len[] = $length_ok;
-                }
-                else {
-                    //Check if field name is changed
-                    $field_name_in_db = $wpdb->get_results(
-                        $wpdb->prepare(
-                            "SELECT field_name FROM "
-                            . YASR_MULTI_SET_FIELDS_TABLE .
-                            " WHERE field_id=%d AND parent_set_id=%d",
-                            $field_id, $set_id));
-
-                    $field_name_in_database = null; //avoid undefined
-                    foreach ($field_name_in_db as $field_in_db) {
-                        $field_name_in_database = $field_in_db->field_name;
-                    }
-
-                    //if field name in db is different from field name in form update it
-                    if ($field_name_in_database != $field_name) {
-                        $field_updated = $this->updateMultisetField($field_name, $set_id, $field_id);
-
-                        if ($field_updated === false) {
-                            YasrSettings::printNoticeError(__("Something goes wrong trying to update a Multi Set's element. Please report it",
-                                'yet-another-stars-rating'));
-                        }
-
-                    } //End if ($field_name_in_database != $field_name) {
-
-                }
-
-            } //End if (isset($_POST["edit-multi-set-element-$i"]) && !isset($_POST["remove-element-$i"]) && $i<=$number_of_stored_elements )
-
-            $this->editMultisetNewElementAdded($i, $number_of_stored_elements, $set_id);
-
+            $new_element_success = $this->editMultisetNewFieldAdded($i, $number_of_stored_elements, $set_id);
+            if($new_element_success === 'error') {
+                return;
+            }
         } //End for
-
-        if(!empty($array_errors_wrong_len)) {
-            YasrSettings::printNoticeError($array_errors_wrong_len);
-        }
 
         YasrSettings::printNoticeSuccess(__('Settings Saved'));
 
-    } //End yasr_process_edit_multi_set_form() function
+    } //End function
 
     /**
      * Find if the checkbox yasr-remove-multi-set is checked
@@ -1001,10 +958,63 @@ class YasrSettingsMultiset {
      * @param $number_of_stored_elements
      * @param $set_id
      *
+     * @since  3.1.7
+     * @return string|void|false
+     */
+    private function editMultisetFieldUpdated ($i, $number_of_stored_elements, $set_id) {
+        global $wpdb;
+
+        //update the stored elements with the new ones
+        if (isset($_POST["edit-multi-set-element-$i"]) && $i <= $number_of_stored_elements) {
+            $field_name = $_POST["edit-multi-set-element-$i"];
+            $field_id   = $_POST["db-id-for-element-$i"];
+
+            $length_ok = $this->checkStringLength($field_name, $i);
+
+            if($length_ok !== 'ok') {
+                YasrSettings::printNoticeError($length_ok);
+                return;
+            }
+
+            //Check if field name is changed
+            $field_name_in_db = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT field_name FROM "
+                    . YASR_MULTI_SET_FIELDS_TABLE .
+                    " WHERE field_id=%d AND parent_set_id=%d",
+                    $field_id, $set_id));
+
+            $field_name_in_database = null; //avoid undefined
+            foreach ($field_name_in_db as $field_in_db) {
+                $field_name_in_database = $field_in_db->field_name;
+            }
+
+            //if field name in db is different from field name in form update it
+            if ($field_name_in_database != $field_name) {
+                $field_updated = $this->updateMultisetField($field_name, $set_id, $field_id);
+
+                if ($field_updated === false) {
+                    YasrSettings::printNoticeError(__("Something goes wrong trying to update a Multi Set's element. Please report it",
+                        'yet-another-stars-rating'));
+                    return 'error';
+                }
+            }
+
+            return false;
+        }
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $i
+     * @param $number_of_stored_elements
+     * @param $set_id
+     *
      * @since
      * @return false|void
      */
-    private function editMultisetNewElementAdded($i, $number_of_stored_elements, $set_id) {
+    private function editMultisetNewFieldAdded($i, $number_of_stored_elements, $set_id) {
         //If $i > number of stored elements, user is adding new elements, so we're going to insert the new ones
         if (isset($_POST["edit-multi-set-element-$i"]) && $i > $number_of_stored_elements) {
             $field_name   = $_POST["edit-multi-set-element-$i"];
@@ -1021,7 +1031,7 @@ class YasrSettingsMultiset {
                 return;
             }
 
-            if ($field_name != '') {
+            if ($field_name !== '') {
                 //get the new field id
                 $highest_field_id = $wpdb->get_results(
                     "SELECT field_id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " 
@@ -1046,6 +1056,8 @@ class YasrSettingsMultiset {
                 if ($insert_set_value === false) {
                     YasrSettings::printNoticeError(__('Something goes wrong trying to insert set field name in edit form. Please report it',
                         'yet-another-stars-rating'));
+
+                    return 'error';
                 }
 
             } //end if $field_name != ''
