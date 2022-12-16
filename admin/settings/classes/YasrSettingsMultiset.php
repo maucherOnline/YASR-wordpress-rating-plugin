@@ -928,24 +928,26 @@ class YasrSettingsMultiset {
      * @param $set_id
      *
      * @since 3.1.7
-     * @return bool|string
+     * @return bool|string|void
      */
     private function editMultisetRemoveFieldChecked($i, $set_id) {
         $i = (int)$i;
         $element = 'remove-element-'.$i;
 
+        //If checkbox is not checked, return
+        if(!isset($_POST[$element])) {
+            return;
+        }
+
         //Then, check if the user want to remove some field
-        if (isset($_POST[$element]) && !isset($_POST["yasr-remove-multi-set"])) {
-            $field_to_remove = $_POST[$element];
+        $field_to_remove = $_POST[$element];
+        $field_removed   = $this->deleteMultisetField($set_id, $field_to_remove);
 
-            $field_removed   = $this->deleteMultisetField($set_id, $field_to_remove);
+        if ($field_removed === false) {
+            YasrSettings::printNoticeError(__("Something goes wrong trying to delete a Multi Set's element. Please report it",
+                'yet-another-stars-rating'));
 
-            if ($field_removed === false) {
-                YasrSettings::printNoticeError(__("Something goes wrong trying to delete a Multi Set's element. Please report it",
-                    'yet-another-stars-rating'));
-
-                return 'error';
-            }
+            return 'error';
         }
 
         return false;
@@ -964,44 +966,47 @@ class YasrSettingsMultiset {
     private function editMultisetFieldUpdated ($i, $number_of_stored_elements, $set_id) {
         global $wpdb;
 
-        //update the stored elements with the new ones
-        if (isset($_POST["edit-multi-set-element-$i"]) && $i <= $number_of_stored_elements) {
-            $field_name = $_POST["edit-multi-set-element-$i"];
-            $field_id   = $_POST["db-id-for-element-$i"];
-
-            $length_ok = $this->checkStringLength($field_name, $i);
-
-            if($length_ok !== 'ok') {
-                YasrSettings::printNoticeError($length_ok);
-                return;
-            }
-
-            //Check if field name is changed
-            $field_name_in_db = $wpdb->get_results(
-                $wpdb->prepare(
-                    "SELECT field_name FROM "
-                    . YASR_MULTI_SET_FIELDS_TABLE .
-                    " WHERE field_id=%d AND parent_set_id=%d",
-                    $field_id, $set_id));
-
-            $field_name_in_database = null; //avoid undefined
-            foreach ($field_name_in_db as $field_in_db) {
-                $field_name_in_database = $field_in_db->field_name;
-            }
-
-            //if field name in db is different from field name in form update it
-            if ($field_name_in_database != $field_name) {
-                $field_updated = $this->updateMultisetField($field_name, $set_id, $field_id);
-
-                if ($field_updated === false) {
-                    YasrSettings::printNoticeError(__("Something goes wrong trying to update a Multi Set's element. Please report it",
-                        'yet-another-stars-rating'));
-                    return 'error';
-                }
-            }
-
-            return false;
+        if(!isset($_POST["edit-multi-set-element-$i"]) || $i > $number_of_stored_elements) {
+            return;
         }
+
+        //update the stored elements with the new ones
+        $field_name = $_POST["edit-multi-set-element-$i"];
+        $field_id   = $_POST["db-id-for-element-$i"];
+
+        $length_ok = $this->checkStringLength($field_name, $i);
+
+        if($length_ok !== 'ok') {
+            YasrSettings::printNoticeError($length_ok);
+            return;
+        }
+
+        //Check if field name is changed
+        $field_name_in_db = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT field_name FROM "
+                . YASR_MULTI_SET_FIELDS_TABLE .
+                " WHERE field_id=%d AND parent_set_id=%d",
+                $field_id, $set_id));
+
+        $field_name_in_database = null; //avoid undefined
+        foreach ($field_name_in_db as $field_in_db) {
+            $field_name_in_database = $field_in_db->field_name;
+        }
+
+        //if field name in db is different from field name in form update it
+        if ($field_name_in_database != $field_name) {
+            $field_updated = $this->updateMultisetField($field_name, $set_id, $field_id);
+
+            if ($field_updated === false) {
+                YasrSettings::printNoticeError(__("Something goes wrong trying to update a Multi Set's element. Please report it",
+                    'yet-another-stars-rating'));
+                return 'error';
+            }
+        }
+
+        return false;
+
     }
 
     /**
@@ -1015,53 +1020,56 @@ class YasrSettingsMultiset {
      * @return false|void
      */
     private function editMultisetNewFieldAdded($i, $number_of_stored_elements, $set_id) {
+        if(!isset($_POST["edit-multi-set-element-$i"]) || $i <= $number_of_stored_elements) {
+            return;
+        }
+
         //If $i > number of stored elements, user is adding new elements, so we're going to insert the new ones
-        if (isset($_POST["edit-multi-set-element-$i"]) && $i > $number_of_stored_elements) {
-            $field_name   = $_POST["edit-multi-set-element-$i"];
+        $field_name   = $_POST["edit-multi-set-element-$i"];
 
-            global $wpdb;
+        global $wpdb;
 
-            //if elements name is shorter than 3 chars return error.
-            //I don't want return error if a user add an empty field here.
-            //An empty field will be just ignored
-            $length_ok = $this->checkStringLength($field_name, $i, true);
+        //if elements name is shorter than 3 chars return error.
+        //I don't want return error if a user add an empty field here.
+        //An empty field will be just ignored
+        $length_ok = $this->checkStringLength($field_name, $i, true);
 
-            if($length_ok !== 'ok') {
-                YasrSettings::printNoticeError($length_ok);
-                return;
+        if($length_ok !== 'ok') {
+            YasrSettings::printNoticeError($length_ok);
+            return;
+        }
+
+        if ($field_name !== '') {
+            //get the new field id
+            $highest_field_id = $wpdb->get_results(
+                "SELECT field_id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " 
+                                ORDER BY field_id 
+                                DESC LIMIT 1",
+                ARRAY_A);
+
+            //since version 2.0.9 id is auto_increment by default, still doing this to compatibility for
+            //existing installs where auto_increment didn't work because set_id=1 already exists
+            $existing_id = $wpdb->get_results("SELECT MAX(id) as id FROM " . YASR_MULTI_SET_FIELDS_TABLE, ARRAY_A);
+
+            $new_field_id =  $highest_field_id[0]['field_id']+1;
+            $new_id       =  $existing_id[0]['id']+1;
+
+            $insert_set_value = $this->saveField(
+                $set_id,
+                $field_name,
+                $new_field_id,
+                $new_id
+            );
+
+            if ($insert_set_value === false) {
+                YasrSettings::printNoticeError(__('Something goes wrong trying to insert set field name in edit form. Please report it',
+                    'yet-another-stars-rating'));
+
+                return 'error';
             }
 
-            if ($field_name !== '') {
-                //get the new field id
-                $highest_field_id = $wpdb->get_results(
-                    "SELECT field_id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " 
-                                    ORDER BY field_id 
-                                    DESC LIMIT 1",
-                    ARRAY_A);
+        } //end if $field_name != ''
 
-                //since version 2.0.9 id is auto_increment by default, still doing this to compatibility for
-                //existing installs where auto_increment didn't work because set_id=1 already exists
-                $existing_id = $wpdb->get_results("SELECT MAX(id) as id FROM " . YASR_MULTI_SET_FIELDS_TABLE, ARRAY_A);
-
-                $new_field_id =  $highest_field_id[0]['field_id']+1;
-                $new_id       =  $existing_id[0]['id']+1;
-
-                $insert_set_value = $this->saveField(
-                    $set_id,
-                    $field_name,
-                    $new_field_id,
-                    $new_id
-                );
-
-                if ($insert_set_value === false) {
-                    YasrSettings::printNoticeError(__('Something goes wrong trying to insert set field name in edit form. Please report it',
-                        'yet-another-stars-rating'));
-
-                    return 'error';
-                }
-
-            } //end if $field_name != ''
-        }
         return false;
     }
 
