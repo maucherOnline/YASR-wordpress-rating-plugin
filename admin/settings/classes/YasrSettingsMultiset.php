@@ -870,34 +870,16 @@ class YasrSettingsMultiset {
         // Check nonce field
         check_admin_referer('edit-multi-set', 'add-nonce-edit-multi-set');
 
-        //Check if user want to delete entire set
-        if (isset($_POST["yasr-remove-multi-set"])) {
-            $remove_set = $this->deleteAllMultisetData($set_id);
-
-            if ($remove_set === false) {
-                YasrSettings::printNoticeError(
-                        __('Something goes wrong trying to delete a Multi Set . Please report it',
-                    'yet-another-stars-rating'));
-                return;
-            }
-
+        if($this->removeSetChecked($set_id) === true) {
+            return;
         }
 
         $array_errors_wrong_len=array();
 
         for ($i = 0; $i <= 9; $i ++) {
-            //Then, check if the user want to remove some field
-            if (isset($_POST["remove-element-$i"]) && !isset($_POST["yasr-remove-multi-set"])) {
-                $field_to_remove = $_POST["remove-element-$i"];
 
-                $field_removed   = $this->deleteMultisetField($set_id, $field_to_remove);
-
-                if ($field_removed === false) {
-                    YasrSettings::printNoticeError(__("Something goes wrong trying to delete a Multi Set's element. Please report it",
-                        'yet-another-stars-rating'));
-                    return;
-                }
-
+            if($this->removeFieldChecked($i, $set_id) === true) {
+                return;
             }
 
             //update the stored elements with the new ones
@@ -999,6 +981,63 @@ class YasrSettingsMultiset {
         YasrSettings::printNoticeSuccess(__('Settings Saved'));
 
     } //End yasr_process_edit_multi_set_form() function
+
+    /**
+     * Find if the checkbox yasr-remove-multi-set is checked
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $set_id
+     *
+     * @since  3.1.7
+     * @return bool
+     */
+    private function removeSetChecked($set_id) {
+        //Check if user want to delete entire set
+        if (isset($_POST["yasr-remove-multi-set"])) {
+            $remove_set = $this->deleteAllMultisetData($set_id);
+            if ($remove_set === false) {
+                YasrSettings::printNoticeError(
+                    __('Something goes wrong trying to delete a Multi Set . Please report it',
+                        'yet-another-stars-rating'));
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Find if a checkbox with prefix remove-element- is checked
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $i
+     * @param $set_id
+     *
+     * @since 3.1.7
+     * @return bool
+     */
+    private function removeFieldChecked($i, $set_id) {
+        $i = (int)$i;
+        $element = 'remove-element-'.$i;
+
+        //Then, check if the user want to remove some field
+        if (isset($_POST[$element]) && !isset($_POST["yasr-remove-multi-set"])) {
+            $field_to_remove = $_POST[$element];
+
+            $field_removed   = $this->deleteMultisetField($set_id, $field_to_remove);
+
+            if ($field_removed === false) {
+                YasrSettings::printNoticeError(__("Something goes wrong trying to delete a Multi Set's element. Please report it",
+                    'yet-another-stars-rating'));
+            }
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Here is safe to use set_name, instead of id, because a set name is saved only if doesn't exist another with the
