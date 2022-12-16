@@ -821,8 +821,8 @@ class YasrSettingsMultiset {
             wp_die('You are not allowed to be on this page.');
         }
 
-        $set_id                    = $_POST['yasr_edit_multi_set_form'];
-        $number_of_stored_elements = $_POST['yasr-edit-form-number-elements'];
+        $set_id                    = (int)$_POST['yasr_edit_multi_set_form'];
+        $number_of_stored_elements = (int)$_POST['yasr-edit-form-number-elements'];
 
         global $wpdb;
 
@@ -851,27 +851,9 @@ class YasrSettingsMultiset {
             if (isset($_POST["remove-element-$i"]) && !isset($_POST["yasr-remove-multi-set"])) {
                 $field_to_remove = $_POST["remove-element-$i"];
 
-                //remove field
-                $remove_field = $wpdb->delete(
-                    YASR_MULTI_SET_FIELDS_TABLE,
-                    array(
-                        'parent_set_id' => $set_id,
-                        'field_id'      => $field_to_remove
-                    ),
-                    array('%d', '%d')
-                );
+                $field_removed   = $this->deleteMultisetField($set_id, $field_to_remove);
 
-                //remove data
-                $remove_values = $wpdb->delete(
-                    YASR_LOG_MULTI_SET,
-                    array(
-                        'set_type' => $set_id,
-                        'field_id' => $field_to_remove
-                    ),
-                    array('%d', '%d')
-                );
-
-                if ($remove_field === false) {
+                if ($field_removed === false) {
                     YasrSettings::printNoticeError(__("Something goes wrong trying to delete a Multi Set's element. Please report it",
                         'yet-another-stars-rating'));
                     return;
@@ -1006,9 +988,11 @@ class YasrSettingsMultiset {
 
         if($set_name) {
             return $wpdb->delete(
-                YASR_MULTI_SET_NAME_TABLE, array(
+                YASR_MULTI_SET_NAME_TABLE,
+                array(
                     'set_name' => $set_name
-                ), array('%s')
+                ),
+                array('%s')
             );
         }
 
@@ -1021,6 +1005,42 @@ class YasrSettingsMultiset {
                 array('%d')
             );
         }
+
+    }
+
+    /**
+     * Remove a specific field from a multiset along with the data
+     *
+     * @author Dario Curvino <@dudo>
+     * @since
+     * @return int|false
+     */
+    private function deleteMultisetField($set_id, $field_to_remove) {
+        global $wpdb;
+
+        //remove field
+        $field_removed = $wpdb->delete(
+            YASR_MULTI_SET_FIELDS_TABLE,
+            array(
+                'parent_set_id' => $set_id,
+                'field_id'      => $field_to_remove
+            ),
+            array('%d', '%d')
+        );
+
+        //if field is removed, delete all the data
+        if($field_removed !== false) {
+            $wpdb->delete(
+                YASR_LOG_MULTI_SET,
+                array(
+                    'set_type' => $set_id,
+                    'field_id' => $field_to_remove
+                ),
+                array('%d', '%d')
+            );
+        }
+
+        return $field_removed;
 
     }
 
@@ -1039,21 +1059,20 @@ class YasrSettingsMultiset {
 
         $remove_set_name = $this->deleteMultisetName(false, $set_id);
 
-        $wpdb->delete(
-            YASR_MULTI_SET_FIELDS_TABLE,
-            array(
-                'parent_set_id' => $set_id,
-            ),
-            array('%d')
-        );
+        //if the set name has been removed, delete all the data
+        if($remove_set_name !== false) {
+            $wpdb->delete(
+                YASR_MULTI_SET_FIELDS_TABLE, array(
+                    'parent_set_id' => $set_id,
+                ), array('%d')
+            );
 
-        $wpdb->delete(
-            YASR_LOG_MULTI_SET,
-            array(
-                'set_type' => $set_id,
-            ),
-            array('%d')
-        );
+            $wpdb->delete(
+                YASR_LOG_MULTI_SET, array(
+                    'set_type' => $set_id,
+                ), array('%d')
+            );
+        }
 
         return $remove_set_name;
     }
