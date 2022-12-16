@@ -833,30 +833,7 @@ class YasrSettingsMultiset {
 
         //Check if user want to delete entire set
         if (isset($_POST["yasr-remove-multi-set"])) {
-
-            $remove_set = $wpdb->delete(
-                YASR_MULTI_SET_NAME_TABLE,
-                array(
-                    'set_id' => $set_id,
-                ),
-                array('%d')
-            );
-
-            $remove_set_values = $wpdb->delete(
-                YASR_MULTI_SET_FIELDS_TABLE,
-                array(
-                    'parent_set_id' => $set_id,
-                ),
-                array('%d')
-            );
-
-            $remove_set_votes = $wpdb->delete(
-                YASR_LOG_MULTI_SET,
-                array(
-                    'set_type' => $set_id,
-                ),
-                array('%d')
-            );
+            $remove_set = $this->deleteAllMultisetData($set_id);
 
             if ($remove_set === false) {
                 YasrSettings::printNoticeError(
@@ -946,7 +923,6 @@ class YasrSettingsMultiset {
 
             } //End if (isset($_POST["edit-multi-set-element-$i"]) && !isset($_POST["remove-element-$i"]) && $i<=$number_of_stored_elements )
 
-
             //If $i > number of stored elements, user is adding new elements, so we're going to insert the new ones
             if (isset($_POST["edit-multi-set-element-$i"]) && !isset($_POST["yasr-remove-multi-set"]) && !isset($_POST["remove-element-$i"]) && $i > $number_of_stored_elements) {
 
@@ -1015,7 +991,6 @@ class YasrSettingsMultiset {
     } //End yasr_process_edit_multi_set_form() function
 
     /**
-     * If multi set name is saved, but there is an error on saving fields, delete the row with the multiset name
      * Here is safe to use set_name, instead of id, because a set name is saved only if doesn't exist another with the
      * same name
      *
@@ -1024,18 +999,63 @@ class YasrSettingsMultiset {
      * @param $set_name
      *
      * @since 3.1.7
-     * @return void
+     * @return int|false|void
      */
-    private function deleteMultisetName($set_name) {
+    private function deleteMultisetName($set_name=false, $set_id=false) {
         global $wpdb;
 
+        if($set_name) {
+            return $wpdb->delete(
+                YASR_MULTI_SET_NAME_TABLE, array(
+                    'set_name' => $set_name
+                ), array('%s')
+            );
+        }
+
+        if($set_id) {
+            return $wpdb->delete(
+                YASR_MULTI_SET_NAME_TABLE,
+                array(
+                    'set_id' => $set_id,
+                ),
+                array('%d')
+            );
+        }
+
+    }
+
+    /**
+     * Remove *ALL* multiset data
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $set_id
+     *
+     * @since  3.1.7
+     * @return false|int|null
+     */
+    private function deleteAllMultisetData($set_id) {
+        global $wpdb;
+
+        $remove_set_name = $this->deleteMultisetName(false, $set_id);
+
         $wpdb->delete(
-            YASR_MULTI_SET_NAME_TABLE,
+            YASR_MULTI_SET_FIELDS_TABLE,
             array(
-                'set_name' => $set_name
+                'parent_set_id' => $set_id,
             ),
-            array('%s')
+            array('%d')
         );
+
+        $wpdb->delete(
+            YASR_LOG_MULTI_SET,
+            array(
+                'set_type' => $set_id,
+            ),
+            array('%d')
+        );
+
+        return $remove_set_name;
     }
 
     /**
