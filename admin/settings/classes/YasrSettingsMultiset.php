@@ -704,12 +704,11 @@ class YasrSettingsMultiset {
             $insert_set_value = $this->saveMultisetFields($elements_filled, $fields);
 
             if ($insert_set_value) {
-                echo '<div class="updated"><p><strong>';
-                           esc_html_e('Settings Saved', 'yet-another-stars-rating');
-                echo '</strong></p></div>';
+                $this->printSuccess(__('Settings Saved', 'yet-another-stars-rating'));
             } else {
                 esc_html_e('Something goes wrong trying insert set field name. Please report it',
                     'yet-another-stars-rating');
+                $this->deleteMultisetName($multi_set_name);
             }
         }  else {
             esc_html_e('Something goes wrong trying insert Multi Set name. Please report it',
@@ -722,18 +721,18 @@ class YasrSettingsMultiset {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @param $multi_set_name
+     * @param $set_name
      *
      * @since
      * @return bool|int|\mysqli_result|resource|null
      */
-    private function saveMultisetName ($multi_set_name) {
+    private function saveMultisetName ($set_name) {
         global $wpdb;
 
         return $wpdb->replace(
             YASR_MULTI_SET_NAME_TABLE,
             array(
-                'set_name' => $multi_set_name
+                'set_name' => $set_name
             ),
             array('%s')
         );
@@ -826,6 +825,56 @@ class YasrSettingsMultiset {
         }
 
         return 'ok';
+    }
+
+    /**
+     * If multi set name is saved, but there is an error on saving fields, delete the row with the multiset name
+     * Here is safe to use set_name, instead of id, because a set name is saved only if doesn't exist another with the
+     * same name
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $set_name
+     *
+     * @since 3.1.7
+     * @return void
+     */
+    private function deleteMultisetName($set_name) {
+        global $wpdb;
+
+        $wpdb->delete(
+            YASR_MULTI_SET_NAME_TABLE,
+            array(
+                'set_name' => $set_name
+            ),
+            array('%s')
+        );
+    }
+
+    /**
+     * Print a div with class "notice-success"
+     *
+     * https://digwp.com/2016/05/wordpress-admin-notices/
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $message
+     *
+     * @since  3.1.7
+     * @return void
+     */
+    private function printSuccess($message) {
+        ?>
+        <div class="notice notice-success">
+            <p>
+                <strong>
+                    <?php
+                        echo esc_html($message);
+                    ?>
+                </strong>
+            </p>
+        </div>
+        <?php
     }
 
 }
