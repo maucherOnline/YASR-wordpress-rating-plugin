@@ -335,7 +335,7 @@ class YasrSettingsMultiset {
      * @return void
      */
     private function manageManyMultiset($multi_set) {
-        $title = __('Wich set do you want to edit or remove?', 'yet-another-stars-rating');
+        $title = __('Which set do you want to edit or remove?', 'yet-another-stars-rating');
         $id    = 'yasr_select_edit_set';
         YasrPhpFieldsHelper::printSelectMultiset($multi_set, $title, $id);
         ?>
@@ -384,23 +384,27 @@ class YasrSettingsMultiset {
             $checkbox_name = 'remove-element-'.$i;
             ?>
             <tr>
-                <td width="80%">
+                <td style="width: 80%">
                     Element #<?php echo esc_html($i) ?>
-                    <input type="text"
-                           value="<?php echo esc_attr($field['name']);?>"
-                           name="<?php  echo esc_attr($input_name) ?>"
-                    />
+                    <label>
+                        <input type="text"
+                               value="<?php echo esc_attr($field['name']);?>"
+                               name="<?php  echo esc_attr($input_name) ?>"
+                        />
+                    </label>
                     <input type="hidden"
                            value="<?php echo esc_attr($field['id']) ?>"
                            name="<?php  echo esc_attr($hidden_name) ?>"
                     />
                 </td>
 
-                <td width="20%" style="text-align:center">
-                    <input type="checkbox"
-                           value="<?php echo esc_attr($field['id']) ?>"
-                           name="<?php echo esc_attr($checkbox_name) ?>"
-                    >
+                <td style="width:20%; text-align:center">
+                    <label>
+                        <input type="checkbox"
+                               value="<?php echo esc_attr($field['id']) ?>"
+                               name="<?php echo esc_attr($checkbox_name) ?>"
+                        >
+                    </label>
                 </td>
             </tr>
             <?php
@@ -430,14 +434,16 @@ class YasrSettingsMultiset {
                value="<?php echo esc_attr($i)?>"
         >
         <tr class="yasr-edit-form-remove-entire-set" id="yasr-edit-form-remove-entire-set">
-            <td width="80%">
+            <td style="width: 80%;">
                 <?php echo esc_html__('Remove whole set?', 'yet-another-stars-rating')?>
             </td>
 
-            <td width="20%" style="text-align:center">
-                <input type="checkbox"
-                       name="yasr-remove-multi-set"
-                       value="<?php echo esc_attr($set_id)?>"
+            <td style="text-align:center; width: 20%;">
+                <label>
+                    <input type="checkbox"
+                           name="yasr-remove-multi-set"
+                           value="<?php echo esc_attr($set_id)?>"
+                </label>
             </td>
         </tr>
 
@@ -446,8 +452,8 @@ class YasrSettingsMultiset {
                 <?php
                     esc_html_e("If you remove something you will remove all the votes for that set or field. This operation CAN'T BE undone.",
                 'yet-another-stars-rating'); ?>
+                <p>&nbsp;</p>
             </td>
-            <p>&nbsp;</p>
         </tr>
         <?php
     }
@@ -804,9 +810,9 @@ class YasrSettingsMultiset {
         //get the highest id in table
         $parent_set_id = $wpdb->get_results(
             "SELECT set_id 
-                              FROM " . YASR_MULTI_SET_NAME_TABLE . " 
-                              ORDER BY set_id 
-                              DESC LIMIT 1", ARRAY_A);
+                      FROM " . YASR_MULTI_SET_NAME_TABLE . " 
+                      ORDER BY set_id 
+                      DESC LIMIT 1", ARRAY_A);
 
         if (!$parent_set_id) {
             $parent_set_id = 1;
