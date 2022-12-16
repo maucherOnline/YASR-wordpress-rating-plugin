@@ -867,24 +867,21 @@ class YasrSettingsMultiset {
         $number_of_stored_elements = (int)$_POST['yasr-edit-form-number-elements'];
 
         //If is checked to remove all the set, delete set and return
-        if($this->editMultisetRemoveSetChecked($set_id) === true) {
+        if($this->editMultisetRemoveSetChecked($set_id) === 'error') {
             return;
         }
 
         for ($i = 0; $i <= 9; $i ++) {
             //find if exists some fields to delete, WITHOUT RETURN if true
-            $remove_field_checked = $this->editMultisetRemoveFieldChecked($i, $set_id);
-            if($remove_field_checked === 'error') {
+            if($this->editMultisetRemoveFieldChecked($i, $set_id) === 'error') {
                 return;
             }
 
-            $field_updated = $this->editMultisetFieldUpdated($i, $number_of_stored_elements, $set_id);
-            if($field_updated === 'error') {
+            if($this->editMultisetFieldUpdated($i, $number_of_stored_elements, $set_id) === 'error') {
                 return;
             }
 
-            $new_element_success = $this->editMultisetNewFieldAdded($i, $number_of_stored_elements, $set_id);
-            if($new_element_success === 'error') {
+            if($this->editMultisetNewFieldAdded($i, $number_of_stored_elements, $set_id) === 'error') {
                 return;
             }
         } //End for
@@ -912,7 +909,7 @@ class YasrSettingsMultiset {
                     __('Something goes wrong trying to delete a Multi Set . Please report it',
                         'yet-another-stars-rating'));
             }
-            return true;
+            return 'error';
         }
 
         return false;
