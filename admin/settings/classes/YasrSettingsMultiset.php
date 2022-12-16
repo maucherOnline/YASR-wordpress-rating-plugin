@@ -654,10 +654,12 @@ class YasrSettingsMultiset {
         //If multi set name is shorter than 3 chars return error
         if (mb_strlen($multi_set_name) < 3) {
             YasrSettings::printNoticeError(__('Multi Set name must be longer than 3 chars', 'yet-another-stars-rating'));
+            return;
         }
 
         if (mb_strlen($multi_set_name) > 40) {
             YasrSettings::printNoticeError(__('Multi Set name must be shorter than 40 chars', 'yet-another-stars-rating'));
+            return;
         }
 
         $array_error = array();
