@@ -613,6 +613,10 @@ class YasrSettingsMultiset {
         return $title . $div . $description . '</div>';
     }
 
+
+    /****************************** METHODS THAT RUN ON $_POST FROM HERE *******************************/
+
+
     /**
      * Save a new multi set
      *
@@ -749,6 +753,8 @@ class YasrSettingsMultiset {
     }
 
     /**
+     * Call this when a new multiset is being created
+     *
      * @author Dario Curvino <@dudo>
      *
      * @param int   $elements_filled
@@ -760,7 +766,7 @@ class YasrSettingsMultiset {
     private function saveMultisetFields ($elements_filled, $fields) {
         global $wpdb;
 
-        //get the highest id in table
+        //Here, I'm sure that the last id of YASR_MULTI_SET_NAME_TABLE is the set I'm saving now
         $parent_set_id = $wpdb->get_results(
             "SELECT MAX(set_id) as id
                    FROM " . YASR_MULTI_SET_NAME_TABLE,
@@ -783,21 +789,33 @@ class YasrSettingsMultiset {
      * @param $set_id
      * @param $field_name
      * @param $field_id
+     * @param bool|int $id   This is only needed to support table created with YASR before of 2.0.9
      *
      * @since  3.1.7
      * @return bool|int|\mysqli_result|resource|null
      */
-    private function saveField($set_id, $field_name, $field_id) {
+    private function saveField($set_id, $field_name, $field_id, $id=false) {
         global $wpdb;
 
+        //default where, without id because is auto increment
+        $where_array = array(
+            'parent_set_id' => $set_id,
+            'field_name'    => $field_name,
+            'field_id'      => $field_id
+        );
+        $format_array =  array('%d', '%s', '%d');
+
+        //This is to keep compatibility with versions INSTALLED before 2.0.9
+        if($id !== false && is_int($id)) {
+            $where_array['id'] = $id;
+            $format_array[] = '%d';
+        }
+
+        //do the replacement
         return $wpdb->replace(
             YASR_MULTI_SET_FIELDS_TABLE,
-            array(
-                'parent_set_id' => $set_id,
-                'field_name'    => $field_name,
-                'field_id'      => $field_id
-            ),
-            array('%d', '%s', '%d')
+            $where_array,
+            $format_array
         );
     }
 
@@ -826,6 +844,8 @@ class YasrSettingsMultiset {
 
 
     /**
+     * Called in yasr-settings-multiset, is run when $_POST['yasr_edit_multi_set_form'] isset
+     *
      * @author Dario Curvino <@dudo>
      * @since  refactor 3.1.7
      * @return array|void
@@ -941,38 +961,30 @@ class YasrSettingsMultiset {
                         $i);
                 } //if field is not empty
                 elseif ($field_name != '') {
+                    //get the new field id
+                    $highest_field_id = $wpdb->get_results(
+                            "SELECT field_id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " 
+                                    ORDER BY field_id 
+                                    DESC LIMIT 1",
+                            ARRAY_A);
 
-                    //from version 2.0.9 id is auto_increment by default, still doing this to compatibility for
+                    //since version 2.0.9 id is auto_increment by default, still doing this to compatibility for
                     //existing installs where auto_increment didn't work because set_id=1 already exists
+                    $existing_id = $wpdb->get_results("SELECT MAX(id) as id FROM " . YASR_MULTI_SET_FIELDS_TABLE, ARRAY_A);
 
-                    $field_table_new_id = false; //avoid undefined
-                    $new_field_id       = false; //avoid undefined
+                    $new_field_id =  $highest_field_id[0]['field_id']+1;
+                    $new_id       =  $existing_id[0]['id']+1;
 
-                    $highest_id = $wpdb->get_results("SELECT id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " ORDER BY id DESC LIMIT 1 ");
-
-                    $highest_field_id = $wpdb->get_results("SELECT field_id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " ORDER BY field_id DESC LIMIT 1 ");
-
-                    foreach ($highest_id as $id) {
-                        $field_table_new_id = $id->id + 1;
-                    }
-
-                    foreach ($highest_field_id as $id) {
-                        $new_field_id = $id->field_id + 1;
-                    }
-
-                    $insert_set_value = $wpdb->replace(
-                        YASR_MULTI_SET_FIELDS_TABLE,
-                        array(
-                            'id'            => $field_table_new_id,
-                            'parent_set_id' => $set_id,
-                            'field_name'    => $field_name,
-                            'field_id'      => $new_field_id
-                        ),
-                        array('%d', '%d', '%s', '%d')
+                    $insert_set_value = $this->saveField(
+                        $set_id,
+                        $field_name,
+                        $new_field_id,
+                        $new_id
                     );
 
                     if ($insert_set_value === false) {
-                        $array_errors[] = __("Something goes wrong trying to insert set field name in edit form. Please report it", 'yet-another-stars-rating');
+                        YasrSettings::printNoticeError(__('Something goes wrong trying to insert set field name in edit form. Please report it',
+                            'yet-another-stars-rating'));
                     }
 
                 } //end else
@@ -1126,6 +1138,7 @@ class YasrSettingsMultiset {
 
         );
     }
+
 
     /**
      * Return 'ok' if string is of the correct length, or an error otherwise
