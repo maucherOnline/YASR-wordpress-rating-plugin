@@ -25,7 +25,7 @@ if (!defined('ABSPATH')) {
 $save_multi = new YasrSettingsMultiset();
 
 $error_new_multi_set  = $save_multi->saveNewMultiSet(); //defined in yasr-settings-functions
-$error_edit_multi_set = yasr_process_edit_multi_set_form(); //defined in yasr-settings-functions
+$error_edit_multi_set = $save_multi->editMultiset(); //defined in yasr-settings-functions
 
 if ($error_new_multi_set) {
     echo "<div class='error'> <p> <strong>";

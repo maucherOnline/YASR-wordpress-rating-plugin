@@ -38,9 +38,6 @@ class YasrSettings {
     public function init () {
         add_action('admin_init', array($this, 'generalOptions')); //This is for general options
 
-        //include multiset functions
-        require(YASR_ABSOLUTE_PATH_ADMIN . '/settings/multiset/yasr-settings-functions-multiset.php');
-
         $multiset = new YasrSettingsMultiset();
         $multiset->init();
 
