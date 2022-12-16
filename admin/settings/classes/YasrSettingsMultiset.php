@@ -593,7 +593,7 @@ class YasrSettingsMultiset {
     }
 
     /**
-     * Show the description for "Show average" row in multi set setting page
+     * Show the description for "Show average" row in multi criteria setting page
      *
      * @author Dario Curvino <@dudo>
      * @since  3.1.3
@@ -763,23 +763,42 @@ class YasrSettingsMultiset {
         //get the highest id in table
         $parent_set_id = $wpdb->get_results(
             "SELECT MAX(set_id) as id
-                      FROM " . YASR_MULTI_SET_NAME_TABLE, ARRAY_A);
+                   FROM " . YASR_MULTI_SET_NAME_TABLE,
+            ARRAY_A);
 
         $insert_set_value   = false; //avoid undefined
 
         for ($i = 1; $i <= $elements_filled; $i ++) {
-            $insert_set_value = $wpdb->replace(
-                YASR_MULTI_SET_FIELDS_TABLE,
-                array(
-                    'parent_set_id' => $parent_set_id[0]['id'],
-                    'field_name'    => $fields[$i],
-                    'field_id'      => $i
-                ),
-                array('%d', '%s', '%d')
-            );
-        } //End for
+            $insert_set_value = $this->saveField($parent_set_id[0]['id'], $fields[$i], $i);
+        }
 
         return $insert_set_value;
+    }
+
+    /**
+     * Save the single set field
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $set_id
+     * @param $field_name
+     * @param $field_id
+     *
+     * @since  3.1.7
+     * @return bool|int|\mysqli_result|resource|null
+     */
+    private function saveField($set_id, $field_name, $field_id) {
+        global $wpdb;
+
+        return $wpdb->replace(
+            YASR_MULTI_SET_FIELDS_TABLE,
+            array(
+                'parent_set_id' => $set_id,
+                'field_name'    => $field_name,
+                'field_id'      => $field_id
+            ),
+            array('%d', '%s', '%d')
+        );
     }
 
     /**
@@ -859,9 +878,7 @@ class YasrSettingsMultiset {
                     return;
                 }
 
-
-            }  //End if isset $_POST['remove-element-$i']
-
+            }
 
             //update the stored elements with the new ones
             if (isset($_POST["edit-multi-set-element-$i"]) && !isset($_POST["yasr-remove-multi-set"])
@@ -876,7 +893,6 @@ class YasrSettingsMultiset {
                     $array_errors_wrong_len[] = $length_ok;
                 }
                 else {
-
                     //Check if field name is changed
                     $field_name_in_db = $wpdb->get_results(
                         $wpdb->prepare(
