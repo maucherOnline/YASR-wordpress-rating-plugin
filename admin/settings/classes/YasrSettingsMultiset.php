@@ -311,7 +311,7 @@ class YasrSettingsMultiset {
                     $this->formEditMultisetPrintRemoveRow($i, $set_id);
                 ?>
             </table>
-            <?
+            <?php
                 wp_nonce_field('edit-multi-set', 'add-nonce-edit-multi-set')
             ?>
 
@@ -637,42 +637,18 @@ class YasrSettingsMultiset {
         // Check nonce field
         check_admin_referer('add-multi-set', 'add-nonce-new-multi-set');
 
-        //IF these fields are not empty go ahead
-        if ($_POST['multi-set-name'] === ''
-            || $_POST['multi-set-name-element-1'] === ''
-            || $_POST['multi-set-name-element-2'] === '') {
-            YasrSettings::printNoticeError(
-                    __('Multi Set\'s name and first 2 elements can\'t be empty',
-                'yet-another-stars-rating')
-            );
+        $multi_set_name = $this->validateMandatoryFields();
+
+        if($multi_set_name === false) {
             return;
         }
 
-        $multi_set_name        = ucfirst(strtolower($_POST['multi-set-name']));
-        $multi_set_name_exists = $this->multisetNameExists($multi_set_name);
-
-        if($multi_set_name_exists !== false) {
-            YasrSettings::printNoticeError($multi_set_name_exists);
-        }
-
-        //If multi set name is shorter than 3 chars return error
-        if (mb_strlen($multi_set_name) < 3) {
-            YasrSettings::printNoticeError(__('Multi Set name must be longer than 3 chars', 'yet-another-stars-rating'));
-            return;
-        }
-
-        if (mb_strlen($multi_set_name) > 40) {
-            YasrSettings::printNoticeError(__('Multi Set name must be shorter than 40 chars', 'yet-another-stars-rating'));
-            return;
-        }
-
-        $array_error = array();
         $fields_name = array();
         $elements_filled = 0;
 
         //@todo increase number of element that can be stored
         for ($i = 1; $i <= 9; $i ++) {
-            if (isset($_POST["multi-set-name-element-$i"]) && $_POST["multi-set-name-element-$i"] != '') {
+            if (isset($_POST["multi-set-name-element-$i"]) && $_POST["multi-set-name-element-$i"] !== '') {
                 $fields_name[$i] = $_POST["multi-set-name-element-$i"];
 
                 $length_ok = $this->checkStringLength($fields_name[$i], $i);
@@ -680,19 +656,52 @@ class YasrSettingsMultiset {
                 if($length_ok === 'ok') {
                     $elements_filled ++;
                 } else {
-                    $array_error[] = $length_ok;
+                    YasrSettings::printNoticeError($length_ok);
                 }
             }
-        }
-
-        if(!empty($array_error)) {
-            YasrSettings::printNoticeError($array_error);
-            return;
         }
 
         $this->insertMultiset($multi_set_name, $elements_filled, $fields_name);
     }
 
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.7
+     * @return false|string
+     */
+    private function validateMandatoryFields() {
+        //If these fields are not empty go ahead
+        if ($_POST['multi-set-name'] === ''
+            || $_POST['multi-set-name-element-1'] === ''
+            || $_POST['multi-set-name-element-2'] === '') {
+            YasrSettings::printNoticeError(
+                __('Multi Set\'s name and first 2 elements can\'t be empty',
+                    'yet-another-stars-rating')
+            );
+            return false;
+        }
+
+        $multi_set_name        = ucfirst(strtolower($_POST['multi-set-name']));
+        $multi_set_name_exists = $this->multisetNameExists($multi_set_name);
+
+        if($multi_set_name_exists !== false) {
+            YasrSettings::printNoticeError($multi_set_name_exists);
+            return false;
+        }
+
+        //If multi set name is shorter than 3 chars return error
+        if (mb_strlen($multi_set_name) < 3) {
+            YasrSettings::printNoticeError(__('Multi Set name must be longer than 3 chars', 'yet-another-stars-rating'));
+            return false;
+        }
+
+        if (mb_strlen($multi_set_name) > 40) {
+            YasrSettings::printNoticeError(__('Multi Set name must be shorter than 40 chars', 'yet-another-stars-rating'));
+            return false;
+        }
+
+        return $multi_set_name;
+    }
 
     /**
      * Save Multi Set data
@@ -834,7 +843,7 @@ class YasrSettingsMultiset {
         $check_name_exists = YasrDB::returnMultiSetNames();
 
         foreach ($check_name_exists as $set_name) {
-            if ($multi_set_name == $set_name->set_name) {
+            if ($multi_set_name === $set_name->set_name) {
                 return __('You already have a set with this name.', 'yet-another-stars-rating');
             }
         }
@@ -992,7 +1001,7 @@ class YasrSettingsMultiset {
         }
 
         //if field name in db is different from field name in form update it
-        if ($field_name_in_database != $field_name) {
+        if ($field_name_in_database !== $field_name) {
             $field_updated = $this->updateMultisetField($field_name, $set_id, $field_id);
 
             if ($field_updated === false) {
@@ -1076,9 +1085,10 @@ class YasrSettingsMultiset {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @param $set_name
+     * @param bool $set_name
+     * @param bool $set_id
      *
-     * @since 3.1.7
+     * @since  3.1.7
      * @return int|false|void
      */
     private function deleteMultisetName($set_name=false, $set_id=false) {
@@ -1217,6 +1227,7 @@ class YasrSettingsMultiset {
      *
      * @param $string
      * @param $i
+     * @param bool $empty_allowed
      *
      * @since  3.1.7
      * @return string
