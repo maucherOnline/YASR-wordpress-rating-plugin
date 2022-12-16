@@ -69,7 +69,7 @@ class YasrOnInstall {
      * @author Dario Curvino <@dudo>
      */
     public static function createTables () {
-        global $wpdb; //Database wordpress object
+        global $wpdb; //Database WordPress object
 
         $prefix = $wpdb->prefix . 'yasr_';  //Table prefix
 

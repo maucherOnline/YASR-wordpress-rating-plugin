@@ -614,8 +614,10 @@ class YasrSettingsMultiset {
     }
 
     /**
+     * Save a new multi set
+     *
      * @author Dario Curvino <@dudo>
-     * @since
+     * @since  3.1.7
      * @return array|void
      */
     public function saveNewMultiSet() {
@@ -681,60 +683,6 @@ class YasrSettingsMultiset {
         $this->insertMultiset($multi_set_name, $elements_filled, $fields_name);
     }
 
-    /**
-     * Return error if multiset with give name already exists
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @param $multi_set_name
-     *
-     * @since  3.1.7
-     * @return false|string
-     */
-    private function multisetNameExists($multi_set_name) {
-        //Get all multiset names
-        $check_name_exists = YasrDB::returnMultiSetNames();
-
-        foreach ($check_name_exists as $set_name) {
-            if ($multi_set_name == $set_name->set_name) {
-               return __('You already have a set with this name.', 'yet-another-stars-rating');
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Return 'ok' if string is of the correct length, or an error otherwise
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @param $string
-     * @param $i
-     *
-     * @since  3.1.7
-     * @return string
-     */
-    private function checkStringLength($string, $i) {
-        $i = (int)$i;
-        $length = mb_strlen($string);
-
-        if ($length < 3) {
-            return sprintf(
-                __('Field # %d must be at least 3 characters', 'yet-another-stars-rating'),
-                $i
-            );
-        }
-
-        if ($length > 40) {
-            return sprintf(
-                __('Field # %d must be shorter than 40 characters', 'yet-another-stars-rating'),
-                $i
-            );
-        }
-
-        return 'ok';
-    }
 
     /**
      * Save Multi Set data
@@ -752,22 +700,18 @@ class YasrSettingsMultiset {
         $insert_multi_name_success = $this->saveMultisetName($multi_set_name);
 
         //If multi set name has been inserted, now we're going to insert elements
-        if ($insert_multi_name_success) {
-
+        if ($insert_multi_name_success !== false) {
             $insert_set_value = $this->saveMultisetFields($elements_filled, $fields);
 
             if ($insert_set_value) {
-                echo "<div class=\"updated\"><p><strong>";
-                esc_html_e('Settings Saved', 'yet-another-stars-rating');
-                echo "</strong></p></div> ";
+                echo '<div class="updated"><p><strong>';
+                           esc_html_e('Settings Saved', 'yet-another-stars-rating');
+                echo '</strong></p></div>';
             } else {
                 esc_html_e('Something goes wrong trying insert set field name. Please report it',
                     'yet-another-stars-rating');
             }
-
-        } //End if $insert_multi_name_success
-
-        else {
+        }  else {
             esc_html_e('Something goes wrong trying insert Multi Set name. Please report it',
                 'yet-another-stars-rating');
         }
@@ -809,16 +753,8 @@ class YasrSettingsMultiset {
 
         //get the highest id in table
         $parent_set_id = $wpdb->get_results(
-            "SELECT set_id 
-                      FROM " . YASR_MULTI_SET_NAME_TABLE . " 
-                      ORDER BY set_id 
-                      DESC LIMIT 1", ARRAY_A);
-
-        if (!$parent_set_id) {
-            $parent_set_id = 1;
-        } else {
-            $parent_set_id = $parent_set_id[0]['set_id'];
-        }
+            "SELECT MAX(set_id) as id
+                      FROM " . YASR_MULTI_SET_NAME_TABLE, ARRAY_A);
 
         $insert_set_value   = false; //avoid undefined
 
@@ -826,7 +762,7 @@ class YasrSettingsMultiset {
             $insert_set_value = $wpdb->replace(
                 YASR_MULTI_SET_FIELDS_TABLE,
                 array(
-                    'parent_set_id' => $parent_set_id,
+                    'parent_set_id' => $parent_set_id[0]['id'],
                     'field_name'    => $fields[$i],
                     'field_id'      => $i
                 ),
@@ -835,6 +771,61 @@ class YasrSettingsMultiset {
         } //End for
 
         return $insert_set_value;
+    }
+
+    /**
+     * Return error if multiset with give name already exists
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $multi_set_name
+     *
+     * @since  3.1.7
+     * @return false|string
+     */
+    private function multisetNameExists($multi_set_name) {
+        //Get all multiset names
+        $check_name_exists = YasrDB::returnMultiSetNames();
+
+        foreach ($check_name_exists as $set_name) {
+            if ($multi_set_name == $set_name->set_name) {
+                return __('You already have a set with this name.', 'yet-another-stars-rating');
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Return 'ok' if string is of the correct length, or an error otherwise
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $string
+     * @param $i
+     *
+     * @since  3.1.7
+     * @return string
+     */
+    private function checkStringLength($string, $i) {
+        $i = (int)$i;
+        $length = mb_strlen($string);
+
+        if ($length < 3) {
+            return sprintf(
+                __('Field # %d must be at least 3 characters', 'yet-another-stars-rating'),
+                $i
+            );
+        }
+
+        if ($length > 40) {
+            return sprintf(
+                __('Field # %d must be shorter than 40 characters', 'yet-another-stars-rating'),
+                $i
+            );
+        }
+
+        return 'ok';
     }
 
 }
