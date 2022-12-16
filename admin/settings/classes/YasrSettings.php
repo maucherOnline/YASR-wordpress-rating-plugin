@@ -1580,7 +1580,7 @@ class YasrSettings {
      * @since  3.1.7
      * @return void
      */
-    public static function printSuccess($message) {
+    public static function printNoticeSuccess($message) {
         ?>
         <div class="notice notice-success">
             <p>
@@ -1605,7 +1605,7 @@ class YasrSettings {
      * @since  3.1.7
      * @return void
      */
-    public static function printError($message) {
+    public static function printNoticeError($message) {
         ?>
         <div class="notice notice-error">
             <p>

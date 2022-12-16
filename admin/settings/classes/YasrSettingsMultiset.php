@@ -708,15 +708,15 @@ class YasrSettingsMultiset {
 
             //Everything is ok
             if ($insert_set_value) {
-                YasrSettings::printSuccess(__('Settings Saved', 'yet-another-stars-rating'));
+                YasrSettings::printNoticeSuccess(__('Settings Saved', 'yet-another-stars-rating'));
             }
             //If there was an error saving the fields, delete the set name and print error
             else {
                 $this->deleteMultisetName($multi_set_name);
-                YasrSettings::printError($error_message);
+                YasrSettings::printNoticeError($error_message);
             }
         }  else {
-            YasrSettings::printError($error_message);
+            YasrSettings::printNoticeError($error_message);
         }
     }
 
