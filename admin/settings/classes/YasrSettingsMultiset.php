@@ -81,13 +81,6 @@ class YasrSettingsMultiset {
         );
 
         add_settings_field(
-            'manage_multi_set', $this->descriptionManageMultiset(),
-            array($this, 'formManageMultiset'),
-            'yasr_edit_multiset_form',
-            'yasr_edit_multiset_form_section_id'
-        );
-
-        add_settings_field(
             'yasr_multiset_hide_average_id', $this->descriptionShowAverage(),
             array($this, 'hideAverage'),
             'yasr_multiset_tab',
@@ -105,7 +98,7 @@ class YasrSettingsMultiset {
     public function formCreateMultiset () {
         ?>
         <div class="yasr-new-multi-set">
-            <div style="width: 70%;">
+            <div style="width: 49%;">
                 <div class="yasr-multi-set-form-headers">
                     <?php esc_html_e('Add new Multi Set', 'yet-another-stars-rating'); ?>
                 </div>
@@ -156,6 +149,8 @@ class YasrSettingsMultiset {
                     </div>
                 </div>
             </div>
+
+            <?php $this->formManageMultiset(); ?>
         </div>
         <?php
     }
@@ -251,7 +246,7 @@ class YasrSettingsMultiset {
      */
     public function formManageMultiset() {
         ?>
-        <div class="yasr-manage-multiset">
+        <div class="yasr-manage-multiset" style="width: 49%;">
             <div class="yasr-multi-set-form-headers">
                 <?php esc_html_e('Manage Multi Set', 'yet-another-stars-rating'); ?>
             </div>
@@ -573,23 +568,6 @@ class YasrSettingsMultiset {
 
         return $title . $div . $description . '</div>';
 
-    }
-
-    /**
-     * Description for setting field "edit multiset"
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  3.1.3
-     * @return string
-     */
-    public function descriptionManageMultiset() {
-        $title = esc_html__('Manage Multi Set', 'yet-another-stars-rating');
-
-        $div = '<div class="yasr-settings-description">';
-
-        $description = esc_html__('Add or remove an element, or the entire set.');
-
-        return $title . $div . $description . '</div>';
     }
 
     /**

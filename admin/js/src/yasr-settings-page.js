@@ -136,10 +136,11 @@ if (activeTab === 'manage_multi') {
                     jQuery('#yasr-add-field-edit-multiset').hide();
                     return false;
                 }
-                var newTextBoxDiv = jQuery(document.createElement('tr'));
-                newTextBoxDiv.html('<td colspan="2">Element #' + counter + ' <input type="text" name="edit-multi-set-element-' + counter + '" value="" ></td>');
-                newTextBoxDiv.appendTo("#yasr-table-form-edit-multi-set");
-                counter++;
+                const elementBefore  = document.getElementById('yasr-edit-form-remove-entire-set');
+                const parent         = elementBefore.parentNode;
+                const newTextBoxDiv  = document.createElement('tr');
+                newTextBoxDiv.innerHTML =`<td colspan="2">Element #${counter} <input type="text" name="edit-multi-set-element-${counter}" value="" ></td>`
+                parent.insertBefore(newTextBoxDiv, elementBefore)
             });
 
         });
