@@ -356,7 +356,7 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
                 $select_id = 'yasr_select_set';
             }
             ?>
-            <div style="margin-bottom: 15px">
+            <div>
                 <?php echo esc_html($select_text) ?>
                 <br/>
                 <label for="<?php echo esc_attr($select_id) ?>">

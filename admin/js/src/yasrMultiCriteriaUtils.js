@@ -288,23 +288,28 @@ const sincronizeEditorSwitchers = (multiSetinReview, reviewsEnabled, yasrProRevi
  * @param postId  bool | int
  * @param yasrProReviewSetid
  * @param multiSetinReview
+ * @param selectID
  */
-export const selectMultiset = (nMultiSet, postId=false, yasrProReviewSetid = null, multiSetinReview = null) => {
+export const selectMultiset = (nMultiSet,
+                               postId=false,
+                               yasrProReviewSetid = null,
+                               multiSetinReview = null,
+                               selectID = 'yasr_select_set') => {
     if (nMultiSet > 1) {
-        jQuery('#yasr_select_set').on("change", function () {
+        jQuery(`#${selectID}`).on("change", function () {
 
             //get the multi data
             //overwrite setID
-            let setId = jQuery('#yasr_select_set').val();
+            let setId = jQuery(this).val();
 
             jQuery("#yasr-loader-select-multi-set").show();
 
             if (postId !== false) {
                 yasrPrintMultiCriteriaEditPage(setId, postId, nMultiSet);
             }
-
-            //@todo { else to call a function when not in an edit context
-
+            /*else {
+                yasrPrintMultiCriteriaSettingPage(setId, nMultiSet)
+            }*/
 
             //update hidden field
             document.getElementById('yasr-multiset-id').value = setId;
@@ -364,9 +369,7 @@ const yasrPrintMultiCriteriaEditPage = (setId, postid, nMultiSet) => {
         }
 
     });
-
     return false; // prevent default click action from happening!
-
 }
 
 
@@ -395,9 +398,9 @@ const yasrReturnTableMultiset = (yasrMultiSetValue, table, authorMultiset=true) 
         let valueID = yasrMultiSetValue[i]['id'];
 
         content += '<tr>';
-        content += '<td>' + valueName + '</td>';
-        content += '<td><div class='+divClass+' id="yasr-multiset-admin-' + uuidv4() + '" data-rating="'
-            + valueRating + '" data-multi-idfield="' + valueID + '" data-readonly="'+ readonly +'"></div>';
+        content += `<td>${valueName}</td>`;
+        content += `<td><div class="${divClass}" id="yasr-multiset-admin-${uuidv4()}" data-rating="${valueRating}" 
+                        data-multi-idfield="${valueID}" data-readonly="${readonly}"></div>`;
         content += '</td>';
         content += '</tr>';
     }

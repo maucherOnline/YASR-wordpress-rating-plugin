@@ -49,14 +49,6 @@ class YasrSettingsMultiset {
             'yasr_new_multiset_form'
         );
 
-        //Add section for edit multiset
-        add_settings_section(
-            'yasr_edit_multiset_form_section_id',
-            '',
-            '',
-            'yasr_edit_multiset_form'
-        );
-
         //add section for show/hide average
         add_settings_section(
             'yasr_multiset_options_section_id',
@@ -99,58 +91,59 @@ class YasrSettingsMultiset {
         ?>
         <div class="yasr-new-multi-set">
             <div style="width: 49%;">
-                <div class="yasr-multi-set-form-headers">
-                    <?php esc_html_e('Add new Multi Set', 'yet-another-stars-rating'); ?>
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <span style="color: #FEB209; font-size: x-large"> | </span> = required
-                </div>
+                <form method="post">
+                    <div class="yasr-multi-set-form-headers">
+                        <?php esc_html_e('Add new Multi Set', 'yet-another-stars-rating'); ?>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <span style="color: #FEB209; font-size: x-large"> | </span> = required
+                    </div>
 
-                <div>
-                    <?php
-                        wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set'); //Must be inside the form
-                        $multiset_name_info = esc_html__('Unique name to identify your set.', 'yet-another-stars-rating');
-                    ?>
                     <div>
+                        <?php
+                            wp_nonce_field('add-multi-set', 'add-nonce-new-multi-set'); //Must be inside the form
+                            $multiset_name_info = esc_html__('Unique name to identify your set.', 'yet-another-stars-rating');
+                        ?>
                         <div>
-                            <br />
-                            <div id="yasr-multiset-page-new-set-criteria-name" class="criteria-row">
-                                <label for="new-multi-set-name">
-                                </label>
-                                <input type="text"
-                                       name="multi-set-name"
-                                       id="new-multi-set-name"
-                                       class="input-text-multi-set"
-                                       placeholder="Name"
-                                       required
-                                >
-                                <span class="dashicons dashicons-info yasr-multiset-info-delete"
-                                      title="<?php echo esc_attr($multiset_name_info) ?>"></span>
+                            <div>
+                                <br />
+                                <div id="yasr-multiset-page-new-set-criteria-name" class="criteria-row">
+                                    <label for="new-multi-set-name">
+                                    </label>
+                                    <input type="text"
+                                           name="multi-set-name"
+                                           id="new-multi-set-name"
+                                           class="input-text-multi-set"
+                                           placeholder="Name"
+                                           required
+                                    >
+                                    <span class="dashicons dashicons-info yasr-multiset-info-delete"
+                                          title="<?php echo esc_attr($multiset_name_info) ?>"></span>
+                                </div>
+                            </div>
+
+                            <?php $this->newMultiCriteria(); ?>
+
+                            <div>
+                                <button class="button-secondary" id="new-criteria-button">
+                                    <span class="dashicons dashicons-insert" style="line-height: 1.4"></span>
+                                    <?php esc_html_e('Add new Criteria', 'yet-another-stars-rating'); ?>
+                                </button>
                             </div>
                         </div>
-
-                        <?php $this->newMultiCriteria(); ?>
-
+                        <br />
                         <div>
-                            <button class="button-secondary" id="new-criteria-button">
-                                <span class="dashicons dashicons-insert" style="line-height: 1.4"></span>
-                                <?php esc_html_e('Add new Criteria', 'yet-another-stars-rating'); ?>
-                            </button>
+                            <p>
+                                <input type="submit"
+                                       value="<?php esc_attr_e('Create New Set', 'yet-another-stars-rating') ?>"
+                                       class="button-primary"
+                                />
+                            </p>
                         </div>
                     </div>
-                    <br />
-                    <div>
-                        <p>
-                            <input type="submit"
-                                   value="<?php esc_attr_e('Create New Set', 'yet-another-stars-rating') ?>"
-                                   class="button-primary"
-                            />
-                        </p>
-                    </div>
-                </div>
+                </form>
             </div>
-
-            <?php $this->formManageMultiset(); ?>
+            <?php $this->formManageMultiset() ?>
         </div>
         <?php
     }

@@ -72,8 +72,7 @@ if (activeTab === 'style_options') {
 
 //--------------Multi Sets Page ------------------
 if (activeTab === 'manage_multi') {
-
-    let   nMultiSet          = parseInt(document.getElementById('n-multiset').value);
+    let nMultiSet = parseInt(document.getElementById('n-multiset').value);
 
     //Manage the "Add new Criteria" button
     addMultisetCriteria ();

@@ -31,20 +31,11 @@ $save_multi->editMultiset(); //defined in yasr-settings-functions
 
 <div class="yasr-settings-div">
     <div>
-        <form method="post">
-            <?php
-                //There is no setting to save here, I'm using these functions for better UIX
-                do_settings_sections('yasr_new_multiset_form');
-            ?>
-        </form>
 
-        <!-- Must be into another form -->
-        <form method="post">
-            <?php
-                //There is no setting to save here, I'm using these functions for better UIX
-                do_settings_sections('yasr_edit_multiset_form');
-            ?>
-        </form>
+        <?php
+            //There is no setting to save here, I'm using these functions for better UIX
+            do_settings_sections('yasr_new_multiset_form');
+        ?>
 
         <!--This allows to choose if show average or no, must be inside the form-->
         <form action="options.php" method="post" id="yasr_multiset_form">
