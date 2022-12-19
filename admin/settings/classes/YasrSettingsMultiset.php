@@ -247,7 +247,7 @@ class YasrSettingsMultiset {
             <?php
                 global $wpdb;
                 $multi_set   = YasrDB::returnMultiSetNames();
-                $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the last of the last query
+                $n_multi_set = $wpdb->num_rows; //wpdb->num_rows always store the results count for a ‘SELECT’
 
                 if($n_multi_set < 1 ) {
                     esc_html_e('No Multi Set were found', 'yet-another-stars-rating');
@@ -256,12 +256,14 @@ class YasrSettingsMultiset {
 
                 //n_multiset > 1 here
                 if ($n_multi_set > 1) {
-                    $this->manageManyMultiset($multi_set);
+                    $title = __('Which set do you want to edit or remove?', 'yet-another-stars-rating');
+                    $id    = 'yasr_select_edit_set';
+                    YasrPhpFieldsHelper::printSelectMultiset($multi_set, $title, $id);
                 }
 
+                //get the first set id
                 $set_id     = $multi_set[0]->set_id;
                 $this->formEditMultiset($set_id);
-
             ?>
             <input type="hidden" value="<?php echo esc_attr($n_multi_set); ?>" id="n-multiset">
         </div>
@@ -301,22 +303,6 @@ class YasrSettingsMultiset {
             ?>
         </form>
         <?php
-    }
-
-    /**
-     * Print the select
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @param $multi_set
-     *
-     * @since  3.1.7
-     * @return void
-     */
-    private function manageManyMultiset($multi_set) {
-        $title = __('Which set do you want to edit or remove?', 'yet-another-stars-rating');
-        $id    = 'yasr_select_edit_set';
-        YasrPhpFieldsHelper::printSelectMultiset($multi_set, $title, $id);
     }
 
     /**
