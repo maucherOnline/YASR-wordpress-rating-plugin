@@ -202,8 +202,9 @@ class YasrSettingsMultiset {
      * @param $name
      * @param $placeholder
      * @param $required
+     * @param $value
      */
-    public function outputCriteria ($id_container, $i, $id, $name, $placeholder, $required) {
+    public function outputCriteria ($id_container, $i, $id, $name, $placeholder, $required, $value='') {
         ?>
         <div class="criteria-row removable-criteria"
              id="<?php echo esc_attr($id_container) ?>"
@@ -212,6 +213,7 @@ class YasrSettingsMultiset {
             </label>
             <input type="text"
                    name="<?php echo esc_attr($name); ?>"
+                   value="<?php echo esc_attr($value); ?>"
                    id="<?php echo esc_attr($id); ?>"
                    class="input-text-multi-set"
                    placeholder="<?php echo esc_attr($placeholder); ?>"
