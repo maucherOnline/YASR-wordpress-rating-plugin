@@ -1,6 +1,11 @@
 /****** Yasr Settings Page ******/
 
-import {addMultisetCriteria, removeMultisetCriteria, selectMultiset} from "./yasrMultiCriteriaUtils";
+import {
+    addMultisetCriteria,
+    removeMultisetCriteria,
+    editFormAddElement,
+    selectMultiset
+} from "./yasrMultiCriteriaUtils";
 
 //get active Tab
 let activeTab;
@@ -80,72 +85,29 @@ if (activeTab === 'manage_multi') {
     //Manage the delete Multi Criteria Button
     removeMultisetCriteria ();
 
-    if (nMultiSet === 1) {
-        let counter = jQuery("#yasr-edit-form-number-elements").attr('value');
+    editFormAddElement();
 
-        counter++;
-
-        jQuery("#yasr-add-field-edit-multiset").on('click', function () {
-            //@todo increase number of element that can be stored
-            if (counter > 9) {
-                jQuery('#yasr-element-limit').show();
-                jQuery('#yasr-add-field-edit-multiset').hide();
-                return false;
-            }
-
-            const elementBefore  = document.getElementById('yasr-edit-form-remove-entire-set');
-            const parent         = elementBefore.parentNode;
-            const newTextBoxDiv  = document.createElement('tr');
-            newTextBoxDiv.innerHTML =`<td colspan="2">Element #${counter} <input type="text" name="edit-multi-set-element-${counter}" value="" ></td>`
-            parent.insertBefore(newTextBoxDiv, elementBefore)
-
-            counter++;
-        });
-
-
-    } //End if ($n_multi_set == 1)
-
-    else if (nMultiSet > 1) {
+    if (nMultiSet > 1) {
 
         //If more than 1 set is used...
-        jQuery('#yasr-button-select-set-edit-form').on("click", function () {
-
-            var data = {
+        jQuery('#yasr_select_edit_set').on("change", function () {
+            const data = {
                 action: 'yasr_get_multi_set',
                 set_id: jQuery('#yasr_select_edit_set').val()
             };
 
             jQuery.post(ajaxurl, data, function (response) {
-                jQuery('#yasr-multi-set-response').show();
-                jQuery('#yasr-multi-set-response').html(response);
+                jQuery('#yasr-table-form-edit-multi-set').html(response);
             });
 
             return false; // prevent default click action from happening!
-
         });
 
         jQuery(document).ajaxComplete(function () {
-            var counter = jQuery("#yasr-edit-form-number-elements").attr('value');
-            counter++;
-
-            jQuery("#yasr-add-field-edit-multiset").on('click', function () {
-                //@todo increase number of element that can be stored
-                if (counter > 9) {
-                    jQuery('#yasr-element-limit').show();
-                    jQuery('#yasr-add-field-edit-multiset').hide();
-                    return false;
-                }
-                const elementBefore  = document.getElementById('yasr-edit-form-remove-entire-set');
-                const parent         = elementBefore.parentNode;
-                const newTextBoxDiv  = document.createElement('tr');
-                newTextBoxDiv.innerHTML =`<td colspan="2">Element #${counter} <input type="text" name="edit-multi-set-element-${counter}" value="" ></td>`
-                parent.insertBefore(newTextBoxDiv, elementBefore)
-            });
-
+            editFormAddElement();
         });
 
     } //End if ($n_multi_set > 1)
-
 
 } //end if active_tab=='manage_multi'
 

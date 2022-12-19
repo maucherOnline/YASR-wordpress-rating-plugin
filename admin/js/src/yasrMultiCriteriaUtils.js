@@ -75,6 +75,32 @@ export const removeMultisetCriteria = (startFor = 3) => {
 }
 
 /**
+ *  Used in the edit form, manage the "Add element" button
+ *
+ */
+export const editFormAddElement = () => {
+    let counter = jQuery("#yasr-edit-form-number-elements").attr('value');
+    counter++;
+
+    jQuery("#yasr-add-field-edit-multiset").on('click', function () {
+        //@todo increase number of element that can be stored
+        if (counter > 9) {
+            jQuery('#yasr-element-limit').show();
+            jQuery('#yasr-add-field-edit-multiset').hide();
+            return false;
+        }
+
+        const elementBefore  = document.getElementById('yasr-edit-form-remove-entire-set');
+        const parent         = elementBefore.parentNode;
+        const newTextBoxDiv  = document.createElement('tr');
+        newTextBoxDiv.innerHTML =`<td colspan="2">Element #${counter} <input type="text" name="edit-multi-set-element-${counter}" value="" ></td>`
+        parent.insertBefore(newTextBoxDiv, elementBefore)
+
+        counter++;
+    });
+}
+
+/**
  * Return an array of int with all the "value" attribute of an element.
  *
  * This function can't be used if the element doesn't have the "value" attribute!!
@@ -307,9 +333,8 @@ export const selectMultiset = (nMultiSet,
             if (postId !== false) {
                 yasrPrintMultiCriteriaEditPage(setId, postId, nMultiSet);
             }
-            /*else {
-                yasrPrintMultiCriteriaSettingPage(setId, nMultiSet)
-            }*/
+
+            //{ else to call a function when not in an edit context
 
             //update hidden field
             document.getElementById('yasr-multiset-id').value = setId;
