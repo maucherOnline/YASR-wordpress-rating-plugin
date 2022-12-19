@@ -290,14 +290,14 @@ class YasrSettingsMultiset {
 
             <input type="hidden" name="yasr_edit_multi_set_form" value="<?php echo esc_attr($set_id); ?>"/>
 
-            <table id="yasr-table-form-edit-multi-set">
+            <div id="yasr-table-form-edit-multi-set">
                 <?php
                     $this->formEditMultisetPrintHeaders();
                     $i = $this->formEditMultisetPrintRow($set_fields);
                     $this->formEditMultisetPrintRemoveRow($i, $set_id);
                     $this->editFormPrintButtons();
                     ?>
-            </table>
+            </div>
             <?php
                 wp_nonce_field('edit-multi-set', 'add-nonce-edit-multi-set')
             ?>
@@ -312,15 +312,15 @@ class YasrSettingsMultiset {
      */
     private function formEditMultisetPrintHeaders() {
         ?>
-        <tr>
-            <th id="yasr-table-form-edit-multi-set-header">
+        <div>
+            <span id="yasr-table-form-edit-multi-set-header">
                 <?php esc_html_e('Field name', 'yet-another-stars-rating') ?>
-            </th>
+            </span>
 
-            <th id="yasr-table-form-edit-multi-set-remove">
+            <span id="yasr-table-form-edit-multi-set-remove">
                 <?php esc_html_e('Remove', 'yet-another-stars-rating') ?>
-            </th>
-        </tr>
+            </span>
+        </div>
         <?php
     }
 
@@ -341,8 +341,8 @@ class YasrSettingsMultiset {
             $hidden_name   = 'db-id-for-element-'.$i;
             $checkbox_name = 'remove-element-'.$i;
             ?>
-            <tr>
-                <td style="width: 80%">
+            <div>
+                <span style="width: 80%">
                     Element #<?php echo esc_html($i) ?>
                     <label>
                         <input type="text"
@@ -354,17 +354,17 @@ class YasrSettingsMultiset {
                            value="<?php echo esc_attr($field['id']) ?>"
                            name="<?php  echo esc_attr($hidden_name) ?>"
                     />
-                </td>
+                </span>
 
-                <td style="width:20%; text-align:center">
+                <span style="width:20%; text-align:center">
                     <label>
                         <input type="checkbox"
                                value="<?php echo esc_attr($field['id']) ?>"
                                name="<?php echo esc_attr($checkbox_name) ?>"
                         >
                     </label>
-                </td>
-            </tr>
+                </span>
+            </div>
             <?php
             $i ++;
         }
@@ -391,28 +391,28 @@ class YasrSettingsMultiset {
                id="yasr-edit-form-number-elements"
                value="<?php echo esc_attr($i)?>"
         >
-        <tr class="yasr-edit-form-remove-entire-set" id="yasr-edit-form-remove-entire-set">
-            <td style="width: 80%;">
+        <div class="yasr-edit-form-remove-entire-set" id="yasr-edit-form-remove-entire-set">
+            <span style="width: 80%;">
                 <?php echo esc_html__('Remove whole set?', 'yet-another-stars-rating')?>
-            </td>
+            </span>
 
-            <td style="text-align:center; width: 20%;">
+            <span style="text-align:center; width: 20%;">
                 <label>
                     <input type="checkbox"
                            name="yasr-remove-multi-set"
                            value="<?php echo esc_attr($set_id)?>"
                 </label>
-            </td>
-        </tr>
+            </span>
+        </div>
 
-        <tr>
-            <td colspan="2">
+        <div>
+            <span>
                 <?php
                     esc_html_e("If you remove something you will remove all the votes for that set or field. This operation CAN'T BE undone.",
                 'yet-another-stars-rating'); ?>
                 <p>&nbsp;</p>
-            </td>
-        </tr>
+            </span>
+        </div>
         <?php
     }
 
@@ -425,8 +425,8 @@ class YasrSettingsMultiset {
      */
     private function editFormPrintButtons () {
         ?>
-        <tr>
-            <td colspan="2">
+        <div>
+            <span>
                 <input type="button"
                        class="button-delete"
                        id="yasr-add-field-edit-multiset"
@@ -436,13 +436,13 @@ class YasrSettingsMultiset {
                 <input type="submit"
                        value="<?php esc_attr_e('Save changes', 'yet-another-stars-rating') ?>"
                        class="button-primary">
-            </td>
-        </tr>
-        <tr id="yasr-element-limit" style="display:none; color:red">
-            <td colspan="2" >
+            </span>
+        </div>
+        <div id="yasr-element-limit" style="display:none; color:red">
+            <span>
                 <?php esc_html_e("You can use up to 9 elements", 'yet-another-stars-rating') ?>
-            </td>
-        </tr>
+            </span>
+        </div>
         <?php
     }
 
