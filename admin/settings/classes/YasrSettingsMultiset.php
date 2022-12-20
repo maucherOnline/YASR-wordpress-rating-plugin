@@ -332,7 +332,13 @@ class YasrSettingsMultiset {
             $id_container = 'edit-form-criteria-row-container-'.$i;
             $sec_class    = 'edit-form-removable-criteria';
 
-            $this->outputCriteria($id_container, $i, $id, $input_name, '', '', $field['name'], $sec_class);
+            if($i < 3) {
+                $required = 'required';
+            } else {
+                $required = '';
+            }
+
+            $this->outputCriteria($id_container, $i, $id, $input_name, '', $required, $field['name'], $sec_class);
 
             ?>
             <div>
