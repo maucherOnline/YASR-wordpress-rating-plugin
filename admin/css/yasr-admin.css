@@ -700,7 +700,7 @@
     margin-bottom: 10px;
 }
 
-.yasr-new-multi-set {
+.yasr-settings-multi-set {
     overflow: auto;
     margin-top: 10px;
     padding: 8px;
@@ -720,21 +720,21 @@
     border-right: none;
 }
 
-.yasr-new-multi-set input[type=text]:required {
+.yasr-settings-multi-set input[type=text]:required {
     border-left: 2px solid #FEB209;
 }
 
-.yasr-new-multi-set input[type=text]:required:focus {
+.yasr-settings-multi-set input[type=text]:required:focus {
     border-left: 2px solid #FEB209;
 }
 
-.yasr-new-multi-set input[type=text]:focus {
+.yasr-settings-multi-set input[type=text]:focus {
     box-shadow: none;
     border-bottom: 1px solid #646970;
     border-left: 1px solid #8c8f94;
 }
 
-.yasr-new-multi-set input[type=text]:focus::placeholder {
+.yasr-settings-multi-set input[type=text]:focus::placeholder {
     color:transparent;
 }
 

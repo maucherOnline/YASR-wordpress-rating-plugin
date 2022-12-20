@@ -89,8 +89,8 @@ class YasrSettingsMultiset {
      */
     public function formCreateMultiset () {
         ?>
-        <div class="yasr-new-multi-set">
-            <div style="width: 49%;">
+        <div class="yasr-settings-multi-set">
+            <div style="width: 49%;" id="yasr-new-multi-set">
                 <form method="post">
                     <div class="yasr-multi-set-form-headers">
                         <?php esc_html_e('Add new Multi Set', 'yet-another-stars-rating'); ?>
