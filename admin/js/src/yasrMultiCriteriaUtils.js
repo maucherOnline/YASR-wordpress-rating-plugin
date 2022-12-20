@@ -10,7 +10,7 @@ import {v4 as uuidv4} from "uuid";
 export const addMultisetCriteria = () => {
 
     //This is the container of all criteria input
-    const parentDiv = document.getElementById('new-set-criteria-container');
+    const parentDiv        = document.getElementById('new-set-criteria-container');
 
     const newElementButton = document.getElementById('new-criteria-button');
 
@@ -42,8 +42,6 @@ export const addMultisetCriteria = () => {
 
         //insert (or append) the new div
         insertNewCriteria(missingNumber, newRowNumber, parentDiv, newDiv);
-
-        //add new event onClick on new button delete
     }
 }
 

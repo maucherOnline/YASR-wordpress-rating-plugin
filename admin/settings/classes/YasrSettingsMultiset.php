@@ -195,7 +195,7 @@ class YasrSettingsMultiset {
      * Output the single criteria row
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.1.3
+     *
      * @param $id_container
      * @param $i
      * @param $id
@@ -203,10 +203,14 @@ class YasrSettingsMultiset {
      * @param $placeholder
      * @param $required
      * @param $value
+     * @param $sec_class
+     *
+     * @since  3.1.3
      */
-    public function outputCriteria ($id_container, $i, $id, $name, $placeholder, $required, $value='') {
+    public function outputCriteria ($id_container, $i, $id, $name, $placeholder, $required, $value='', $sec_class="removable-criteria") {
+        $class = 'criteria-row ' . $sec_class;
         ?>
-        <div class="criteria-row removable-criteria"
+        <div class="<?php echo esc_attr($class) ?>"
              id="<?php echo esc_attr($id_container) ?>"
              value="<?php echo esc_attr($i) ?>">
             <label>
@@ -295,7 +299,6 @@ class YasrSettingsMultiset {
 
             <div id="yasr-table-form-edit-multi-set">
                 <?php
-                    $this->formEditMultisetPrintHeaders();
                     $i = $this->formEditMultisetPrintRow($set_fields);
                     $this->formEditMultisetPrintRemoveRow($i, $set_id);
                     $this->editFormPrintButtons();
@@ -305,25 +308,6 @@ class YasrSettingsMultiset {
                 wp_nonce_field('edit-multi-set', 'add-nonce-edit-multi-set')
             ?>
         </form>
-        <?php
-    }
-
-    /**
-     * @author Dario Curvino <@dudo>
-     * @since  3.1.7
-     * @return void
-     */
-    private function formEditMultisetPrintHeaders() {
-        ?>
-        <div>
-            <span id="yasr-table-form-edit-multi-set-header">
-                <?php esc_html_e('Field name', 'yet-another-stars-rating') ?>
-            </span>
-
-            <span id="yasr-table-form-edit-multi-set-remove">
-                <?php esc_html_e('Remove', 'yet-another-stars-rating') ?>
-            </span>
-        </div>
         <?php
     }
 
@@ -343,25 +327,25 @@ class YasrSettingsMultiset {
             $input_name    = 'edit-multi-set-element-'.$i;
             $hidden_name   = 'db-id-for-element-'.$i;
             $checkbox_name = 'remove-element-'.$i;
+
+            $id           = 'edit-form-multi-set-name-element-'.$i;
+            $id_container = 'edit-form-criteria-row-container-'.$i;
+            $sec_class    = 'edit-form-removable-criteria';
+
+            $this->outputCriteria($id_container, $i, $id, $input_name, '', '', $field['name'], $sec_class);
+
             ?>
             <div>
-                <span style="width: 80%">
-                    Element #<?php echo esc_html($i) ?>
-                    <label>
-                        <input type="text"
-                               value="<?php echo esc_attr($field['name']);?>"
-                               name="<?php  echo esc_attr($input_name) ?>"
-                        />
-                    </label>
+                <span>
                     <input type="hidden"
                            value="<?php echo esc_attr($field['id']) ?>"
                            name="<?php  echo esc_attr($hidden_name) ?>"
                     />
                 </span>
 
-                <span style="width:20%; text-align:center">
+                <span>
                     <label>
-                        <input type="checkbox"
+                        <input type="hidden"
                                value="<?php echo esc_attr($field['id']) ?>"
                                name="<?php echo esc_attr($checkbox_name) ?>"
                         >
@@ -443,7 +427,7 @@ class YasrSettingsMultiset {
         </div>
         <div id="yasr-element-limit" style="display:none; color:red">
             <span>
-                <?php esc_html_e("You can use up to 9 elements", 'yet-another-stars-rating') ?>
+                <?php esc_html_e('You can use up to 9 elements', 'yet-another-stars-rating') ?>
             </span>
         </div>
         <?php

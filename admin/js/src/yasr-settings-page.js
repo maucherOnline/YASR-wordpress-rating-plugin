@@ -81,9 +81,6 @@ if (activeTab === 'manage_multi') {
     //Manage the "Add new Criteria" button
     addMultisetCriteria ();
 
-    //Manage the delete Multi Criteria Button
-    //removeMultisetCriteria ();
-
     editFormAddElement();
 
     if (nMultiSet > 1) {
@@ -107,10 +104,6 @@ if (activeTab === 'manage_multi') {
         });
 
     } //End if ($n_multi_set > 1)
-
-    function prova() {
-        console.log('hello, world!');
-    }
 
 } //end if active_tab=='manage_multi'
 
