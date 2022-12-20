@@ -2,7 +2,6 @@
 
 import {
     addMultisetCriteria,
-    removeMultisetCriteria,
     editFormAddElement,
     selectMultiset
 } from "./yasrMultiCriteriaUtils";
@@ -83,7 +82,7 @@ if (activeTab === 'manage_multi') {
     addMultisetCriteria ();
 
     //Manage the delete Multi Criteria Button
-    removeMultisetCriteria ();
+    //removeMultisetCriteria ();
 
     editFormAddElement();
 
@@ -108,6 +107,10 @@ if (activeTab === 'manage_multi') {
         });
 
     } //End if ($n_multi_set > 1)
+
+    function prova() {
+        console.log('hello, world!');
+    }
 
 } //end if active_tab=='manage_multi'
 

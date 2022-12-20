@@ -209,22 +209,23 @@ class YasrSettingsMultiset {
         <div class="criteria-row removable-criteria"
              id="<?php echo esc_attr($id_container) ?>"
              value="<?php echo esc_attr($i) ?>">
-            <label for="<?php echo esc_attr($id); ?>">
+            <label>
+                <input type="text"
+                       name="<?php echo esc_attr($name); ?>"
+                       value="<?php echo esc_attr($value); ?>"
+                       id="<?php echo esc_attr($id); ?>"
+                       class="input-text-multi-set"
+                       placeholder="<?php echo esc_attr($placeholder); ?>"
+                       <?php echo esc_attr($required) ?>
+                >
             </label>
-            <input type="text"
-                   name="<?php echo esc_attr($name); ?>"
-                   value="<?php echo esc_attr($value); ?>"
-                   id="<?php echo esc_attr($id); ?>"
-                   class="input-text-multi-set"
-                   placeholder="<?php echo esc_attr($placeholder); ?>"
-                   <?php echo esc_attr($required) ?>
-            >
 
             <?php
                 if($required !== 'required') {
                     echo '<span class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
                                 id="remove-criteria-'.esc_attr($i).'"
-                                data-id-criteria="'.esc_attr($id_container).'">
+                                data-id-criteria="'.esc_attr($id_container).'"
+                                onclick="document.getElementById(\''.(esc_js($id_container)).'\').remove();">
                           </span>';
                 }
             ?>

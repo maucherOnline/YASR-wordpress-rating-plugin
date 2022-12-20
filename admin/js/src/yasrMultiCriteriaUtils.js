@@ -44,34 +44,7 @@ export const addMultisetCriteria = () => {
         insertNewCriteria(missingNumber, newRowNumber, parentDiv, newDiv);
 
         //add new event onClick on new button delete
-        removeMultisetCriteria();
     }
-}
-
-/**
- * Manage the click on buttonDelete
- *
- * @param startFor | 3 At page load, first button delete start on row 3
- */
-export const removeMultisetCriteria = (startFor = 3) => {
-    //Number of existing rows
-    const nOfCriteria = returnArrayElementsValues('removable-criteria').length;
-
-    //add an onclick event for every delete button
-    for (let i = startFor; i <= nOfCriteria; i++) {
-        const buttonDelete = document.getElementById(`remove-criteria-${i}`);
-
-        if(buttonDelete !== null) {
-            buttonDelete.onclick = (event) => {
-                let idDivToRemove = buttonDelete.dataset.idCriteria;
-                document.getElementById(idDivToRemove).remove();
-            }
-        }
-
-    }//End for
-
-    //call this again or "Add new criteria will not work after "
-    addMultisetCriteria();
 }
 
 /**
@@ -163,6 +136,7 @@ const createNewCriteria = (newRowNumber) => {
             class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
             id="remove-criteria-${newRowNumber}"
             data-id-criteria="${newCriteria.id}"
+            onclick="document.getElementById('${newCriteria.id}').remove();"
             >            
         </span>`;
 
