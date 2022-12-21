@@ -198,7 +198,7 @@ class YasrSettingsMultiset {
      *
      * @param $id_container
      * @param $i
-     * @param $id
+     * @param $input_id
      * @param $name
      * @param $placeholder
      * @param $required
@@ -207,7 +207,7 @@ class YasrSettingsMultiset {
      *
      * @since  3.1.3
      */
-    public function outputCriteria ($id_container, $i, $id, $name, $placeholder, $required, $value='', $sec_class="removable-criteria") {
+    public function outputCriteria ($id_container, $i, $input_id, $name, $placeholder, $required, $value='', $sec_class="removable-criteria") {
         $i = (int)$i;
         $class = 'criteria-row ' . $sec_class;
         ?>
@@ -218,7 +218,7 @@ class YasrSettingsMultiset {
                 <input type="text"
                        name="<?php echo esc_attr($name); ?>"
                        value="<?php echo esc_attr($value); ?>"
-                       id="<?php echo esc_attr($id); ?>"
+                       id="<?php echo esc_attr($input_id); ?>"
                        class="input-text-multi-set"
                        placeholder="<?php echo esc_attr($placeholder); ?>"
                        <?php echo esc_attr($required) ?>
@@ -328,13 +328,13 @@ class YasrSettingsMultiset {
         foreach ($set_fields as $field) {
             $id_container  = 'edit-form-criteria-row-container-'.$i;
             $input_name    = 'edit-multi-set-element-'.$i;
-            $id            = 'edit-form-multi-set-name-element-'.$i;
+            $input_id      = 'edit-form-multi-set-name-element-'.$i;
             //required if $i < 3, empty otherwise
             $required = ($i < 3) ? 'required' : '';
 
             $sec_class    = 'edit-form-removable-criteria';
 
-            $this->outputCriteria($id_container, $i, $id, $input_name, '', $required, $field['name'], $sec_class);
+            $this->outputCriteria($id_container, $i, $input_id, $input_name, '', $required, $field['name'], $sec_class);
 
             $this->formEditMultisetPrintRowHiddenValues($field, $i);
 

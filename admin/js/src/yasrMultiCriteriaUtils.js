@@ -38,9 +38,11 @@ export const addMultisetCriteria = () => {
         }
 
         //Create the div
-        const newDiv     = createNewCriteria(newRowNumber,
+        const newDiv     = createNewCriteria(
+            newRowNumber,
             'removable-criteria',
             'criteria-row-container-',
+            'multi-set-name-element-',
             'multi-set-name-element-'
         );
 
@@ -67,7 +69,14 @@ export const editFormAddElement = () => {
 
         const elementBefore      = document.getElementById('yasr-edit-form-remove-entire-set');
         const parent             = elementBefore.parentNode;
-        const newTextBoxDiv      = createNewCriteria(counter);
+        const newTextBoxDiv      = createNewCriteria(
+            counter,
+            'edit-form-removable-criteria',
+            'edit-form-criteria-row-container-',
+            'edit-multi-set-element-',
+            'edit-form-multi-set-name-element-',
+            false
+        );
         parent.insertBefore(newTextBoxDiv, elementBefore)
 
         counter++;
@@ -116,10 +125,12 @@ const returnArrayMissingNumber = (array) => {
  * @param newRowNumber
  * @param secClass
  * @param containerId
- * @param inputNameAndID
+ * @param inputName
+ * @param inputId
+ * @param removable
  * @returns {*}
  */
-const createNewCriteria = (newRowNumber, secClass, containerId, inputNameAndID) => {
+const createNewCriteria = (newRowNumber, secClass, containerId, inputName, inputId, removable=true) => {
 
     const divClass        = `criteria-row ${secClass}`;
 
@@ -133,19 +144,22 @@ const createNewCriteria = (newRowNumber, secClass, containerId, inputNameAndID) 
     newCriteria.innerHTML = `
         <label>
             <input type="text"
-                name="${inputNameAndID}${newRowNumber}"
-                id="${inputNameAndID}${newRowNumber}"
+                name="${inputName}${newRowNumber}"
+                id="${inputId}${newRowNumber}"
                 class="input-text-multi-set"
                 placeholder="New Criteria"
             />
-        </label>
-        <span 
+        </label> `;
+
+    if(removable !== false) {
+        newCriteria.innerHTML = ` <span 
             class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
             id="remove-criteria-${newRowNumber}"
             data-id-criteria="${newCriteria.id}"
             onclick="document.getElementById('${newCriteria.id}').remove();"
             >            
         </span>`;
+    }
 
     return newCriteria;
 }
