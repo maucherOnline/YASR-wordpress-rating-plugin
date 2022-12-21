@@ -351,7 +351,7 @@ class YasrSettingsMultiset {
 
                 <span>
                     <label>
-                        <input type="hidden"
+                        <input type="checkbox"
                                value="<?php echo esc_attr($field['id']) ?>"
                                name="<?php echo esc_attr($checkbox_name) ?>"
                         >
