@@ -38,7 +38,11 @@ export const addMultisetCriteria = () => {
         }
 
         //Create the div
-        const newDiv     = createNewCriteria(newRowNumber);
+        const newDiv     = createNewCriteria(newRowNumber,
+            'removable-criteria',
+            'criteria-row-container-',
+            'multi-set-name-element-'
+        );
 
         //insert (or append) the new div
         insertNewCriteria(missingNumber, newRowNumber, parentDiv, newDiv);
@@ -107,7 +111,7 @@ const returnArrayMissingNumber = (array) => {
 }
 
 /**
- * Return a row with new criteria
+ * Return an empty row with new criteria and delete button
  *
  * @param newRowNumber
  * @param secClass
@@ -115,10 +119,7 @@ const returnArrayMissingNumber = (array) => {
  * @param inputNameAndID
  * @returns {*}
  */
-const createNewCriteria = (newRowNumber,
-                           secClass='removable-criteria',
-                           containerId='criteria-row-container-',
-                           inputNameAndID = 'multi-set-name-element-') => {
+const createNewCriteria = (newRowNumber, secClass, containerId, inputNameAndID) => {
 
     const divClass        = `criteria-row ${secClass}`;
 
