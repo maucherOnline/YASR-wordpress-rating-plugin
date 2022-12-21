@@ -61,10 +61,9 @@ export const editFormAddElement = () => {
             return false;
         }
 
-        const elementBefore  = document.getElementById('yasr-edit-form-remove-entire-set');
-        const parent         = elementBefore.parentNode;
-        const newTextBoxDiv  = document.createElement('tr');
-        newTextBoxDiv.innerHTML =`<td colspan="2">Element #${counter} <input type="text" name="edit-multi-set-element-${counter}" value="" ></td>`
+        const elementBefore      = document.getElementById('yasr-edit-form-remove-entire-set');
+        const parent             = elementBefore.parentNode;
+        const newTextBoxDiv      = createNewCriteria(counter);
         parent.insertBefore(newTextBoxDiv, elementBefore)
 
         counter++;
@@ -110,26 +109,35 @@ const returnArrayMissingNumber = (array) => {
 /**
  * Return a row with new criteria
  *
+ * @param newRowNumber
+ * @param secClass
+ * @param containerId
+ * @param inputNameAndID
  * @returns {*}
  */
-const createNewCriteria = (newRowNumber) => {
+const createNewCriteria = (newRowNumber,
+                           secClass='removable-criteria',
+                           containerId='criteria-row-container-',
+                           inputNameAndID = 'multi-set-name-element-') => {
+
+    const divClass        = `criteria-row ${secClass}`;
+
     //Create the div
     const newCriteria     = document.createElement('div');
 
-    newCriteria.id        = `criteria-row-container-${newRowNumber}`;
-    newCriteria.className = `criteria-row removable-criteria`;
-
+    newCriteria.className = divClass;
+    newCriteria.id        = `${containerId}${newRowNumber}`;
     newCriteria.setAttribute("value", newRowNumber); //newCriteria.value doesnt' work here
 
     newCriteria.innerHTML = `
-        <label for="multi-set-name-element-${newRowNumber}">
+        <label>
+            <input type="text"
+                name="${inputNameAndID}${newRowNumber}"
+                id="${inputNameAndID}${newRowNumber}"
+                class="input-text-multi-set"
+                placeholder="New Criteria"
+            />
         </label>
-        <input type="text"
-            name="multi-set-name-element-${newRowNumber}"
-            id="multi-set-name-element-${newRowNumber}"
-            class="input-text-multi-set"
-            placeholder="New Criteria"
-        />
         <span 
             class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
             id="remove-criteria-${newRowNumber}"
