@@ -152,7 +152,7 @@ const createNewCriteria = (newRowNumber, secClass, containerId, inputName, input
         </label> `;
 
     if(removable !== false) {
-        newCriteria.innerHTML = ` <span 
+        newCriteria.innerHTML += ` <span 
             class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
             id="remove-criteria-${newRowNumber}"
             data-id-criteria="${newCriteria.id}"

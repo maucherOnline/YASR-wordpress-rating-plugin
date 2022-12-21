@@ -996,7 +996,9 @@ class YasrSettingsMultiset {
      * @return false|void
      */
     private function editMultisetNewFieldAdded($i, $number_of_stored_elements, $set_id) {
-        if(!isset($_POST["edit-multi-set-element-$i"]) || $i <= $number_of_stored_elements) {
+        if(!isset($_POST["edit-multi-set-element-$i"])
+            || $_POST["edit-multi-set-element-$i"] === ''
+            || $i <= $number_of_stored_elements) {
             return;
         }
 
