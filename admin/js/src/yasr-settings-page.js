@@ -87,7 +87,7 @@ if (activeTab === 'manage_multi') {
         selectMultiset.addEventListener('change', function () {
             const data = {
                 action: 'yasr_get_multi_set',
-                set_id: jQuery('#yasr_select_edit_set').val()
+                set_id: selectMultiset.value
             };
 
             jQuery.post(ajaxurl, data, function (response) {

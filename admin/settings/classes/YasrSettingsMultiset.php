@@ -208,6 +208,7 @@ class YasrSettingsMultiset {
      * @since  3.1.3
      */
     public function outputCriteria ($id_container, $i, $id, $name, $placeholder, $required, $value='', $sec_class="removable-criteria") {
+        $i = (int)$i;
         $class = 'criteria-row ' . $sec_class;
         ?>
         <div class="<?php echo esc_attr($class) ?>"
@@ -301,10 +302,8 @@ class YasrSettingsMultiset {
 
             <div id="yasr-table-form-edit-multi-set">
                 <?php
-                    $i = $this->formEditMultisetPrintRow($set_fields);
-                    $this->formEditMultisetPrintRemoveRow($i, $set_id);
-                    $this->editFormPrintButtons();
-                    ?>
+                    $this->formEditMultisetPrintFields($set_fields, $set_id);
+                ?>
             </div>
             <?php
                 wp_nonce_field('edit-multi-set', 'add-nonce-edit-multi-set')
@@ -314,16 +313,17 @@ class YasrSettingsMultiset {
     }
 
     /**
-     * Print the single row for edit form and return the number of set fields
+     * Print the all the fields for form edit multiset
      *
      * @author Dario Curvino <@dudo>
      *
      * @param $set_fields
+     * @param $set_id
      *
      * @since  refactor in 3.1.7
-     * @return int
+     * @return void
      */
-    private function formEditMultisetPrintRow($set_fields) {
+    private function formEditMultisetPrintFields($set_fields, $set_id) {
         $i = 1;
         foreach ($set_fields as $field) {
             $id_container  = 'edit-form-criteria-row-container-'.$i;
@@ -334,39 +334,57 @@ class YasrSettingsMultiset {
 
             $sec_class    = 'edit-form-removable-criteria';
 
-            $hidden_name   = 'db-id-for-element-'.$i;
-            $checkbox_name = 'remove-element-'.$i;
-
             $this->outputCriteria($id_container, $i, $id, $input_name, '', $required, $field['name'], $sec_class);
 
-            ?>
+            $this->formEditMultisetPrintRowHiddenValues($field, $i);
 
-            <span style="display: none;">
-                <?php //This hidden field is needed to update the value  ?>
-                <input type="hidden"
-                   value="<?php echo esc_attr($field['id']) ?>"
-                   name="<?php  echo esc_attr($hidden_name) ?>"
-                />
-                <?php
-                    //This hidde field is needed to delete the value, only if i > 2
-                    if($i > 2) { ?>
-                        <label>
-                            <input type="checkbox"
-                               value="<?php echo esc_attr($field['id']) ?>"
-                               name="<?php echo esc_attr($checkbox_name) ?>"
-                               id="<?php echo esc_attr($checkbox_name) ?>"
-                            >
-                        </label>
-                        <?php
-                    } ?>
-            </span>
-
-            <?php
             $i ++;
         }
 
-        //return the number of the rows
-        return $i-1;
+        //print row to remove entire multiset
+        $this->formEditMultisetPrintRemoveMultiset($i-1, $set_id);
+
+        //Print buttons "add element" and "Save changes"
+        $this->editFormPrintButtons();
+    }
+
+    /**
+     * Print the hidden values required for the edit form
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $field
+     * @param $i
+     *
+     * @since  3.1.7
+     * @return void
+     */
+    private function formEditMultisetPrintRowHiddenValues($field, $i) {
+        $i             = (int)$i;
+        $hidden_name   = 'db-id-for-element-'.$i;
+        $checkbox_name = 'remove-element-'.$i;
+
+        ?>
+        <span style="display: none;">
+            <!--This hidden field is needed to update the value-->
+            <input type="hidden"
+                   value="<?php echo esc_attr($field['id']) ?>"
+                   name="<?php  echo esc_attr($hidden_name) ?>"
+            />
+            <?php
+            //This hidden field is needed to delete the value, only if i > 2
+            if($i > 2) { ?>
+                <label>
+                    <input type="checkbox"
+                           value="<?php echo esc_attr($field['id']) ?>"
+                           name="<?php echo esc_attr($checkbox_name) ?>"
+                           id="<?php echo esc_attr($checkbox_name) ?>"
+                    >
+                </label>
+                <?php
+            } ?>
+        </span>
+        <?php
     }
 
     /**
@@ -380,7 +398,9 @@ class YasrSettingsMultiset {
      * @since 3.1.7
      * @return void
      */
-    private function formEditMultisetPrintRemoveRow($i, $set_id) {
+    private function formEditMultisetPrintRemoveMultiset($i, $set_id) {
+        $i = (int)$i;
+        $set_id = (int)$set_id;
         ?>
         <input type="hidden"
                name="yasr-edit-form-number-elements"
