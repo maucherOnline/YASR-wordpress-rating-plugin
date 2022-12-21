@@ -817,7 +817,7 @@ class YasrSettingsMultiset {
         $number_of_stored_elements = (int)$_POST['yasr-edit-form-number-elements'];
 
         //If is checked to remove all the set, delete set and return
-        if($this->editMultisetRemoveSetChecked($set_id) === 'error') {
+        if($this->editMultisetRemoveSetChecked($set_id) !== false) {
             return;
         }
 
@@ -848,7 +848,7 @@ class YasrSettingsMultiset {
      * @param $set_id
      *
      * @since  3.1.7
-     * @return bool
+     * @return bool|string
      */
     private function editMultisetRemoveSetChecked($set_id) {
         //Check if user want to delete entire set
@@ -858,8 +858,9 @@ class YasrSettingsMultiset {
                 YasrSettings::printNoticeError(
                     __('Something goes wrong trying to delete a Multi Set . Please report it',
                         'yet-another-stars-rating'));
+                return 'error';
             }
-            return 'error';
+            return true;
         }
 
         return false;
