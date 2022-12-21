@@ -401,8 +401,13 @@ class YasrSettingsMultiset {
         <div>
             <span>
                 <?php
-                    esc_html_e("If you remove something you will remove all the votes for that set or field. This operation CAN'T BE undone.",
-                'yet-another-stars-rating'); ?>
+                    esc_html_e('If you remove something you will remove all the votes for that set or field.',
+                'yet-another-stars-rating');
+                    echo '<br />';
+                    printf(
+                            esc_html__('This operation %s can\'t be %s undone.', 'yet-another-stars-rating'),
+                            '<strong>', '</strong>');
+                    ?>
                 <p>&nbsp;</p>
             </span>
         </div>
