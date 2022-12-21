@@ -67,9 +67,8 @@ export const editFormAddElement = () => {
             return false;
         }
 
-        const elementBefore      = document.getElementById('yasr-edit-form-remove-entire-set');
-        const parent             = elementBefore.parentNode;
-        const newTextBoxDiv      = createNewCriteria(
+        const parent        = document.getElementById('edit-set-criteria-container');
+        const newTextBoxDiv = createNewCriteria(
             counter,
             'edit-form-removable-criteria',
             'edit-form-criteria-row-container-',
@@ -77,7 +76,8 @@ export const editFormAddElement = () => {
             'edit-form-multi-set-name-element-',
             false
         );
-        parent.insertBefore(newTextBoxDiv, elementBefore)
+
+        insertNewCriteria(false, counter, parent, newTextBoxDiv);
 
         counter++;
     });
@@ -196,7 +196,7 @@ const insertNewCriteria = (missingNumber, newRowNumber, parentDiv, newDiv) => {
     }
     //just do appendChild if we're adding and no field was removed
     else {
-        document.getElementById('new-set-criteria-container').appendChild(newDiv);
+        parentDiv.appendChild(newDiv);
     }
 }
 

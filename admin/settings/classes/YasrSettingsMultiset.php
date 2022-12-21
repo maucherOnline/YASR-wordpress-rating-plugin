@@ -325,6 +325,7 @@ class YasrSettingsMultiset {
      */
     private function formEditMultisetPrintFields($set_fields, $set_id) {
         $i = 1;
+        echo '<div id="edit-set-criteria-container">';
         foreach ($set_fields as $field) {
             $id_container  = 'edit-form-criteria-row-container-'.$i;
             $input_name    = 'edit-multi-set-element-'.$i;
@@ -340,6 +341,7 @@ class YasrSettingsMultiset {
 
             $i ++;
         }
+        echo '</div>';
 
         //print row to remove entire multiset
         $this->formEditMultisetPrintRemoveMultiset($i-1, $set_id);
