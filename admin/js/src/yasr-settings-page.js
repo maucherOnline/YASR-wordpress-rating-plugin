@@ -76,17 +76,15 @@ if (activeTab === 'style_options') {
 
 //--------------Multi Sets Page ------------------
 if (activeTab === 'manage_multi') {
-    let nMultiSet = parseInt(document.getElementById('n-multiset').value);
-
     //Manage the "Add new Criteria" button
     addMultisetCriteria ();
 
     editFormAddElement();
 
-    if (nMultiSet > 1) {
-
-        //If more than 1 set is used...
-        jQuery('#yasr_select_edit_set').on("change", function () {
+    const selectMultiset = document.getElementById('yasr_select_edit_set');
+    //If more than 1 set is used...
+    if(!!selectMultiset === true) {
+        selectMultiset.addEventListener('change', function () {
             const data = {
                 action: 'yasr_get_multi_set',
                 set_id: jQuery('#yasr_select_edit_set').val()
@@ -98,12 +96,11 @@ if (activeTab === 'manage_multi') {
 
             return false; // prevent default click action from happening!
         });
+    }
 
-        jQuery(document).ajaxComplete(function () {
-            editFormAddElement();
-        });
-
-    } //End if ($n_multi_set > 1)
+    jQuery(document).ajaxComplete(function () {
+        editFormAddElement();
+    });
 
 } //end if active_tab=='manage_multi'
 

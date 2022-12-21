@@ -226,10 +226,13 @@ class YasrSettingsMultiset {
 
             <?php
                 if($required !== 'required') {
+                    $checkbox_id = 'remove-element-'.$i;
+                    //When the delete button is clicked, remove the dom element and check a hidden checkbox
                     echo '<span class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
                                 id="remove-criteria-'.esc_attr($i).'"
                                 data-id-criteria="'.esc_attr($id_container).'"
-                                onclick="document.getElementById(\''.(esc_js($id_container)).'\').remove();">
+                                onclick="document.getElementById(\''.(esc_js($id_container)).'\').remove();
+                                document.getElementById(\''.(esc_js($checkbox_id)).'\').checked = true;">
                           </span>';
                 }
             ?>
@@ -272,7 +275,6 @@ class YasrSettingsMultiset {
                 $set_id     = $multi_set[0]->set_id;
                 $this->formEditMultiset($set_id);
             ?>
-            <input type="hidden" value="<?php echo esc_attr($n_multi_set); ?>" id="n-multiset">
         </div>
         <?php
     }
@@ -324,40 +326,41 @@ class YasrSettingsMultiset {
     private function formEditMultisetPrintRow($set_fields) {
         $i = 1;
         foreach ($set_fields as $field) {
+            $id_container  = 'edit-form-criteria-row-container-'.$i;
             $input_name    = 'edit-multi-set-element-'.$i;
-            $hidden_name   = 'db-id-for-element-'.$i;
-            $checkbox_name = 'remove-element-'.$i;
+            $id            = 'edit-form-multi-set-name-element-'.$i;
+            //required if $i < 3, empty otherwise
+            $required = ($i < 3) ? 'required' : '';
 
-            $id           = 'edit-form-multi-set-name-element-'.$i;
-            $id_container = 'edit-form-criteria-row-container-'.$i;
             $sec_class    = 'edit-form-removable-criteria';
 
-            if($i < 3) {
-                $required = 'required';
-            } else {
-                $required = '';
-            }
+            $hidden_name   = 'db-id-for-element-'.$i;
+            $checkbox_name = 'remove-element-'.$i;
 
             $this->outputCriteria($id_container, $i, $id, $input_name, '', $required, $field['name'], $sec_class);
 
             ?>
-            <div>
-                <span>
-                    <input type="hidden"
-                           value="<?php echo esc_attr($field['id']) ?>"
-                           name="<?php  echo esc_attr($hidden_name) ?>"
-                    />
-                </span>
 
-                <span>
-                    <label>
-                        <input type="checkbox"
+            <span style="display: none;">
+                <?php //This hidden field is needed to update the value  ?>
+                <input type="hidden"
+                   value="<?php echo esc_attr($field['id']) ?>"
+                   name="<?php  echo esc_attr($hidden_name) ?>"
+                />
+                <?php
+                    //This hidde field is needed to delete the value, only if i > 2
+                    if($i > 2) { ?>
+                        <label>
+                            <input type="checkbox"
                                value="<?php echo esc_attr($field['id']) ?>"
                                name="<?php echo esc_attr($checkbox_name) ?>"
-                        >
-                    </label>
-                </span>
-            </div>
+                               id="<?php echo esc_attr($checkbox_name) ?>"
+                            >
+                        </label>
+                        <?php
+                    } ?>
+            </span>
+
             <?php
             $i ++;
         }
