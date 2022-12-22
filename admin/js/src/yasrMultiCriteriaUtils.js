@@ -56,16 +56,17 @@ export const addMultisetCriteria = () => {
  *
  */
 export const editFormAddElement = () => {
-    let counter = jQuery("#yasr-edit-form-number-elements").attr('value');
+    const addElement = document.getElementById('yasr-add-field-edit-multiset');
+    let   counter    = document.getElementById('yasr-edit-form-number-elements').value;
     counter++;
 
-    jQuery("#yasr-add-field-edit-multiset").on('click', function (event) {
+    addElement.addEventListener('click', (event) => {
         event.preventDefault();
 
         //@todo increase number of element that can be stored
         if (counter > 9) {
-            jQuery('#yasr-element-limit').show();
-            jQuery('#yasr-add-field-edit-multiset').hide();
+            document.getElementById('yasr-element-limit').style.display = '';
+            document.getElementById('yasr-add-field-edit-multiset').style.display = 'none'
             return false;
         }
 
