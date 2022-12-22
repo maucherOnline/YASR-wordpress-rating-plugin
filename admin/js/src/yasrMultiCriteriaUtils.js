@@ -59,7 +59,9 @@ export const editFormAddElement = () => {
     let counter = jQuery("#yasr-edit-form-number-elements").attr('value');
     counter++;
 
-    jQuery("#yasr-add-field-edit-multiset").on('click', function () {
+    jQuery("#yasr-add-field-edit-multiset").on('click', function (event) {
+        event.preventDefault();
+
         //@todo increase number of element that can be stored
         if (counter > 9) {
             jQuery('#yasr-element-limit').show();

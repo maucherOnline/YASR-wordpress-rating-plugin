@@ -82,7 +82,7 @@ class YasrSettingsMultiset {
     }
 
     /**
-     * Output the form to create a new multiset
+     * Main container with both forms for forms, new and edit
      *
      * @author Dario Curvino <@dudo>
      * @since  3.1.3
@@ -143,13 +143,13 @@ class YasrSettingsMultiset {
                     </div>
                 </form>
             </div>
-            <?php $this->formManageMultiset() ?>
+            <?php $this->formEditMultisetContainer() ?>
         </div>
         <?php
     }
 
     /**
-     * Output the multicriteria form
+     * Default form when a new set is created
      *
      * @author Dario Curvino <@dudo>
      * @since  3.1.3
@@ -192,7 +192,7 @@ class YasrSettingsMultiset {
     }
 
     /**
-     * Output the single criteria row
+     * Output the single criteria row, used in both new and edit forms
      *
      * @author Dario Curvino <@dudo>
      *
@@ -248,7 +248,7 @@ class YasrSettingsMultiset {
      * @author Dario Curvino <@dudo>
      * @since  3.1.3
      */
-    public function formManageMultiset() {
+    public function formEditMultisetContainer() {
         ?>
         <div class="yasr-manage-multiset" style="width: 49%;" >
             <div class="yasr-multi-set-form-headers">
@@ -326,21 +326,21 @@ class YasrSettingsMultiset {
     private function formEditMultisetPrintFields($set_fields, $set_id) {
         $i = 1;
         echo '<div id="edit-set-criteria-container">';
-        foreach ($set_fields as $field) {
-            $id_container  = 'edit-form-criteria-row-container-'.$i;
-            $input_name    = 'edit-multi-set-element-'.$i;
-            $input_id      = 'edit-form-multi-set-name-element-'.$i;
-            //required if $i < 3, empty otherwise
-            $required = ($i < 3) ? 'required' : '';
+            foreach ($set_fields as $field) {
+                $id_container  = 'edit-form-criteria-row-container-'.$i;
+                $input_name    = 'edit-multi-set-element-'.$i;
+                $input_id      = 'edit-form-multi-set-name-element-'.$i;
+                //required if $i < 3, empty otherwise
+                $required = ($i < 3) ? 'required' : '';
 
-            $sec_class    = 'edit-form-removable-criteria';
+                $sec_class    = 'edit-form-removable-criteria';
 
-            $this->outputCriteria($id_container, $i, $input_id, $input_name, '', $required, $field['name'], $sec_class);
+                $this->outputCriteria($id_container, $i, $input_id, $input_name, '', $required, $field['name'], $sec_class);
 
-            $this->formEditMultisetPrintRowHiddenValues($field, $i);
+                $this->formEditMultisetPrintRowHiddenValues($field, $i);
 
-            $i ++;
-        }
+                $i ++;
+            }
         echo '</div>';
 
         //print row to remove entire multiset
@@ -449,17 +449,18 @@ class YasrSettingsMultiset {
     private function editFormPrintButtons () {
         ?>
         <div>
-            <span>
-                <input type="button"
-                       class="button-delete"
-                       id="yasr-add-field-edit-multiset"
-                       value="<?php esc_attr_e('Add element', 'yet-another-stars-rating'); ?>"
-                >
-
+            <div>
+                <button class="button-secondary" id="yasr-add-field-edit-multiset">
+                    <span class="dashicons dashicons-insert" style="line-height: 1.4"></span>
+                    <?php esc_html_e('Add new Criteria', 'yet-another-stars-rating'); ?>
+                </button>
+            </div>
+            <br />
+            <div>
                 <input type="submit"
                        value="<?php esc_attr_e('Save changes', 'yet-another-stars-rating') ?>"
                        class="button-primary">
-            </span>
+            </div>
         </div>
         <div id="yasr-element-limit" style="display:none; color:red">
             <span>
@@ -1019,36 +1020,34 @@ class YasrSettingsMultiset {
             return;
         }
 
-        if ($field_name !== '') {
-            //get the new field id
-            $highest_field_id = $wpdb->get_results(
-                "SELECT field_id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " 
-                                ORDER BY field_id 
-                                DESC LIMIT 1",
-                ARRAY_A);
+        //get the new field id
+        $highest_field_id = $wpdb->get_results(
+            "SELECT field_id FROM " . YASR_MULTI_SET_FIELDS_TABLE . " 
+                            ORDER BY field_id 
+                            DESC LIMIT 1",
+            ARRAY_A);
 
-            //since version 2.0.9 id is auto_increment by default, still doing this to compatibility for
-            //existing installs where auto_increment didn't work because set_id=1 already exists
-            $existing_id = $wpdb->get_results("SELECT MAX(id) as id FROM " . YASR_MULTI_SET_FIELDS_TABLE, ARRAY_A);
+        //since version 2.0.9 id is auto_increment by default, still doing this to compatibility for
+        //existing installs where auto_increment didn't work because set_id=1 already exists
+        $existing_id = $wpdb->get_results("SELECT MAX(id) as id FROM " . YASR_MULTI_SET_FIELDS_TABLE, ARRAY_A);
 
-            $new_field_id =  $highest_field_id[0]['field_id']+1;
-            $new_id       =  $existing_id[0]['id']+1;
+        $new_field_id =  $highest_field_id[0]['field_id']+1;
+        $new_id       =  $existing_id[0]['id']+1;
 
-            $insert_set_value = $this->saveField(
-                $set_id,
-                $field_name,
-                $new_field_id,
-                $new_id
-            );
+        $insert_set_value = $this->saveField(
+            $set_id,
+            $field_name,
+            $new_field_id,
+            $new_id
+        );
 
-            if ($insert_set_value === false) {
-                YasrSettings::printNoticeError(__('Something goes wrong trying to insert set field name in edit form. Please report it',
-                    'yet-another-stars-rating'));
+        if ($insert_set_value === false) {
+            YasrSettings::printNoticeError(__('Something goes wrong trying to insert set field name in edit form. Please report it',
+                'yet-another-stars-rating'));
 
-                return 'error';
-            }
+            return 'error';
+        }
 
-        } //end if $field_name != ''
 
         return false;
     }
