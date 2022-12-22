@@ -68,6 +68,8 @@ export const editFormAddElement = () => {
     if(!!buttonDeleteThirdElement === true) {
         buttonDeleteThirdElement.addEventListener('click', (event) => {
             counter--;
+            document.getElementById('yasr-element-limit').style.display = 'none';
+            document.getElementById('yasr-add-field-edit-multiset').style.display = ''
         });
     }
 
@@ -75,6 +77,8 @@ export const editFormAddElement = () => {
     if(!!buttonDeleteFourthElement === true) {
         buttonDeleteFourthElement.addEventListener('click', (event) => {
             counter--;
+            document.getElementById('yasr-element-limit').style.display = 'none';
+            document.getElementById('yasr-add-field-edit-multiset').style.display = ''
         });
     }
 
