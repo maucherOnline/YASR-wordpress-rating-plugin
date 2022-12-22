@@ -43,7 +43,8 @@ export const addMultisetCriteria = () => {
             'removable-criteria',
             'criteria-row-container-',
             'multi-set-name-element-',
-            'multi-set-name-element-'
+            'multi-set-name-element-',
+            'new-form'
         );
 
         //insert (or append) the new div
@@ -70,13 +71,14 @@ export const editFormAddElement = () => {
             return false;
         }
 
-        const parent        = document.getElementById('edit-set-criteria-container');
+        const parent = document.getElementById('edit-set-criteria-container');
         const newDiv = createNewCriteria(
             counter,
             'edit-form-removable-criteria',
             'edit-form-criteria-row-container-',
             'edit-multi-set-element-',
             'edit-form-multi-set-name-element-',
+            'edit-form',
             false
         );
 
@@ -133,7 +135,7 @@ const returnArrayMissingNumber = (array) => {
  * @param removable
  * @returns {*}
  */
-const createNewCriteria = (newRowNumber, secClass, containerId, inputName, inputId, removable=true) => {
+const createNewCriteria = (newRowNumber, secClass, containerId, inputName, inputId, context, removable=true) => {
 
     const divClass        = `criteria-row ${secClass}`;
 
@@ -143,6 +145,13 @@ const createNewCriteria = (newRowNumber, secClass, containerId, inputName, input
     newCriteria.className = divClass;
     newCriteria.id        = `${containerId}${newRowNumber}`;
     newCriteria.setAttribute("value", newRowNumber); //newCriteria.value doesnt' work here
+
+    let removeButtonId;
+    if(context === 'edit-form') {
+        removeButtonId = `edit-form-remove-${newRowNumber}`
+    } else {
+        removeButtonId = `new-form-remove-${newRowNumber}`
+    }
 
     newCriteria.innerHTML = `
         <label>
@@ -157,7 +166,7 @@ const createNewCriteria = (newRowNumber, secClass, containerId, inputName, input
     if(removable !== false) {
         newCriteria.innerHTML += ` <span 
             class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
-            id="remove-criteria-${newRowNumber}"
+            id="${removeButtonId}"
             data-id-criteria="${newCriteria.id}"
             onclick="document.getElementById('${newCriteria.id}').remove();"
             >            

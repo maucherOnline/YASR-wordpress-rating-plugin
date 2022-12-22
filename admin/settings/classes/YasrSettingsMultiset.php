@@ -184,7 +184,7 @@ class YasrSettingsMultiset {
                         $placeholder = $element_n;
                     }
 
-                    $this->outputCriteria($id_container, $i, $id, $name, $placeholder, $required);
+                    $this->outputCriteria($id_container, $i, $id, $name, $placeholder, $required, 'new-form');
                 } //End foreach
                 ?>
             </div>
@@ -203,13 +203,24 @@ class YasrSettingsMultiset {
      * @param $placeholder
      * @param $required
      * @param $value
-     * @param $sec_class
+     * @param $context
      *
      * @since  3.1.3
      */
-    public function outputCriteria ($id_container, $i, $input_id, $name, $placeholder, $required, $value='', $sec_class="removable-criteria") {
+    public function outputCriteria (
+            $id_container, $i, $input_id, $name, $placeholder, $required, $context, $value='')
+    {
         $i = (int)$i;
-        $class = 'criteria-row ' . $sec_class;
+        $class = 'criteria-row ';
+
+        if($context === 'edit-form') {
+            $class .= 'edit-form-removable-criteria';
+            $remove_button_id = 'edit-form-remove-' . $i;
+        } else {
+            $class .= 'removable-criteria';
+            $remove_button_id = 'new-form-remove-' . $i;
+        }
+
         ?>
         <div class="<?php echo esc_attr($class) ?>"
              id="<?php echo esc_attr($id_container) ?>"
@@ -230,7 +241,7 @@ class YasrSettingsMultiset {
                     $checkbox_id = 'remove-element-'.$i;
                     //When the delete button is clicked, remove the dom element and check a hidden checkbox
                     echo '<span class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
-                                id="remove-criteria-'.esc_attr($i).'"
+                                id="'.esc_attr($remove_button_id).'"
                                 data-id-criteria="'.esc_attr($id_container).'"
                                 onclick="document.getElementById(\''.(esc_js($id_container)).'\').remove();
                                 document.getElementById(\''.(esc_js($checkbox_id)).'\').checked = true;">
@@ -333,9 +344,7 @@ class YasrSettingsMultiset {
                 //required if $i < 3, empty otherwise
                 $required = ($i < 3) ? 'required' : '';
 
-                $sec_class    = 'edit-form-removable-criteria';
-
-                $this->outputCriteria($id_container, $i, $input_id, $input_name, '', $required, $field['name'], $sec_class);
+                $this->outputCriteria($id_container, $i, $input_id, $input_name, '', $required, 'edit-form', $field['name']);
 
                 $this->formEditMultisetPrintRowHiddenValues($field, $i);
 
