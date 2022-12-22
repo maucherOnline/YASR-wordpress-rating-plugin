@@ -268,7 +268,7 @@ class YasrSettingsMultiset {
                 //if n_multiset > 1, print the select
                 if ($n_multi_set > 1) {
                     $title = __('Which set do you want to edit or remove?', 'yet-another-stars-rating');
-                    $id    = 'yasr_select_edit_set';
+                    $id    = 'yasr_select_set';
                     YasrPhpFieldsHelper::printSelectMultiset($multi_set, $title, $id);
                 }
 

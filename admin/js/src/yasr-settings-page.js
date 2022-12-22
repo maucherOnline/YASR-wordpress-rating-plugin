@@ -3,7 +3,7 @@
 import {
     addMultisetCriteria,
     editFormAddElement,
-    selectMultiset
+    selectMultiset,
 } from "./yasrMultiCriteriaUtils";
 
 //get active Tab
@@ -81,27 +81,7 @@ if (activeTab === 'manage_multi') {
 
     editFormAddElement();
 
-    const selectMultiset = document.getElementById('yasr_select_edit_set');
-    //If more than 1 set is used...
-    if(!!selectMultiset === true) {
-        selectMultiset.addEventListener('change', function () {
-            const data = {
-                action: 'yasr_get_multi_set',
-                set_id: selectMultiset.value
-            };
-
-            jQuery.post(ajaxurl, data, function (response) {
-                jQuery('#yasr-table-form-edit-multi-set').html(response);
-            });
-
-            return false; // prevent default click action from happening!
-        });
-    }
-
-    jQuery(document).ajaxComplete(function () {
-        editFormAddElement();
-    });
-
+    selectMultiset();
 } //end if active_tab=='manage_multi'
 
 if (activeTab === 'migration_tools') {

@@ -71,7 +71,7 @@ export const editFormAddElement = () => {
         }
 
         const parent        = document.getElementById('edit-set-criteria-container');
-        const newTextBoxDiv = createNewCriteria(
+        const newDiv = createNewCriteria(
             counter,
             'edit-form-removable-criteria',
             'edit-form-criteria-row-container-',
@@ -80,7 +80,7 @@ export const editFormAddElement = () => {
             false
         );
 
-        insertNewCriteria(false, counter, parent, newTextBoxDiv);
+        insertNewCriteria(false, counter, parent, newDiv);
 
         counter++;
     });
@@ -224,7 +224,7 @@ export const yasrMultiCriteriaEditPage = () => {
     const reviewsEnabled           = document.getElementById('yasr-pro-comments-enabled-yes');
     const multiSetinReview         = document.getElementById('yasr-pro-multiset-review-switcher');
 
-    yasrPrintMultiCriteriaEditPage(setId, postId, nMultiSet);
+    yasrManageMultiSelectEditPage(setId, postId, nMultiSet);
 
     copyRoMultiset.onclick = function (event) {
         let el = document.getElementById(event.target.id);
@@ -255,7 +255,7 @@ export const yasrMultiCriteriaEditPage = () => {
     sincronizeEditorSwitchers (multiSetinReview, reviewsEnabled, yasrProReviewSetid, setId);
 
     //show a select if more than 1 multiset is used
-    selectMultiset(nMultiSet, postId, yasrProReviewSetid, multiSetinReview)
+    selectMultiset(nMultiSet, postId, yasrProReviewSetid, multiSetinReview);
 
 }
 
@@ -314,41 +314,34 @@ const sincronizeEditorSwitchers = (multiSetinReview, reviewsEnabled, yasrProRevi
  * @param multiSetinReview
  * @param selectID
  */
-export const selectMultiset = (nMultiSet,
-                               postId=false,
-                               yasrProReviewSetid = null,
-                               multiSetinReview = null,
-                               selectID = 'yasr_select_set') => {
-    if (nMultiSet > 1) {
-        jQuery(`#${selectID}`).on("change", function () {
+export const selectMultiset = (
+    nMultiSet = false,
+    postId= false,
+    yasrProReviewSetid = null,
+    multiSetinReview = null,
+    selectID = 'yasr_select_set',
+) => {
 
-            //get the multi data
-            //overwrite setID
-            let setId = jQuery(this).val();
+    const select = document.getElementById(selectID);
+    //If more than 1 set is used...
+    if(!!select === true) {
+        select.addEventListener('change', function () {
+            //get the set id on change
+            const setId = select.value;
 
-            jQuery("#yasr-loader-select-multi-set").show();
-
+            //here I'm in edit page
             if (postId !== false) {
-                yasrPrintMultiCriteriaEditPage(setId, postId, nMultiSet);
+                //show the loader
+                document.getElementById('yasr-loader-select-multi-set').style.display='';
+
+                yasrManageMultiSelectEditPage(setId, postId, nMultiSet, yasrProReviewSetid, multiSetinReview);
             }
-
-            //{ else to call a function when not in an edit context
-
-            //update hidden field
-            document.getElementById('yasr-multiset-id').value = setId;
-
-            if(yasrProReviewSetid !== null && yasrProReviewSetid !== '' && multiSetinReview !== null) {
-                if(yasrProReviewSetid.value === setId) {
-                    //update hidden field
-                    multiSetinReview.checked = true;
-                } else {
-                    multiSetinReview.checked = false;
-                }
+            //here I'm in the setting page
+            else {
+                yasrManageMultiSelectSettingsPage(setId);
             }
-
             return false; // prevent default click action from happening!
         });
-
     }
 }
 
@@ -358,9 +351,17 @@ export const selectMultiset = (nMultiSet,
  * @param setId
  * @param postid
  * @param nMultiSet
+ * @param yasrProReviewSetid
+ * @param multiSetinReview
  * @returns {boolean}
  */
-const yasrPrintMultiCriteriaEditPage = (setId, postid, nMultiSet) => {
+const yasrManageMultiSelectEditPage = (
+    setId,
+    postid,
+    nMultiSet,
+    yasrProReviewSetid=null,
+    multiSetinReview = null
+) => {
 
     const data_id = {
         action: 'yasr_send_id_nameset',
@@ -392,9 +393,38 @@ const yasrPrintMultiCriteriaEditPage = (setId, postid, nMultiSet) => {
         }
 
     });
+
+    //update hidden field
+    document.getElementById('yasr-multiset-id').value = setId;
+
+    if(yasrProReviewSetid !== null && yasrProReviewSetid !== '' && multiSetinReview !== null) {
+        if(yasrProReviewSetid.value === setId) {
+            //update hidden field
+            multiSetinReview.checked = true;
+        } else {
+            multiSetinReview.checked = false;
+        }
+    }
     return false; // prevent default click action from happening!
 }
 
+/**
+ * Do the ajax call when the multi select is changed in setting page
+ */
+const yasrManageMultiSelectSettingsPage = (setId) => {
+    const data = {
+        action: 'yasr_get_multi_set',
+        set_id: setId
+    };
+
+    jQuery.post(ajaxurl, data, function (response) {
+        jQuery('#yasr-table-form-edit-multi-set').html(response);
+    });
+
+    jQuery(document).ajaxComplete(function () {
+        editFormAddElement();
+    });
+}
 
 /**
  *
