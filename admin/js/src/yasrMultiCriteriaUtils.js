@@ -61,6 +61,23 @@ export const editFormAddElement = () => {
     let   counter    = document.getElementById('yasr-edit-form-number-elements').value;
     counter++;
 
+    const buttonDeleteThirdElement  = document.getElementById('edit-form-remove-3');
+    const buttonDeleteFourthElement = document.getElementById('edit-form-remove-4');
+
+    //decrease counter if third element is removed
+    if(!!buttonDeleteThirdElement === true) {
+        buttonDeleteThirdElement.addEventListener('click', (event) => {
+            counter--;
+        });
+    }
+
+    //decrease counter if fourth element is removed
+    if(!!buttonDeleteFourthElement === true) {
+        buttonDeleteFourthElement.addEventListener('click', (event) => {
+            counter--;
+        });
+    }
+
     addElement.addEventListener('click', (event) => {
         event.preventDefault();
 
