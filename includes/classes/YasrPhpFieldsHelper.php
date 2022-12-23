@@ -348,7 +348,12 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
          *
          * @since  3.0.6
          */
-        public static function printSelectMultiset($multi_set, $select_text = false, $select_id = false) {
+        public static function printSelectMultiset(
+            $multi_set,
+            $select_text = false,
+            $select_id = false,
+            $select_on_newline = '<br>'
+        ) {
             if ($select_text === false) {
                 $select_text = esc_html__('Choose which set you want to use', 'yet-another-stars-rating');
             }
@@ -358,7 +363,7 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
             ?>
             <div>
                 <?php echo esc_html($select_text) ?>
-                <br/>
+                <?php echo esc_html($select_on_newline) ?>
                 <label for="<?php echo esc_attr($select_id) ?>">
                     <select id="<?php echo esc_attr($select_id) ?>" autocomplete="off">
                         <?php

@@ -278,10 +278,12 @@ class YasrSettingsMultiset {
 
                 //if n_multiset > 1, print the select
                 if ($n_multi_set > 1) {
-                    $title = __('Which set do you want to edit or remove?', 'yet-another-stars-rating');
+                    $title = __('Select Set:', 'yet-another-stars-rating');
                     $id    = 'yasr_select_set';
-                    YasrPhpFieldsHelper::printSelectMultiset($multi_set, $title, $id);
+                    YasrPhpFieldsHelper::printSelectMultiset($multi_set, $title, $id, '');
                 }
+
+                echo '<hr style="border-top: 1px solid #ddd;">';
 
                 //get the first set id
                 $set_id     = $multi_set[0]->set_id;
@@ -352,11 +354,18 @@ class YasrSettingsMultiset {
             }
         echo '</div>';
 
+        echo  '<div>
+                <button class="button-secondary" id="yasr-add-field-edit-multiset">
+                    <span class="dashicons dashicons-insert" style="line-height: 1.4"></span>'
+                    .esc_html__('Add new Criteria', 'yet-another-stars-rating').'
+                </button>
+            </div>';
+
         //print row to remove entire multiset
         $this->formEditMultisetPrintRemoveMultiset($i-1, $set_id);
 
         //Print buttons "add element" and "Save changes"
-        $this->editFormPrintButtons();
+        $this->editFormPrintSave();
     }
 
     /**
@@ -419,12 +428,13 @@ class YasrSettingsMultiset {
                value="<?php echo esc_attr($i)?>"
         >
         <div class="yasr-edit-form-remove-entire-set" id="yasr-edit-form-remove-entire-set">
-            <span style="width: 80%;">
+            <span>
                 <?php echo esc_html__('Remove whole set?', 'yet-another-stars-rating')?>
             </span>
 
-            <span style="text-align:center; width: 20%;">
+            <span>
                 <label>
+                    &nbsp;
                     <input type="checkbox"
                            name="yasr-remove-multi-set"
                            value="<?php echo esc_attr($set_id)?>"
@@ -433,17 +443,14 @@ class YasrSettingsMultiset {
         </div>
 
         <div>
-            <span>
-                <?php
-                    esc_html_e('If you remove something you will remove all the votes for that set or field.',
-                'yet-another-stars-rating');
-                    echo '<br />';
-                    printf(
-                            esc_html__('This operation %s can\'t be %s undone.', 'yet-another-stars-rating'),
-                            '<strong>', '</strong>');
-                    ?>
-                <p>&nbsp;</p>
-            </span>
+            <?php
+                esc_html_e('If you remove something you will remove all the votes for that set or field.',
+            'yet-another-stars-rating');
+                echo '<br />';
+                printf(
+                        esc_html__('This operation %s can\'t be %s undone.', 'yet-another-stars-rating'),
+                        '<strong>', '</strong>');
+            ?>
         </div>
         <?php
     }
@@ -455,15 +462,9 @@ class YasrSettingsMultiset {
      * @since  3.1.7
      * @return void
      */
-    private function editFormPrintButtons () {
+    private function editFormPrintSave () {
         ?>
         <div>
-            <div>
-                <button class="button-secondary" id="yasr-add-field-edit-multiset">
-                    <span class="dashicons dashicons-insert" style="line-height: 1.4"></span>
-                    <?php esc_html_e('Add new Criteria', 'yet-another-stars-rating'); ?>
-                </button>
-            </div>
             <br />
             <div>
                 <input type="submit"
