@@ -208,6 +208,7 @@ The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.1.7 =
 * FIXED: Duplicate query in tabs "Migration Tools"
+* ENHANCEMENT: brand-new form to edit an existing multi set, and code refactor
 
 = 3.1.6 =
 * FIXED: [removed warning](https://github.com/Dudo1985/Yet-Another-Stars-Rating/commit/f360dbcd0324483341ffca6ea9bf95b75043673f) returned if PHP 8.1 is used when a rating plugin is imported
