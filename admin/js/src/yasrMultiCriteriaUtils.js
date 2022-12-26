@@ -58,7 +58,12 @@ export const addMultisetCriteria = () => {
  */
 export const editFormAddElement = () => {
     const addElement = document.getElementById('yasr-add-field-edit-multiset');
-    let   counter    = document.getElementById('yasr-edit-form-number-elements').value;
+    let   counter    = document.getElementById('yasr-edit-form-number-elements');
+
+    if(!!counter !== true) {
+        return;
+    }
+    counter = counter.value;
     counter++;
 
     const buttonDeleteThirdElement  = document.getElementById('edit-form-remove-3');
