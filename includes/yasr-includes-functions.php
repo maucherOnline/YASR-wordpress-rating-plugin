@@ -391,5 +391,6 @@ function yasr_check_svg_image($url) {
 function yasr_return_dom_id ($prefix='') {
     //Do not use $more_entropy param to uniqid() function here, since it can return chars not allowed as ID value
     //To increase likelihood of uniqueness, str_shuffle() is enough for the scope of use
+    /** @noinspection NonSecureUniqidUsageInspection */
     return esc_html($prefix) . str_shuffle(uniqid());
 }

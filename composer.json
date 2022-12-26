@@ -14,7 +14,8 @@
     "license": "GPL2",
     "scripts": {
         "generate-doc": [
-            "vendor/bin/wp-documentor parse . --format=markdown --output=docs/yasr_hooks.md --prefix=yasr_ --exclude=vendor"
+            "vendor/bin/wp-documentor parse . --format=markdown --output=docs/yasr_hooks.md --prefix=yasr_ --exclude=vendor",
+            "php docs/fix_yasr_hooks_path.php"
         ]
     },
     "authors": [

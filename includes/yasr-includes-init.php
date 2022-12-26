@@ -68,7 +68,7 @@ $general_settings = $settings->getGeneralSettings();
 $style_settings   = $settings->getStyleSettings();
 $multi_settings   = $settings->getMultiSettings();
 
-//do defines based on the settings
+//do define based on the settings
 $do_define = new YasrDefineOptions();
 $do_define->generalSettings($general_settings); //set all the defines for general settings
 $do_define->styleSettings($style_settings);
