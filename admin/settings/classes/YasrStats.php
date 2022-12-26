@@ -25,7 +25,7 @@ if (!defined('ABSPATH')) {
 /**
  * Create a new table class that will extend the WP_List_Table
  */
-class YasrStats extends Yasr_WP_List_Table {
+class YasrStats extends WP_List_Table {
 
     private $active_tab;
 
