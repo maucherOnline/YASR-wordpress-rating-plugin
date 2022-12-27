@@ -352,7 +352,8 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
             $multi_set,
             $select_text = false,
             $select_id = false,
-            $select_on_newline = '<br>'
+            $select_on_newline = '<br>',
+            $nonce_name=false
         ) {
             if ($select_text === false) {
                 $select_text = esc_html__('Choose which set you want to use', 'yet-another-stars-rating');
@@ -360,6 +361,13 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
             if ($select_id === false) {
                 $select_id = 'yasr_select_set';
             }
+
+            if($nonce_name === false) {
+                return;
+            }
+
+            $id_nonce = $nonce_name.'-id';
+            $nonce = wp_create_nonce($nonce_name);
             ?>
             <div>
                 <?php echo esc_html($select_text) ?>
@@ -374,7 +382,7 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
                         ?>
                     </select>
                 </label>
-
+                <input type="hidden" id="<?php echo esc_attr($id_nonce)?>" value="<?php echo esc_attr($nonce) ?>">
                 <span id="yasr-loader-select-multi-set" style="display:none;">&nbsp;
                     <img src="<?php echo esc_url(YASR_IMG_DIR . "/loader.gif") ?>" alt="yasr-loader">
                 </span>

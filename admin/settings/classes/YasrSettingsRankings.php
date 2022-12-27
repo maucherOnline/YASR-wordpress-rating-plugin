@@ -32,7 +32,7 @@ class YasrSettingsRankings {
         $this->multi_set_array = YasrDB::returnMultiSetNames();
 
         global $wpdb;
-        //wpdb->num_rows always store the the count number of rows of the last query
+        //wpdb->num_rows always store the count number of rows of the last query
         $this->n_multi_set = $wpdb->num_rows;
     }
 
