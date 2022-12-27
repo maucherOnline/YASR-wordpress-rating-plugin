@@ -611,9 +611,6 @@ class YasrSettingsMultiset {
             return;
         }
 
-        // Check nonce field
-        check_admin_referer('add-multi-set', 'add-nonce-new-multi-set');
-
         $this->checkPermissions('add-multi-set', 'add-nonce-new-multi-set');
 
         $multi_set_name = $this->validateMandatoryFields();
