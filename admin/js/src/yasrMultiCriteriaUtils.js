@@ -355,6 +355,7 @@ export const selectMultiset = (
     yasrProReviewSetid = null,
     multiSetinReview = null,
     selectID = 'yasr_select_set',
+    nonce = false
 ) => {
 
     const select = document.getElementById(selectID);
@@ -373,7 +374,10 @@ export const selectMultiset = (
             }
             //here I'm in the setting page
             else {
-                yasrManageMultiSelectSettingsPage(setId);
+                if(nonce === false) {
+                    nonce = document.getElementById('nonce-settings-edit-form-id').value;
+                }
+                yasrManageMultiSelectSettingsPage(setId, nonce);
             }
             return false; // prevent default click action from happening!
         });
@@ -446,10 +450,11 @@ const yasrManageMultiSelectEditPage = (
 /**
  * Do the ajax call when the multi select is changed in setting page
  */
-const yasrManageMultiSelectSettingsPage = (setId) => {
+const yasrManageMultiSelectSettingsPage = (setId, nonce) => {
     const data = {
         action: 'yasr_get_multi_set',
-        set_id: setId
+        set_id: setId,
+        nonce: nonce
     };
 
     jQuery.post(ajaxurl, data, function (response) {

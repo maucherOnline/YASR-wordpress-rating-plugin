@@ -280,7 +280,13 @@ class YasrSettingsMultiset {
                 if ($n_multi_set > 1) {
                     $title = __('Select Set:', 'yet-another-stars-rating');
                     $id    = 'yasr_select_set';
-                    YasrPhpFieldsHelper::printSelectMultiset($multi_set, $title, $id, '');
+                    YasrPhpFieldsHelper::printSelectMultiset(
+                            $multi_set,
+                            $title,
+                            $id,
+                            '',
+                            'nonce-settings-edit-form'
+                    );
                 }
 
                 echo '<hr style="border-top: 1px solid #ddd;">';
