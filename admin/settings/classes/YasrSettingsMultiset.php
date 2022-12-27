@@ -611,13 +611,10 @@ class YasrSettingsMultiset {
             return;
         }
 
-        if (!current_user_can('manage_options')) {
-            /** @noinspection ForgottenDebugOutputInspection */
-            wp_die('You are not allowed to be on this page.');
-        }
-
         // Check nonce field
         check_admin_referer('add-multi-set', 'add-nonce-new-multi-set');
+
+        $this->checkPermissions('add-multi-set', 'add-nonce-new-multi-set');
 
         $multi_set_name = $this->validateMandatoryFields();
 
@@ -662,6 +659,9 @@ class YasrSettingsMultiset {
             );
             return false;
         }
+
+        // Check nonce field
+        check_admin_referer('add-multi-set', 'add-nonce-new-multi-set');
 
         $multi_set_name        = ucfirst(strtolower($_POST['multi-set-name']));
         $multi_set_name_exists = $this->multisetNameExists($multi_set_name);
@@ -846,13 +846,7 @@ class YasrSettingsMultiset {
             return;
         }
 
-        if (!current_user_can('manage_options')) {
-            /** @noinspection ForgottenDebugOutputInspection */
-            wp_die('You are not allowed to be on this page.');
-        }
-
-        // Check nonce field
-        check_admin_referer('edit-multi-set', 'add-nonce-edit-multi-set');
+        $this->checkPermissions('edit-multi-set', 'add-nonce-edit-multi-set');
 
         $set_id                    = (int)$_POST['yasr_edit_multi_set_form'];
         $number_of_stored_elements = (int)$_POST['yasr-edit-form-number-elements'];
@@ -892,6 +886,8 @@ class YasrSettingsMultiset {
      * @return bool|string
      */
     private function editMultisetRemoveSetChecked($set_id) {
+        $this->checkPermissions('edit-multi-set', 'add-nonce-edit-multi-set');
+
         //Check if user want to delete entire set
         if (isset($_POST["yasr-remove-multi-set"])) {
             $remove_set = $this->deleteAllMultisetData($set_id);
@@ -928,6 +924,8 @@ class YasrSettingsMultiset {
             return;
         }
 
+        $this->checkPermissions('edit-multi-set', 'add-nonce-edit-multi-set');
+
         //Then, check if the user want to remove some field
         $field_to_remove = $_POST[$element];
         $field_removed   = $this->deleteMultisetField($set_id, $field_to_remove);
@@ -958,6 +956,8 @@ class YasrSettingsMultiset {
         if(!isset($_POST["edit-multi-set-element-$i"]) || $i > $number_of_stored_elements) {
             return;
         }
+
+        $this->checkPermissions('edit-multi-set', 'add-nonce-edit-multi-set');
 
         //update the stored elements with the new ones
         $field_name = $_POST["edit-multi-set-element-$i"];
@@ -1014,6 +1014,8 @@ class YasrSettingsMultiset {
             || $i <= $number_of_stored_elements) {
             return;
         }
+
+        $this->checkPermissions('edit-multi-set', 'add-nonce-edit-multi-set');
 
         //If $i > number of stored elements, user is adding new elements, so we're going to insert the new ones
         $field_name   = $_POST["edit-multi-set-element-$i"];
@@ -1243,6 +1245,28 @@ class YasrSettingsMultiset {
         }
 
         return 'ok';
+    }
+
+    /**
+     * Run current user can and check_admin_referer
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $action_name
+     * @param $query_arg
+     * @param $capability
+     *
+     * @since  3.1.8
+     * @return void
+     */
+    private function checkPermissions ($action_name, $query_arg, $capability='manage_options') {
+        if(!current_user_can($capability)) {
+            /** @noinspection ForgottenDebugOutputInspection */
+            wp_die('Not Allowed');
+        }
+
+        // Check nonce field
+        check_admin_referer($action_name, $query_arg);
     }
 
 }
