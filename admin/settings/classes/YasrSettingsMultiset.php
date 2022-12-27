@@ -497,6 +497,11 @@ class YasrSettingsMultiset {
         if(!current_user_can('manage_options')) {
             die('Not Allowed');
         }
+
+        if(!wp_verify_nonce($_POST['nonce'], 'nonce-settings-edit-form')) {
+            die('Not Allowed');
+        }
+
         $set_id = (int)$_POST['set_id'];
         $this->formEditMultiset($set_id);
         die();
