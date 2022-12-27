@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     //always show snippet or multi set, if metabox is rendered
     if(metaboxBelow !== null) {
-
         yasrPrintMetaBoxBelowEditor();
     }
 

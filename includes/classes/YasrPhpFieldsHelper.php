@@ -371,7 +371,7 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
             ?>
             <div>
                 <?php echo esc_html($select_text) ?>
-                <?php echo esc_html($select_on_newline) ?>
+                <?php echo yasr_kses($select_on_newline) ?>
                 <label for="<?php echo esc_attr($select_id) ?>">
                     <select id="<?php echo esc_attr($select_id) ?>" autocomplete="off">
                         <?php
@@ -382,7 +382,7 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
                         ?>
                     </select>
                 </label>
-                <input type="hidden" id="<?php echo esc_attr($id_nonce)?>" value="<?php echo esc_attr($nonce) ?>">
+                <input type="hidden" id="<?php echo esc_attr($id_nonce)?>" value="<?php echo esc_html($nonce) ?>">
                 <span id="yasr-loader-select-multi-set" style="display:none;">&nbsp;
                     <img src="<?php echo esc_url(YASR_IMG_DIR . "/loader.gif") ?>" alt="yasr-loader">
                 </span>

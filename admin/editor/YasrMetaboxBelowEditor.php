@@ -148,6 +148,7 @@ class YasrMetaboxBelowEditor {
      * @param $n_multi_set
      */
     public function metaboxMultiset($post_id, $multi_set, $n_multi_set) {
+        $set_id_nonce = wp_create_nonce('yasr_nonce_set_id');
         wp_nonce_field('yasr_nonce_save_multi_values_action',      'yasr_nonce_save_multi_values');
         wp_nonce_field('yasr_nonce_multiset_review_enabled_action','yasr_nonce_multiset_review_enabled');
 
@@ -159,13 +160,20 @@ class YasrMetaboxBelowEditor {
         <div id="yasr-metabox-below-editor-multiset" class="yasr-metabox-below-editor-content" style="display:none">
             <?php
                 if ($n_multi_set > 1) {
-                    YasrPhpFieldsHelper::printSelectMultiset($multi_set);
+                    YasrPhpFieldsHelper::printSelectMultiset(
+                            $multi_set,
+                            false,
+                            false,
+                            '<br>',
+                        'yasr_nonce_change_set'
+                    );
                 }
 
                 $this->printMultisetDiv($n_multi_set, $set_id, $post_id);
                 $this->printMultisetProFeatures($post_id, $set_id);
             ?>
         </div>
+        <input type="hidden" value="<?php echo esc_attr($set_id_nonce)?>" id="yasr-send-id-nameset-nonce">
 
         <?php
     }

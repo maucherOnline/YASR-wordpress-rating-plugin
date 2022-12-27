@@ -258,8 +258,9 @@ export const yasrMultiCriteriaEditPage = () => {
     const copyAverageCommentsMulti = document.getElementById('yasr-editor-copy-comments-multiset');
     const reviewsEnabled           = document.getElementById('yasr-pro-comments-enabled-yes');
     const multiSetinReview         = document.getElementById('yasr-pro-multiset-review-switcher');
+    const nonceSetId               = document.getElementById('yasr-send-id-nameset-nonce').value;
 
-    yasrManageMultiSelectEditPage(setId, postId, nMultiSet);
+    yasrManageMultiSelectEditPage(setId, postId, nMultiSet, null, null, nonceSetId);
 
     copyRoMultiset.onclick = function (event) {
         let el = document.getElementById(event.target.id);
@@ -354,11 +355,11 @@ export const selectMultiset = (
     postId= false,
     yasrProReviewSetid = null,
     multiSetinReview = null,
-    selectID = 'yasr_select_set',
-    nonce = false
+    selectID = 'yasr_select_set'
 ) => {
 
     const select = document.getElementById(selectID);
+    let   nonce  = false;
     //If more than 1 set is used...
     if(!!select === true) {
         select.addEventListener('change', function () {
@@ -370,13 +371,12 @@ export const selectMultiset = (
                 //show the loader
                 document.getElementById('yasr-loader-select-multi-set').style.display='';
 
-                yasrManageMultiSelectEditPage(setId, postId, nMultiSet, yasrProReviewSetid, multiSetinReview);
+                nonce = document.getElementById('yasr_nonce_change_set-id').value;
+                yasrManageMultiSelectEditPage(setId, postId, nMultiSet, yasrProReviewSetid, multiSetinReview, nonce);
             }
             //here I'm in the setting page
             else {
-                if(nonce === false) {
-                    nonce = document.getElementById('nonce-settings-edit-form-id').value;
-                }
+                nonce = document.getElementById('nonce-settings-edit-form-id').value;
                 yasrManageMultiSelectSettingsPage(setId, nonce);
             }
             return false; // prevent default click action from happening!
@@ -399,13 +399,15 @@ const yasrManageMultiSelectEditPage = (
     postid,
     nMultiSet,
     yasrProReviewSetid=null,
-    multiSetinReview = null
+    multiSetinReview = null,
+    nonce
 ) => {
 
     const data_id = {
         action: 'yasr_send_id_nameset',
         set_id:  setId,
-        post_id: postid
+        post_id: postid,
+        yasr_send_id_nameset_nonce: nonce
     };
 
     jQuery.post(ajaxurl, data_id, function (response) {
