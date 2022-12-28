@@ -1264,7 +1264,7 @@ class YasrSettings {
             do_action('yasr_right_settings_panel_box');
             self::upgradeBox();
             self::resourcesBox();
-            self::buyCofee();
+            self::donations();
             self::relatedPlugins();
             self::askRating();
             ?>
@@ -1378,28 +1378,42 @@ class YasrSettings {
      *
      * @author Dario Curvino <@dudo>
      */
-    private static function buyCofee() {
-        $buymecofeetext = esc_html__('Coffee is vital to make YASR development going on!', 'yet-another-stars-rating');
-        $buymecofeetext .= '<br />';
+    private static function donations() {
+        $donation_text = '<p>';
+        $donation_text .= esc_html__('First version of YASR was released in 2014.','yet-another-stars-rating');
+        $donation_text .= '</p>';
+        $donation_text .= '<p>';
 
         if(yasr_fs()->is_free_plan()) {
-            $buymecofeetext .= esc_html__('If you are enjoying YASR, and you don\'t need the pro version, please consider to buy me a coffee, thanks!',
-                'yet-another-stars-rating');
+            $donation_text .= esc_html__('I can still work on it only thanks to all the people who bought the PRO version over the years.', 'yet-another-stars-rating');
+            $donation_text .= '</p>';
+            $donation_text .= esc_html__("If you don't need the pro version, you may consider to make a donation, thanks!", 'yet-another-stars-rating');
         } else {
-            $buymecofeetext .= esc_html__('If you are enjoying YASR, please consider to buy me a coffee, thanks!',
-                'yet-another-stars-rating');
+            $donation_text .= esc_html__('I can still work on it only thanks to all amazing people like you who bought the PRO version over the years.', 'yet-another-stars-rating');
+            $donation_text .= '</p>';
+            $donation_text .= esc_html__("If you want, you can still help with a donation, thanks!", 'yet-another-stars-rating');
         }
+
+        $donation_text .= '<br />';
+        $lp_image = '<a href="https://liberapay.com/~1775681" target="_blank">
+                        <img src="'.YASR_IMG_DIR.'/liberapay.svg" alt="liberapay" width="150">
+                     </a>';
+
+        $kofi_image = '<a href="https://ko-fi.com/L4L6HBQQ4" target="_blank">
+                        <img src="'.YASR_IMG_DIR.'/kofi.png" alt="kofi" width="150">
+                     </a>';
 
         $div = "<div class='yasr-donatedivdx' id='yasr-buy-cofee'>";
 
-        $text  = '<div class="yasr-donate-title">' . __('Buy me a coffee!', 'yet-another-stars-rating') .'</div>';
-        $text .= '<div style="text-align: center">';
-        $text .= '<a href="https://www.paypal.com/donate/?hosted_button_id=SVTAVUF62QZ4W" target="_blank">
-                <img src="'.YASR_IMG_DIR.'/button_paypal.png" alt="paypal" width="200">
-              </a>';
+        $text  = '<div class="yasr-donate-title">' . __('Donations', 'yet-another-stars-rating') .'</div>';
+        $text .= '<div>';
+        $text .= $donation_text;
         $text .= '</div>';
-        $text .= '<div style="margin-top: 15px;">';
-        $text .= $buymecofeetext;
+        $text .= '<div style="margin-top:10px;">';
+        $text .= $lp_image;
+        $text .= '</div>';
+        $text .= '<div style="margin-top:10px;">';
+        $text .= $kofi_image;
         $text .= '</div>';
         $div_and_text = $div . $text . '</div>';
 
