@@ -1389,9 +1389,9 @@ class YasrSettings {
             $donation_text .= '</p>';
             $donation_text .= esc_html__("If you don't need the pro version, you may consider to make a donation, thanks!", 'yet-another-stars-rating');
         } else {
-            $donation_text .= esc_html__('I can still work on it only thanks to all amazing people like you who bought the PRO version over the years.', 'yet-another-stars-rating');
+            $donation_text .= esc_html__('I can still work on it only thanks to all the amazing people like you who bought the PRO version over the years.', 'yet-another-stars-rating');
             $donation_text .= '</p>';
-            $donation_text .= esc_html__("If you want, you can still help with a donation, thanks!", 'yet-another-stars-rating');
+            $donation_text .= esc_html__("If you want, you can also help with a donation, thanks!", 'yet-another-stars-rating');
         }
 
         $donation_text .= '<br />';

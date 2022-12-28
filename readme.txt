@@ -209,6 +209,7 @@ The full changelog can be found in the plugin's directory. Recent entries:
 = 3.1.8 =
 * FIXED: Js error in tab "Multi Criteria" if not multi criteria rating is set
 * TWEAKED: removed class Yasr_WP_List_Table
+* Minor changes
 
 = 3.1.7 =
 * FIXED: Removed duplicate query in tabs "Migration Tools"
