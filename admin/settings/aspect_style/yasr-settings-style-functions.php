@@ -23,43 +23,6 @@ if (!defined('ABSPATH')) {
 } // Exit if accessed directly
 
 
-function yasr_color_scheme_multiset_callback($style_options) {
-
-    $array_options = array (
-        'light' => __('Light', 'yet-another-stars-rating'),
-        'dark'  => __('Dark', 'yet-another-stars-rating')
-    );
-    $default = $style_options['scheme_color_multiset'];
-    $name    = 'yasr_style_options[scheme_color_multiset]';
-    $class   = 'yasr-general-options-scheme-color';
-    $id      = 'yasr-style-options-color-scheme';
-
-    echo yasr_kses(YasrPhpFieldsHelper::radio('', $class, $array_options, $name, $default, $id));
-    ?>
-
-    <br/>
-
-    <a href="#" id="yasr-color-scheme-preview-link">
-        <?php esc_html_e("Preview", 'yet-another-stars-rating') ?>
-    </a>
-
-    <div id="yasr-color-scheme-preview" style="display:none">
-        <?php
-            esc_html_e("Light theme", 'yet-another-stars-rating');
-            echo '<br /><br /><img src="' . esc_url(YASR_IMG_DIR . 'yasr-multi-set.png').'" alt="light-multiset">';
-
-            echo "<br /> <br />";
-
-            esc_html_e("Dark theme", 'yet-another-stars-rating');
-            echo '<br /><br /><img src="' . esc_url(YASR_IMG_DIR . 'dark-multi-set.png').'" alt="dark-multiset">';
-            ?>
-    </div>
-
-    <p>
-
-    <?php
-}
-
 function yasr_style_options_textarea_callback($style_options) {
     esc_html_e('Please use text area below to write your own CSS styles to override the default ones.',
     'yet-another-stars-rating');

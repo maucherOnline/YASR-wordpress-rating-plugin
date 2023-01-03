@@ -49,7 +49,7 @@ class YasrSettingsStyle {
         add_settings_field(
             'yasr_color_scheme_multiset',
             __('Which color scheme do you want to use?', 'yet-another-stars-rating'),
-            'yasr_color_scheme_multiset_callback',
+            array($this, 'settingsFieldFreeMultisetHTML'),
             'yasr_style_tab',
             'yasr_style_options_section_id',
             $style_options
@@ -65,6 +65,51 @@ class YasrSettingsStyle {
         );
     }
 
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $style_options
+     *
+     * @return void
+     */
+    public function settingsFieldFreeMultisetHTML($style_options) {
+
+        $array_options = array (
+            'light' => __('Light', 'yet-another-stars-rating'),
+            'dark'  => __('Dark', 'yet-another-stars-rating')
+        );
+        $default = $style_options['scheme_color_multiset'];
+        $name    = 'yasr_style_options[scheme_color_multiset]';
+        $class   = 'yasr-general-options-scheme-color';
+        $id      = 'yasr-style-options-color-scheme';
+
+        echo yasr_kses(YasrPhpFieldsHelper::radio('', $class, $array_options, $name, $default, $id));
+        ?>
+
+        <br/>
+
+        <a href="#" id="yasr-color-scheme-preview-link">
+            <?php esc_html_e("Preview", 'yet-another-stars-rating') ?>
+        </a>
+
+        <div id="yasr-color-scheme-preview" style="display:none">
+            <?php
+            esc_html_e("Light theme", 'yet-another-stars-rating');
+            echo '<br /><br /><img src="' . esc_url(YASR_IMG_DIR . 'yasr-multi-set.png').'" alt="light-multiset">';
+
+            echo "<br /> <br />";
+
+            esc_html_e("Dark theme", 'yet-another-stars-rating');
+            echo '<br /><br /><img src="' . esc_url(YASR_IMG_DIR . 'dark-multi-set.png').'" alt="dark-multiset">';
+            ?>
+        </div>
+
+        <p>
+
+        <?php
+    }
+
     /**
      * Add setting field for free version
      *
@@ -74,7 +119,7 @@ class YasrSettingsStyle {
      *
      * @return void
      */
-    function settingsFieldFreeChooseImage($style_options) {
+    public function settingsFieldFreeChooseImage($style_options) {
         add_settings_field(
             'yasr_style_options_choose_stars_lite',
             __('Choose Stars Set', 'yet-another-stars-rating'),
@@ -94,7 +139,7 @@ class YasrSettingsStyle {
      *
      * @return void
      */
-    function settingsFieldFreeChooseImageHTML($style_options) {
+    public function settingsFieldFreeChooseImageHTML($style_options) {
         ?>
         <div class='yasr-select-img-container' id='yasr_pro_custom_set_choosen_stars'>
             <div>
@@ -183,7 +228,7 @@ class YasrSettingsStyle {
      *
      * @return mixed
      */
-    public static function defaultStarSet($style_options) {
+    public function defaultStarSet($style_options) {
         if (!array_key_exists('stars_set_free', $style_options)) {
             $style_options['stars_set_free'] = 'rater-yasr'; //..default value if not exists
         }
