@@ -22,7 +22,6 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-
 /**
  * @since 2.4.7
  *
@@ -901,7 +900,6 @@ class YasrSettings {
         }
 
         return $output;
-
     }
 
     /**

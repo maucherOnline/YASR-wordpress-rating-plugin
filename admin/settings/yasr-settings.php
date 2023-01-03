@@ -32,69 +32,70 @@ if (!current_user_can('manage_options')) {
 <div class="wrap">
     <h2>Yet Another Stars Rating: <?php esc_html_e('Settings', 'yet-another-stars-rating'); ?></h2>
     <?php
-        if (isset($_GET['tab'])) {
-            $active_tab = $_GET['tab'];
-        } else {
-            $active_tab = 'general_settings';
-        }
+    settings_errors();
 
-        //Do the settings tab
-        YasrSettings::printTabs($active_tab);
-        ?>
-            <div class="yasr-settingsdiv">
-                <div class="yasr-settings-table">
+    if (isset($_GET['tab'])) {
+        $active_tab = $_GET['tab'];
+    } else {
+        $active_tab = 'general_settings';
+    }
+
+    //Do the settings tab
+    YasrSettings::printTabs($active_tab);
+    ?>
+    <div class="yasr-settingsdiv">
+        <div class="yasr-settings-table">
+            <?php
+
+            if ($active_tab === 'general_settings') {
+                ?>
+                <form action="options.php" method="post" id="yasr_settings_form">
+                    <?php
+                        settings_fields('yasr_general_options_group');
+                        do_settings_sections('yasr_general_settings_tab');
+                        submit_button(YASR_SAVE_All_SETTINGS_TEXT);
+                    ?>
+                </form>
                 <?php
 
-                if ($active_tab === 'general_settings') {
-                    ?>
-                    <form action="options.php" method="post" id="yasr_settings_form">
-                        <?php
-                            settings_fields('yasr_general_options_group');
-                            do_settings_sections('yasr_general_settings_tab');
-                            submit_button(YASR_SAVE_All_SETTINGS_TEXT);
-                        ?>
-                    </form>
-                    <?php
+            } //End if tab 'general_settings'
 
-                } //End if tab 'general_settings'
+            if ($active_tab === 'manage_multi') {
+                include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-multiset.php');
+            } //End if ($active_tab=='manage_multi')
 
-                if ($active_tab === 'manage_multi') {
-                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-multiset.php');
-                } //End if ($active_tab=='manage_multi')
-
-                if ($active_tab === 'style_options') {
-                    ?>
-                    <form action="options.php" method="post" enctype='multipart/form-data' id="yasr_settings_form">
-                        <?php
-                        settings_fields('yasr_style_options_group');
-                        do_settings_sections('yasr_style_tab');
-                        submit_button(YASR_SAVE_All_SETTINGS_TEXT);
-                        ?>
-                    </form>
-                    <?php
-
-                } //End tab style
-
-                if ($active_tab === 'rankings') {
-                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-rankings.php');
-                } //End tab ur options
-
-                if ($active_tab === 'migration_tools') {
-                    //include migration functions
-                    include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-migration.php');
-                } //End tab migration
-
-                //Adds new tab content here
-                do_action('yasr_settings_tab_content', $active_tab);
-
+            if ($active_tab === 'style_options') {
                 ?>
+                <form action="options.php" method="post" enctype='multipart/form-data' id="yasr_settings_form">
+                    <?php
+                    settings_fields('yasr_style_options_group');
+                    do_settings_sections('yasr_style_tab');
+                    submit_button(YASR_SAVE_All_SETTINGS_TEXT);
+                    ?>
+                </form>
+                <?php
 
-                </div> <!--End yasr-settingsdiv-->
-            </div>
+            } //End tab style
+
+            if ($active_tab === 'rankings') {
+                include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-rankings.php');
+            } //End tab ur options
+
+            if ($active_tab === 'migration_tools') {
+                //include migration functions
+                include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-migration.php');
+            } //End tab migration
+
+            //Adds new tab content here
+            do_action('yasr_settings_tab_content', $active_tab);
+
+        ?>
+
+        </div> <!--End yasr-settings-table-->
+    </div><!--End yasr-settingsdiv-->
 
     <div class="yasr-clear-both-dynamic"></div>
     <?php
         YasrSettings::printRightColumn();
     ?>
-    <!--End div wrap-->
-</div>
+</div><!--End div wrap-->

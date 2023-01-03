@@ -151,7 +151,6 @@ class YasrProStylishAdmin {
 
     /**
      *
-     *
      * @author Dario Curvino <@dudo>
      * @since  2.6.8
      *
