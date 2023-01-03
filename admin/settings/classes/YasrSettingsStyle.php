@@ -9,7 +9,7 @@
 class YasrSettingsStyle {
     public function init() {
         //init style options
-        add_action('admin_init', array($this, 'styleOptionsInit'));
+        add_action('admin_init', array($this, 'styleOptions'));
 
 
         //Add setting field to choose the image for the free version
@@ -25,7 +25,7 @@ class YasrSettingsStyle {
      * @author Dario Curvino <@dudo>
      * @return void
      */
-    function styleOptionsInit() {
+    function styleOptions() {
         register_setting(
             'yasr_style_options_group', // A settings group name. Must exist prior to the register_setting call. This must match the group name in settings_fields()
             'yasr_style_options', //The name of an option to sanitize and save.
@@ -58,7 +58,7 @@ class YasrSettingsStyle {
         add_settings_field(
             'yasr_style_options_textarea',
             __('Custom CSS Styles', 'yet-another-stars-rating'),
-            'yasr_style_options_textarea_callback',
+            array($this,'settingsFieldTextareaHTML'),
             'yasr_style_tab',
             'yasr_style_options_section_id',
             $style_options
@@ -67,6 +67,8 @@ class YasrSettingsStyle {
 
 
     /**
+     * Print the radios to choose the color for multiset
+     *
      * @author Dario Curvino <@dudo>
      *
      * @param $style_options
@@ -106,6 +108,31 @@ class YasrSettingsStyle {
         </div>
 
         <p>
+
+        <?php
+    }
+
+    /**
+     * Print the textarea to customize css
+     *
+     * @author Dario Curvino <@dudo>*
+     * @param $style_options
+     *
+     * @return void
+     */
+    public function settingsFieldTextareaHTML($style_options) {
+        esc_html_e('Please use text area below to write your own CSS styles to override the default ones.',
+            'yet-another-stars-rating');
+        echo '<br /><strong>';
+        esc_html_e('Leave it blank if you don\'t know what you\'re doing.', 'yet-another-stars-rating');
+        echo '</strong><p>';
+        ?>
+
+        <label for='yasr_style_options_textarea'></label><textarea
+        rows='17'
+        cols='40'
+        name='yasr_style_options[textarea]'
+        id='yasr_style_options_textarea'><?php echo esc_textarea($style_options['textarea']); ?></textarea>
 
         <?php
     }
