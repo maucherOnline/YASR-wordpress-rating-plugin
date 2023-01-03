@@ -25,7 +25,7 @@ class YasrProStylishAdmin {
 
     public function init() {
         //Remove YASR in style tab Free Action
-        remove_action('yasr_style_options_add_settings_field', 'yasr_style_options_add_settings_field_callback');
+        remove_action('yasr_style_options_add_settings_field', array ('YasrSettingsStyle', 'settingsFieldFreeChooseImage'));
 
         //Add 2 new settings fields in style tab
         add_action('yasr_style_options_add_settings_field', array ($this, 'addSettingsFields'));

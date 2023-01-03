@@ -13,7 +13,7 @@ class YasrSettingsStyle {
 
 
         //Add setting field to choose the image for the free version
-        add_action('yasr_style_options_add_settings_field', array($this, 'settingsFieldFreeChooseImage'));
+        add_action('yasr_style_options_add_settings_field', array('YasrSettingsStyle', 'settingsFieldFreeChooseImage'));
 
         //hook into options
         add_filter('yasr_filter_style_options', array($this, 'defaultStarSet'));
@@ -146,11 +146,11 @@ class YasrSettingsStyle {
      *
      * @return void
      */
-    public function settingsFieldFreeChooseImage($style_options) {
+    public static function settingsFieldFreeChooseImage($style_options) {
         add_settings_field(
             'yasr_style_options_choose_stars_lite',
             __('Choose Stars Set', 'yet-another-stars-rating'),
-            array($this, 'settingsFieldFreeChooseImageHTML'),
+            array('YasrSettingsStyle', 'settingsFieldFreeChooseImageHTML'),
             'yasr_style_tab',
             'yasr_style_options_section_id',
             $style_options
