@@ -78,16 +78,6 @@ function yasr_style_options_textarea_callback($style_options) {
 
 }
 
-//sanitize
-function yasr_style_options_sanitize($style_options) {
-    $style_options = apply_filters('yasr_sanitize_style_options', $style_options);
-    $output = array();
 
-    foreach ($style_options as $key => $value) {
-        $output[$key] = sanitize_textarea_field($style_options[$key]);
-    }
-
-    return $output;
-}
 
 ?>

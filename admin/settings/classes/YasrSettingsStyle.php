@@ -29,7 +29,7 @@ class YasrSettingsStyle {
         register_setting(
             'yasr_style_options_group', // A settings group name. Must exist prior to the register_setting call. This must match the group name in settings_fields()
             'yasr_style_options', //The name of an option to sanitize and save.
-            'yasr_style_options_sanitize'
+            array($this, 'styleOptionsSanitize')
         );
 
         $style_options = json_decode(YASR_STYLE_OPTIONS, true);
@@ -188,6 +188,26 @@ class YasrSettingsStyle {
             $style_options['stars_set_free'] = 'rater-yasr'; //..default value if not exists
         }
         return $style_options;
+    }
+
+    /**
+     * Sanitize the input
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $style_options
+     *
+     * @return array
+     */
+    function styleOptionsSanitize($style_options) {
+        $style_options = apply_filters('yasr_sanitize_style_options', $style_options);
+        $output = array();
+
+        foreach ($style_options as $key => $value) {
+            $output[$key] = sanitize_textarea_field($style_options[$key]);
+        }
+
+        return $output;
     }
 
 }
