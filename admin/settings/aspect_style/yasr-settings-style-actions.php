@@ -116,13 +116,3 @@ function yasr_style_options_choose_stars_lite_callback($style_options) {
     <?php
     submit_button(__('Save Settings', 'yet-another-stars-rating'));
 }
-
-add_filter('yasr_filter_style_options', 'yasr_filter_style_options_callback');
-function yasr_filter_style_options_callback($style_options) {
-
-    if (!array_key_exists('stars_set_free', $style_options)) {
-        $style_options['stars_set_free'] = 'rater-yasr'; //..default value if not exists
-    }
-
-    return $style_options;
-}
