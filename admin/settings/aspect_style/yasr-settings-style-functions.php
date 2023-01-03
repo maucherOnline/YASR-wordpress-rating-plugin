@@ -24,8 +24,6 @@ if (!defined('ABSPATH')) {
 
 add_action('admin_init', 'yasr_style_options_init'); //This is for auto insert options
 
-require 'yasr-settings-style-actions.php';
-
 function yasr_style_options_init() {
 
     register_setting(

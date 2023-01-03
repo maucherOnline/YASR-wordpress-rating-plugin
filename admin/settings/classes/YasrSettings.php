@@ -38,11 +38,14 @@ class YasrSettings {
     public function init () {
         add_action('admin_init', array($this, 'generalOptions')); //This is for general options
 
-        $multiset = new YasrSettingsMultiset();
-        $multiset->init();
-
         //include style functions
         require(YASR_ABSOLUTE_PATH_ADMIN . '/settings/aspect_style/yasr-settings-style-functions.php');
+
+        $style_settings = new YasrSettingsStyle();
+        $style_settings->init();
+
+        $multiset = new YasrSettingsMultiset();
+        $multiset->init();
 
         //add ajax endpoint to preview the rankings
         add_action('wp_ajax_yasr_rankings_preview_shortcode', array('YasrSettingsRankings', 'rankingPreview'));

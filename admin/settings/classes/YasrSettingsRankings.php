@@ -22,7 +22,6 @@ if (!defined('ABSPATH')) {
 } // Exit if accessed directly
 
 class YasrSettingsRankings {
-
     public  $custom_post_types;
     private $multi_set_array;
     private $n_multi_set;
