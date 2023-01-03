@@ -36,7 +36,7 @@ function yasr_change_optin_image() {
 //deactivate the feedback form on plugin deactivation
 yasr_fs()->add_filter( 'show_deactivation_feedback_form', '__return_false' );
 
-//this define must triggered after the active theme's functions.php file is loaded
+//this defines must be triggered after the active theme's functions.php file is loaded
 add_action('init', function (){
 
     $text = __('This feature is available only in the pro version', 'yet-another-stars-rating');

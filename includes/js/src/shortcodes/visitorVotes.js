@@ -298,7 +298,7 @@ function yasrVvStats (yasrStatsInDom) {
                     //When support for IE will be dropped out, this will become onShow(tip)
                     onShow: function onShow(tip) {
                         if (htmlId !== htmlIdChecked) {
-                            //must be post or wont work
+                            //must be post or won't work
                             jQuery.post(yasrWindowVar.ajaxurl, data, function (response) {
                                 response = yasrValidJson(response);
 
