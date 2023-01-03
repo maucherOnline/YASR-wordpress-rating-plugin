@@ -22,57 +22,6 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-add_action('admin_init', 'yasr_style_options_init'); //This is for auto insert options
-
-function yasr_style_options_init() {
-
-    register_setting(
-        'yasr_style_options_group', // A settings group name. Must exist prior to the register_setting call. This must match the group name in settings_fields()
-        'yasr_style_options', //The name of an option to sanitize and save.
-        'yasr_style_options_sanitize'
-    );
-
-    $style_options = json_decode(YASR_STYLE_OPTIONS, true);
-
-    //filter $style_options
-    $style_options = apply_filters('yasr_filter_style_options', $style_options);
-
-    add_settings_section(
-            'yasr_style_options_section_id',
-            __('Style Options', 'yet-another-stars-rating'),
-            'yasr_style_section_callback',
-            'yasr_style_tab'
-    );
-
-    do_action('yasr_style_options_add_settings_field', $style_options);
-
-    add_settings_field(
-            'yasr_color_scheme_multiset',
-            __('Which color scheme do you want to use?', 'yet-another-stars-rating'),
-            'yasr_color_scheme_multiset_callback',
-            'yasr_style_tab',
-            'yasr_style_options_section_id',
-            $style_options
-    );
-
-    add_settings_field(
-            'yasr_style_options_textarea',
-            __('Custom CSS Styles', 'yet-another-stars-rating'),
-            'yasr_style_options_textarea_callback',
-            'yasr_style_tab',
-            'yasr_style_options_section_id',
-            $style_options
-    );
-
-
-}
-
-/**
- * @return void
- */
-function yasr_style_section_callback() {
-}
-
 
 function yasr_color_scheme_multiset_callback($style_options) {
 

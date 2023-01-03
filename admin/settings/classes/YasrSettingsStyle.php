@@ -8,11 +8,61 @@
  */
 class YasrSettingsStyle {
     public function init() {
+        //init style options
+        add_action('admin_init', array($this, 'styleOptionsInit'));
+
+
         //Add setting field to choose the image for the free version
         add_action('yasr_style_options_add_settings_field', array($this, 'settingsFieldFreeChooseImage'));
 
         //hook into options
         add_filter('yasr_filter_style_options', array($this, 'defaultStarSet'));
+    }
+
+    /**
+     * Init style options
+     *
+     * @author Dario Curvino <@dudo>
+     * @return void
+     */
+    function styleOptionsInit() {
+        register_setting(
+            'yasr_style_options_group', // A settings group name. Must exist prior to the register_setting call. This must match the group name in settings_fields()
+            'yasr_style_options', //The name of an option to sanitize and save.
+            'yasr_style_options_sanitize'
+        );
+
+        $style_options = json_decode(YASR_STYLE_OPTIONS, true);
+
+        //filter $style_options
+        $style_options = apply_filters('yasr_filter_style_options', $style_options);
+
+        add_settings_section(
+            'yasr_style_options_section_id',
+            __('Style Options', 'yet-another-stars-rating'),
+            '__return_false',
+            'yasr_style_tab'
+        );
+
+        do_action('yasr_style_options_add_settings_field', $style_options);
+
+        add_settings_field(
+            'yasr_color_scheme_multiset',
+            __('Which color scheme do you want to use?', 'yet-another-stars-rating'),
+            'yasr_color_scheme_multiset_callback',
+            'yasr_style_tab',
+            'yasr_style_options_section_id',
+            $style_options
+        );
+
+        add_settings_field(
+            'yasr_style_options_textarea',
+            __('Custom CSS Styles', 'yet-another-stars-rating'),
+            'yasr_style_options_textarea_callback',
+            'yasr_style_tab',
+            'yasr_style_options_section_id',
+            $style_options
+        );
     }
 
     /**
