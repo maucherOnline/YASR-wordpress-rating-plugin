@@ -28,6 +28,7 @@ class YasrMultiSet extends YasrShortcode {
 
     public $set_id;         //1
     public $show_average;   //null
+    public $star_readonly;
 
     public function __construct($atts, $shortcode_name) {
         parent::__construct($atts, $shortcode_name);

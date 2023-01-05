@@ -30,7 +30,6 @@ class YasrVisitorMultiSet extends YasrMultiSet {
     protected $button_html;
     protected $button_html_disabled;
     protected $button;
-    protected $star_readonly;
     protected $span_message_content;
 
 
