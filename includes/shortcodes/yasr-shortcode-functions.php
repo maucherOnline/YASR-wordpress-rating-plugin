@@ -81,7 +81,6 @@ function shortcode_visitor_votes_callback($atts, $content=false, $shortcode_tag=
     }
 
     return (new YasrVisitorVotes($atts, $shortcode_tag))->returnShortcode();
-
 } //End function shortcode_visitor_votes_callback
 
 /****** Add shortcode for multiple set ******/
@@ -121,7 +120,7 @@ function yasr_visitor_multiset_callback($atts, $content, $shortcode_tag) {
 add_shortcode ('yasr_top_ten_highest_rated', 'yasr_ov_ranking_callback');
 
 /*
- * Shortcode to display highest rated posts by overall_rating
+ * Shortcode to display the highest rated posts by overall_rating
  * @since 2.6.2
  */
 add_shortcode ('yasr_ov_ranking', 'yasr_ov_ranking_callback');

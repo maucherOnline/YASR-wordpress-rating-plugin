@@ -26,7 +26,6 @@ if (!defined('ABSPATH')) {
  * Print Yasr Visitor Votes
  */
 class YasrVisitorVotes extends YasrShortcode {
-
     protected  $is_singular;
     protected  $unique_id;
     protected  $ajax_nonce_visitor;
@@ -160,7 +159,7 @@ class YasrVisitorVotes extends YasrShortcode {
     }
 
     /**
-     * This function show default (or custom) text depending if rating is allowed or not
+     * This function show default (or custom) text depending on if rating is allowed or not
      *
      * @param void
      * @param int|bool $post_id
