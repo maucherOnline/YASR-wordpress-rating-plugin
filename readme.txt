@@ -206,6 +206,10 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.1.9 =
+* FIXED: missing file in "Aspect and style tab"
+* TWEAKED: under the hood changes
+
 = 3.1.8 =
 * FIXED: Js error in tab "Multi Criteria" if not multi criteria rating is set
 * TWEAKED: removed class Yasr_WP_List_Table
