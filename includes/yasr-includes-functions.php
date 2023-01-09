@@ -88,7 +88,7 @@ function yasr_select_itemtype($html_id=false, $name=false, $default_option=false
 /*** Function to set cookie
  * @since 0.8.3
  *
- * @param $cookiename //can comes from a filter
+ * @param $cookiename //can come from a filter
  * @param $data_to_save
  */
 function yasr_setcookie($cookiename, $data_to_save) {

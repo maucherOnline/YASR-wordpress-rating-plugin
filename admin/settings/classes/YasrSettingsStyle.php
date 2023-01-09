@@ -11,7 +11,6 @@ class YasrSettingsStyle {
         //init style options
         add_action('admin_init', array($this, 'styleOptions'));
 
-
         //Add setting field to choose the image for the free version
         add_action('yasr_style_options_add_settings_field', array('YasrSettingsStyle', 'settingsFieldFreeChooseImage'));
 
@@ -76,35 +75,33 @@ class YasrSettingsStyle {
      * @return void
      */
     public function settingsFieldFreeMultisetHTML($style_options) {
-
-        $array_options = array (
-            'light' => __('Light', 'yet-another-stars-rating'),
-            'dark'  => __('Dark', 'yet-another-stars-rating')
-        );
-        $default = $style_options['scheme_color_multiset'];
-        $name    = 'yasr_style_options[scheme_color_multiset]';
-        $class   = 'yasr-general-options-scheme-color';
-        $id      = 'yasr-style-options-color-scheme';
-
-        echo yasr_kses(YasrPhpFieldsHelper::radio('', $class, $array_options, $name, $default, $id));
         ?>
 
-        <br/>
-
-        <a href="#" id="yasr-color-scheme-preview-link">
-            <?php esc_html_e("Preview", 'yet-another-stars-rating') ?>
-        </a>
-
-        <div id="yasr-color-scheme-preview" style="display:none">
+        <div class="yasr-settings-row-35">
             <?php
-            esc_html_e("Light theme", 'yet-another-stars-rating');
-            echo '<br /><br /><img src="' . esc_url(YASR_IMG_DIR . 'yasr-multi-set.png').'" alt="light-multiset">';
+                $array_options = array (
+                    'light' => __('Light', 'yet-another-stars-rating'),
+                    'dark'  => __('Dark', 'yet-another-stars-rating')
+                );
+                $default = $style_options['scheme_color_multiset'];
+                $name    = 'yasr_style_options[scheme_color_multiset]';
+                $class   = 'yasr-general-options-scheme-color';
+                $id      = 'yasr-style-options-color-scheme';
 
-            echo "<br /> <br />";
-
-            esc_html_e("Dark theme", 'yet-another-stars-rating');
-            echo '<br /><br /><img src="' . esc_url(YASR_IMG_DIR . 'dark-multi-set.png').'" alt="dark-multiset">';
+                echo yasr_kses(YasrPhpFieldsHelper::radio('', $class, $array_options, $name, $default, $id));
             ?>
+
+            <div id="yasr-color-scheme-preview">
+                <?php esc_html_e("Light theme", 'yet-another-stars-rating'); ?>
+                <br /><br /><img src="<?php echo esc_url(YASR_IMG_DIR . 'yasr-multi-set.png')?>" alt="light-multiset">
+
+                <br /> <br />
+
+                <?php esc_html_e("Dark theme", 'yet-another-stars-rating'); ?>
+                <br /><br /><img src="<?php echo esc_url(YASR_IMG_DIR . 'dark-multi-set.png')?>" alt="dark-multiset">
+                ?>
+            </div>
+
         </div>
 
         <p>
