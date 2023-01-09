@@ -25,7 +25,7 @@ class YasrSettingsStyle {
      * @author Dario Curvino <@dudo>
      * @return void
      */
-    function styleOptions() {
+    public function styleOptions() {
         register_setting(
             'yasr_style_options_group', // A settings group name. Must exist prior to the register_setting call. This must match the group name in settings_fields()
             'yasr_style_options', //The name of an option to sanitize and save.
@@ -166,7 +166,7 @@ class YasrSettingsStyle {
      *
      * @return void
      */
-    public function settingsFieldFreeChooseImageHTML($style_options) {
+    public static function settingsFieldFreeChooseImageHTML($style_options) {
         ?>
         <div class='yasr-select-img-container' id='yasr_pro_custom_set_choosen_stars'>
             <div>
@@ -233,13 +233,6 @@ class YasrSettingsStyle {
             echo wp_kses_post($text);
             ?>
         </div>
-
-        <script type="text/javascript">
-            jQuery('#yasr-settings-stylish-stars').mouseover(function () {
-                jQuery('#yasr-settings-stylish-text').css("visibility", "visible");
-                jQuery('#yasr-settings-stylish-image').css("opacity", 0.4);
-            });
-        </script>
 
         <?php
         submit_button(__('Save Settings', 'yet-another-stars-rating'));

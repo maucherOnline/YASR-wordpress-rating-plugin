@@ -70,8 +70,12 @@ if (activeTab === 'style_options') {
         return false; // prevent default click action from happening!
     });
 
-    wp.hooks.doAction('yasrStyleOptions');
+    jQuery('#yasr-settings-stylish-stars').mouseover(function () {
+        jQuery('#yasr-settings-stylish-text').css("visibility", "visible");
+        jQuery('#yasr-settings-stylish-image').css("opacity", 0.4);
+    });
 
+    wp.hooks.doAction('yasrStyleOptions');
 }
 
 //--------------Multi Sets Page ------------------
