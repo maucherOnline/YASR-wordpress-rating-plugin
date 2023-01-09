@@ -35,7 +35,7 @@ Argument | Type | Description
 `$post_id` |  | int
 `$set_id` |  | int
 
-Source: [../admin/editor/YasrMetaboxBelowEditor.php](../admin/editor/YasrMetaboxBelowEditor.php), [line 191](../admin/editor/YasrMetaboxBelowEditor.php#L191-L197)
+Source: [../admin/editor/YasrMetaboxBelowEditor.php](../admin/editor/YasrMetaboxBelowEditor.php), [line 199](../admin/editor/YasrMetaboxBelowEditor.php#L199-L205)
 
 ### `yasr_add_content_multiset_tab_pro`
 
@@ -48,7 +48,7 @@ Argument | Type | Description
 `$post_id` |  | int
 `$set_id` |  | int
 
-Source: [../admin/editor/YasrMetaboxBelowEditor.php](../admin/editor/YasrMetaboxBelowEditor.php), [line 274](../admin/editor/YasrMetaboxBelowEditor.php#L274-L280)
+Source: [../admin/editor/YasrMetaboxBelowEditor.php](../admin/editor/YasrMetaboxBelowEditor.php), [line 282](../admin/editor/YasrMetaboxBelowEditor.php#L282-L288)
 
 ### `yasr_add_content_bottom_topright_metabox`
 
@@ -151,16 +151,6 @@ Argument | Type | Description
 
 Source: [../admin/settings/yasr-stats-page.php](../admin/settings/yasr-stats-page.php), [line 130](../admin/settings/yasr-stats-page.php#L130-L130)
 
-### `yasr_style_options_add_settings_field`
-
-**Arguments**
-
-Argument | Type | Description
--------- | ---- | -----------
-`$style_options` |  | 
-
-Source: [../admin/settings/aspect_style/yasr-settings-style-functions.php](../admin/settings/aspect_style/yasr-settings-style-functions.php), [line 49](../admin/settings/aspect_style/yasr-settings-style-functions.php#L49-L49)
-
 ### `yasr_migration_page_bottom`
 
 **Arguments**
@@ -179,12 +169,22 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$active_tab` |  | 
 
-Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1099](../admin/settings/classes/YasrSettings.php#L1099-L1099)
+Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1097](../admin/settings/classes/YasrSettings.php#L1097-L1097)
 
 ### `yasr_right_settings_panel_box`
 
 
-Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1264](../admin/settings/classes/YasrSettings.php#L1264-L1264)
+Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1262](../admin/settings/classes/YasrSettings.php#L1262-L1262)
+
+### `yasr_style_options_add_settings_field`
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$style_options` |  | 
+
+Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 47](../admin/settings/classes/YasrSettingsStyle.php#L47-L47)
 
 ### `yasr_settings_tab_content`
 
@@ -194,7 +194,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$active_tab` |  | 
 
-Source: [../admin/settings/yasr-settings.php](../admin/settings/yasr-settings.php), [line 88](../admin/settings/yasr-settings.php#L88-L88)
+Source: [../admin/settings/yasr-settings.php](../admin/settings/yasr-settings.php), [line 90](../admin/settings/yasr-settings.php#L90-L90)
 
 ### `yasr_ur_add_custom_form_fields`
 
@@ -287,6 +287,16 @@ Argument | Type | Description
 
 Source: [../admin/yasr-admin-init.php](../admin/yasr-admin-init.php), [line 49](../admin/yasr-admin-init.php#L49-L49)
 
+### `yasr_settings_select_ranking`
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$source_array` |  | 
+
+Source: [../admin/settings/classes/YasrSettingsRankings.php](../admin/settings/classes/YasrSettingsRankings.php), [line 60](../admin/settings/classes/YasrSettingsRankings.php#L60-L60)
+
 ### `yasr_filter_style_options`
 
 **Arguments**
@@ -295,7 +305,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$style_options` |  | 
 
-Source: [../admin/settings/aspect_style/yasr-settings-style-functions.php](../admin/settings/aspect_style/yasr-settings-style-functions.php), [line 40](../admin/settings/aspect_style/yasr-settings-style-functions.php#L40-L40)
+Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 38](../admin/settings/classes/YasrSettingsStyle.php#L38-L38)
 
 ### `yasr_sanitize_style_options`
 
@@ -305,17 +315,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$style_options` |  | 
 
-Source: [../admin/settings/aspect_style/yasr-settings-style-functions.php](../admin/settings/aspect_style/yasr-settings-style-functions.php), [line 136](../admin/settings/aspect_style/yasr-settings-style-functions.php#L136-L136)
-
-### `yasr_settings_select_ranking`
-
-**Arguments**
-
-Argument | Type | Description
--------- | ---- | -----------
-`$source_array` |  | 
-
-Source: [../admin/settings/classes/YasrSettingsRankings.php](../admin/settings/classes/YasrSettingsRankings.php), [line 61](../admin/settings/classes/YasrSettingsRankings.php#L61-L61)
+Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 275](../admin/settings/classes/YasrSettingsStyle.php#L275-L275)
 
 ### `yasr_ur_display_custom_fields`
 
@@ -514,7 +514,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `'yasr_multi_visitor_cookie'` |  | 
 
-Source: [../includes/shortcodes/classes/YasrVisitorMultiSet.php](../includes/shortcodes/classes/YasrVisitorMultiSet.php), [line 114](../includes/shortcodes/classes/YasrVisitorMultiSet.php#L114-L114)
+Source: [../includes/shortcodes/classes/YasrVisitorMultiSet.php](../includes/shortcodes/classes/YasrVisitorMultiSet.php), [line 113](../includes/shortcodes/classes/YasrVisitorMultiSet.php#L113-L113)
 
 ### `yasr_must_sign_in`
 
@@ -524,7 +524,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `''` |  | 
 
-Source: [../includes/shortcodes/classes/YasrVisitorMultiSet.php](../includes/shortcodes/classes/YasrVisitorMultiSet.php), [line 168](../includes/shortcodes/classes/YasrVisitorMultiSet.php#L168-L168)
+Source: [../includes/shortcodes/classes/YasrVisitorMultiSet.php](../includes/shortcodes/classes/YasrVisitorMultiSet.php), [line 167](../includes/shortcodes/classes/YasrVisitorMultiSet.php#L167-L167)
 
 ### `yasr_vv_ro_shortcode`
 
@@ -536,7 +536,7 @@ Argument | Type | Description
 `$stored_votes` |  | 
 `$this->post_id` |  | 
 
-Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 110](../includes/shortcodes/classes/YasrVisitorVotes.php#L110-L110)
+Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 109](../includes/shortcodes/classes/YasrVisitorVotes.php#L109-L109)
 
 ### `yasr_vv_cookie`
 
@@ -546,7 +546,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `'yasr_visitor_vote_cookie'` |  | 
 
-Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 120](../includes/shortcodes/classes/YasrVisitorVotes.php#L120-L120)
+Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 119](../includes/shortcodes/classes/YasrVisitorVotes.php#L119-L119)
 
 ### `yasr_cstm_text_already_voted`
 
@@ -556,7 +556,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$rating` |  | 
 
-Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 194](../includes/shortcodes/classes/YasrVisitorVotes.php#L194-L194)
+Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 193](../includes/shortcodes/classes/YasrVisitorVotes.php#L193-L193)
 
 ### `yasr_must_sign_in`
 
@@ -566,7 +566,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `''` |  | 
 
-Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 206](../includes/shortcodes/classes/YasrVisitorVotes.php#L206-L206)
+Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 205](../includes/shortcodes/classes/YasrVisitorVotes.php#L205-L205)
 
 ### `yasr_cstm_text_before_vv`
 
@@ -578,7 +578,7 @@ Argument | Type | Description
 `$average_rating` |  | 
 `$this->unique_id` |  | 
 
-Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 232](../includes/shortcodes/classes/YasrVisitorVotes.php#L232-L232)
+Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 231](../includes/shortcodes/classes/YasrVisitorVotes.php#L231-L231)
 
 ### `yasr_cstm_text_after_vv`
 
@@ -590,7 +590,7 @@ Argument | Type | Description
 `$average_rating` |  | 
 `$this->unique_id` |  | 
 
-Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 275](../includes/shortcodes/classes/YasrVisitorVotes.php#L275-L275)
+Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 274](../includes/shortcodes/classes/YasrVisitorVotes.php#L274-L274)
 
 ### `yasr_vv_shortcode`
 
@@ -606,7 +606,7 @@ Argument | Type | Description
 `$this->ajax_nonce_visitor` |  | 
 `$this->is_singular` |  | 
 
-Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 378](../includes/shortcodes/classes/YasrVisitorVotes.php#L378-L387)
+Source: [../includes/shortcodes/classes/YasrVisitorVotes.php](../includes/shortcodes/classes/YasrVisitorVotes.php), [line 377](../includes/shortcodes/classes/YasrVisitorVotes.php#L377-L386)
 
 ### `yasr_tr_rankings_atts`
 
