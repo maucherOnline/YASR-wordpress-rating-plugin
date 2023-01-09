@@ -315,7 +315,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$style_options` |  | 
 
-Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 275](../admin/settings/classes/YasrSettingsStyle.php#L275-L275)
+Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 268](../admin/settings/classes/YasrSettingsStyle.php#L268-L268)
 
 ### `yasr_ur_display_custom_fields`
 
