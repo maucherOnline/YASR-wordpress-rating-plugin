@@ -601,8 +601,8 @@ class YasrEditorHooks {
 
         //First nonce is used at page load, second nonce is used when a set is changed if >1 is used
         if(!wp_verify_nonce($nonce, 'yasr_nonce_set_id') && !wp_verify_nonce($nonce, 'yasr_nonce_change_set')) {
-            /** @noinspection ForgottenDebugOutputInspection */
-            json_encode(die(__('Wrong nonce', 'yet-another-stars-rating')));
+            echo json_encode(__('Wrong nonce', 'yet-another-stars-rating'));
+            die();
         }
 
         //in version < 2.1.0 set id could be 0
