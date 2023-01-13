@@ -184,7 +184,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$style_options` |  | 
 
-Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 47](../admin/settings/classes/YasrSettingsStyle.php#L47-L47)
+Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 46](../admin/settings/classes/YasrSettingsStyle.php#L46-L46)
 
 ### `yasr_settings_tab_content`
 
@@ -305,7 +305,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$style_options` |  | 
 
-Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 38](../admin/settings/classes/YasrSettingsStyle.php#L38-L38)
+Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 37](../admin/settings/classes/YasrSettingsStyle.php#L37-L37)
 
 ### `yasr_sanitize_style_options`
 
@@ -315,7 +315,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$style_options` |  | 
 
-Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 268](../admin/settings/classes/YasrSettingsStyle.php#L268-L268)
+Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/classes/YasrSettingsStyle.php), [line 265](../admin/settings/classes/YasrSettingsStyle.php#L265-L265)
 
 ### `yasr_ur_display_custom_fields`
 

@@ -114,7 +114,7 @@ abstract class YasrShortcode {
     public static function starsEnalbed($cookie_value) {
         $is_user_logged_in = is_user_logged_in();
 
-        //Logged in user is always able to vote
+        //Logged-in user is always able to vote
         if ($is_user_logged_in === true) {
             return 'true_logged';
         }
@@ -122,7 +122,7 @@ abstract class YasrShortcode {
         //user is never logged-in here
         //$is_user_logged_in is always false
 
-        //If only logged in users can vote
+        //If only logged-in users can vote
         if (YASR_ALLOWED_USER === 'logged_only') {
             return 'false_not_logged';
         }
