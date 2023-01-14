@@ -62,7 +62,7 @@ class YasrRichSnippets {
             $visitor_votes  = $vv_attributes;
         }
 
-        $script_type     = '<script type="application/ld+json">';
+        $script_type     = '<script type="application/ld+json" class="yasr-schema-graph">';
         $end_script_type = '</script>';
 
         $review_choosen = YasrDB::getItemType();

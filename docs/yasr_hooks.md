@@ -249,7 +249,7 @@ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shor
 ### `yasr_enqueue_assets_shortcode`
 
 
-Source: [../includes/shortcodes/classes/YasrShortcode.php](../includes/shortcodes/classes/YasrShortcode.php), [line 158](../includes/shortcodes/classes/YasrShortcode.php#L158-L158)
+Source: [../includes/shortcodes/classes/YasrShortcode.php](../includes/shortcodes/classes/YasrShortcode.php), [line 157](../includes/shortcodes/classes/YasrShortcode.php#L157-L157)
 
 ### `yasr_add_front_script_css`
 
@@ -649,7 +649,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `'medium'` |  | 
 
-Source: [../includes/shortcodes/classes/YasrShortcode.php](../includes/shortcodes/classes/YasrShortcode.php), [line 89](../includes/shortcodes/classes/YasrShortcode.php#L89-L89)
+Source: [../includes/shortcodes/classes/YasrShortcode.php](../includes/shortcodes/classes/YasrShortcode.php), [line 88](../includes/shortcodes/classes/YasrShortcode.php#L88-L88)
 
 ### `yasr_ov_rankings_atts`
 
