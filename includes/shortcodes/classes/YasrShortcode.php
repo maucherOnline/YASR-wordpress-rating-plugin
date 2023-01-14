@@ -22,7 +22,6 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-
 /**
  * Class YasrShortcode
  *
