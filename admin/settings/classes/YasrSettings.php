@@ -368,13 +368,35 @@ class YasrSettings {
     }
 
     /**
-     * Display options for stars in archive pages
+     * Display options for archive pages
      *
      * @author Dario Curvino <@dudo>
      * @param $option
      */
     public function archivePages($option) {
         ?>
+        <div class="yasr-settings-row-48">
+            <div>
+                <strong>
+                    <?php esc_html_e('Do you want to order posts by rating?', 'yet-another-stars-rating'); ?>
+                </strong>
+                <?php
+                    $array_options = array(
+                        'no'       => __('No', 'yet-another-stars-rating'),
+                        'visitor'  => __('Order By Visitor Votes', 'yet-another-stars-rating'),
+                        'overall'  => __('Order by Overall Rating', 'yet-another-stars-rating'),
+                    );
+                    $default       = YASR_SORT_POSTS_BY;
+                    $name          = 'yasr_general_options[sort_posts_by]';
+                    $class         = 'yasr_auto_insert_loggedonly';
+
+                    echo yasr_kses(
+                        YasrPhpFieldsHelper::radio(false, $class, $array_options, $name, $default)
+                    );
+                    ?>
+            </div>
+        </div>
+        <p>&nbsp;</p>
         <div class="yasr-settings-row-45">
             <div>
                 <strong>
@@ -391,7 +413,11 @@ class YasrSettings {
                     </label>
                 </div>
                 <br/>
-                <?php esc_html_e('Enable to show "Overall Rating" in archive pages.','yet-another-stars-rating') ?>
+                <span>
+                    <?php
+                        esc_html_e('Enable to show "Overall Rating" in archive pages.','yet-another-stars-rating');
+                    ?>
+                </span>
             </div>
 
             <div>
@@ -409,7 +435,11 @@ class YasrSettings {
                     </label>
                 </div>
                 <br/>
-                <?php esc_html_e('Enable to show "Visitor Votes" in archive pages','yet-another-stars-rating') ?>
+                <span>
+                    <?php
+                        esc_html_e('Enable to show "Visitor Votes" in archive pages','yet-another-stars-rating');
+                    ?>
+                </span>
             </div>
 
         </div>
@@ -1157,7 +1187,8 @@ class YasrSettings {
         $div_desc = '<div class="yasr-settings-description">';
         $description
                   = esc_html__(
-            'Enable or disable these settings if you want to show ratings in archive pages (categories, tags, etc.)',
+            'Here you can sort your posts by ratings (please note that this may not work with all themes) 
+            or enable/disable ratings in your archive pages (homepage, categories, tags, etc.)',
             'yet-another-stars-rating'
         );
         $end_div  = '.</div>';
