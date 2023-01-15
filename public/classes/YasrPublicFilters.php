@@ -130,56 +130,50 @@ class YasrPublicFilters {
         $content_and_stars = false;
 
         if (YASR_AUTO_INSERT_WHAT === 'overall_rating') {
-            switch (YASR_AUTO_INSERT_WHERE) {
-                case 'top':
-                    $content_and_stars = $overall_rating_code . $content;
-                    break;
-
-                case 'bottom':
-                    $content_and_stars = $content . $overall_rating_code;
-                    break;
-
-                case 'both' :
-                    $content_and_stars = $overall_rating_code . $content . $overall_rating_code;
-                    break;
-            } //End Switch
+            $content_and_stars = self::returnStarsPlacement($overall_rating_code, $content);
         }
         elseif (YASR_AUTO_INSERT_WHAT === 'visitor_rating') {
-            switch (YASR_AUTO_INSERT_WHERE) {
-                case 'top':
-                    $content_and_stars = $visitor_votes_code . $content;
-                    break;
-
-                case 'bottom':
-                    $content_and_stars = $content . $visitor_votes_code;
-                    break;
-
-                case 'both':
-                    $content_and_stars = $visitor_votes_code . $content . $visitor_votes_code;
-                    break;
-            } //End Switch
+            $content_and_stars = self::returnStarsPlacement($visitor_votes_code, $content);
         }
         elseif (YASR_AUTO_INSERT_WHAT === 'both') {
-            switch (YASR_AUTO_INSERT_WHERE) {
-                case 'top':
-                    $content_and_stars = $overall_rating_code . $visitor_votes_code . $content;
-                    break;
-
-                case 'bottom':
-                    $content_and_stars = $content . $overall_rating_code . $visitor_votes_code;
-                    break;
-
-                case 'both':
-                    $content_and_stars = $overall_rating_code . $visitor_votes_code .
-                        $content .
-                        $overall_rating_code . $visitor_votes_code;
-                    break;
-            } //End Switch
+            $stars = $overall_rating_code . $visitor_votes_code;
+            $content_and_stars = self::returnStarsPlacement($stars, $content);
         }
 
         return $content_and_stars;
     }
 
+    /**
+     * Helper method for addStarsToContent which returns the stars before, after or before AND after the posts,
+     * according to YASR_AUTO_INSERT_WHERE
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.2.1
+     *
+     * @param $stars
+     * @param $content
+     *
+     * @return string
+     */
+    private static function returnStarsPlacement($stars, $content) {
+        $content_and_stars = false;
+
+        switch (YASR_AUTO_INSERT_WHERE) {
+            case 'top':
+                $content_and_stars = $stars . $content;
+                break;
+
+            case 'bottom':
+                $content_and_stars = $content . $stars;
+                break;
+
+            case 'both' :
+                $content_and_stars = $stars . $content . $stars;
+                break;
+        } //End Switch
+
+        return $content_and_stars;
+    }
 
     /**
      * @since 2.4.3
