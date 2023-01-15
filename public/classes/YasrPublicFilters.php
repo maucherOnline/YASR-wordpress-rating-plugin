@@ -34,7 +34,7 @@ class YasrPublicFilters {
      *
      * @return bool|string|void
      */
-    public static function autoInsert($content) {
+    public function autoInsert($content) {
         //If this is a page and auto insert is excluded for pages, return
         if (YASR_AUTO_INSERT_EXCLUDE_PAGES === 'yes' && is_page()) {
             return $content;
@@ -56,12 +56,12 @@ class YasrPublicFilters {
             return $content;
         }
 
-        if(self::excludePostType() === true) {
+        if($this->excludePostType() === true) {
             return $content;
         }
 
         //add stars to the content
-        return self::addStarsToContent($content);
+        return $this->addStarsToContent($content);
 
     } //End function yasr_auto_insert_shortcode_callback
 
@@ -75,7 +75,7 @@ class YasrPublicFilters {
      *
      * @return bool
      */
-    public static function excludePostType() {
+    public function excludePostType() {
         //create an empty array
         $excluded_cpt = array();
 
@@ -109,7 +109,7 @@ class YasrPublicFilters {
      *
      * @return false|string
      */
-    public static function addStarsToContent ($content) {
+    public function addStarsToContent ($content) {
         $shortcode_align = YASR_AUTO_INSERT_ALIGN;
 
         //if it is not left, or right, default is center
@@ -130,14 +130,14 @@ class YasrPublicFilters {
         $content_and_stars = false;
 
         if (YASR_AUTO_INSERT_WHAT === 'overall_rating') {
-            $content_and_stars = self::returnStarsPlacement($overall_rating_code, $content);
+            $content_and_stars = $this->returnStarsPlacement($overall_rating_code, $content);
         }
         elseif (YASR_AUTO_INSERT_WHAT === 'visitor_rating') {
-            $content_and_stars = self::returnStarsPlacement($visitor_votes_code, $content);
+            $content_and_stars = $this->returnStarsPlacement($visitor_votes_code, $content);
         }
         elseif (YASR_AUTO_INSERT_WHAT === 'both') {
             $stars = $overall_rating_code . $visitor_votes_code;
-            $content_and_stars = self::returnStarsPlacement($stars, $content);
+            $content_and_stars = $this->returnStarsPlacement($stars, $content);
         }
 
         return $content_and_stars;
@@ -155,7 +155,7 @@ class YasrPublicFilters {
      *
      * @return string
      */
-    private static function returnStarsPlacement($stars, $content) {
+    private function returnStarsPlacement($stars, $content) {
         $content_and_stars = false;
 
         switch (YASR_AUTO_INSERT_WHERE) {
