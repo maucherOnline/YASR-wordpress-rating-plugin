@@ -415,12 +415,11 @@ class YasrSettings {
                         <span class="yasr-onoffswitch-switch"></span>
                     </label>
                 </div>
-                <br/>
-                <span>
+                <div class="yasr-element-row-container-description">
                     <?php
                         esc_html_e('Enable to show "Overall Rating" in archive pages.','yet-another-stars-rating');
                     ?>
-                </span>
+                </div>
             </div>
 
             <div>
@@ -437,12 +436,11 @@ class YasrSettings {
                         <span class="yasr-onoffswitch-switch"></span>
                     </label>
                 </div>
-                <br/>
-                <span>
+                <div class="yasr-element-row-container-description">
                     <?php
                         esc_html_e('Enable to show "Visitor Votes" in archive pages','yet-another-stars-rating');
                     ?>
-                </span>
+                </div>
             </div>
 
         </div>
@@ -475,11 +473,6 @@ class YasrSettings {
             );
             ?>
             <br />
-            <div class="yasr-indented-answer">
-                <?php
-                esc_html_e('Select who can rate your posts.','yet-another-stars-rating')
-                ?>
-            </div>
             <?php
                 submit_button(YASR_SAVE_All_SETTINGS_TEXT);
             ?>
@@ -1174,10 +1167,9 @@ class YasrSettings {
         $name = esc_html__('Archive Pages', 'yet-another-stars-rating');
 
         $div_desc = '<div class="yasr-settings-description">';
-        $description
-                  = esc_html__(
-            'Here you can sort your posts by ratings (please note that this may not work with all themes) 
-            or enable/disable ratings in your archive pages (homepage, categories, tags, etc.)',
+        $description = esc_html__(
+            'Here you can order your posts by ratings (please note that this may not work with all themes) 
+            and enable/disable ratings in your archive pages (homepage, categories, tags, etc.)',
             'yet-another-stars-rating'
         );
         $end_div  = '.</div>';
