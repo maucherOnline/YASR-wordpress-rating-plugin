@@ -27,6 +27,14 @@ class YasrPublicFilters {
             });
         }
 
+        if(YASR_SORT_POSTS_BY === 'visitor') {
+            add_action('posts_join_paged', array($this, 'joinQueryPostsVV'),10, 2);
+
+            add_action('posts_orderby', static function () {
+                return ' number_of_votes DESC, rating DESC';
+            });
+        }
+
         //order posts by overall rating
         if(YASR_SORT_POSTS_BY === 'overall') {
             add_action('pre_get_posts', array($this, 'orderPostsOverallRating'));
@@ -325,6 +333,26 @@ class YasrPublicFilters {
             $more_link_element = str_replace($content_to_remove, '', $more_link_element);
             return $more_link_element;
         },9999,1);
+    }
+
+    public function joinQueryPostsVV($join, $query) {
+        global $wpdb;
+
+        $join .= "LEFT JOIN
+        (
+            SELECT post_id, COUNT(post_id) AS number_of_votes, ROUND(SUM(vote) / COUNT(post_id), 1) AS rating
+            FROM " . YASR_LOG_TABLE . ", ". $wpdb->posts ." AS p 
+            WHERE post_id = p.ID
+            AND p.post_status = 'publish'
+            GROUP BY post_id
+            HAVING number_of_votes >= 1
+        )  rating ON rating.post_id = ". $wpdb->posts .".ID";
+
+        return $join;
+    }
+
+    public function orderQueryPostsVV($orderby, $query) {
+        return ' number_of_votes DESC, rating DESC';
     }
 
     /**
