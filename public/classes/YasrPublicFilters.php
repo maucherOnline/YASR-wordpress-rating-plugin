@@ -27,8 +27,10 @@ class YasrPublicFilters {
             });
         }
 
-        //@todo this works, create an option in the settings page
-        //add_action('pre_get_posts', array($this, 'orderPostsOverallRating'));
+        //order posts by overall rating
+        if(YASR_SORT_POSTS_BY === 'overall') {
+            add_action('pre_get_posts', array($this, 'orderPostsOverallRating'));
+        }
 
     }
 
