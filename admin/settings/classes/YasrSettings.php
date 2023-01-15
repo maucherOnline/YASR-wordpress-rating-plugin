@@ -815,8 +815,6 @@ class YasrSettings {
         //Array to return
         $output = array();
 
-        $tidy_installed = self::isTidyInstalled();
-
         // Loop through each of the incoming options
         foreach ($option as $key => $value) {
             // Check to see if the current option has a value. If so, process it.
@@ -833,19 +831,9 @@ class YasrSettings {
                     $allowed_tags = '<strong><p>';
 
                     // handle quoted strings and allow some tags
-                    $output[$key] = strip_tags(stripslashes($value), $allowed_tags);
-
-                    //if tidy extension is enabled, fix errors in html
-                    if ($tidy_installed === true) {
-                        $tidy         = new Tidy();
-                        $output[$key] = $tidy->repairString($output[$key], array('show-body-only' => true));
-                    }
-
                 }
-                else {
-                    // handle quoted strings and allow no tags
-                    $output[$key] = strip_tags(stripslashes($value), $allowed_tags);
-                }
+
+                $output[$key] = strip_tags(stripslashes($value), $allowed_tags);
 
                 if ($key === 'publisher_logo') {
                     //if is not a valid url get_site_icon_url instead
@@ -1581,26 +1569,6 @@ class YasrSettings {
             return $text;
         }
         return $text;
-    }
-
-    /**
-     * Return true if tidy is installed and version is later than 25 Nov 2017, false otherwise
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  3.0.5
-     * @return bool
-     */
-    public static function isTidyInstalled() {
-        if (extension_loaded('tidy')) {
-            $tidy_release_date         = strtotime(tidy_get_release());
-            $tidy_working_release_date = strtotime('2017/11/25');
-
-            if ($tidy_release_date >= $tidy_working_release_date) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
