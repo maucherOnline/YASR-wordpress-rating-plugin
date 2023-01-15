@@ -27,6 +27,8 @@ class YasrPublicFilters {
             });
         }
 
+        add_action('pre_get_posts', array($this, 'orderPostsOverallRating'));
+
     }
 
     /**
@@ -320,5 +322,29 @@ class YasrPublicFilters {
             $more_link_element = str_replace($content_to_remove, '', $more_link_element);
             return $more_link_element;
         },9999,1);
+    }
+
+    /**
+     * Hooks into pre_get_posts and order posts by Overall Rating
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.2.1
+     *
+     * @param $query
+     *
+     * @return void
+     */
+    public function orderPostsOverallRating($query) {
+        //be sure that I'm not hooking into admin && $query->is_main_query()
+        // from the doc:
+        // With the $query->is_main_query() conditional from the query object you can target the main query of a page request.
+        // The main query is used by the primary post loop that displays the main content for a post, page or archive.
+        if (!is_admin() && $query->is_main_query() ) {
+            if(is_home() || is_category()) {
+                $query->set('meta_key', 'yasr_overall_rating');
+                $query->set('orderby',  'meta_value_num');
+                $query->set('order',    'DESC');
+            }
+        }
     }
 }
