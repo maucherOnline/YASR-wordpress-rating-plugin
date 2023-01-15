@@ -384,9 +384,10 @@ class YasrSettings {
                 </strong>
                 <?php
                     $array_options = array(
-                        'no'       => __('No', 'yet-another-stars-rating'),
-                        'visitor'  => __('Order By Visitor Votes', 'yet-another-stars-rating'),
-                        'overall'  => __('Order by Overall Rating', 'yet-another-stars-rating'),
+                        'no'         => __('No', 'yet-another-stars-rating'),
+                        'vv_most'    => __('Order by Visitor Votes, most rated posts first', 'yet-another-stars-rating'),
+                        'vv_highest' => __('Order by Visitor Votes, highest rated posts first', 'yet-another-stars-rating'),
+                        'overall'    => __('Order by Overall Rating', 'yet-another-stars-rating'),
                     );
                     $default       = YASR_SORT_POSTS_BY;
                     $name          = 'yasr_general_options[sort_posts_by]';
@@ -479,8 +480,9 @@ class YasrSettings {
                 esc_html_e('Select who can rate your posts.','yet-another-stars-rating')
                 ?>
             </div>
-            <p>&nbsp;</p>
-            <br />
+            <?php
+                submit_button(YASR_SAVE_All_SETTINGS_TEXT);
+            ?>
         </div>
         <hr />
         <?php
@@ -525,9 +527,6 @@ class YasrSettings {
                      alt="yasr-statsexplained">
             </div>
         </div>
-        <?php
-            submit_button(YASR_SAVE_All_SETTINGS_TEXT);
-        ?>
         <hr />
         <?php
 

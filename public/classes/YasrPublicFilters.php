@@ -27,12 +27,9 @@ class YasrPublicFilters {
             });
         }
 
-        if(YASR_SORT_POSTS_BY === 'visitor') {
+        if(YASR_SORT_POSTS_BY === 'vv_most' || YASR_SORT_POSTS_BY === 'vv_highest') {
             add_action('posts_join_paged', array($this, 'joinQueryPostsVV'),10, 2);
-
-            add_action('posts_orderby', static function () {
-                return ' number_of_votes DESC, rating DESC';
-            });
+            add_action('posts_orderby',    array($this, 'orderQueryPostsVV'), 10, 2);
         }
 
         //order posts by overall rating
@@ -313,7 +310,7 @@ class YasrPublicFilters {
 
 
         //Use this hook to customize widget overall
-        //if doesn't exists a filter for yasr_title_overall_widget, put $overall_widget into $content_after_title
+        //if it doesn't exist a filter for yasr_title_overall_widget, put $overall_widget into $content_after_title
         return apply_filters('yasr_title_overall_widget', $overall_widget, $overall_rating);
     }
 
@@ -335,6 +332,17 @@ class YasrPublicFilters {
         },9999,1);
     }
 
+    /**
+     * Do a left join with the main query
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.2.1
+     *
+     * @param $join
+     * @param $query
+     *
+     * @return string
+     */
     public function joinQueryPostsVV($join, $query) {
         global $wpdb;
 
@@ -351,8 +359,23 @@ class YasrPublicFilters {
         return $join;
     }
 
+    /**
+     * Add the order by clause
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.2.1
+     *
+     * @param $orderby
+     * @param $query
+     *
+     * @return string
+     */
     public function orderQueryPostsVV($orderby, $query) {
-        return ' number_of_votes DESC, rating DESC';
+        if(YASR_SORT_POSTS_BY === 'vv_highest') {
+            return ' rating DESC, number_of_votes DESC';
+        } else {
+            return ' number_of_votes DESC, rating DESC';
+        }
     }
 
     /**
