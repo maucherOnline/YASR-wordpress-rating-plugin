@@ -788,7 +788,7 @@ class YasrSettings {
         // Loop through each of the incoming options
         foreach ($option as $key => $value) {
             // Check to see if the current option has a value. If so, process it.
-            if (isset($option[$key])) {
+            if (isset($value)) {
                 //Tags are not allowed for any fields
                 $allowed_tags = '';
 
@@ -801,7 +801,7 @@ class YasrSettings {
                     $allowed_tags = '<strong><p>';
 
                     // handle quoted strings and allow some tags
-                    $output[$key] = strip_tags(stripslashes($option[$key]), $allowed_tags);
+                    $output[$key] = strip_tags(stripslashes($value), $allowed_tags);
 
                     //if tidy extension is enabled, fix errors in html
                     if ($tidy_installed === true) {
@@ -812,7 +812,7 @@ class YasrSettings {
                 }
                 else {
                     // handle quoted strings and allow no tags
-                    $output[$key] = strip_tags(stripslashes($option[$key]), $allowed_tags);
+                    $output[$key] = strip_tags(stripslashes($value), $allowed_tags);
                 }
 
                 if ($key === 'publisher_logo') {
