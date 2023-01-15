@@ -160,6 +160,7 @@ class YasrSettings {
      * @param $option
      */
     public function autoInsert($option) {
+        $class   = 'yasr-auto-insert-options-class';
         ?>
         <div>
             <strong>
@@ -176,7 +177,7 @@ class YasrSettings {
                 </label>
             </div>
 
-            <div class="yasr-settings-row-35">
+            <div class="yasr-settings-row-33">
                 <div>
                     <?php
                     $option_title = __('What?', 'yet-another-stars-rating');
@@ -187,7 +188,6 @@ class YasrSettings {
                     );
                     $default = $option['auto_insert_what'];
                     $name    = 'yasr_general_options[auto_insert_what]';
-                    $class   = 'yasr-auto-insert-options-class';
 
                     echo yasr_kses(
                         YasrPhpFieldsHelper::radio($option_title, $class, $array_options, $name, $default)
@@ -204,7 +204,6 @@ class YasrSettings {
                         );
                         $default = $option['auto_insert_where'];
                         $name    = 'yasr_general_options[auto_insert_where]';
-                        $class   = 'yasr-auto-insert-options-class';
 
                         echo yasr_kses(
                             YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
@@ -221,7 +220,6 @@ class YasrSettings {
                         );
                         $default = $option['auto_insert_align'];
                         $name    = 'yasr_general_options[auto_insert_align]';
-                        $class   = 'yasr-auto-insert-options-class';
 
                         echo yasr_kses(
                             YasrPhpFieldsHelper::radio($option_title, $class, $array_options, $name, $default)
@@ -234,11 +232,10 @@ class YasrSettings {
                     </strong>
                     <?php
                         $name  = 'yasr_general_options[auto_insert_size]';
-                        $class = 'yasr-auto-insert-options-class';
                         $id    = 'yasr-auto-insert-options-stars-size-';
 
                         echo yasr_kses(
-                            self::radioSelectSize($name, $class, $option['auto_insert_size'], $id)
+                            self::radioSelectSize($name, $class, $option['auto_insert_size'], $id, false)
                         );
                     ?>
                 </div>
@@ -251,7 +248,6 @@ class YasrSettings {
                         );
                         $default = $option['auto_insert_exclude_pages'];
                         $name    = 'yasr_general_options[auto_insert_exclude_pages]';
-                        $class   = 'yasr-auto-insert-options-class';
 
                         echo yasr_kses(
                             YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
@@ -269,7 +265,6 @@ class YasrSettings {
                             );
                             $default = $option['auto_insert_custom_post_only'];
                             $name    = 'yasr_general_options[auto_insert_custom_post_only]';
-                            $class   = 'yasr-auto-insert-options-class';
 
                             echo yasr_kses(
                                 YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
@@ -304,6 +299,7 @@ class YasrSettings {
      * @param $option
      */
     public function starsTitle($option) {
+        $class   = 'yasr-stars-title-options-class';
         ?>
         <div>
             <div class="yasr-onoffswitch-big">
@@ -316,7 +312,7 @@ class YasrSettings {
                     <span class="yasr-onoffswitch-switch"></span>
                 </label>
             </div>
-            <div class="yasr-settings-row-35">
+            <div class="yasr-settings-row-33">
                 <div>
                     <?php
                         $option_title = __('What?', 'yet-another-stars-rating');
@@ -326,7 +322,6 @@ class YasrSettings {
                         );
                         $default = $option['stars_title_what'];
                         $name    = 'yasr_general_options[stars_title_what]';
-                        $class   = 'yasr-stars-title-options-class';
 
                         echo yasr_kses(
                             YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
@@ -342,14 +337,13 @@ class YasrSettings {
                     );
                     $default = $option['stars_title_exclude_pages'];
                     $name    = 'yasr_general_options[stars_title_exclude_pages]';
-                    $class   = 'yasr-stars-title-options-class';
 
                     echo yasr_kses(
                         YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
                     );
                     ?>
                 </div>
-                <div style="flex: 0 0 50%">
+                <div>
                     <?php
                     $option_title = __('Where do you want show ratings?', 'yet-another-stars-rating');
                     $array_options = array (
@@ -359,7 +353,6 @@ class YasrSettings {
                     );
                     $default = $option['stars_title_where'];
                     $name    = 'yasr_general_options[stars_title_where]';
-                    $class   = 'yasr-stars-title-options-class';
 
                     echo yasr_kses(
                         YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
