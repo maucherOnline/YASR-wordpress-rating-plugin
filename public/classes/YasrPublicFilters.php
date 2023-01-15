@@ -27,7 +27,8 @@ class YasrPublicFilters {
             });
         }
 
-        add_action('pre_get_posts', array($this, 'orderPostsOverallRating'));
+        //@todo this works, create an option in the settings page
+        //add_action('pre_get_posts', array($this, 'orderPostsOverallRating'));
 
     }
 
