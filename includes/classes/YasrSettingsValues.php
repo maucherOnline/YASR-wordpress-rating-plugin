@@ -74,6 +74,7 @@ class YasrSettingsValues {
         $options['stars_title_what']             = 'visitor_rating';
         $options['stars_title_exclude_pages']    = 'yes';
         $options['stars_title_where']            = 'archive';
+        $options['sort_posts_by']                = 'no';
         $options['show_overall_in_loop']         = 'disabled';
         $options['show_visitor_votes_in_loop']   = 'disabled';
         $options['visitors_stats']               = 'yes';
