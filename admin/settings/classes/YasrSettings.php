@@ -69,6 +69,8 @@ class YasrSettings {
             array($this, 'sanitize')
         );
 
+        //Do not use defines here, use $options instead!
+        //Otherwise, default values for a disabled setting will not show
         $settings  = new YasrSettingsValues();
         $options   = $settings->getGeneralSettings();
 

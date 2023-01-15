@@ -52,12 +52,12 @@ class YasrDefineOptions {
             define('YASR_AUTO_INSERT_EXCLUDE_PAGES', $yasr_general_settings['auto_insert_exclude_pages']);
             define('YASR_AUTO_INSERT_CUSTOM_POST_ONLY', $yasr_general_settings['auto_insert_custom_post_only']);
         }  else {
-            define('YASR_AUTO_INSERT_WHAT', null);
-            define('YASR_AUTO_INSERT_WHERE', null);
-            define('YASR_AUTO_INSERT_ALIGN', null);
-            define('YASR_AUTO_INSERT_SIZE', null);
-            define('YASR_AUTO_INSERT_EXCLUDE_PAGES', null);
-            define('YASR_AUTO_INSERT_CUSTOM_POST_ONLY', null);
+            define('YASR_AUTO_INSERT_WHAT', false);
+            define('YASR_AUTO_INSERT_WHERE', false);
+            define('YASR_AUTO_INSERT_ALIGN', false);
+            define('YASR_AUTO_INSERT_SIZE', false);
+            define('YASR_AUTO_INSERT_EXCLUDE_PAGES', false);
+            define('YASR_AUTO_INSERT_CUSTOM_POST_ONLY', false);
         }
 
         define('YASR_STARS_TITLE', $yasr_general_settings['stars_title']);
@@ -67,9 +67,9 @@ class YasrDefineOptions {
             define('YASR_STARS_TITLE_EXCLUDE_PAGES', $yasr_general_settings['stars_title_exclude_pages']);
             define('YASR_STARS_TITLE_WHERE',         $yasr_general_settings['stars_title_where']);
         } else {
-            define('YASR_STARS_TITLE_WHAT', null);
-            define('YASR_STARS_TITLE_EXCLUDE_PAGES', null);
-            define('YASR_STARS_TITLE_WHERE', null);
+            define('YASR_STARS_TITLE_WHAT', false);
+            define('YASR_STARS_TITLE_EXCLUDE_PAGES', false);
+            define('YASR_STARS_TITLE_WHERE', false);
         }
 
         define('YASR_SORT_POSTS_BY',              $yasr_general_settings['sort_posts_by']);
