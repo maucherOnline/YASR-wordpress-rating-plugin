@@ -56,7 +56,6 @@ class YasrSettings {
          *  Since 0.8.9
          */
         add_filter('admin_footer_text', array($this, 'customFooter'));
-
     }
 
     /**
@@ -105,16 +104,16 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_visitors_stats', $this->descriptionVVStats(),
-            array($this, 'vvStats'),
+            'yasr_allow_only_logged_in_id', $this->descriptionAllowVote(),
+            array($this, 'loggedOnly'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
             $options
         );
 
         add_settings_field(
-            'yasr_allow_only_logged_in_id', $this->descriptionAllowVote(),
-            array($this, 'loggedOnly'),
+            'yasr_visitors_stats', $this->descriptionVVStats(),
+            array($this, 'vvStats'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
             $options
@@ -145,7 +144,6 @@ class YasrSettings {
             'yasr_general_options_section_id',
             $options
         );
-
     }
 
     /**
@@ -422,6 +420,42 @@ class YasrSettings {
     }
 
     /**
+     * Display options for choose who is allowed to votes
+     *
+     * @author Dario Curvino <@dudo>
+     * @param $option
+     */
+    public function loggedOnly($option) {
+        ?>
+        <div class="yasr-settings-padding-left">
+            <?php
+            $array_options = array(
+                'logged_only' => __('Allow only logged-in users', 'yet-another-stars-rating' ),
+                'allow_anonymous'  => __('Allow everybody (logged in and anonymous)', 'yet-another-stars-rating' ),
+            );
+            $default       = $option['allowed_user'];
+            $name          = 'yasr_general_options[allowed_user]';
+            $class         = 'yasr_auto_insert_loggedonly';
+
+            echo yasr_kses(
+                YasrPhpFieldsHelper::radio( false, $class, $array_options, $name, $default )
+            );
+            ?>
+            <br />
+            <div class="yasr-indented-answer">
+                <?php
+                esc_html_e('Select who can rate your posts.','yet-another-stars-rating')
+                ?>
+            </div>
+            <p>&nbsp;</p>
+            <br />
+        </div>
+        <hr />
+        <?php
+
+    } //End function
+
+    /**
      * Display options for vvStats
      *
      * @author Dario Curvino <@dudo>
@@ -466,41 +500,6 @@ class YasrSettings {
         <?php
 
     }
-
-    /**
-     * Display options for choose who is allowed to votes
-     *
-     * @author Dario Curvino <@dudo>
-     * @param $option
-     */
-    public function loggedOnly($option) {
-        ?>
-        <div class="yasr-settings-padding-left">
-            <?php
-            $array_options = array(
-                'logged_only' => __('Allow only logged-in users', 'yet-another-stars-rating' ),
-                'allow_anonymous'  => __('Allow everybody (logged in and anonymous)', 'yet-another-stars-rating' ),
-            );
-            $default       = $option['allowed_user'];
-            $name          = 'yasr_general_options[allowed_user]';
-            $class         = 'yasr_auto_insert_loggedonly';
-
-            echo yasr_kses(
-                YasrPhpFieldsHelper::radio( false, $class, $array_options, $name, $default )
-            );
-            ?>
-            <br />
-            <div class="yasr-indented-answer">
-                <?php
-                    esc_html_e('Select who can rate your posts.','yet-another-stars-rating')
-                ?>
-            </div>
-        </div>
-        <p>&nbsp;</p>
-        <hr />
-        <?php
-
-    } //End function
 
     /**
      * Display options for rich snippets
@@ -1171,15 +1170,15 @@ class YasrSettings {
      * @since  2.6.6
      * @return string
      */
-    public function descriptionVVStats() {
-        $name = esc_html__('Show stats for visitors votes?', 'yet-another-stars-rating');
+    public function descriptionAllowVote() {
+        $name = esc_html__('Who is allowed to vote?', 'yet-another-stars-rating');
 
         $div_desc    = '<div class="yasr-settings-description">';
         $description = sprintf(
             esc_html__(
-                'Enable or disable the chart bar icon (and tooltip hover it) next to the %syasr_visitor_votes%s shortcode',
+                'Select who can rate your posts for %syasr_visitor_votes%s and %syasr_visitor_multiset%s shortcodes',
                 'yet-another-stars-rating'
-            ), '<em>', '</em>'
+            ), '<em>', '</em>', '<em>', '</em>'
         );
         $end_div     = '.</div>';
 
@@ -1191,15 +1190,15 @@ class YasrSettings {
      * @since  2.6.6
      * @return string
      */
-    public function descriptionAllowVote() {
-        $name = esc_html__('Who is allowed to vote?', 'yet-another-stars-rating');
+    public function descriptionVVStats() {
+        $name = esc_html__('Show stats for visitors votes?', 'yet-another-stars-rating');
 
         $div_desc    = '<div class="yasr-settings-description">';
         $description = sprintf(
             esc_html__(
-                'Select who can rate your posts for %syasr_visitor_votes%s and %syasr_visitor_multiset%s shortcodes',
+                'Enable or disable the chart bar icon (and tooltip hover it) next to the %syasr_visitor_votes%s shortcode',
                 'yet-another-stars-rating'
-            ), '<em>', '</em>', '<em>', '</em>'
+            ), '<em>', '</em>'
         );
         $end_div     = '.</div>';
 
