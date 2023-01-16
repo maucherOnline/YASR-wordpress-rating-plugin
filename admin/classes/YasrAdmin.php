@@ -262,6 +262,9 @@ class YasrAdmin {
     /**
      * Update version number and backward compatibility
      *
+     * Since version 3.0.4 there is the class YasrSettingsValues, which return the default correct settings if not exists.
+     * So, when a new release has a new option, there is no more need to insert it here
+     *
      * @author Dario Curvino <@dudo>
      * @since  3.1.7
      * @return void
@@ -273,12 +276,6 @@ class YasrAdmin {
             $yasr_stored_options = get_option('yasr_general_options');
 
             if (YASR_VERSION_INSTALLED !== false) {
-                //In version 3.2.1 is possible to sort posts by ratings
-                //Remove March 2024
-                if (version_compare(YASR_VERSION_INSTALLED, '3.2.1') === -1) {
-                    $yasr_stored_options['sort_posts_by'] = 'no';
-                }
-
                 //In version 2.6.6 %overall_rating% pattern is replaced with %rating%
                 //Remove March 2023
                 if (version_compare(YASR_VERSION_INSTALLED, '2.6.6') === -1) {

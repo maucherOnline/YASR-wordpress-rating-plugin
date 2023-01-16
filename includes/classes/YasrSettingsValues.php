@@ -11,7 +11,8 @@ class YasrSettingsValues {
 
     /**
      * Returns YASR General Settings
-     * If general settings are not found (i.e. option deleted from database) return YASR default values
+     * If general settings are not found (i.e. option deleted from database) return YASR default values.
+     * There is no more need to insert the new default value on YasrAdmin->updateVersion
      *
      * @author Dario Curvino <@dudo>
      * @since  3.0.4

@@ -73,7 +73,7 @@ class YasrDefineOptions {
         }
 
         define('YASR_SORT_POSTS_BY',              $yasr_general_settings['sort_posts_by']);
-        define('YASR_SORT_POSTS_IN',              $yasr_general_settings['sort_posts_in']);
+        define('YASR_SORT_POSTS_IN',              json_encode($yasr_general_settings['sort_posts_in']));
         define('YASR_SHOW_OVERALL_IN_LOOP',       $yasr_general_settings['show_overall_in_loop']);
         define('YASR_SHOW_VISITOR_VOTES_IN_LOOP', $yasr_general_settings['show_visitor_votes_in_loop']);
         define('YASR_VISITORS_STATS',             $yasr_general_settings['visitors_stats']);

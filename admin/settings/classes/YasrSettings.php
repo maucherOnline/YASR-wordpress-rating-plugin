@@ -914,9 +914,9 @@ class YasrSettings {
             $output['stars_title'] = 'yes';
         }
 
-        //if sort_post_in doesn't exist, cast into an empty array
+        //if sort_post_in doesn't exist, cast into a single element array
         if(!array_key_exists('sort_posts_in', $output)) {
-            $output['sort_posts_in'] = array();
+            $output['sort_posts_in'] = array('home');
         }
 
         //Same as above but for [show_overall_in_loop] key
