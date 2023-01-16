@@ -394,22 +394,26 @@ class YasrPublicFilters {
         // With the $query->is_main_query() conditional from the query object you can target the main query of a page request.
         // The main query is used by the primary post loop that displays the main content for a post, page or archive.
         if (!is_admin() && $query->is_main_query() ) {
-            $archive_to_sort = json_decode(YASR_SORT_POSTS_IN);
+            $archives_to_sort = json_decode(YASR_SORT_POSTS_IN);
 
-            var_dump($archive_to_sort);
-
-            if(is_array($archive_to_sort)) {
-                if (in_array('home', $archive_to_sort)) {
-                    if(is_home()) {
-
+            //archives_to_sort is stored with the function name, something like:
+            //is_home, is_archive, is_tag
+            if(is_array($archives_to_sort)) {
+                foreach ($archives_to_sort as $archive) {
+                    //to be safe, check the archive (function name) again
+                    if($archive === 'is_home' || $archive === 'is_category' || $archive === 'is_tag') {
+                        //I check here that the function is callable
+                        if (is_callable($archive)) {
+                            //adding to a var the () , will call a function with that name
+                            //https://www.php.net/manual/en/functions.variable-functions.php
+                            if ($archive()) {
+                                $query->set('meta_key', 'yasr_overall_rating');
+                                $query->set('orderby', 'meta_value_num');
+                                $query->set('order', 'DESC');
+                            }
+                        }
                     }
                 }
-            }
-
-            if(is_home() || is_category()) {
-                $query->set('meta_key', 'yasr_overall_rating');
-                $query->set('orderby',  'meta_value_num');
-                $query->set('order',    'DESC');
             }
         }
     }
