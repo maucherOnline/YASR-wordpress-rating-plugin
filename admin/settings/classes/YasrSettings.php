@@ -391,14 +391,14 @@ class YasrSettings {
                     );
                     $default       = $option['sort_posts_by'];
                     $name          = 'yasr_general_options[sort_posts_by]';
-                    $class         = 'yasr_auto_insert_loggedonly';
+                    $class         = 'yasr-settings-archive-pages';
 
                     echo yasr_kses(
                         YasrPhpFieldsHelper::radio(false, $class, $array_options, $name, $default)
                     );
                     ?>
 
-                <div id="yasr-sort-posts-list-archives">
+                <div id="yasr-sort-posts-list-archives" class="yasr-sort-posts-list-archives">
                     <strong style="vertical-align: bottom;">
                         <?php esc_html_e('Apply to:', 'yet-another-stars-rating') ?>
                     </strong>
@@ -409,7 +409,7 @@ class YasrSettings {
                                 id="yasr-sort-posts-homepage"
                                 value="home"
                                 name="yasr_general_options[sort_posts_in][]"
-                                <?php echo in_array('home', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                                <?php //echo in_array('home', $option['sort_posts_in']) ? 'checked' : ''; ?>
                             >
                             <?php esc_html_e('Home Page', 'yet-another-stars-rating');?>
                         </label>
@@ -420,7 +420,7 @@ class YasrSettings {
                                    id="yasr-sort-posts-categories"
                                    value="cat"
                                    name="yasr_general_options[sort_posts_in][]"
-                                   <?php echo in_array('cat', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                                   <?php //echo in_array('cat', $option['sort_posts_in']) ? 'checked' : ''; ?>
                             >
                             <?php esc_html_e('Categories', 'yet-another-stars-rating');?>
                         </label>
@@ -431,7 +431,7 @@ class YasrSettings {
                                    id="yasr-sort-posts-tags"
                                    value="tags"
                                    name="yasr_general_options[sort_posts_in][]"
-                                   <?php echo in_array('tags', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                                   <?php //echo in_array('tags', $option['sort_posts_in']) ? 'checked' : ''; ?>
                             >
                             <?php esc_html_e('Tags', 'yet-another-stars-rating');?>
                         </label>

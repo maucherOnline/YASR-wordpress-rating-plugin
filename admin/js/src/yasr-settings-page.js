@@ -14,21 +14,38 @@ if(tabClass.length > 0){
     activeTab = document.getElementsByClassName('nav-tab-active')[0].id;
 }
 
+function setupDeselectEvent() {
+    var selected = {};
+    jQuery('input[type="radio"]').on('click', function() {
+        if (this.name in selected && this != selected[this.name])
+            jQuery(selected[this.name]).trigger("deselect");
+        selected[this.name] = this;
+    }).filter(':checked').each(function() {
+        selected[this.name] = this;
+    });
+}
+
 //-------------------General Settings Code---------------------
 if (activeTab === 'general_settings') {
-    let autoInsertEnabled = document.getElementById('yasr_auto_insert_switch').checked;
-    let starsTitleEnabled = document.getElementById('yasr-general-options-stars-title-switch').checked;
+    const autoInsertEnabled = document.getElementById('yasr_auto_insert_switch');
+    const starsTitleEnabled = document.getElementById('yasr-general-options-stars-title-switch');
+    const sortPostsDisabled = document.getElementById('yasr_general_options[sort_posts_by]-no');
+    const sortPostsRadio    = document.querySelectorAll('input[type=radio][name="yasr_general_options[sort_posts_by]"]');
 
-    if (autoInsertEnabled === false) {
+    if (autoInsertEnabled.checked === false) {
         jQuery('.yasr-auto-insert-options-class').prop('disabled', true);
     }
 
-    if(starsTitleEnabled === false) {
+    if(starsTitleEnabled.checked === false) {
         jQuery('.yasr-stars-title-options-class').prop('disabled', true);
     }
 
+    if(sortPostsDisabled.checked === true) {
+        jQuery('#yasr-sort-posts-list-archives :input').prop('disabled', true);
+    }
+
     //First Div, for auto insert
-    document.getElementById('yasr_auto_insert_switch').addEventListener('change', function() {
+    autoInsertEnabled.addEventListener('change', function() {
         if (this.checked) {
             jQuery('.yasr-auto-insert-options-class').prop('disabled', false);
         } else {
@@ -37,12 +54,24 @@ if (activeTab === 'general_settings') {
     });
 
     //Second Div, for stars title
-    document.getElementById('yasr-general-options-stars-title-switch').addEventListener('change', function() {
+    starsTitleEnabled.addEventListener('change', function() {
         if (this.checked) {
             jQuery('.yasr-stars-title-options-class').prop('disabled', false);
         } else {
             jQuery('.yasr-stars-title-options-class').prop('disabled', true);
         }
+    });
+
+    //attach an eventlistener to the radio buttons (sortPostsRadio)
+    Array.prototype.forEach.call(sortPostsRadio, function(radio) {
+        radio.addEventListener('change', function (event) {
+            //if "no is select, disable checkboxes, or enable otherwise
+            if(this.value === 'no') {
+                jQuery('#yasr-sort-posts-list-archives :input').prop('disabled', true);
+            } else {
+                jQuery('#yasr-sort-posts-list-archives :input').prop('disabled', false);
+            }
+        });
     });
 
 
@@ -55,7 +84,6 @@ if (activeTab === 'general_settings') {
         document.getElementById('yasr-settings-custom-text-must-sign-in').value   = 'You must sign in to vote';
         document.getElementById('yasr-settings-custom-text-already-rated').value  = 'You have already voted for this article with %rating%';
     });
-
 
 } //End if general settings
 
