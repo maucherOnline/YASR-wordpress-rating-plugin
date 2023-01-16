@@ -409,7 +409,7 @@ class YasrSettings {
                                 id="yasr-sort-posts-homepage"
                                 value="home"
                                 name="yasr_general_options[sort_posts_in][]"
-                                <?php //echo in_array('home', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                                <?php echo in_array('home', $option['sort_posts_in']) ? 'checked' : ''; ?>
                             >
                             <?php esc_html_e('Home Page', 'yet-another-stars-rating');?>
                         </label>
@@ -420,7 +420,7 @@ class YasrSettings {
                                    id="yasr-sort-posts-categories"
                                    value="cat"
                                    name="yasr_general_options[sort_posts_in][]"
-                                   <?php //echo in_array('cat', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                                   <?php echo in_array('cat', $option['sort_posts_in']) ? 'checked' : ''; ?>
                             >
                             <?php esc_html_e('Categories', 'yet-another-stars-rating');?>
                         </label>
@@ -431,7 +431,7 @@ class YasrSettings {
                                    id="yasr-sort-posts-tags"
                                    value="tags"
                                    name="yasr_general_options[sort_posts_in][]"
-                                   <?php //echo in_array('tags', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                                   <?php echo in_array('tags', $option['sort_posts_in']) ? 'checked' : ''; ?>
                             >
                             <?php esc_html_e('Tags', 'yet-another-stars-rating');?>
                         </label>
@@ -868,11 +868,18 @@ class YasrSettings {
                 }
 
                 //sort posts in is an array, so loop it
-                if($key === 'sort_posts_in' && is_array($option)) {
-                    foreach ($option as $archive_name) {
-                        $output[$key][] = strip_tags(stripslashes($archive_name), $allowed_tags);
+                if($key === 'sort_posts_in') {
+                    if(is_array($option)) {
+                        foreach ($option as $archive_name) {
+                            $output[$key][] = strip_tags(stripslashes($archive_name), $allowed_tags);
+                        }
+                    } else {
+                        //if there is only one element checked, it is not an array, here I cast
+                        // yasr_general_option[sort_posts_in] into an array of 1 element
+                        $output[$key][] = strip_tags(stripslashes($option), $allowed_tags);
                     }
-                } else {
+                }
+                else {
                     $output[$key] = strip_tags(stripslashes($option), $allowed_tags);
                 }
 
@@ -905,6 +912,11 @@ class YasrSettings {
         //if exists value must be 1
         else {
             $output['stars_title'] = 'yes';
+        }
+
+        //if sort_post_in doesn't exist, cast into an empty array
+        if(!array_key_exists('sort_posts_in', $output)) {
+            $output['sort_posts_in'] = array();
         }
 
         //Same as above but for [show_overall_in_loop] key
