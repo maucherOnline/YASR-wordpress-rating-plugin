@@ -28,8 +28,7 @@ class YasrPublicFilters {
         }
 
         if(YASR_SORT_POSTS_BY === 'vv_most' || YASR_SORT_POSTS_BY === 'vv_highest') {
-            add_action('posts_join_paged', array($this, 'joinQueryPostsVV'),10, 2);
-            add_action('posts_orderby',    array($this, 'orderQueryPostsVV'), 10, 2);
+            $this->orderPostsVisitorVotes();
         }
 
         //order posts by overall rating
@@ -332,6 +331,13 @@ class YasrPublicFilters {
         },9999,1);
     }
 
+    public function orderPostsVisitorVotes() {
+        if (!is_admin()) {
+            add_action('posts_join_paged', array($this, 'joinQueryPostsVV'), 10, 2);
+            add_action('posts_orderby', array($this, 'orderQueryPostsVV'), 10, 2);
+        }
+    }
+
     /**
      * Do a left join with the main query
      *
@@ -344,18 +350,21 @@ class YasrPublicFilters {
      * @return string
      */
     public function joinQueryPostsVV($join, $query) {
-        global $wpdb;
+        if ($this->canSortCurrentArchive($query)) {
+            global $wpdb;
 
-        $join .= "LEFT JOIN
-        (
-            SELECT post_id, COUNT(post_id) AS number_of_votes, ROUND(SUM(vote) / COUNT(post_id), 1) AS rating
-            FROM " . YASR_LOG_TABLE . ", ". $wpdb->posts ." AS p 
-            WHERE post_id = p.ID
-            AND p.post_status = 'publish'
-            GROUP BY post_id
-            HAVING number_of_votes >= 1
-        )  rating ON rating.post_id = ". $wpdb->posts .".ID";
+            $join .= "LEFT JOIN
+            (
+                SELECT post_id, COUNT(post_id) AS number_of_votes, ROUND(SUM(vote) / COUNT(post_id), 1) AS rating
+                FROM " . YASR_LOG_TABLE . ", ". $wpdb->posts ." AS p 
+                WHERE post_id = p.ID
+                AND p.post_status = 'publish'
+                GROUP BY post_id
+                HAVING number_of_votes >= 1
+            )  rating ON rating.post_id = ". $wpdb->posts .".ID";
 
+            return $join;
+        }
         return $join;
     }
 
@@ -371,11 +380,15 @@ class YasrPublicFilters {
      * @return string
      */
     public function orderQueryPostsVV($orderby, $query) {
-        if(YASR_SORT_POSTS_BY === 'vv_highest') {
-            return ' rating DESC, number_of_votes DESC';
-        } else {
-            return ' number_of_votes DESC, rating DESC';
+        if ($this->canSortCurrentArchive($query)) {
+            if (YASR_SORT_POSTS_BY === 'vv_highest') {
+                return ' rating DESC, number_of_votes DESC';
+            }
+            else {
+                return ' number_of_votes DESC, rating DESC';
+            }
         }
+        return $orderby;
     }
 
     /**
@@ -389,6 +402,24 @@ class YasrPublicFilters {
      * @return void
      */
     public function orderPostsOverallRating($query) {
+        if($this->canSortCurrentArchive($query)) {
+            $query->set('meta_key', 'yasr_overall_rating');
+            $query->set('orderby', 'meta_value_num');
+            $query->set('order', 'DESC');
+        }
+    }
+
+    /**
+     * Return true if the current archive can be sorted, or false otherwise
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.2.1
+     *
+     * @param $query
+     *
+     * @return bool
+     */
+    public function canSortCurrentArchive ($query) {
         //be sure that I'm not hooking into admin && $query->is_main_query()
         // from the doc:
         // With the $query->is_main_query() conditional from the query object you can target the main query of a page request.
@@ -398,23 +429,27 @@ class YasrPublicFilters {
 
             //archives_to_sort is stored with the function name, something like:
             //is_home, is_archive, is_tag
-            if(is_array($archives_to_sort)) {
+            if (is_array($archives_to_sort)) {
                 foreach ($archives_to_sort as $archive) {
                     //to be safe, check the archive (function name) again
-                    if($archive === 'is_home' || $archive === 'is_category' || $archive === 'is_tag') {
+                    if ($archive === 'is_home' || $archive === 'is_category' || $archive === 'is_tag') {
                         //I check here that the function is callable
                         if (is_callable($archive)) {
                             //adding to a var the () , will call a function with that name
                             //https://www.php.net/manual/en/functions.variable-functions.php
                             if ($archive()) {
-                                $query->set('meta_key', 'yasr_overall_rating');
-                                $query->set('orderby', 'meta_value_num');
-                                $query->set('order', 'DESC');
+                                return true;
                             }
+                            return false;
                         }
+                        return false;
                     }
-                }
+                } //end foreach
+                return false;
             }
+            return false;
         }
+        return false;
     }
+
 }
