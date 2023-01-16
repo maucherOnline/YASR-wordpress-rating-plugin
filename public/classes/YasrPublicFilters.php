@@ -440,14 +440,10 @@ class YasrPublicFilters {
                             if ($archive()) {
                                 return true;
                             }
-                            return false;
                         }
-                        return false;
                     }
                 } //end foreach
-                return false;
             }
-            return false;
         }
         return false;
     }
