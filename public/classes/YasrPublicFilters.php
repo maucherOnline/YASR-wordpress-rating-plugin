@@ -394,6 +394,18 @@ class YasrPublicFilters {
         // With the $query->is_main_query() conditional from the query object you can target the main query of a page request.
         // The main query is used by the primary post loop that displays the main content for a post, page or archive.
         if (!is_admin() && $query->is_main_query() ) {
+            $archive_to_sort = json_decode(YASR_SORT_POSTS_IN);
+
+            var_dump($archive_to_sort);
+
+            if(is_array($archive_to_sort)) {
+                if (in_array('home', $archive_to_sort)) {
+                    if(is_home()) {
+
+                    }
+                }
+            }
+
             if(is_home() || is_category()) {
                 $query->set('meta_key', 'yasr_overall_rating');
                 $query->set('orderby',  'meta_value_num');

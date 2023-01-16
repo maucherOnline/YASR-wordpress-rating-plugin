@@ -407,9 +407,9 @@ class YasrSettings {
                             <input
                                 type="checkbox"
                                 id="yasr-sort-posts-homepage"
-                                value="home"
+                                value="is_home"
                                 name="yasr_general_options[sort_posts_in][]"
-                                <?php echo in_array('home', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                                <?php echo in_array('is_home', $option['sort_posts_in']) ? 'checked' : ''; ?>
                             >
                             <?php esc_html_e('Home Page', 'yet-another-stars-rating');?>
                         </label>
@@ -418,9 +418,9 @@ class YasrSettings {
                         <label for="yasr-sort-posts-categories">
                             <input type="checkbox"
                                    id="yasr-sort-posts-categories"
-                                   value="cat"
+                                   value="is_category"
                                    name="yasr_general_options[sort_posts_in][]"
-                                   <?php echo in_array('cat', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                                   <?php echo in_array('is_category', $option['sort_posts_in']) ? 'checked' : ''; ?>
                             >
                             <?php esc_html_e('Categories', 'yet-another-stars-rating');?>
                         </label>
@@ -429,9 +429,9 @@ class YasrSettings {
                         <label for="yasr-sort-posts-tags">
                             <input type="checkbox"
                                    id="yasr-sort-posts-tags"
-                                   value="tags"
+                                   value="is_tag"
                                    name="yasr_general_options[sort_posts_in][]"
-                                   <?php echo in_array('tags', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                                   <?php echo in_array('is_tag', $option['sort_posts_in']) ? 'checked' : ''; ?>
                             >
                             <?php esc_html_e('Tags', 'yet-another-stars-rating');?>
                         </label>
@@ -841,7 +841,7 @@ class YasrSettings {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @param $option
+     * @param $options
      *
      * @return array
      */
@@ -916,7 +916,7 @@ class YasrSettings {
 
         //if sort_post_in doesn't exist, cast into a single element array
         if(!array_key_exists('sort_posts_in', $output)) {
-            $output['sort_posts_in'] = array('home');
+            $output['sort_posts_in'] = array('is_home');
         }
 
         //Same as above but for [show_overall_in_loop] key
