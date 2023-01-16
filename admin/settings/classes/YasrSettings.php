@@ -377,7 +377,7 @@ class YasrSettings {
      */
     public function archivePages($option) {
         ?>
-        <div class="yasr-settings-row-48">
+        <div class="yasr-settings-row-45">
             <div>
                 <strong>
                     <?php esc_html_e('Do you want to order posts by rating?', 'yet-another-stars-rating'); ?>
@@ -389,7 +389,7 @@ class YasrSettings {
                         'vv_highest' => __('Order by Visitor Votes, highest rated posts first', 'yet-another-stars-rating'),
                         'overall'    => __('Order by Overall Rating', 'yet-another-stars-rating'),
                     );
-                    $default       = YASR_SORT_POSTS_BY;
+                    $default       = $option['sort_posts_by'];
                     $name          = 'yasr_general_options[sort_posts_by]';
                     $class         = 'yasr_auto_insert_loggedonly';
 
@@ -397,52 +397,94 @@ class YasrSettings {
                         YasrPhpFieldsHelper::radio(false, $class, $array_options, $name, $default)
                     );
                     ?>
-            </div>
-        </div>
-        <p>&nbsp;</p>
-        <div class="yasr-settings-row-45">
-            <div>
-                <strong>
-                    <?php esc_html_e('Show "Overall Rating" in Archive Pages?', 'yet-another-stars-rating'); ?>
-                </strong>
-                <div class="yasr-onoffswitch-big">
-                    <input type="checkbox" name="yasr_general_options[show_overall_in_loop]" class="yasr-onoffswitch-checkbox"
-                           id="yasr-show-overall-in-loop-switch" <?php if($option['show_overall_in_loop'] === 'enabled') {
-                        echo " checked='checked' ";
-                    } ?> >
-                    <label class="yasr-onoffswitch-label" for="yasr-show-overall-in-loop-switch">
-                        <span class="yasr-onoffswitch-inner"></span>
-                        <span class="yasr-onoffswitch-switch"></span>
-                    </label>
-                </div>
-                <div class="yasr-element-row-container-description">
-                    <?php
-                        esc_html_e('Enable to show "Overall Rating" in archive pages.','yet-another-stars-rating');
-                    ?>
-                </div>
-            </div>
 
-            <div>
-                <strong>
-                    <?php esc_html_e('Show "Visitor Votes" in Archive Page?', 'yet-another-stars-rating') ?>
-                </strong>
-                <div class="yasr-onoffswitch-big">
-                    <input type="checkbox" name="yasr_general_options[show_visitor_votes_in_loop]" class="yasr-onoffswitch-checkbox"
-                           id="yasr-show-visitor-votes-in-loop-switch" <?php if ($option['show_visitor_votes_in_loop'] === 'enabled') {
-                        echo " checked='checked' ";
-                    } ?> >
-                    <label class="yasr-onoffswitch-label" for="yasr-show-visitor-votes-in-loop-switch">
-                        <span class="yasr-onoffswitch-inner"></span>
-                        <span class="yasr-onoffswitch-switch"></span>
-                    </label>
-                </div>
-                <div class="yasr-element-row-container-description">
-                    <?php
-                        esc_html_e('Enable to show "Visitor Votes" in archive pages','yet-another-stars-rating');
-                    ?>
+                <div id="yasr-sort-posts-list-archives">
+                    <strong style="vertical-align: bottom;">
+                        <?php esc_html_e('Apply to:', 'yet-another-stars-rating') ?>
+                    </strong>
+                    <span>
+                        <label for="yasr-sort-posts-homepage">
+                            <input
+                                type="checkbox"
+                                id="yasr-sort-posts-homepage"
+                                value="home"
+                                name="yasr_general_options[sort_posts_in][]"
+                                <?php echo in_array('home', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                            >
+                            <?php esc_html_e('Home Page', 'yet-another-stars-rating');?>
+                        </label>
+                    </span>
+                    <span>
+                        <label for="yasr-sort-posts-categories">
+                            <input type="checkbox"
+                                   id="yasr-sort-posts-categories"
+                                   value="cat"
+                                   name="yasr_general_options[sort_posts_in][]"
+                                   <?php echo in_array('cat', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                            >
+                            <?php esc_html_e('Categories', 'yet-another-stars-rating');?>
+                        </label>
+                    </span>
+                    <span>
+                        <label for="yasr-sort-posts-tags">
+                            <input type="checkbox"
+                                   id="yasr-sort-posts-tags"
+                                   value="tags"
+                                   name="yasr_general_options[sort_posts_in][]"
+                                   <?php echo in_array('tags', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                            >
+                            <?php esc_html_e('Tags', 'yet-another-stars-rating');?>
+                        </label>
+                    </span>
                 </div>
             </div>
-
+        
+            <div>
+                <div>
+                    <span>
+                        <strong>
+                            <?php esc_html_e('Show "Overall Rating" in Archive Pages?', 'yet-another-stars-rating'); ?>
+                        </strong>
+                    </span>
+                    <div class="yasr-onoffswitch-big">
+                        <input type="checkbox" name="yasr_general_options[show_overall_in_loop]" class="yasr-onoffswitch-checkbox"
+                            id="yasr-show-overall-in-loop-switch" <?php if($option['show_overall_in_loop'] === 'enabled') {
+                            echo " checked='checked' ";
+                        } ?> >
+                        <label class="yasr-onoffswitch-label" for="yasr-show-overall-in-loop-switch">
+                            <span class="yasr-onoffswitch-inner"></span>
+                            <span class="yasr-onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                    <div class="yasr-element-row-container-description">
+                        <?php
+                            esc_html_e('Enable to show "Overall Rating" in archive pages.','yet-another-stars-rating');
+                        ?>
+                    </div>
+                </div>
+                <div>
+                    <span>
+                        <strong>
+                            <?php esc_html_e('Show "Visitor Votes" in Archive Page?', 'yet-another-stars-rating') ?>
+                        </strong>
+                    </span>
+                    <div class="yasr-onoffswitch-big">
+                        <input type="checkbox" name="yasr_general_options[show_visitor_votes_in_loop]" class="yasr-onoffswitch-checkbox"
+                            id="yasr-show-visitor-votes-in-loop-switch" <?php if ($option['show_visitor_votes_in_loop'] === 'enabled') {
+                            echo " checked='checked' ";
+                        } ?> >
+                        <label class="yasr-onoffswitch-label" for="yasr-show-visitor-votes-in-loop-switch">
+                            <span class="yasr-onoffswitch-inner"></span>
+                            <span class="yasr-onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                    <div class="yasr-element-row-container-description">
+                        <?php
+                            esc_html_e('Enable to show "Visitor Votes" in archive pages','yet-another-stars-rating');
+                        ?>
+                    </div>
+                </div>
+            </div>
         </div>
         <p>&nbsp;</p>
         <hr>
@@ -803,14 +845,14 @@ class YasrSettings {
      *
      * @return array
      */
-    public function sanitize($option) {
+    public function sanitize($options) {
         //Array to return
         $output = array();
 
         // Loop through each of the incoming options
-        foreach ($option as $key => $value) {
+        foreach ($options as $key => $option) {
             // Check to see if the current option has a value. If so, process it.
-            if (isset($value)) {
+            if (isset($option)) {
                 //Tags are not allowed for any fields
                 $allowed_tags = '';
 
@@ -825,11 +867,18 @@ class YasrSettings {
                     // handle quoted strings and allow some tags
                 }
 
-                $output[$key] = strip_tags(stripslashes($value), $allowed_tags);
+                //sort posts in is an array, so loop it
+                if($key === 'sort_posts_in' && is_array($option)) {
+                    foreach ($option as $archive_name) {
+                        $output[$key][] = strip_tags(stripslashes($archive_name), $allowed_tags);
+                    }
+                } else {
+                    $output[$key] = strip_tags(stripslashes($option), $allowed_tags);
+                }
 
                 if ($key === 'publisher_logo') {
                     //if is not a valid url get_site_icon_url instead
-                    if (filter_var($value, FILTER_VALIDATE_URL) === false) {
+                    if (filter_var($option, FILTER_VALIDATE_URL) === false) {
                         $output[$key] = get_site_icon_url();
                     }
                 }

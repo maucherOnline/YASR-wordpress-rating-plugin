@@ -262,9 +262,7 @@
 .yasr-onoffswitch-big {
     position: relative;
     width: 85px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    user-select: none;
 }
 
 .yasr-onoffswitch-big-center{
@@ -383,6 +381,18 @@
     font-weight: 400;
     padding-left: 2px;
     padding-top: 3px;
+}
+
+#yasr-sort-posts-list-archives {
+    margin-top: 15px;
+}
+
+#yasr-sort-posts-list-archives > span {
+    margin-right: 2px;
+}
+
+#yasr-sort-posts-list-archives input[type="checkbox"]  {
+    margin-right: 0px;
 }
 
 /*This is the div with the created shortcode*/
