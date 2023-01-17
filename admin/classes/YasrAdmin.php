@@ -80,6 +80,22 @@ class YasrAdmin {
         yasr_fs()->add_filter( 'reshow_trial_after_every_n_sec', static function ($thirty_days_in_sec) {
             return 2 * MONTH_IN_SECONDS;
         } );
+
+        /**
+         * Customize optin image
+         *
+         * https://freemius.com/help/documentation/wordpress-sdk/opt-in-message/#opt_in_icon_customization
+         */
+        yasr_fs()->add_filter( 'plugin_icon' , static function () {
+            return YASR_ABSOLUTE_PATH . '/includes/img/yet-another-stars-rating.png';
+        });
+
+        /*
+         * This will disable the feedback form when the plugin is disabled
+         *
+         * https://freemius.com/help/documentation/wordpress-sdk/gists/#disable_deactivation_feedback_form
+         */
+        yasr_fs()->add_filter( 'show_deactivation_feedback_form', '__return_false' );
     }
 
     /**

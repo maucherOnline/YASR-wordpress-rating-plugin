@@ -26,19 +26,8 @@ if(!is_admin()) {
     return;
 }
 
-//Customize optin image
-yasr_fs()->add_filter( 'plugin_icon' , 'yasr_change_optin_image' );
-
-function yasr_change_optin_image() {
-    return YASR_ABSOLUTE_PATH . '/includes/img/yet-another-stars-rating.png';
-}
-
-//deactivate the feedback form on plugin deactivation
-yasr_fs()->add_filter( 'show_deactivation_feedback_form', '__return_false' );
-
 //this defines must be triggered after the active theme's functions.php file is loaded
 add_action('init', function (){
-
     $text = __('This feature is available only in the pro version', 'yet-another-stars-rating');
     $lock_image =
         apply_filters('yasr_feature_locked',
@@ -62,7 +51,6 @@ add_action('init', function (){
     );
 
     define ('YASR_LOCKED_TEXT', $upgrade_text);
-
 });
 
 /**
