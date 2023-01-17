@@ -206,6 +206,9 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.2.1 =
+* FIXED: ranking yasr_most_or_highest_rated_posts didn't work as expected is "load results with ajax" is enabled
+
 = 3.2.0 =
 * FIXED: /wp-admin dashboard was crashing if php 7.1 or 7.2 were used
 

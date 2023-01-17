@@ -15,6 +15,8 @@ const returnQueryParams = (queryParams, dataSource) => {
     if (queryParams !== '' && queryParams !== false) {
         let params = new URLSearchParams(queryParams);
 
+        //'view' param is not cleaned here, but in component 'returnRankingTable'
+
         if(params.get('order_by') !== null) {
             cleanedQuery += 'order_by='+params.get('order_by');
         }
@@ -51,11 +53,11 @@ const returnQueryParams = (queryParams, dataSource) => {
 
         if(dataSource === 'visitor_votes') {
             if (params.get('required_votes[most]') !== null) {
-                cleanedQuery = '&required_votes=' + params.get('required_votes[most]');
+                cleanedQuery += '&required_votes=' + params.get('required_votes[most]');
             }
 
             if (params.get('required_votes[highest]') !== null) {
-                cleanedQuery = '&required_votes=' + params.get('required_votes[highest]');
+                cleanedQuery += '&required_votes=' + params.get('required_votes[highest]');
             }
         }
 
