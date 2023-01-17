@@ -318,7 +318,7 @@ class YasrSettings {
                         $option_title = __('What?', 'yet-another-stars-rating');
                         $array_options = array (
                             'visitor_rating'  => __('Visitor Votes', 'yet-another-stars-rating'),
-                            'overall_rating'  => __('Overall Rating / Author Rating', 'yet-another-stars-rating'),
+                            'overall_rating'  => __('Overall Rating', 'yet-another-stars-rating'),
                         );
                         $default = $option['stars_title_what'];
                         $name    = 'yasr_general_options[stars_title_what]';

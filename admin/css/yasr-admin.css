@@ -252,9 +252,15 @@
 
 /*** End top navigation ***/
 
+
+
 .yasr-settings-table {
     min-height: 1136px;
     display: block;
+}
+
+#yasr_settings_form table td {
+    padding: 8px 0 8px 10px;
 }
 
 /*** On / Off Switch ***/
@@ -384,7 +390,7 @@
 }
 
 #yasr-sort-posts-list-archives {
-    margin-top: 15px;
+    padding-top: 15px;
 }
 
 #yasr-sort-posts-list-archives > span {
@@ -392,7 +398,7 @@
 }
 
 #yasr-sort-posts-list-archives input[type="checkbox"]  {
-    margin-right: 0px;
+    margin-right: 0;
 }
 
 /*This is the div with the created shortcode*/
