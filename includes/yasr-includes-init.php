@@ -85,7 +85,8 @@ $load_script = new YasrScriptsLoader();
 $load_script->loadRequiredScripts();
 
 //support for caching plugins
-$yasr_includes_filter->cachingPluginSupport();
+$yasr_caching_plugin_support = new YasrCachingPlugins();
+$yasr_caching_plugin_support->cachingPluginSupport();
 
 //Init Ajax
 $init_ajax = new YasrShortcodesAjax();
