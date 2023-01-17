@@ -733,7 +733,7 @@ class YasrSettings {
                         Not required for yasr_overall_rating and yasr_multiset.',
                         'yet-another-stars-rating'
                     );
-                    $caching_plugin = new YasrFindCachingPlugins();
+                    $caching_plugin = new YasrCachingPlugins();
                     $caching_plugin_found = $caching_plugin->cachingPluginFound();
                     if($caching_plugin_found !== false) {
                         echo wp_kses_post('<div class="yasr-element-row-container-description">'.

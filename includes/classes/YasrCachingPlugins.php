@@ -29,7 +29,7 @@ if (!defined('ABSPATH')) {
  * @since 2.7.7
  * Class YasrFindCachingPlugins
  */
-class YasrFindCachingPlugins {
+class YasrCachingPlugins {
 
     /**
      * @author Dario Curvino <@dudo>
@@ -40,8 +40,9 @@ class YasrFindCachingPlugins {
         $methods = get_class_methods($this);
 
         foreach($methods as $method) {
-            if(($method !== 'cachingPluginFound') && $this->{$method}()) {
-                return $method;
+            if((substr( $method, 0, 4 ) === "find") && $this->{$method}()) {
+                $plugin_name = str_replace('find', '', $method);
+                return $plugin_name;
             }
         }
         return false;
@@ -52,7 +53,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function wpRocket() {
+    public function findWpRocket() {
         if (is_plugin_active('wp-rocket/wp-rocket.php')) {
             return true;
         }
@@ -64,7 +65,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function cacheEnabler() {
+    public function findCacheEnabler() {
         if (is_plugin_active('cache-enabler/cache-enabler.php')) {
             return true;
         }
@@ -76,7 +77,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function litespeed() {
+    public function findLitespeed() {
         if (is_plugin_active('litespeed-cache/litespeed-cache.php')) {
             return true;
         }
@@ -88,7 +89,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function w3TotalCache() {
+    public function findW3TotalCache() {
         if (is_plugin_active('w3-total-cache/w3-total-cache.php')) {
             return true;
         }
@@ -100,7 +101,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function wpFastestCache() {
+    public function findWpFastestCache() {
         if (is_plugin_active('wp-fastest-cache/wpFastestCache.php')) {
             return true;
         }
@@ -112,7 +113,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function wpSuperCache() {
+    public function findWpSuperCache() {
         if (is_plugin_active('wp-super-cache/wp-cache.php')) {
             return true;
         }
@@ -124,7 +125,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function wpOptimize() {
+    public function findWpOptimize() {
         if (is_plugin_active('wp-optimize/wp-optimize.php')) {
             return true;
         }
@@ -136,7 +137,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function breeze() {
+    public function findBreeze() {
         if (is_plugin_active('breeze/breeze.php')) {
             return true;
         }
@@ -148,7 +149,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function cometCache() {
+    public function findCometCache() {
         if (is_plugin_active('comet-cache/comet-cache.php')) {
             return true;
         }
@@ -160,7 +161,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function hummingbird() {
+    public function findHummingbird() {
         if (is_plugin_active('hummingbird-performance/wp-hummingbird.php')) {
             return true;
         }
@@ -172,7 +173,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function pantheon() {
+    public function findPantheon() {
         if (is_plugin_active('pantheon-advanced-page-cache/pantheon-advanced-page-cache.php')) {
             return true;
         }
@@ -184,7 +185,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function performanceScoreBooster() {
+    public function findPerformanceScoreBooster() {
         if (is_plugin_active('wp-performance-score-booster/wp-performance-score-booster.php')) {
             return true;
         }
