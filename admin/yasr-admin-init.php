@@ -50,6 +50,8 @@ add_action('init', function (){
         )
     );
 
+    $upgrade_text = apply_filters('yasr_feature_locked_text', $upgrade_text, 10, 1);
+
     define ('YASR_LOCKED_TEXT', $upgrade_text);
 });
 
