@@ -105,8 +105,6 @@ class YasrProFakeRatings {
 
     }
 
-
-
     /**
      * @param $constants_array
      *
@@ -169,25 +167,20 @@ class YasrProFakeRatings {
             }
 
             if (($rating > 0 && $rating < 6) && ($number_of_votes >= 1 && $number_of_votes < 201) ) {
-                $ajax_actions = new YasrShortcodesAjax();
-
                 for ($i=1; $i<=$number_of_votes; $i++) {
-                    $result_insert_log = $ajax_actions->vvSaveRating($post_id, 0, $rating, 'x.x.x.x');
+                    $result_insert_log = YasrDB::vvSaveRating($post_id, 0, $rating, 'x.x.x.x');
 
                     if($result_insert_log === false && $is_ajax === true) {
                         die('KO can\'t save');
                     }
                 }
                 $this->dieIfAjax('OK');
-
             } else {
                 $this->dieIfAjax('KO Wrong rating or number of votes');
             }
-
         }
 
         $this->dieIfAjax('KO no post values sets');
-
     }
 
     /**

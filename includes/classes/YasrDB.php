@@ -184,6 +184,63 @@ class YasrDB {
     }
 
     /**
+     * Save VV rating
+     * wpdb prepare not needed here
+     * https://wordpress.stackexchange.com/questions/25947/wpdb-insert-do-i-need-to-prepare-against-sql-injection
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.7.7
+     *
+     * @param $post_id
+     * @param $user_id
+     * @param $rating
+     * @param $ip_address
+     *
+     * @return bool|int
+     */
+    public static function vvSaveRating($post_id, $user_id, $rating, $ip_address) {
+        global $wpdb;
+        return $wpdb->replace(
+            YASR_LOG_TABLE, array(
+                'post_id' => $post_id,
+                'user_id' => $user_id,
+                'vote'    => $rating,
+                'date'    => date('Y-m-d H:i:s'),
+                'ip'      => $ip_address
+            ),
+            array('%d', '%d', '%d', '%s', '%s', '%s')
+        );
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  2.7.7
+     *
+     * @param $post_id
+     * @param $user_id
+     * @param $rating
+     * @param $ip_address
+     *
+     * @return bool|int
+     */
+    public static function vvUpdateRating($post_id, $user_id, $rating, $ip_address) {
+        global $wpdb;
+
+        return $wpdb->update(
+            YASR_LOG_TABLE, array(
+            'post_id' => $post_id,
+            'user_id' => $user_id,
+            'vote'    => $rating,
+            'date'    => date('Y-m-d H:i:s'),
+            'ip'      => $ip_address
+        ), array(
+            'post_id' => $post_id,
+            'user_id' => $user_id
+        ), array('%d', '%d', '%d', '%s', '%s', '%s'), array('%d', '%d')
+        );
+    }
+
+    /**
      * Run $wpdb->get_results for overall Rating
      *
      * @author Dario Curvino <@dudo>

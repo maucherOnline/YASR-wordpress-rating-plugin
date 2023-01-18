@@ -110,17 +110,17 @@ class YasrShortcodesAjax {
 
         if (is_user_logged_in()) {
             //try to update first, if fails the do the insert
-            $result_update_log = $this->vvUpdateRating($post_id, $current_user_id, $rating, $ip_address);
+            $result_update_log = YasrDB::vvUpdateRating($post_id, $current_user_id, $rating, $ip_address);
 
             //insert the new row
             //use ! instead of === FALSE
             if (!$result_update_log) {
-                $result_insert_log = $this->vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
+                $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
             }
 
         } //if user is not logged in insert
         else {
-            $result_insert_log = $this->vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
+            $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
         }
 
         if ($result_update_log || $result_insert_log) {
@@ -134,66 +134,6 @@ class YasrShortcodesAjax {
 
         die(); // this is required to return a proper result
 
-    }
-
-    /**
-     * Save VV rating
-     *
-     * wpdb prepare not needed here
-     * https://wordpress.stackexchange.com/questions/25947/wpdb-insert-do-i-need-to-prepare-against-sql-injection
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  2.7.7
-     *
-     * @param $post_id
-     * @param $user_id
-     * @param $rating
-     * @param $ip_address
-     *
-     * @return bool|int
-     */
-    public function vvSaveRating($post_id, $user_id, $rating, $ip_address) {
-        global $wpdb;
-        return $wpdb->replace(
-            YASR_LOG_TABLE, array(
-                'post_id' => $post_id,
-                'user_id' => $user_id,
-                'vote'    => $rating,
-                'date'    => date('Y-m-d H:i:s'),
-                'ip'      => $ip_address
-            ), array('%d', '%d', '%d', '%s', '%s', '%s')
-        );
-    }
-
-    /**
-     * @author Dario Curvino <@dudo>
-     * @since  2.7.7
-     *
-     * @param $post_id
-     * @param $user_id
-     * @param $rating
-     * @param $ip_address
-     *
-     * @return bool|int
-     */
-    public function vvUpdateRating($post_id, $user_id, $rating, $ip_address) {
-        global $wpdb;
-
-        return $wpdb->update(
-            YASR_LOG_TABLE, array(
-                'post_id' => $post_id,
-                'user_id' => $user_id,
-                'vote'    => $rating,
-                'date'    => date('Y-m-d H:i:s'),
-                'ip'      => $ip_address
-            ),
-            array(
-                'post_id' => $post_id,
-                'user_id' => $user_id
-            ),
-            array('%d', '%d', '%d', '%s', '%s', '%s'),
-            array('%d', '%d')
-        );
     }
 
     /**
