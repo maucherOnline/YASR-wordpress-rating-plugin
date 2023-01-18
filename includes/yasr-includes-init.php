@@ -21,8 +21,6 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-//The defines are inside a file, instead of a class, for better support PHPStorm auto-completion
-//https://youtrack.jetbrains.com/issue/WI-11390/Make-define-Constants-from-inside-methods-available-for-completion-everywhere.
 
 //e.g. http://localhost/plugin_development/wp-content/plugins/yet-another-stars-rating/includes/js/
 define('YASR_JS_DIR_INCLUDES', plugins_url() . '/' . YASR_RELATIVE_PATH_INCLUDES . '/js/');

@@ -168,7 +168,7 @@ class YasrScriptsLoader {
             true
         );
 
-        if (defined('YASR_CATCH_INFINITE_SCROLL_INSTALLED') && YASR_CATCH_INFINITE_SCROLL_INSTALLED === true) {
+        if (defined('YASR_CATCH_INFINITE_SCROLL_INSTALLED') && yasr_is_catch_infinite_sroll_installed() === true) {
             $array_dep = array('jquery', 'yasr-global-functions', 'yasr-window-var', 'wp-element');
 
             //laod tippy only if the shortcode has loaded it
