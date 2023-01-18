@@ -61,7 +61,7 @@ class YasrSettingsValues {
      * @return array
      */
     public function defaultValuesGeneral() {
-        $caching_plugin       = new YasrFindCachingPlugins();
+        $caching_plugin       = new YasrCachingPlugins();
         $caching_plugin_found = $caching_plugin->cachingPluginFound();
 
         $options['auto_insert_enabled']          = 1;

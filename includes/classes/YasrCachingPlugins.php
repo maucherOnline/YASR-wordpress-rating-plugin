@@ -29,7 +29,7 @@ if (!defined('ABSPATH')) {
  * @since 2.7.7
  * Class YasrFindCachingPlugins
  */
-class YasrFindCachingPlugins {
+class YasrCachingPlugins {
 
     /**
      * @author Dario Curvino <@dudo>
@@ -40,8 +40,9 @@ class YasrFindCachingPlugins {
         $methods = get_class_methods($this);
 
         foreach($methods as $method) {
-            if(($method !== 'cachingPluginFound') && $this->{$method}()) {
-                return $method;
+            if((substr( $method, 0, 4 ) === "find") && $this->{$method}()) {
+                $plugin_name = str_replace('find', '', $method);
+                return $plugin_name;
             }
         }
         return false;
@@ -52,7 +53,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function wpRocket() {
+    public function findWpRocket() {
         if (is_plugin_active('wp-rocket/wp-rocket.php')) {
             return true;
         }
@@ -64,7 +65,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function cacheEnabler() {
+    public function findCacheEnabler() {
         if (is_plugin_active('cache-enabler/cache-enabler.php')) {
             return true;
         }
@@ -76,7 +77,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function litespeed() {
+    public function findLitespeed() {
         if (is_plugin_active('litespeed-cache/litespeed-cache.php')) {
             return true;
         }
@@ -88,7 +89,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function w3TotalCache() {
+    public function findW3TotalCache() {
         if (is_plugin_active('w3-total-cache/w3-total-cache.php')) {
             return true;
         }
@@ -100,7 +101,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function wpFastestCache() {
+    public function findWpFastestCache() {
         if (is_plugin_active('wp-fastest-cache/wpFastestCache.php')) {
             return true;
         }
@@ -112,7 +113,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function wpSuperCache() {
+    public function findWpSuperCache() {
         if (is_plugin_active('wp-super-cache/wp-cache.php')) {
             return true;
         }
@@ -124,7 +125,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function wpOptimize() {
+    public function findWpOptimize() {
         if (is_plugin_active('wp-optimize/wp-optimize.php')) {
             return true;
         }
@@ -136,7 +137,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function breeze() {
+    public function findBreeze() {
         if (is_plugin_active('breeze/breeze.php')) {
             return true;
         }
@@ -148,7 +149,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function cometCache() {
+    public function findCometCache() {
         if (is_plugin_active('comet-cache/comet-cache.php')) {
             return true;
         }
@@ -160,7 +161,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function hummingbird() {
+    public function findHummingbird() {
         if (is_plugin_active('hummingbird-performance/wp-hummingbird.php')) {
             return true;
         }
@@ -172,7 +173,7 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function pantheon() {
+    public function findPantheon() {
         if (is_plugin_active('pantheon-advanced-page-cache/pantheon-advanced-page-cache.php')) {
             return true;
         }
@@ -184,11 +185,100 @@ class YasrFindCachingPlugins {
      * @since  2.7.7
      * @return bool
      */
-    public function performanceScoreBooster() {
+    public function findPerformanceScoreBooster() {
         if (is_plugin_active('wp-performance-score-booster/wp-performance-score-booster.php')) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  2.7.4
+     *
+     */
+    public function cachingPluginSupport() {
+        //Autooptimize
+        add_filter('autoptimize_filter_js_dontmove', static function($excluded_files) {
+            if (is_array($excluded_files)) {
+                $excluded_files[] = 'wp-includes/js/dist/';
+            }
+            return $excluded_files;
+        });
+
+        //wp rocket
+        add_filter('rocket_exclude_defer_js', static function($excluded_files) {
+            if (is_array($excluded_files)) {
+                $excluded_files[] = 'wp-includes/js/dist/';
+            }
+            return $excluded_files;
+        });
+
+        //Delete caches for supported plugins on visitor vote
+        //Can't use is_singular() here because always return false
+        add_action('yasr_action_on_visitor_vote',          array($this, 'deleteCaches'));
+        add_action('yasr_action_on_visitor_multiset_vote', array($this, 'deleteCaches'));
+    }
+
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  refactored in 2.7.4
+     *
+     * @param $array_action_visitor_vote
+     */
+    public function deleteCaches($array_action_visitor_vote) {
+        if (isset($array_action_visitor_vote['post_id'])) {
+            $post_id = $array_action_visitor_vote['post_id'];
+        }
+        else {
+            return;
+        }
+
+        if (isset($array_action_visitor_vote['is_singular'])) {
+            $is_singular = $array_action_visitor_vote['is_singular'];
+        }
+        else {
+            return;
+        }
+
+        //Adds support for wp super cache
+        if (function_exists('wp_cache_post_change')) {
+            wp_cache_post_change($post_id);
+        }
+
+        //Adds support for wp rocket, thanks to GeekPress
+        //https://wordpress.org/support/topic/compatibility-with-wp-rocket-2
+        if (function_exists('rocket_clean_post')) {
+            rocket_clean_post($post_id);
+        }
+
+        //Adds support for LiteSpeed Cache plugin
+        if (method_exists('\LiteSpeed\Purge', 'purge_post')) {
+            (new LiteSpeed\Purge)->purge_post($post_id);
+        }
+
+        //Adds support for Wp Fastest Cache
+        if ($is_singular === 'true') {
+            if (isset($GLOBALS['wp_fastest_cache'])
+                && method_exists(
+                    $GLOBALS['wp_fastest_cache'], 'singleDeleteCache'
+                )
+            ) {
+                $GLOBALS['wp_fastest_cache']->singleDeleteCache(false, $post_id);
+            }
+        }
+        else {
+            if (isset($GLOBALS['wp_fastest_cache']) && method_exists($GLOBALS['wp_fastest_cache'], 'deleteCache')) {
+                $GLOBALS['wp_fastest_cache']->deleteCache();
+            }
+        }
+
+        //cache enabler support
+        if (class_exists('Cache_Enabler') && method_exists('Cache_Enabler', 'clear_page_cache_by_post_id')) {
+            Cache_Enabler::clear_page_cache_by_post_id($post_id);
+        }
+
     }
 
 }
