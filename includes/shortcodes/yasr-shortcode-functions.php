@@ -216,3 +216,10 @@ function yasr_users_front_widget_callback() {
     return (new YasrLastRatingsWidget())->userWidgetShortcode();
 } //End callback function
 
+
+add_shortcode('yasr_display_posts', 'yasr_display_posts_callback');
+
+function yasr_display_posts_callback($atts, $content, $shortcode_tag) {
+    return (new YasrDisplayPosts($atts, $shortcode_tag))->returnShortcode();
+}
+
