@@ -910,6 +910,77 @@ class YasrDB {
     }
 
     /**
+     * Save rating for multi set visitor
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.7.7
+     *
+     * @param $id_field
+     * @param $set_id
+     * @param $post_id
+     * @param $rating
+     * @param $user_id
+     * @param $ip_address
+     *
+     * @return bool|int
+     */
+    public static function mvSaveRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address) {
+        global $wpdb;
+
+        //no need to insert 'comment_id', it is 0 by default
+        return $wpdb->replace(
+            YASR_LOG_MULTI_SET, array(
+            'field_id' => $id_field,
+            'set_type' => $set_id,
+            'post_id'  => $post_id,
+            'vote'     => $rating,
+            'user_id'  => $user_id,
+            'date'     => date('Y-m-d H:i:s'),
+            'ip'       => $ip_address
+        ), array("%d", "%d", "%d", "%d", "%d", "%s", "%s")
+        );
+    }
+
+
+    /**
+     * Update rating for multi set visitor
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.7.7
+     *
+     * @param $id_field
+     * @param $set_id
+     * @param $post_id
+     * @param $rating
+     * @param $user_id
+     * @param $ip_address
+     *
+     * @return bool|int
+     */
+    public static function mvUpdateRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address) {
+        global $wpdb;
+
+        //no need to insert 'comment_id', it is 0 by default
+        return $wpdb->update(
+            YASR_LOG_MULTI_SET, array(
+            'field_id' => $id_field,
+            'set_type' => $set_id,
+            'post_id'  => $post_id,
+            'vote'     => $rating,
+            'user_id'  => $user_id,
+            'date'     => date('Y-m-d H:i:s'),
+            'ip'       => $ip_address
+        ), array(
+            'field_id' => $id_field,
+            'set_type' => $set_id,
+            'post_id'  => $post_id,
+            'user_id'  => $user_id
+        ), array("%d", "%d", "%d", "%d", "%d", "%s", "%s"), array("%d", "%d", "%d", "%d")
+        );
+    }
+
+
+    /**
      * Return the postmeta itemType
      *
      * @param bool|int $term_id
