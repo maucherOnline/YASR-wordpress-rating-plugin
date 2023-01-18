@@ -117,7 +117,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$hook` |  | string
 
-Source: [../admin/classes/YasrAdmin.php](../admin/classes/YasrAdmin.php), [line 128](../admin/classes/YasrAdmin.php#L128-L133)
+Source: [../admin/classes/YasrAdmin.php](../admin/classes/YasrAdmin.php), [line 144](../admin/classes/YasrAdmin.php#L144-L149)
 
 ### `yasr_add_admin_scripts_end`
 
@@ -129,7 +129,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$hook` |  | string
 
-Source: [../admin/classes/YasrAdmin.php](../admin/classes/YasrAdmin.php), [line 145](../admin/classes/YasrAdmin.php#L145-L150)
+Source: [../admin/classes/YasrAdmin.php](../admin/classes/YasrAdmin.php), [line 161](../admin/classes/YasrAdmin.php#L161-L166)
 
 ### `yasr_add_stats_tab`
 
@@ -244,7 +244,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$array_action_visitor_multiset_vote` |  | 
 
-Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 345](../includes/shortcodes/classes/YasrShortcodesAjax.php#L345-L345)
+Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 285](../includes/shortcodes/classes/YasrShortcodesAjax.php#L285-L285)
 
 ### `yasr_enqueue_assets_shortcode`
 
@@ -273,7 +273,7 @@ Argument | Type | Description
 `10` |  | 
 `1` |  | 
 
-Source: [../admin/yasr-admin-init.php](../admin/yasr-admin-init.php), [line 44](../admin/yasr-admin-init.php#L44-L47)
+Source: [../admin/yasr-admin-init.php](../admin/yasr-admin-init.php), [line 33](../admin/yasr-admin-init.php#L33-L36)
 
 ### `yasr_feature_locked_html_attribute`
 
@@ -285,7 +285,19 @@ Argument | Type | Description
 `10` |  | 
 `1` |  | 
 
-Source: [../admin/yasr-admin-init.php](../admin/yasr-admin-init.php), [line 49](../admin/yasr-admin-init.php#L49-L49)
+Source: [../admin/yasr-admin-init.php](../admin/yasr-admin-init.php), [line 38](../admin/yasr-admin-init.php#L38-L38)
+
+### `yasr_feature_locked_text`
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$upgrade_text` |  | 
+`10` |  | 
+`1` |  | 
+
+Source: [../admin/yasr-admin-init.php](../admin/yasr-admin-init.php), [line 53](../admin/yasr-admin-init.php#L53-L53)
 
 ### `yasr_settings_select_ranking`
 
@@ -388,7 +400,7 @@ Argument | Type | Description
 `$vv_widget` |  | 
 `$stored_votes` |  | 
 
-Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 273](../public/classes/YasrPublicFilters.php#L273-L273)
+Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 267](../public/classes/YasrPublicFilters.php#L267-L267)
 
 ### `yasr_title_overall_widget`
 
@@ -399,7 +411,7 @@ Argument | Type | Description
 `$overall_widget` |  | 
 `$overall_rating` |  | 
 
-Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 310](../public/classes/YasrPublicFilters.php#L310-L310)
+Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 304](../public/classes/YasrPublicFilters.php#L304-L304)
 
 ### `yasr_overall_rating_shortcode`
 
@@ -430,7 +442,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `'yasr_visitor_vote_cookie'` |  | 
 
-Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 216](../includes/shortcodes/classes/YasrShortcodesAjax.php#L216-L216)
+Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 156](../includes/shortcodes/classes/YasrShortcodesAjax.php#L156-L156)
 
 ### `yasr_vv_updated_text`
 
@@ -440,7 +452,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$rating_saved_text` |  | 
 
-Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 229](../includes/shortcodes/classes/YasrShortcodesAjax.php#L229-L229)
+Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 169](../includes/shortcodes/classes/YasrShortcodesAjax.php#L169-L169)
 
 ### `yasr_vv_saved_text`
 
@@ -450,7 +462,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$rating_saved_text` |  | 
 
-Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 232](../includes/shortcodes/classes/YasrShortcodesAjax.php#L232-L232)
+Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 172](../includes/shortcodes/classes/YasrShortcodesAjax.php#L172-L172)
 
 ### `yasr_vv_rating_error_text`
 
@@ -460,7 +472,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$error_text` |  | 
 
-Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 255](../includes/shortcodes/classes/YasrShortcodesAjax.php#L255-L255)
+Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 195](../includes/shortcodes/classes/YasrShortcodesAjax.php#L195-L195)
 
 ### `yasr_mv_cookie`
 
@@ -470,7 +482,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `'yasr_multi_visitor_cookie'` |  | 
 
-Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 498](../includes/shortcodes/classes/YasrShortcodesAjax.php#L498-L498)
+Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 371](../includes/shortcodes/classes/YasrShortcodesAjax.php#L371-L371)
 
 ### `yasr_mv_saved_text`
 
@@ -480,7 +492,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `__('Rating Saved', 'yet-another-stars-rating')` |  | 
 
-Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 507](../includes/shortcodes/classes/YasrShortcodesAjax.php#L507-L507)
+Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 380](../includes/shortcodes/classes/YasrShortcodesAjax.php#L380-L380)
 
 ### `yasr_filter_ranking_request`
 
@@ -491,7 +503,7 @@ Argument | Type | Description
 `false` |  | 
 `$request` |  | 
 
-Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 690](../includes/shortcodes/classes/YasrShortcodesAjax.php#L690-L690)
+Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 563](../includes/shortcodes/classes/YasrShortcodesAjax.php#L563-L563)
 
 ### `yasr_add_sources_ranking_request`
 
@@ -504,7 +516,7 @@ Argument | Type | Description
 `$request` |  | 
 `$sql_params` |  | 
 
-Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 741](../includes/shortcodes/classes/YasrShortcodesAjax.php#L741-L741)
+Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php](../includes/shortcodes/classes/YasrShortcodesAjax.php), [line 614](../includes/shortcodes/classes/YasrShortcodesAjax.php#L614-L614)
 
 ### `yasr_mv_cookie`
 
@@ -742,7 +754,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$atts` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 201](../includes/classes/YasrDB.php#L201-L201)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 258](../includes/classes/YasrDB.php#L258-L258)
 
 ### `yasr_rankings_query_vv`
 
@@ -753,7 +765,7 @@ Argument | Type | Description
 `$atts` |  | 
 `$ranking` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 245](../includes/classes/YasrDB.php#L245-L245)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 302](../includes/classes/YasrDB.php#L302-L302)
 
 ### `yasr_rankings_query_tu`
 
@@ -763,7 +775,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$atts` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 295](../includes/classes/YasrDB.php#L295-L295)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 352](../includes/classes/YasrDB.php#L352-L352)
 
 ### `yasr_rankings_multi_query`
 
@@ -774,7 +786,7 @@ Argument | Type | Description
 `$sql_atts` |  | 
 `$set_id` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 340](../includes/classes/YasrDB.php#L340-L340)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 397](../includes/classes/YasrDB.php#L397-L397)
 
 ### `yasr_rankings_query_tr`
 
@@ -784,7 +796,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$atts` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 394](../includes/classes/YasrDB.php#L394-L394)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 451](../includes/classes/YasrDB.php#L451-L451)
 
 ### `yasr_rankings_multivv_query`
 
@@ -796,7 +808,7 @@ Argument | Type | Description
 `$ranking` |  | 
 `$set_id` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 445](../includes/classes/YasrDB.php#L445-L445)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 502](../includes/classes/YasrDB.php#L502-L502)
 
 ### `yasr_custom_loader`
 
@@ -827,70 +839,6 @@ Argument | Type | Description
 `$constants_array` |  | 
 
 Source: [../includes/classes/YasrScriptsLoader.php](../includes/classes/YasrScriptsLoader.php), [line 525](../includes/classes/YasrScriptsLoader.php#L525-L525)
-
-### `yasr_rankings_query_ov`
-
-**Arguments**
-
-Argument | Type | Description
--------- | ---- | -----------
-`$atts` |  | 
-
-Source: [../includes/classes/YasrRankingData.php](../includes/classes/YasrRankingData.php), [line 52](../includes/classes/YasrRankingData.php#L52-L52)
-
-### `yasr_rankings_query_vv`
-
-**Arguments**
-
-Argument | Type | Description
--------- | ---- | -----------
-`$atts` |  | 
-`$ranking` |  | 
-
-Source: [../includes/classes/YasrRankingData.php](../includes/classes/YasrRankingData.php), [line 98](../includes/classes/YasrRankingData.php#L98-L98)
-
-### `yasr_rankings_query_tr`
-
-**Arguments**
-
-Argument | Type | Description
--------- | ---- | -----------
-`$atts` |  | 
-
-Source: [../includes/classes/YasrRankingData.php](../includes/classes/YasrRankingData.php), [line 148](../includes/classes/YasrRankingData.php#L148-L148)
-
-### `yasr_rankings_query_tu`
-
-**Arguments**
-
-Argument | Type | Description
--------- | ---- | -----------
-`$atts` |  | 
-
-Source: [../includes/classes/YasrRankingData.php](../includes/classes/YasrRankingData.php), [line 192](../includes/classes/YasrRankingData.php#L192-L192)
-
-### `yasr_rankings_multi_query`
-
-**Arguments**
-
-Argument | Type | Description
--------- | ---- | -----------
-`$sql_atts` |  | 
-`$set_id` |  | 
-
-Source: [../includes/classes/YasrRankingData.php](../includes/classes/YasrRankingData.php), [line 238](../includes/classes/YasrRankingData.php#L238-L238)
-
-### `yasr_rankings_multivv_query`
-
-**Arguments**
-
-Argument | Type | Description
--------- | ---- | -----------
-`$sql_atts` |  | 
-`$ranking` |  | 
-`$set_id` |  | 
-
-Source: [../includes/classes/YasrRankingData.php](../includes/classes/YasrRankingData.php), [line 301](../includes/classes/YasrRankingData.php#L301-L301)
 
 
 <p align="center"><a href="https://github.com/pronamic/wp-documentor"><img src="https://cdn.jsdelivr.net/gh/pronamic/wp-documentor@main/logos/pronamic-wp-documentor.svgo-min.svg" alt="Pronamic WordPress Documentor" width="32" height="32"></a><br><em>Generated by <a href="https://github.com/pronamic/wp-documentor">Pronamic WordPress Documentor</a> <code>1.2.0</code></em><p>
