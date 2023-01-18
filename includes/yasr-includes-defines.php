@@ -98,7 +98,6 @@ define('YASR_ENABLE_AJAX', $yasr_general_settings['enable_ajax']);
 //Also, I can't use const here, because it only works with primitive values
 //https://stackoverflow.com/questions/2447791/php-define-vs-const
 define('YASR_STYLE_OPTIONS', json_encode($style_options));
-
 define('YASR_STARS_SET',        $style_options['stars_set_free']);
 define('YASR_SCHEME_COLOR',     $style_options['scheme_color_multiset']);
 define('YASR_CUSTOM_CSS_RULES', $style_options['textarea']);
@@ -108,20 +107,7 @@ define('YASR_CUSTOM_CSS_RULES', $style_options['textarea']);
  * Defines for MultiSet options
  *
  */
-
 define('YASR_MULTI_SHOW_AVERAGE', $multi_set_options['show_average']);
-
-/**
- * Do This defines on plugins_loaded
- *
- * @author Dario Curvino <@dudo>
- * @since 3.0.5
- */
-
-add_action('plugins_loaded', static function () {
-    define('YASR_FIRST_SETID', YasrDB::returnFirstSetId());
-});
-
 
 /**
  * All the other defines

@@ -38,7 +38,7 @@ class YasrMultiSet extends YasrShortcode {
 
         $atts = shortcode_atts(
             array(
-                'setid'        => YASR_FIRST_SETID,
+                'setid'        => YasrDB::returnFirstSetId(),
                 'show_average' => null
             ),
             $atts,

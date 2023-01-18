@@ -29,6 +29,8 @@ if (!defined('ABSPATH')) {
  */
 class YasrDB {
 
+    static private $firstSetId = null;
+
     /**
      * Returns overall rating for single post or page
      *
@@ -388,7 +390,7 @@ class YasrDB {
     public static function rankingMulti($set_id, $sql_atts = false) {
         global $wpdb;
         if ($set_id === null) {
-            $set_id = YASR_FIRST_SETID;
+            $set_id = self::returnFirstSetId();
         }
 
         $set_id = (int) $set_id;
@@ -493,7 +495,7 @@ class YasrDB {
         global $wpdb;
         //if set_id is not set (e.g. in rest parameter setid is not set)
         if ($set_id === null) {
-            $set_id = YASR_FIRST_SETID;
+            $set_id = self::returnFirstSetId();
         }
 
         $set_id = (int) $set_id;
@@ -543,6 +545,10 @@ class YasrDB {
      * @return false|int
      */
     public static function returnFirstSetId() {
+        if(self::$firstSetId !== null) {
+            return self::$firstSetId;
+        }
+
         global $wpdb;
         $set_id = false;
 
@@ -556,6 +562,8 @@ class YasrDB {
         if (is_array($result) && !empty($result[0]) && property_exists($result[0], 'set_id')) {
             $set_id = (int) $result[0]->set_id;
         }
+
+        self::$firstSetId = $set_id;
 
         return $set_id;
     }
