@@ -32,7 +32,7 @@ class YasrDB {
     /**
      * @var null | int
      */
-    private static $post_id          = null;
+    private static $post_id                     = null;
 
     /**
      * @var null | int
@@ -40,18 +40,34 @@ class YasrDB {
     private static $set_id                      = null;
 
     /**
-     * @var null|array
+     * @var null | int
+     */
+    private static $user_id                     = null;
+
+    /**
+     * @var null | array
      * null in class declaration
      * later updated as array
      * Here I will save data from yasr_visitor_votes
+     * @see visitorVotes
      */
     private static $visitor_votes_data          = null;
+
+    /**
+     * @var null | int
+     * null in class declaration
+     * later updated as int
+     * Here I will save the rating if a logged-in user has rated
+     * @see vvCurrentUserRating
+     */
+    private static $current_user_rating_data    = null;
 
     /**
      * @var null|int
      * null in class declaration
      * later updated as array
      * Here I will save the first multiset id
+     * @see returnFirstSetId
      */
     private static $first_set_id                = null;
 
@@ -60,6 +76,7 @@ class YasrDB {
      * null in class declaration
      * later updated as array
      * Here I will save data from multisetFieldsAndID
+     * @see multisetFieldsAndID
      */
     private static $multiset_fields_and_id_data = null;
 
@@ -201,15 +218,19 @@ class YasrDB {
      * @return bool|int
      */
     public static function vvCurrentUserRating($post_id = false) {
-        global $wpdb;
-
-        $user_id      = get_current_user_id();
-
-        //just to be safe
+        //get current post id if not exists
         if (!is_int($post_id)) {
             $post_id = get_the_ID();
         }
 
+        $post_id = (int)$post_id;
+        $user_id = get_current_user_id();
+
+        if(self::checkIfVVCurrentUserRatingFetched($post_id, $user_id)) {
+           return self::$current_user_rating_data;
+        }
+
+        global $wpdb;
         $rating = $wpdb->get_var(
             $wpdb->prepare(
                 "SELECT vote FROM "
@@ -222,10 +243,16 @@ class YasrDB {
         );
 
         if ($rating === null) {
+            self::$current_user_rating_data = null;
             return false;
         }
 
-        return (int)$rating;
+        $rating = (int)$rating;
+
+        self::$current_user_rating_data = $rating;
+        self::$post_id = $post_id;
+        self::$user_id = $user_id;
+        return $rating;
     }
 
     /**
@@ -1110,6 +1137,28 @@ class YasrDB {
      */
     public static function checkIfVVAlreadyFetched($post_id) {
         if(is_array(self::$visitor_votes_data) && (self::$post_id === $post_id)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * check if for the current post id, and current user id, $current_user_rating_data already exists.
+     * This is needed to avoid duplicate query
+     * (e.g. if shortcode with same post_id is included more than once in the same post)
+     * @see vvCurrentUserRating
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.2.1
+     *
+     * @param $post_id
+     * @param $user_id
+     *
+     * @return bool
+     */
+    public static function checkIfVVCurrentUserRatingFetched($post_id, $user_id) {
+        if(is_int(self::$current_user_rating_data) && (self::$post_id === $post_id) && (self::$user_id === $user_id)) {
             return true;
         }
         return false;
