@@ -152,7 +152,7 @@ class YasrDB {
 
         //if self::$vv_fetched_post_id === ($post_id) means that this function has already run
         //for the current post, and data was saved in self::$visitor_votes_data;
-        if(self::checkIfVVAlreadyFetched($post_id)) {
+        if(self::visitorVotesDataExists($post_id)) {
             return self::$visitor_votes_data;
         }
 
@@ -226,7 +226,7 @@ class YasrDB {
         $post_id = (int)$post_id;
         $user_id = get_current_user_id();
 
-        if(self::checkIfVVCurrentUserRatingFetched($post_id, $user_id)) {
+        if(self::currentUserRatingDataExists($post_id, $user_id)) {
            return self::$current_user_rating_data;
         }
 
@@ -943,7 +943,7 @@ class YasrDB {
     public static function multisetFieldsAndID($set_id) {
         $set_id = (int)$set_id;
 
-        if(self::checkIfMultisetFieldsAndIDFetched($set_id)) {
+        if(self::multisetFieldsAndIdDataExists($set_id)) {
             return self::$multiset_fields_and_id_data;
         }
 
@@ -1135,7 +1135,7 @@ class YasrDB {
      *
      * @return bool
      */
-    public static function checkIfVVAlreadyFetched($post_id) {
+    public static function visitorVotesDataExists($post_id) {
         if(is_array(self::$visitor_votes_data) && (self::$post_id === $post_id)) {
             return true;
         }
@@ -1157,7 +1157,7 @@ class YasrDB {
      *
      * @return bool
      */
-    public static function checkIfVVCurrentUserRatingFetched($post_id, $user_id) {
+    public static function currentUserRatingDataExists($post_id, $user_id) {
         if(is_int(self::$current_user_rating_data) && (self::$post_id === $post_id) && (self::$user_id === $user_id)) {
             return true;
         }
@@ -1176,7 +1176,7 @@ class YasrDB {
      *
      * @return bool
      */
-    public static function checkIfMultisetFieldsAndIDFetched($set_id) {
+    public static function multisetFieldsAndIdDataExists($set_id) {
         if (is_array(self::$multiset_fields_and_id_data) && (self::$set_id === $set_id)) {
             return true;
         }
