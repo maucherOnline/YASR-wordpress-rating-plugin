@@ -32,7 +32,7 @@ class YasrDB {
     /**
      * @var null | int
      */
-    private static $vv_fetched_post_id          = null;
+    private static $post_id          = null;
 
     /**
      * @var null | int
@@ -135,7 +135,7 @@ class YasrDB {
 
         //if self::$vv_fetched_post_id === ($post_id) means that this function has already run
         //for the current post, and data was saved in self::$visitor_votes_data;
-        if(self::$vv_fetched_post_id === ($post_id)) {
+        if(self::checkIfVVAlreadyFetched($post_id)) {
             return self::$visitor_votes_data;
         }
 
@@ -171,7 +171,7 @@ class YasrDB {
         }
 
         self::$visitor_votes_data = $array_to_return;
-        self::$vv_fetched_post_id = $post_id;
+        self::$post_id            = $post_id;
 
         return $array_to_return;
     }
@@ -817,7 +817,7 @@ class YasrDB {
      *         'id' => 0,
      *         'name' => 'Field 1',
      *         'average_rating' => 3.5
-     *          'number_of_votes' => 3
+     *         'number_of_votes' => 3
      *     ),
      *     array (
      *         'id' => 1,
@@ -1095,4 +1095,42 @@ class YasrDB {
         return $snippet_type;
     }
 
+    /**
+     * check if for the current post id, $visitor_votes_data already exists.
+     * This is needed to avoid duplicate query
+     * (e.g. if shortcode with same post_id is included more than once in the same post)
+     * @see visitorVotes
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.2.1
+     *
+     * @param $post_id
+     *
+     * @return bool
+     */
+    public static function checkIfVVAlreadyFetched($post_id) {
+        if(is_array(self::$visitor_votes_data) && (self::$post_id === $post_id)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if for the current $set_id, multisetFieldsAndID has already run
+     * @see multisetFieldsAndID
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.2.1
+     *
+     * @param $set_id
+     *
+     * @return bool
+     */
+    public static function checkIfMultisetFieldsAndIDFetched($set_id) {
+        if (is_array(self::$multiset_fields_and_id_data) && (self::$set_id === $set_id)) {
+            return true;
+        }
+        return false;
+    }
 }
