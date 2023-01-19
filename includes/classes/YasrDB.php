@@ -29,8 +29,41 @@ if (!defined('ABSPATH')) {
  */
 class YasrDB {
 
-    static private $first_set_id = null;
-    static private $multiset_fields_and_id_data = null;
+    /**
+     * @var null | int
+     */
+    private static $vv_fetched_post_id          = null;
+
+    /**
+     * @var null | int
+     */
+    private static $set_id                      = null;
+
+    /**
+     * @var null|array
+     * null in class declaration
+     * later updated as array
+     * Here I will save data from yasr_visitor_votes
+     */
+    private static $visitor_votes_data          = null;
+
+    /**
+     * @var null|int
+     * null in class declaration
+     * later updated as array
+     * Here I will save the first multiset id
+     */
+    private static $first_set_id                = null;
+
+    /**
+     * @var null|array
+     * null in class declaration
+     * later updated as array
+     * Here I will save data from multisetFieldsAndID
+     */
+    private static $multiset_fields_and_id_data = null;
+
+
 
     /**
      * Returns overall rating for single post or page
@@ -94,13 +127,19 @@ class YasrDB {
      *        'average'          = (int)average result
      *    )
      */
-    public static function visitorVotes ($post_id = false) {
-        global $wpdb;
-
+    public static function visitorVotes ($post_id=false) {
         //if values it's not passed get the post id, most of the cases and default one
         if (!is_int($post_id)) {
             $post_id = get_the_ID();
         }
+
+        //if self::$vv_fetched_post_id === ($post_id) means that this function has already run
+        //for the current post, and data was saved in self::$visitor_votes_data;
+        if(self::$vv_fetched_post_id === ($post_id)) {
+            return self::$visitor_votes_data;
+        }
+
+        global $wpdb;
 
         $result = $wpdb->get_results(
             $wpdb->prepare(
@@ -130,6 +169,9 @@ class YasrDB {
                 $array_to_return['average']  = round($array_to_return['average'], 1);
             }
         }
+
+        self::$visitor_votes_data = $array_to_return;
+        self::$vv_fetched_post_id = $post_id;
 
         return $array_to_return;
     }
@@ -855,6 +897,7 @@ class YasrDB {
 
     /**
      * This function returns a multidimensional array of multiset ID and Fields
+     *
      *    array (
      *        array (
      *            'id' => '0',
@@ -871,11 +914,11 @@ class YasrDB {
      * @return array|bool
      */
     public static function multisetFieldsAndID($set_id) {
-        if(self::$multiset_fields_and_id_data !== null) {
+        $set_id = (int)$set_id;
+
+        if(self::checkIfMultisetFieldsAndIDFetched($set_id)) {
             return self::$multiset_fields_and_id_data;
         }
-
-        $set_id = (int)$set_id;
 
         global $wpdb;
 
@@ -891,11 +934,13 @@ class YasrDB {
         );
 
         if (empty($result)) {
-            self::$multiset_fields_and_id_data = false;
+            self::$multiset_fields_and_id_data = null;
             return false;
         }
 
         self::$multiset_fields_and_id_data = $result;
+        self::$set_id = $set_id;
+
         return $result;
     }
 
