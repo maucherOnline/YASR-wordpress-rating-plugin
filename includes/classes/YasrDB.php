@@ -29,7 +29,8 @@ if (!defined('ABSPATH')) {
  */
 class YasrDB {
 
-    static private $firstSetId = null;
+    static private $first_set_id = null;
+    static private $multiset_fields_and_id_data = null;
 
     /**
      * Returns overall rating for single post or page
@@ -545,8 +546,8 @@ class YasrDB {
      * @return false|int
      */
     public static function returnFirstSetId() {
-        if(self::$firstSetId !== null) {
-            return self::$firstSetId;
+        if(self::$first_set_id !== null) {
+            return self::$first_set_id;
         }
 
         global $wpdb;
@@ -563,7 +564,7 @@ class YasrDB {
             $set_id = (int) $result[0]->set_id;
         }
 
-        self::$firstSetId = $set_id;
+        self::$first_set_id = $set_id;
 
         return $set_id;
     }
@@ -870,6 +871,10 @@ class YasrDB {
      * @return array|bool
      */
     public static function multisetFieldsAndID($set_id) {
+        if(self::$multiset_fields_and_id_data !== null) {
+            return self::$multiset_fields_and_id_data;
+        }
+
         $set_id = (int)$set_id;
 
         global $wpdb;
@@ -886,8 +891,11 @@ class YasrDB {
         );
 
         if (empty($result)) {
+            self::$multiset_fields_and_id_data = false;
             return false;
         }
+
+        self::$multiset_fields_and_id_data = $result;
         return $result;
     }
 
