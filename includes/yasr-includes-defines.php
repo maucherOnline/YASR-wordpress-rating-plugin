@@ -22,15 +22,8 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-
-/**
- * Defines for general settings tab
- *
- * @author Dario Curvino <@dudo>
- * @since  3.0.5
- *
- * @param $yasr_general_settings
- */
+//Since version 3.2.1 the defines are inside a file, instead of a class, for better support PHPStorm auto-completion
+//https://youtrack.jetbrains.com/issue/WI-11390/Make-define-Constants-from-inside-methods-available-for-completion-everywhere.
 
 $settings              = new YasrSettingsValues();
 $yasr_general_settings = $settings->getGeneralSettings();
@@ -94,7 +87,7 @@ define('YASR_PUBLISHER_TYPE',             $yasr_general_settings['publisher']);
 define('YASR_PUBLISHER_NAME',             $yasr_general_settings['publisher_name']);
 
 if (isset($yasr_general_settings['publisher_logo'])
-    && (filter_var($yasr_general_settings['publisher_logo'], FILTER_VALIDATE_URL) !== false)) {
+    && (yasr_check_valid_url($yasr_general_settings['publisher_logo']) !== false)) {
     define('YASR_PUBLISHER_LOGO', $yasr_general_settings['publisher_logo']);
 } else {
     define('YASR_PUBLISHER_LOGO', get_site_icon_url());
@@ -117,21 +110,7 @@ define('YASR_CUSTOM_CSS_RULES', $style_options['textarea']);
  * Defines for MultiSet options
  *
  */
-
 define('YASR_MULTI_SHOW_AVERAGE', $multi_set_options['show_average']);
-
-/**
- * Do This defines on plugins_loaded
- *
- * @author Dario Curvino <@dudo>
- * @since 3.0.5
- */
-
-add_action('plugins_loaded', static function () {
-    define('YASR_FIRST_SETID', YasrDB::returnFirstSetId());
-    define('YASR_CATCH_INFINITE_SCROLL_INSTALLED', yasr_is_catch_infinite_sroll_installed());
-});
-
 
 /**
  * All the other defines
