@@ -207,6 +207,8 @@ Yes, YASR is 100% fully compatible with PHP 8
 The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.2.1 =
+* TWEAKED: if a shortcode is used more than once in the same page, the query is executed only once
+* TWEAKED: removed useless query
 * FIXED: wrong image size returned in rich snippets
 * FIXED: In settings->structured data options, image url didn't get saved
 * FIXED: ranking yasr_most_or_highest_rated_posts didn't work as expected is "load results with ajax" is enabled
