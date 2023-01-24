@@ -59,8 +59,22 @@ class YasrDisplayPosts extends YasrShortcode {
             while ($the_query->have_posts()) : $the_query->the_post();
 
                 $post_id = get_the_ID();//This is page id or post id
-                $shortcode_content .= '<p>'.esc_html(get_post_field( 'post_title', $post_id, 'raw' )).'</p>';
-
+                $shortcode_content .= "<div>
+                                            <h3 class='yasr-entry-title'>
+                                                <a href=".esc_url(get_the_permalink())." rel='bookmark'>
+                                                    ".esc_html(get_post_field( 'post_title', $post_id, 'raw' ))."
+                                                </a>
+                                            </h3>
+                                            <div class='yasr-entry-meta'>
+                                                <a href='".esc_url(get_author_posts_url(get_the_author_meta('ID')))."' class='entry-author'>
+                                                  ".get_the_author().
+                                                "</a>
+                                                 <span class='tp-post-item-date'>".get_the_date()."</span>
+                                            </div> <!-- End .entry-meta -->
+                                            <div class='yasr-entry-content'>
+                                                ".get_the_excerpt()."    
+                                            </div>
+                                        </div>";
             endwhile;
             /* Restore original Post Data */
             wp_reset_postdata();
