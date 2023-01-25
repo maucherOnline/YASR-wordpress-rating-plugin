@@ -109,7 +109,7 @@ class YasrDisplayPosts extends YasrShortcode {
     public function content($post_id) {
         $thumb = '';
         if (has_post_thumbnail($post_id) === true) {
-            $thumb = '<div class="post-thumbnail">
+            $thumb = '<div class="yasr-post-thumbnail">
                           <a href="'.get_the_permalink().'">
                               '.get_the_post_thumbnail($post_id, 'thumbnail', array( 'class' => 'alignleft' ) ).'
                           </a>
