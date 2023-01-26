@@ -5,7 +5,7 @@
  * @author Dario Curvino <@dudo>
  * @since  3.2.1
  *
- * To customize this template, create a folder in your current theme (better use a child theme) named "yasr" and copy it there.
+ * To customize this template, create a folder in your child theme named "yasr" and copy it there.
  */
 
 $post_id = get_the_ID();
