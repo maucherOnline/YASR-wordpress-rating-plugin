@@ -36,6 +36,8 @@ define('YASR_LOG_MULTI_SET',          $wpdb->prefix . 'yasr_log_multi_set');
 define('YASR_MULTI_SET_NAME_TABLE',   $wpdb->prefix . 'yasr_multi_set');
 define('YASR_MULTI_SET_FIELDS_TABLE', $wpdb->prefix . 'yasr_multi_set_fields');
 
+require YASR_ABSOLUTE_PATH . '/vendor/gamajo/template-loader/class-gamajo-template-loader.php';
+
 require YASR_ABSOLUTE_PATH_INCLUDES . '/yasr-includes-functions.php';
 require YASR_ABSOLUTE_PATH_INCLUDES . '/yasr-widgets.php';
 require YASR_ABSOLUTE_PATH_INCLUDES . '/shortcodes/yasr-shortcode-functions.php';

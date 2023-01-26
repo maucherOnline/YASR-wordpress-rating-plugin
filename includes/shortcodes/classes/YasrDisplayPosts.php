@@ -73,65 +73,41 @@ class YasrDisplayPosts extends YasrShortcode {
      */
     public function returnShortcode() {
         // The Query
-        $the_query         = new WP_Query($this->query_args);
+        $the_query = new WP_Query($this->query_args);
 
-        $shortcode_content = '';
+        ob_start();
 
         // The Loop
         if ($the_query->have_posts() ) {
             while ($the_query->have_posts()) : $the_query->the_post();
-                //This is page id or post id
-                $post_id = get_the_ID();
-                $shortcode_content .= $this->content($post_id);
+                $this->content();
             endwhile;
+
+            echo $this->pagination($the_query);
 
             /* Restore original Post Data */
             wp_reset_postdata();
 
-            $shortcode_content .= $this->pagination($the_query);
-            return $shortcode_content;
+            return ob_get_clean();
         } else {
             return esc_html__('No posts found', 'yet-another-stars-rating');
         }
     }
 
     /**
-     * Return the shortcode content
+     * Return the shortcode template, using get_template_part provided by Gamajo Template Loader
      *
      * @author Dario Curvino <@dudo>
      *
      * @since 3.2.1
      *
-     * @param $post_id
-     *
-     * @return string
      */
-    public function content($post_id) {
-        $thumb = '';
-        if (has_post_thumbnail($post_id) === true) {
-            $thumb = '<div class="yasr-post-thumbnail">
-                          <a href="'.get_the_permalink().'">
-                              '.get_the_post_thumbnail($post_id, 'thumbnail', array( 'class' => 'alignleft' ) ).'
-                          </a>
-                      </div>';
-	    }
+    public function content() {
+        $templates = new YasrTemplateLoader();
 
-        return "<div>
-                    <h3 class='yasr-entry-title'>
-                        <a href=".esc_url(get_the_permalink())." rel='bookmark'>
-                            ".esc_html(get_post_field( 'post_title', $post_id, 'raw' ))."
-                        </a>
-                    </h3>
-                    <div class='yasr-entry-meta'>
-                        <a href='".esc_url(get_author_posts_url(get_the_author_meta('ID')))."'>
-                          ".get_the_author()."
-                        </a>
-                         <span class='tp-post-item-date'>".get_the_date()."</span>
-                    </div> <!-- End .entry-meta -->
-                    <div class='yasr-entry-content'>
-                        ".$thumb . get_the_excerpt()."    
-                    </div>
-                </div>";
+        //this will search for templates in a directory called "yasr" first in the child theme, then in the main theme,
+        //and, if nothing is found, load  yet-another-stars-rating/templates/content.php
+        $templates->get_template_part('content');
     }
 
     /**

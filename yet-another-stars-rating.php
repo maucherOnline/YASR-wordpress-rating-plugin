@@ -102,6 +102,9 @@ if ( ! function_exists( 'yasr_fs' ) ) {
     //public absolute path
     define('YASR_ABSOLUTE_PATH_PUBLIC', YASR_ABSOLUTE_PATH . '/public');
 
+    //templates absolute path
+    define('YASR_ABSOLUTE_PATH_TEMPLATES', YASR_ABSOLUTE_PATH . '/templates');
+
     //admin relative path
     define('YASR_RELATIVE_PATH_ADMIN', YASR_RELATIVE_PATH . '/admin');
 
