@@ -8,34 +8,65 @@
  */
 class YasrDisplayPosts extends YasrShortcode {
 
-    public $orderby;
-    public $sort;
+    public  $orderby;
+    public  $sort;
+    public  $posts_per_page;
     private $query_args;
+    private $paged;
+
     public function __construct($atts, $shortcode_name) {
         parent::__construct($atts, $shortcode_name);
 
+        //default page
+        $this->paged = 1;
+
+        //if get_query_var('paged'), get the new page
+        if (get_query_var('paged')) {
+            $this->paged = (int)get_query_var('paged');
+        }
+
+        $this->initMembers($atts, $shortcode_name);
+
+        if($this->orderby === 'overall') {
+            $this->queryOverall();
+        }
+
+    }
+
+    /**
+     * Sanitize shortcode atts and init class members
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.2.1
+     *
+     * @param $atts
+     * @param $shortcode_name
+     *
+     * @return void
+     */
+    public function initMembers ($atts, $shortcode_name) {
         if ($atts !== false) {
             $atts = (shortcode_atts(
                 array(
-                    'orderby'       => 'vv_most',
-                    'sort'          => 'DESC',
+                    'orderby'        => 'vv_most',
+                    'sort'           => 'DESC',
+                    'posts_per_page' => 10
                 ), $atts, $shortcode_name
             ));
         }
 
-        //@todo validate orderby att
-        if($atts['orderby']) {
-
-        }
-
-        if($atts['sort'] !== 'ASC') {
+        if($atts['sort'] !== 'ASC' && $atts['sort'] !== 'asc') {
             $atts['sort'] = 'DESC';
         }
 
-        $this->orderby = $atts['orderby'];
-        $this->sort    = $atts['sort'];
+        $this->sort           = $atts['sort'];
+        $this->posts_per_page = (int)$atts['posts_per_page'];
 
-        $this->queryOverall();
+        if($atts['orderby'] === 'overall') {
+            $this->orderby = 'overall';
+        }
+
     }
 
     /**
@@ -45,21 +76,13 @@ class YasrDisplayPosts extends YasrShortcode {
      * @return void
      */
     public function queryOverall () {
-        //default page
-        $paged = 1;
-
-        //if get_query_var('paged'), get the new page
-        if (get_query_var('paged')) {
-            $paged = (int)get_query_var('paged');
-        }
-
         $this->query_args = array(
-            'posts_per_page' => '10',
+            'posts_per_page' => $this->posts_per_page,
             'post_status'    => 'publish',
-            'order'          => 'DESC',
+            'order'          => $this->sort,
             'orderby'        => 'meta_value',
             'meta_key'       => 'yasr_overall_rating',
-            'paged'          => $paged,
+            'paged'          => $this->paged,
         );
     }
 
