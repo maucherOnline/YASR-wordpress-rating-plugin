@@ -21,20 +21,32 @@ if (has_post_thumbnail($post_id) === true) {
 
 ?>
 <div>
+    <?php
+        /**
+         * hook here to add content at the beginning of yasr_display_posts
+         */
+        do_action('yasr_display_posts_top', $post_id);
+    ?>
     <h3 class='yasr-entry-title'>
         <a href="<?php the_permalink()?>" rel='bookmark'>
             <?php echo esc_html(get_post_field( 'post_title', $post_id, 'raw' )) ?>
         </a>
     </h3>
     <div class='yasr-entry-meta'>
-        <a href='<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID')))?>'>
-            <?php the_author() ?>
-        </a>
-        <span class='tp-post-item-date'>
+        <!-- Keep in the same line, or it will create a white space before between the_author and </a> -->
+        <a href='<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID')))?>'><?php the_author()?></a>
+        <span>
             <?php the_date() ?>
         </span>
     </div> <!-- End .entry-meta -->
     <div class='yasr-entry-content'>
         <?php echo wp_kses_post($thumb . get_the_excerpt()); ?>
     </div>
+
+    <?php
+        /**
+         * hook here to add content at the end of yasr_display_posts
+         */
+        do_action('yasr_display_posts_bottom', $post_id);
+    ?>
 </div>
