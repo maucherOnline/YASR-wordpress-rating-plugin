@@ -17,14 +17,6 @@ class YasrDisplayPosts extends YasrShortcode {
     public function __construct($atts, $shortcode_name) {
         parent::__construct($atts, $shortcode_name);
 
-        //default page
-        $this->paged = 1;
-
-        //if get_query_var('paged'), get the new page
-        if (get_query_var('paged')) {
-            $this->paged = (int)get_query_var('paged');
-        }
-
         $this->initMembers($atts, $shortcode_name);
 
         if($this->orderby === 'overall') {
@@ -46,6 +38,14 @@ class YasrDisplayPosts extends YasrShortcode {
      * @return void
      */
     public function initMembers ($atts, $shortcode_name) {
+        //default page
+        $this->paged = 1;
+
+        //if get_query_var('paged'), get the new page
+        if (get_query_var('paged')) {
+            $this->paged = (int)get_query_var('paged');
+        }
+
         if ($atts !== false) {
             $atts = (shortcode_atts(
                 array(
@@ -62,11 +62,32 @@ class YasrDisplayPosts extends YasrShortcode {
 
         $this->sort           = $atts['sort'];
         $this->posts_per_page = (int)$atts['posts_per_page'];
+        $this->query_args     = $this->defaultQuery();
 
         if($atts['orderby'] === 'overall') {
             $this->orderby = 'overall';
+        } else if($atts['orderby'] === 'vv_highest') {
+            $this->orderby = 'vv_highest';
+        } else {
+            $this->orderby = 'vv_most';
         }
 
+    }
+
+    /**
+     * Default query args
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.2.1
+     * @return array
+     */
+    public function defaultQuery () {
+        return array(
+            'posts_per_page' => $this->posts_per_page,
+            'post_status'    => 'publish',
+            'paged'          => $this->paged,
+        );
     }
 
     /**
@@ -87,6 +108,25 @@ class YasrDisplayPosts extends YasrShortcode {
     }
 
     /**
+     * Filter the default query to get ratings from yasr_visitor_votes
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.2.1
+     * @return void
+     */
+    public function filterQueryVV () {
+        add_action('posts_join_paged', static function($join, $query) {
+            $join .= YasrDB::returnQuerySelectPostsVV();
+            return $join;
+        }, 10, 2);
+
+        add_action('posts_orderby', function() {
+            return YasrDB::returnQueryOrderByPostsVV($this->orderby);
+        }, 10, 2);
+    }
+
+    /**
      * Return the shortcode
      *
      * @author Dario Curvino <@dudo>
@@ -95,6 +135,10 @@ class YasrDisplayPosts extends YasrShortcode {
      * @return string
      */
     public function returnShortcode() {
+        if($this->orderby === 'vv_most' || $this->orderby === 'vv_highest') {
+            $this->filterQueryVV();
+        }
+
         // The Query
         $the_query = new WP_Query($this->query_args);
 
