@@ -207,6 +207,9 @@ Yes, YASR is 100% fully compatible with PHP 8
 The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.2.1 =
+* NEW SHORTCODE:
+* NEW FEATURE: is now possible order posts by ratings. To enable it in home page or in an archive page,
+go to "Settings -> Archive Pages ->  Do you want to order posts by rating? "
 * TWEAKED: if a shortcode is used more than once in the same page, the query is executed only once
 * TWEAKED: removed useless query
 * TWEAKED: setting page has now 3 columns layout

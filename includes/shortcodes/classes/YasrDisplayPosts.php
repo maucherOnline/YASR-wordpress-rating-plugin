@@ -1,9 +1,16 @@
 <?php
 
 /**
+ * This shortcode must be used in a page, and returns posts ordered by rating.
+ * accepted args:
+ *  - orderby         Optional, accepts values 'overall', 'vv_highest', default 'vv_most'
+ *  - sort            Optional, accepts values ASC or asc. Default DESC
+ *  - posts_per_page  Optional, default 10
+ *
  * @author Dario Curvino <@dudo>
  *
  * @since 3.2.1
+ *
  * YasrOrderPosts
  */
 class YasrDisplayPosts extends YasrShortcode {
