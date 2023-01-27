@@ -351,7 +351,7 @@ class YasrPublicFilters {
      */
     public function joinQueryPostsVV($join, $query) {
         if ($this->canSortCurrentArchive($query)) {
-            $join .= YasrDB::returnQueryOrderPostsVV();
+            $join .= YasrDB::returnQuerySelectPostsVV();
             return $join;
         }
         return $join;
@@ -370,12 +370,7 @@ class YasrPublicFilters {
      */
     public function orderQueryPostsVV($orderby, $query) {
         if ($this->canSortCurrentArchive($query)) {
-            if (YASR_SORT_POSTS_BY === 'vv_highest') {
-                return ' rating DESC, number_of_votes DESC';
-            }
-            else {
-                return ' number_of_votes DESC, rating DESC';
-            }
+            return YasrDB::returnQueryOrderByPostsVV(YASR_SORT_POSTS_BY);
         }
         return $orderby;
     }

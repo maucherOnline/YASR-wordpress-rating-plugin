@@ -1188,13 +1188,14 @@ class YasrDB {
      * Select number of votes and rating from YASR_LOG_TABLE
      *
      * DOESN'T HAVE THE ORDER BY
+     * @see returnQueryOrderByPostsVV
      *
      * @author Dario Curvino <@dudo>
      *
      * @since  3.2.1
      * @return string
      */
-    public static function returnQueryOrderPostsVV () {
+    public static function returnQuerySelectPostsVV () {
         global $wpdb;
         return "LEFT JOIN
             (
@@ -1205,5 +1206,28 @@ class YasrDB {
                 GROUP BY post_id
                 HAVING number_of_votes >= 1
             )  rating ON rating.post_id = ". $wpdb->posts .".ID";
+    }
+
+    /**
+     * This query must be used with hook posts_orderby and after posts_join_paged
+     * Order the previous select values
+     *
+     * @see returnQuerySelectPostsVV
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.2.1
+     *
+     * @param $order_by
+     *
+     * @return string
+     */
+    public static function returnQueryOrderByPostsVV ($order_by) {
+        if($order_by === 'vv_highest') {
+            return ' rating DESC, number_of_votes DESC';
+        }
+        else {
+            return ' number_of_votes DESC, rating DESC';
+        }
     }
 }
