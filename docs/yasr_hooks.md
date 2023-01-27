@@ -169,12 +169,12 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$active_tab` |  | 
 
-Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1097](../admin/settings/classes/YasrSettings.php#L1097-L1097)
+Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1162](../admin/settings/classes/YasrSettings.php#L1162-L1162)
 
 ### `yasr_right_settings_panel_box`
 
 
-Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1262](../admin/settings/classes/YasrSettings.php#L1262-L1262)
+Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1327](../admin/settings/classes/YasrSettings.php#L1327-L1327)
 
 ### `yasr_style_options_add_settings_field`
 
@@ -260,6 +260,30 @@ Source: [../includes/classes/YasrScriptsLoader.php](../includes/classes/YasrScri
 
 
 Source: [../includes/classes/YasrScriptsLoader.php](../includes/classes/YasrScriptsLoader.php), [line 127](../includes/classes/YasrScriptsLoader.php#L127-L127)
+
+### `yasr_display_posts_top`
+
+*hook here to add content at the beginning of yasr_display_posts*
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$post_id` |  | 
+
+Source: [../templates/content.php](../templates/content.php), [line 25](../templates/content.php#L25-L28)
+
+### `yasr_display_posts_bottom`
+
+*hook here to add content at the end of yasr_display_posts*
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$post_id` |  | 
+
+Source: [../templates/content.php](../templates/content.php), [line 47](../templates/content.php#L47-L50)
 
 ## Filters
 
@@ -379,7 +403,7 @@ Argument | Type | Description
 `$post_excluded` |  | 
 `$content` |  | 
 
-Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 53](../public/classes/YasrPublicFilters.php#L53-L53)
+Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 62](../public/classes/YasrPublicFilters.php#L62-L62)
 
 ### `yasr_auto_insert_exclude_cpt`
 
@@ -389,7 +413,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$excluded_cpt` |  | 
 
-Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 83](../public/classes/YasrPublicFilters.php#L83-L83)
+Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 92](../public/classes/YasrPublicFilters.php#L92-L92)
 
 ### `yasr_title_vv_widget`
 
@@ -400,7 +424,7 @@ Argument | Type | Description
 `$vv_widget` |  | 
 `$stored_votes` |  | 
 
-Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 267](../public/classes/YasrPublicFilters.php#L267-L267)
+Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 276](../public/classes/YasrPublicFilters.php#L276-L276)
 
 ### `yasr_title_overall_widget`
 
@@ -411,7 +435,7 @@ Argument | Type | Description
 `$overall_widget` |  | 
 `$overall_rating` |  | 
 
-Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 304](../public/classes/YasrPublicFilters.php#L304-L304)
+Source: [../public/classes/YasrPublicFilters.php](../public/classes/YasrPublicFilters.php), [line 313](../public/classes/YasrPublicFilters.php#L313-L313)
 
 ### `yasr_overall_rating_shortcode`
 
@@ -754,7 +778,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$atts` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 258](../includes/classes/YasrDB.php#L258-L258)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 330](../includes/classes/YasrDB.php#L330-L330)
 
 ### `yasr_rankings_query_vv`
 
@@ -765,7 +789,7 @@ Argument | Type | Description
 `$atts` |  | 
 `$ranking` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 302](../includes/classes/YasrDB.php#L302-L302)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 374](../includes/classes/YasrDB.php#L374-L374)
 
 ### `yasr_rankings_query_tu`
 
@@ -775,7 +799,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$atts` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 352](../includes/classes/YasrDB.php#L352-L352)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 424](../includes/classes/YasrDB.php#L424-L424)
 
 ### `yasr_rankings_multi_query`
 
@@ -786,7 +810,7 @@ Argument | Type | Description
 `$sql_atts` |  | 
 `$set_id` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 397](../includes/classes/YasrDB.php#L397-L397)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 469](../includes/classes/YasrDB.php#L469-L469)
 
 ### `yasr_rankings_query_tr`
 
@@ -796,7 +820,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$atts` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 451](../includes/classes/YasrDB.php#L451-L451)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 523](../includes/classes/YasrDB.php#L523-L523)
 
 ### `yasr_rankings_multivv_query`
 
@@ -808,7 +832,7 @@ Argument | Type | Description
 `$ranking` |  | 
 `$set_id` |  | 
 
-Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 502](../includes/classes/YasrDB.php#L502-L502)
+Source: [../includes/classes/YasrDB.php](../includes/classes/YasrDB.php), [line 574](../includes/classes/YasrDB.php#L574-L574)
 
 ### `yasr_custom_loader`
 
