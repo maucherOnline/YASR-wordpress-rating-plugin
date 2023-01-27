@@ -18,11 +18,6 @@ class YasrDisplayPosts extends YasrShortcode {
         parent::__construct($atts, $shortcode_name);
 
         $this->initMembers($atts, $shortcode_name);
-
-        if($this->orderby === 'overall') {
-            $this->queryOverall();
-        }
-
     }
 
     /**
@@ -66,6 +61,7 @@ class YasrDisplayPosts extends YasrShortcode {
 
         if($atts['orderby'] === 'overall') {
             $this->orderby = 'overall';
+            $this->queryOverall();
         } else if($atts['orderby'] === 'vv_highest') {
             $this->orderby = 'vv_highest';
         } else {
@@ -75,36 +71,32 @@ class YasrDisplayPosts extends YasrShortcode {
     }
 
     /**
-     * Default query args
+     * Set query args
      *
      * @author Dario Curvino <@dudo>
      *
      * @since  3.2.1
-     * @return array
      */
     public function defaultQuery () {
         return array(
             'posts_per_page' => $this->posts_per_page,
             'post_status'    => 'publish',
             'paged'          => $this->paged,
+            'order'          => $this->sort
         );
     }
 
     /**
+     * Adds params to the default query to get data from meta value yasr_overall_rating
+     *
      * @author Dario Curvino <@dudo>
      *
      * @since  3.2.1
      * @return void
      */
     public function queryOverall () {
-        $this->query_args = array(
-            'posts_per_page' => $this->posts_per_page,
-            'post_status'    => 'publish',
-            'order'          => $this->sort,
-            'orderby'        => 'meta_value',
-            'meta_key'       => 'yasr_overall_rating',
-            'paged'          => $this->paged,
-        );
+        $this->query_args['orderby']  = 'meta_value';
+        $this->query_args['meta_key'] = 'yasr_overall_rating';
     }
 
     /**
