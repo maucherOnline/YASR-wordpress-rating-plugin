@@ -1182,4 +1182,28 @@ class YasrDB {
         }
         return false;
     }
+
+    /**
+     * This query must be used with hook posts_join_paged
+     * Select number of votes and rating from YASR_LOG_TABLE
+     *
+     * DOESN'T HAVE THE ORDER BY
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.2.1
+     * @return string
+     */
+    public static function returnQueryOrderPostsVV () {
+        global $wpdb;
+        return "LEFT JOIN
+            (
+                SELECT post_id, COUNT(post_id) AS number_of_votes, ROUND(SUM(vote) / COUNT(post_id), 1) AS rating
+                FROM " . YASR_LOG_TABLE . ", ". $wpdb->posts ." AS p 
+                WHERE post_id = p.ID
+                AND p.post_status = 'publish'
+                GROUP BY post_id
+                HAVING number_of_votes >= 1
+            )  rating ON rating.post_id = ". $wpdb->posts .".ID";
+    }
 }
