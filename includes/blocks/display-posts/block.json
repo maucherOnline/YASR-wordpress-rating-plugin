@@ -1,0 +1,30 @@
+{
+    "title": "Yasr: order posts by rating",
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "yet-another-stars-rating/display-posts",
+    "description": "",
+    "icon": "star-half",
+    "category": "yet-another-stars-rating",
+    "example": {},
+    "keywords": [
+        "rating",
+        "posts",
+        "order"
+    ],
+    "attributes": {
+        "orderby": {
+            "type": "string",
+            "default": "vv_most"
+        },
+        "sort": {
+            "type": "string",
+            "default": "DESC"
+        },
+        "posts_per_page": {
+            "type": "number",
+            "default": 10
+        }
+    },
+    "editorScript": "yasr-shortcodes-blocks"
+}
