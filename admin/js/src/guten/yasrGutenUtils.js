@@ -247,6 +247,11 @@ export const YasrSetBlockAttributes = (blockName) => {
         blockAttributes.panelSettings = false;
     }
 
+    if(blockName === 'yet-another-stars-rating/display-posts') {
+        blockAttributes.className =  'yasr-display-posts';
+        blockAttributes.shortCode =  'yasr_display_posts';
+    }
+
     return blockAttributes;
 }
 

@@ -21,6 +21,8 @@ const yasrEditFunction = (props) => {
 
     const {className, shortCode, hookName, sizeAndId} = YasrSetBlockAttributes(name);
 
+    const postType = wp.data.select('core/editor').getCurrentPostType();
+
     const panelAttributes = {
         block:         name,
         size:          size,
@@ -38,15 +40,25 @@ const yasrEditFunction = (props) => {
     let sizeAttribute   = YasrBlockSizeAttribute(size, 'edit');
     let postIdAttribute = YasrBlockPostidAttribute(postId);
 
+    //do de string only if values are not falsy
+    let shortcodeString = `[${shortCode || ''}${sizeAttribute || ''}${postIdAttribute || ''}]`;
+
+    //if shortcode is yasr_display_posts and postType is not page, change the string
+    if(shortCode === 'yasr_display_posts' && postType !== 'page') {
+        shortcodeString = 'This shortcode can be used only on pages';
+    }
+
     return (
         <Fragment>
             {isSelected && <YasrBlocksPanel {...panelAttributes} /> }
             <div {...blockProps}>
-                [{shortCode}{sizeAttribute}{postIdAttribute}]
+                {shortcodeString}
                 {isSelected && sizeAndId && <YasrPrintSelectSize size={size} setAttributes={setAttributes} />}
             </div>
         </Fragment>
     );
 };
+
+
 
 export default yasrEditFunction;
