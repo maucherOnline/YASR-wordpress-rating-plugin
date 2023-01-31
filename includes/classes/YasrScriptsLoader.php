@@ -470,7 +470,7 @@ class YasrScriptsLoader {
             $use_register_post_type = true;
         }
 
-        $this->register_blocks($use_register_post_type);
+        $this->registerBlocks($use_register_post_type);
     }
 
 
@@ -480,7 +480,7 @@ class YasrScriptsLoader {
      *
      * @param bool $use_register_post_type
      */
-    private function register_blocks($use_register_post_type = false) {
+    private function registerBlocks($use_register_post_type = false) {
 
         //get all content in the dir
         $scan = scandir(YASR_ABSOLUTE_BLOCKS_PATH);
