@@ -7,7 +7,7 @@ import {YasrBlockPostidAttribute, YasrBlockSizeAttribute, YasrSetBlockAttributes
  *
  * @param props
  * @param metadata
- * @returns {JSX.Element}
+ * @returns void | {JSX.Element}
  */
 const yasrSaveFunction = (props, metadata) => {
 
@@ -24,8 +24,15 @@ const yasrSaveFunction = (props, metadata) => {
         className: className,
     } );
 
+    const postType = wp.data.select('core/editor').getCurrentPostType();
+
     let sizeAttribute   = YasrBlockSizeAttribute(size, 'save');
     let postIdAttribute = YasrBlockPostidAttribute(postId);
+
+    //if shortcode is yasr_display_posts and postType is not page, change the string
+    if(shortCode === 'yasr_display_posts' && postType !== 'page') {
+        return;
+    }
 
     return (
         //must no use spaces within vars here
