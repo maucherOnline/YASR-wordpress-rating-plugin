@@ -19,9 +19,9 @@ import {YasrBlocksPanel} from "./yasrBlocksPanel";
 const yasrEditFunction = (props) => {
     const {attributes: {size, postId}, name, isSelected, setAttributes} = props;
 
-    const {className, shortCode, hookName, sizeAndId} = YasrSetBlockAttributes(name);
-
     const postType = wp.data.select('core/editor').getCurrentPostType();
+
+    const {className, shortCode, hookName, sizeAndId} = YasrSetBlockAttributes(name);
 
     const panelAttributes = {
         block:         name,

@@ -192,7 +192,7 @@ export const YasrBlockPostidAttribute = (postId) => {
  * @param blockName
  * @returns {object}
  */
-export const YasrSetBlockAttributes = (blockName) => {
+export const YasrSetBlockAttributes = (blockName,) => {
     let blockAttributes = {
         className:     null, //class name for the main div
         shortCode:     null, //shortcode
@@ -250,6 +250,10 @@ export const YasrSetBlockAttributes = (blockName) => {
     if(blockName === 'yet-another-stars-rating/display-posts') {
         blockAttributes.className =  'yasr-display-posts';
         blockAttributes.shortCode =  'yasr_display_posts';
+        let postType = wp.data.select('core/editor').getCurrentPostType();
+        if(postType !== '' && postType !== 'page') {
+            blockAttributes.panelSettings = false;
+        }
     }
 
     return blockAttributes;
