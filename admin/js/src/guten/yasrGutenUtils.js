@@ -192,6 +192,7 @@ export const YasrSetBlockAttributes = (blockName,) => {
         if(postType !== '' && postType !== 'page') {
             blockAttributes.panelSettings = false;
         }
+        blockAttributes.orderPosts = true;
     }
 
     return blockAttributes;

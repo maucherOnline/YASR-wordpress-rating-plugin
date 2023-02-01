@@ -20,7 +20,7 @@ import {YasrBlocksPanel}     from "./yasrBlocksPanel";
 const yasrEditFunction = (props) => {
     const {attributes: {size, postId}, name, isSelected, setAttributes} = props;
 
-    const {className, shortCode, hookName, sizeAndId} = YasrSetBlockAttributes(name);
+    const {className, shortCode, hookName, sizeAndId, orderPosts} = YasrSetBlockAttributes(name);
 
     const postType = wp.data.select('core/editor').getCurrentPostType();
 
@@ -30,7 +30,8 @@ const yasrEditFunction = (props) => {
         postId:        postId,
         setAttributes: setAttributes,
         hookName:      hookName,
-        sizeAndId:     sizeAndId
+        sizeAndId:     sizeAndId,
+        orderPosts:    orderPosts
     }
 
     const blockProps = useBlockProps( {

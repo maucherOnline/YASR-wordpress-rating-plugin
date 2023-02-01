@@ -69,4 +69,3 @@ export const YasrPrintSelectSize = (props) => {
         </form>
     );
 }
-
