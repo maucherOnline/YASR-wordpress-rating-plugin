@@ -235,10 +235,11 @@ export const YasrBlockPostidAttribute = (postId) => {
  * @returns {(null | string)}
  */
 export const YasrBlockOrderbyAttribute = (orderBy) => {
-    if(orderBy) {
+    if(orderBy === 'vv_most' || orderBy === 'vv_highest' || orderBy === 'overall') {
         orderBy = ` orderby=${orderBy}`;
+        return orderBy
     }
-    return (orderBy);
+    return '';
 };
 
 /**
