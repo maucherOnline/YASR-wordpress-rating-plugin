@@ -13,6 +13,12 @@ export const yasrLeaveThisBlankText      = __('Leave this blank if you don\'t kn
 export const yasrOverallDescription      = __('Remember: only the post author can rate here.', 'yet-another-stars-rating');
 export const yasrVisitorVotesDescription = __('This is the star set where your users will be able to vote', 'yet-another-stars-rating');
 
+export const yasrSortPostsRadioLegend   = __('Order posts by...', 'yet-another-stars-rating')
+
+export const yasrSortPostsRadioVVMost    = __('by Visitor Votes, most rated posts first ', 'yet-another-stars-rating')
+export const yasrSortPostsRadioVVHighest = __('by Visitor Votes, highest rated posts first ', 'yet-another-stars-rating')
+export const yasrSortPostsRadioOverall    = __('by OverallRating ', 'yet-another-stars-rating')
+
 
 /**
  * Print the text field to insert the input id, and manage the event
@@ -49,6 +55,7 @@ export const YasrPrintInputId = (props) => {
                 onKeyPress={(e) => yasrSetPostId(props.setAttributes, e)} />
         </div>
     );
+
 }
 
 /**
@@ -75,6 +82,36 @@ export const YasrPrintSelectSize = (props) => {
         </form>
     );
 }
+
+export const YasrPrintRadioRatingSource = (props) => {
+    const yasrSetRatingSource = (setAttributes, event) => {
+        const selected = event.target.value;
+        setAttributes( { orderby: selected } );
+        event.preventDefault();
+    }
+
+    return (
+        <fieldset onChange={(e) => yasrSetRatingSource(props.setAttributes, e)}>
+            <legend>{yasrSortPostsRadioLegend}</legend>
+
+            <div>
+                <input type="radio" id="orderPostsVVMost" name="orderPostsratingSource" value="vv_most" />
+                <label htmlFor="orderPostsVVMost">{yasrSortPostsRadioVVMost}</label>
+            </div>
+
+            <div>
+                <input type="radio" id="orderPostsVVHighest" name="orderPostsratingSource" value="vv_highest" />
+                <label htmlFor="orderPostsVVHighest">{yasrSortPostsRadioVVHighest}</label>
+            </div>
+
+            <div>
+                <input type="radio" id="orderPostsOverall" name="orderPostsratingSource" value="overall" />
+                <label htmlFor="orderPostsOverall">{yasrSortPostsRadioOverall}</label>
+            </div>
+        </fieldset>
+    );
+}
+
 
 /**
  * Return a div with the stars in order to vote for overall rating
@@ -183,6 +220,18 @@ export const YasrBlockPostidAttribute = (postId) => {
     }
 
     return postIdAttribute;
+};
+
+/**
+ * Return attribute sizeString
+
+ * @returns {(null | string)}
+ */
+export const YasrBlockOrderbyAttribute = (orderBy) => {
+    if(orderBy) {
+        orderBy = ` orderby=${orderBy}`;
+    }
+    return (orderBy);
 };
 
 /**

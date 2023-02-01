@@ -12,7 +12,8 @@ import {
     YasrNoSettingsPanel,
     YasrSetBlockAttributes,
     YasrPrintSelectSize,
-    YasrPrintInputId
+    YasrPrintInputId,
+    YasrPrintRadioRatingSource
 } from "./yasrGutenUtils";
 
 /**
@@ -126,14 +127,3 @@ const YasrPrintInputIdDiv = (props) => {
     )
 }
 
-const YasrPrintRadioRatingSource = (props) => {
-    const yasrSetStarsSize = (setAttributes, event) => {
-        const selected = event.target.querySelector('option:checked');
-        setAttributes({size: selected.value});
-        event.preventDefault();
-    }
-
-    return (
-        'ciao'
-    );
-}
