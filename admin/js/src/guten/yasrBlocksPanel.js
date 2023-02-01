@@ -7,7 +7,7 @@ const {InspectorControls}                = wp.blockEditor;
 import {
     YasrPrintInputId,
     YasrPrintSelectSize
-} from "./blocksPanelSettingsElements";
+} from "./printReusableBlocksElements";
 
 import {
     yasrLabelSelectSize,

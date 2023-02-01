@@ -7,7 +7,7 @@ import {
     YasrSetBlockAttributes
 } from "./yasrGutenUtils";
 
-import {YasrPrintSelectSize} from "./blocksPanelSettingsElements";
+import {YasrPrintSelectSize} from "./printReusableBlocksElements";
 
 import {YasrBlocksPanel}     from "./yasrBlocksPanel";
 

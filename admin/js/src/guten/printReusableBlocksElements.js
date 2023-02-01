@@ -1,6 +1,5 @@
 /**
- * This file contains all the functions that go under the "settings" section in the panel
- * that shows when a block is selected
+ * This file contains all the html elements that can be used in both panel or inside the block itself
  */
 
 import {
@@ -70,3 +69,4 @@ export const YasrPrintSelectSize = (props) => {
         </form>
     );
 }
+
