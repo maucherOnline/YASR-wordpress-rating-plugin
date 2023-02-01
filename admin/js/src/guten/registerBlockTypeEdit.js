@@ -4,11 +4,12 @@ const {useBlockProps}        = wp.blockEditor;
 import {
     YasrBlockPostidAttribute,
     YasrBlockSizeAttribute,
-    YasrPrintSelectSize,
     YasrSetBlockAttributes
 } from "./yasrGutenUtils";
 
-import {YasrBlocksPanel} from "./yasrBlocksPanel";
+import {YasrPrintSelectSize} from "./blocksPanelSettingsElements";
+
+import {YasrBlocksPanel}     from "./yasrBlocksPanel";
 
 /**
  * Return the edit Function to be used in registerBlockType
@@ -19,9 +20,9 @@ import {YasrBlocksPanel} from "./yasrBlocksPanel";
 const yasrEditFunction = (props) => {
     const {attributes: {size, postId}, name, isSelected, setAttributes} = props;
 
-    const postType = wp.data.select('core/editor').getCurrentPostType();
-
     const {className, shortCode, hookName, sizeAndId} = YasrSetBlockAttributes(name);
+
+    const postType = wp.data.select('core/editor').getCurrentPostType();
 
     const panelAttributes = {
         block:         name,

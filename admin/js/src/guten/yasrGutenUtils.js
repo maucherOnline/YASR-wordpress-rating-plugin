@@ -8,74 +8,10 @@ export const yasrSelectSizeChoose        = __('Stars size', 'yet-another-stars-r
 export const yasrSelectSizeSmall         = __('Small', 'yet-another-stars-rating');
 export const yasrSelectSizeMedium        = __('Medium', 'yet-another-stars-rating');
 export const yasrSelectSizeLarge         = __('Large', 'yet-another-stars-rating');
-
 export const yasrLeaveThisBlankText      = __('Leave this blank if you don\'t know what you\'re doing.', 'yet-another-stars-rating');
 
 export const yasrOverallDescription      = __('Remember: only the post author can rate here.', 'yet-another-stars-rating');
 export const yasrVisitorVotesDescription = __('This is the star set where your users will be able to vote', 'yet-another-stars-rating');
-
-
-/**
- * Print the text field to insert the input id, and manage the event
- *
- * @param props
- * @returns {JSX.Element}
- */
-export const YasrPrintInputId = (props) => {
-    let postId;
-    if(props.postId !== false) {
-        postId = props.postId;
-    }
-
-    const yasrSetPostId = (setAttributes, event) => {
-        if (event.key === 'Enter') {
-            const postIdValue = event.target.value;
-
-            //postID is always a string, here I check if this string is made only by digits
-            let isNum = /^\d+$/.test(postIdValue);
-
-            if (isNum === true || postIdValue === '') {
-                setAttributes({postId: postIdValue})
-            }
-            event.preventDefault();
-        }
-    }
-
-    return (
-        <div>
-            <input
-                type="text"
-                size="4"
-                defaultValue={postId}
-                onKeyPress={(e) => yasrSetPostId(props.setAttributes, e)} />
-        </div>
-    );
-}
-
-/**
- * This is just the select, used both in blocks panel and block itself
- *
- * @param props
- * @returns {JSX.Element}
- */
-export const YasrPrintSelectSize = (props) => {
-    const yasrSetStarsSize = (setAttributes, event) => {
-        const selected = event.target.querySelector( 'option:checked' );
-        setAttributes( { size: selected.value } );
-        event.preventDefault();
-    }
-
-    return (
-        <form>
-            <select value={props.size} onChange={(e) => yasrSetStarsSize(props.setAttributes, e)}>
-                <option value="--">{yasrSelectSizeChoose}    </option>
-                <option value="small">{yasrSelectSizeSmall}  </option>
-                <option value="medium">{yasrSelectSizeMedium}</option>
-                <option value="large">{yasrSelectSizeLarge}  </option>
-            </select>
-        </form>
-    );
-}
 
 /**
  * Return a div with the stars in order to vote for overall rating
@@ -194,13 +130,16 @@ export const YasrBlockPostidAttribute = (postId) => {
  */
 export const YasrSetBlockAttributes = (blockName,) => {
     let blockAttributes = {
-        className:     null, //class name for the main div
-        shortCode:     null, //shortcode
+        className:     null,  //class name for the main div
+        shortCode:     null,  //shortcode
         overallRating: false, //if the overall Rating div must be displayed or not
         hookName:      false,
-        panelSettings: true, //by default, the block <PanelBody title='Settings'> is shown
-        sizeAndId:     false //by default, the block <PanelBody title='Settings'> is shown
+        panelSettings: true,  //by default, the block <PanelBody title='Settings'> is shown
+        sizeAndId:     false, //by default, hide the settings for size and id
+        orderPosts:    false
     }
+
+    const postType = wp.data.select('core/editor').getCurrentPostType();
 
     if(blockName === 'yet-another-stars-rating/overall-rating') {
         blockAttributes.overallRating = true;
@@ -214,7 +153,7 @@ export const YasrSetBlockAttributes = (blockName,) => {
         blockAttributes.className   =  'yasr-vv-block';
         blockAttributes.shortCode   =  'yasr_visitor_votes';
         blockAttributes.bottomDesc  = yasrVisitorVotesDescription;
-        blockAttributes.sizeAndId  = true;
+        blockAttributes.sizeAndId   = true;
     }
 
     if(blockName === 'yet-another-stars-rating/overall-rating-ranking') {
@@ -250,7 +189,6 @@ export const YasrSetBlockAttributes = (blockName,) => {
     if(blockName === 'yet-another-stars-rating/display-posts') {
         blockAttributes.className =  'yasr-display-posts';
         blockAttributes.shortCode =  'yasr_display_posts';
-        let postType = wp.data.select('core/editor').getCurrentPostType();
         if(postType !== '' && postType !== 'page') {
             blockAttributes.panelSettings = false;
         }
