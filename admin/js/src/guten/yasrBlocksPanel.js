@@ -5,17 +5,14 @@ const {PanelBody}                        = wp.components;
 const {InspectorControls}                = wp.blockEditor;
 
 import {
-    YasrPrintInputId,
-    YasrPrintSelectSize
-} from "./printReusableBlocksElements";
-
-import {
     yasrLabelSelectSize,
     yasrLeaveThisBlankText,
     yasrOptionalText,
     YasrDivRatingOverall,
     YasrNoSettingsPanel,
-    YasrSetBlockAttributes
+    YasrSetBlockAttributes,
+    YasrPrintSelectSize,
+    YasrPrintInputId
 } from "./yasrGutenUtils";
 
 /**

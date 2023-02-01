@@ -3,11 +3,9 @@ const {useBlockProps}        = wp.blockEditor;
 
 import {
     YasrBlockPostidAttribute,
-    YasrBlockSizeAttribute,
+    YasrBlockSizeAttribute, YasrPrintSelectSize,
     YasrSetBlockAttributes
 } from "./yasrGutenUtils";
-
-import {YasrPrintSelectSize} from "./printReusableBlocksElements";
 
 import {YasrBlocksPanel}     from "./yasrBlocksPanel";
 
