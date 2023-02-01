@@ -319,6 +319,48 @@ export const YasrSetBlockAttributes = (blockName,) => {
 }
 
 /**
+ * Return the shortcode string, used in both edit and save function
+ *
+ * @param size
+ * @param context
+ * @param postId
+ * @param shortCode
+ * @param orderby
+ * @returns {string}
+ * @constructor
+ */
+export const YasrReturnShortcodeString = (size, context, postId, shortCode, orderby) => {
+    const postType = wp.data.select('core/editor').getCurrentPostType();
+
+    if(!shortCode) {
+        return '';
+    }
+
+    //do the string only if values are not falsy
+    let shortcodeString  = `[${shortCode || ''}`;
+
+    if(shortCode === 'yasr_visitor_votes' || 'yasr_overall_rating') {
+        let sizeAttribute    = YasrBlockSizeAttribute(size, context);
+        let postIdAttribute  = YasrBlockPostidAttribute(postId);
+
+        shortcodeString += `${sizeAttribute || ''}${postIdAttribute || ''}`;
+    }
+
+    if(shortCode === 'yasr_display_posts') {
+        if (postType !== 'page') {
+            return 'This shortcode can be used only on pages';
+        }
+
+        let orderByAttribute = YasrBlockOrderbyAttribute(orderby);
+        shortcodeString += `${orderByAttribute || ''}`;
+    }
+
+    shortcodeString += ']';
+
+    return shortcodeString
+}
+
+/**
  * Return an h3 with YASR Pro texts
  *
  * @returns {JSX.Element}

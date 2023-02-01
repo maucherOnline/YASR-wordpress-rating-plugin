@@ -3,7 +3,7 @@ const {useBlockProps}        = wp.blockEditor;
 import {
     YasrBlockOrderbyAttribute,
     YasrBlockPostidAttribute,
-    YasrBlockSizeAttribute,
+    YasrBlockSizeAttribute, YasrReturnShortcodeString,
     YasrSetBlockAttributes
 } from "./yasrGutenUtils";
 
@@ -29,28 +29,9 @@ const yasrSaveFunction = (props, metadata) => {
         className: className,
     } );
 
-    const postType = wp.data.select('core/editor').getCurrentPostType();
-
-    //if shortcode is yasr_display_posts and postType is not page, change the string
-    if(shortCode === 'yasr_display_posts' && postType !== 'page') {
-        return;
-    }
-
-    let sizeAttribute   = YasrBlockSizeAttribute(size, 'save');
-    let postIdAttribute = YasrBlockPostidAttribute(postId);
-
-    //do de string only if values are not falsy
-    let shortcodeString = `[${shortCode || ''}${sizeAttribute || ''}${postIdAttribute || ''}`;
-
-    if(shortCode === 'yasr_display_posts') {
-        let orderByAttribute = YasrBlockOrderbyAttribute(orderby);
-        shortcodeString += `${orderByAttribute || ''}`;
-    }
-
-    shortcodeString += ']';
+    const shortcodeString = YasrReturnShortcodeString(size, 'save', postId, shortCode, orderby);
 
     return (
-        //must no use spaces within vars here
         <div {...blockProps}>{shortcodeString}</div>
     );
 

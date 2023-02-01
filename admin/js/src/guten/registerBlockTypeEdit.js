@@ -4,7 +4,7 @@ const {useBlockProps}        = wp.blockEditor;
 import {
     YasrBlockOrderbyAttribute,
     YasrBlockPostidAttribute,
-    YasrBlockSizeAttribute, YasrPrintSelectSize,
+    YasrBlockSizeAttribute, YasrPrintSelectSize, YasrReturnShortcodeString,
     YasrSetBlockAttributes
 } from "./yasrGutenUtils";
 
@@ -20,8 +20,6 @@ const yasrEditFunction = (props) => {
     const {attributes: {size, postId, orderby, sort, post_per_page}, name, isSelected, setAttributes} = props;
 
     const {className, shortCode, hookName, sizeAndId, orderPosts} = YasrSetBlockAttributes(name);
-
-    const postType = wp.data.select('core/editor').getCurrentPostType();
 
     const panelAttributes = {
         block:         name,
@@ -41,23 +39,7 @@ const yasrEditFunction = (props) => {
         name:      name
     } );
 
-    let sizeAttribute    = YasrBlockSizeAttribute(size, 'edit');
-    let postIdAttribute  = YasrBlockPostidAttribute(postId);
-
-    //do de string only if values are not falsy
-    let shortcodeString = `[${shortCode || ''}${sizeAttribute || ''}${postIdAttribute || ''}`;
-
-    if(shortCode === 'yasr_display_posts') {
-        let orderByAttribute = YasrBlockOrderbyAttribute(orderby);
-        shortcodeString += `${orderByAttribute || ''}`;
-    }
-
-    shortcodeString += ']';
-
-    //if shortcode is yasr_display_posts and postType is not page, change the string
-    if(shortCode === 'yasr_display_posts' && postType !== 'page') {
-        shortcodeString = 'This shortcode can be used only on pages';
-    }
+    const shortcodeString = YasrReturnShortcodeString(size, 'edit', postId, shortCode, orderby);
 
     return (
         <Fragment>
