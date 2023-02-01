@@ -83,29 +83,36 @@ export const YasrPrintSelectSize = (props) => {
     );
 }
 
+/**
+ * Return a radio group to select posts by a rating source
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export const YasrPrintRadioRatingSource = (props) => {
+    const {orderBy, setAttributes} = props;
+
     const yasrSetRatingSource = (setAttributes, event) => {
-        const selected = event.target.value;
-        setAttributes( { orderby: selected } );
-        event.preventDefault();
+        const checked = event.target.value;
+        setAttributes( { orderby: checked } );
     }
 
     return (
-        <fieldset onChange={(e) => yasrSetRatingSource(props.setAttributes, e)}>
+        <fieldset onChange={(e) => yasrSetRatingSource(setAttributes, e)}>
             <legend>{yasrSortPostsRadioLegend}</legend>
-
             <div>
-                <input type="radio" id="orderPostsVVMost" name="orderPostsratingSource" value="vv_most" />
+                <input type="radio" id="orderPostsVVMost" name="orderPostsratingSource" value="vv_most" checked={orderBy === 'vv_most'}/>
                 <label htmlFor="orderPostsVVMost">{yasrSortPostsRadioVVMost}</label>
             </div>
 
             <div>
-                <input type="radio" id="orderPostsVVHighest" name="orderPostsratingSource" value="vv_highest" />
+                <input type="radio" id="orderPostsVVHighest" name="orderPostsratingSource" value="vv_highest" checked={orderBy === 'vv_highest'}/>
                 <label htmlFor="orderPostsVVHighest">{yasrSortPostsRadioVVHighest}</label>
             </div>
 
             <div>
-                <input type="radio" id="orderPostsOverall" name="orderPostsratingSource" value="overall" />
+                <input type="radio" id="orderPostsOverall" name="orderPostsratingSource" value="overall" checked={orderBy === 'overall'}/>
                 <label htmlFor="orderPostsOverall">{yasrSortPostsRadioOverall}</label>
             </div>
         </fieldset>
