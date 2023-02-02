@@ -121,7 +121,7 @@ class YasrDisplayPosts extends YasrShortcode {
         }, 10, 2);
 
         add_action('posts_orderby', function() {
-            return YasrDB::returnQueryOrderByPostsVV($this->orderby);
+            return YasrDB::returnQueryOrderByPostsVV($this->orderby, $this->sort);
         }, 10, 2);
     }
 

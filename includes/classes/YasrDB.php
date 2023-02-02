@@ -1219,15 +1219,20 @@ class YasrDB {
      * @since 3.2.1
      *
      * @param $order_by
+     * @param $sort
      *
      * @return string
      */
-    public static function returnQueryOrderByPostsVV ($order_by) {
+    public static function returnQueryOrderByPostsVV ($order_by, $sort='DESC') {
+        if($sort !== 'ASC' && $sort !== 'asc') {
+            $sort = 'DESC';
+        }
+
         if($order_by === 'vv_highest') {
-            return ' rating DESC, number_of_votes DESC';
+            return " rating {$sort}, number_of_votes {$sort}";
         }
         else {
-            return ' number_of_votes DESC, rating DESC';
+            return " number_of_votes {$sort}, rating {$sort}";
         }
     }
 }
