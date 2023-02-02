@@ -1,5 +1,5 @@
 {
-    "title": "Yasr: order posts by rating",
+    "title": "Yasr: Order posts by rating",
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 2,
     "name": "yet-another-stars-rating/display-posts",
@@ -19,7 +19,7 @@
         },
         "sort": {
             "type": "string",
-            "default": "DESC"
+            "default": "desc"
         },
         "posts_per_page": {
             "type": "number",

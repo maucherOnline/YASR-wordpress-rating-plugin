@@ -13,7 +13,8 @@ import {
     YasrSetBlockAttributes,
     YasrPrintSelectSize,
     YasrPrintInputId,
-    YasrPrintRadioRatingSource
+    YasrPrintRadioRatingSource,
+    YasrPrintRadioRatingSort
 } from "./yasrGutenUtils";
 
 /**
@@ -49,15 +50,20 @@ export const YasrBlocksPanel = (props) => {
             }
             <PanelBody title='Settings'>
                 {hookedDiv}
-                {
-                    //Return block settings size and id if needed
-                    panelSettings && sizeAndId && <YasrPanelSizeAndId {...props} />
-                }
+                {panelSettings && (
+                    <>
+                        {sizeAndId && (
+                            <YasrPanelSizeAndId {...props} />
+                        )}
+                        {orderPosts && (
+                            <>
+                                <YasrPrintRadioRatingSource {...props} />
+                                <YasrPrintRadioRatingSort {...props} />
+                            </>
+                        )}
+                    </>
+                )}
 
-                {
-                    //Return block settings if needed
-                    panelSettings && orderPosts && <YasrPrintRadioRatingSource {...props} />
-                }
                 <div className="yasr-guten-block-panel">
                     {bottomDesc}
                 </div>

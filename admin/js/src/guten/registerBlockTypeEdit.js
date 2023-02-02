@@ -2,9 +2,8 @@ const {Fragment}             = wp.element;
 const {useBlockProps}        = wp.blockEditor;
 
 import {
-    YasrBlockOrderbyAttribute,
-    YasrBlockPostidAttribute,
-    YasrBlockSizeAttribute, YasrPrintSelectSize, YasrReturnShortcodeString,
+    YasrPrintSelectSize,
+    YasrReturnShortcodeString,
     YasrSetBlockAttributes
 } from "./yasrGutenUtils";
 
@@ -39,7 +38,7 @@ const yasrEditFunction = (props) => {
         name:      name
     } );
 
-    const shortcodeString = YasrReturnShortcodeString(size, 'edit', postId, shortCode, orderby);
+    const shortcodeString = YasrReturnShortcodeString(size, 'edit', postId, shortCode, orderby, sort);
 
     return (
         <Fragment>

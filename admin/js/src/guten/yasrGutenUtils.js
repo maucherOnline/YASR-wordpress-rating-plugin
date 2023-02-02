@@ -13,11 +13,9 @@ export const yasrLeaveThisBlankText      = __('Leave this blank if you don\'t kn
 export const yasrOverallDescription      = __('Remember: only the post author can rate here.', 'yet-another-stars-rating');
 export const yasrVisitorVotesDescription = __('This is the star set where your users will be able to vote', 'yet-another-stars-rating');
 
-export const yasrSortPostsRadioLegend   = __('Order posts by...', 'yet-another-stars-rating')
-
-export const yasrSortPostsRadioVVMost    = __('by Visitor Votes, most rated posts first ', 'yet-another-stars-rating')
-export const yasrSortPostsRadioVVHighest = __('by Visitor Votes, highest rated posts first ', 'yet-another-stars-rating')
-export const yasrSortPostsRadioOverall    = __('by OverallRating ', 'yet-another-stars-rating')
+export const yasrSortPostsRadioVVMost    = __('by Visitor Votes, most rated posts first ', 'yet-another-stars-rating');
+export const yasrSortPostsRadioVVHighest = __('by Visitor Votes, highest rated posts first ', 'yet-another-stars-rating');
+export const yasrSortPostsRadioOverall    = __('by OverallRating ', 'yet-another-stars-rating');
 
 
 /**
@@ -93,32 +91,63 @@ export const YasrPrintSelectSize = (props) => {
 export const YasrPrintRadioRatingSource = (props) => {
     const {orderBy, setAttributes} = props;
 
-    const yasrSetRatingSource = (setAttributes, event) => {
+    const setRatingSource = (setAttributes, event) => {
         const checked = event.target.value;
         setAttributes( { orderby: checked } );
     }
 
     return (
-        <fieldset onChange={(e) => yasrSetRatingSource(setAttributes, e)}>
-            <legend>{yasrSortPostsRadioLegend}</legend>
-            <div>
-                <input type="radio" id="orderPostsVVMost" name="orderPostsratingSource" value="vv_most" checked={orderBy === 'vv_most'}/>
-                <label htmlFor="orderPostsVVMost">{yasrSortPostsRadioVVMost}</label>
-            </div>
+        <>
+            <fieldset onChange={(e) => setRatingSource(setAttributes, e)}>
+                <legend><strong>{__('Order posts...', 'yet-another-stars-rating')}</strong></legend>
+                <div className='yasr-indented-answer'>
+                    <div>
+                        <input type="radio" id="orderPostsVVMost" name="orderPostsratingSource" value="vv_most" checked={orderBy === 'vv_most'}/>
+                        <label htmlFor="orderPostsVVMost">{yasrSortPostsRadioVVMost}</label>
+                    </div>
 
-            <div>
-                <input type="radio" id="orderPostsVVHighest" name="orderPostsratingSource" value="vv_highest" checked={orderBy === 'vv_highest'}/>
-                <label htmlFor="orderPostsVVHighest">{yasrSortPostsRadioVVHighest}</label>
-            </div>
+                    <div>
+                        <input type="radio" id="orderPostsVVHighest" name="orderPostsratingSource" value="vv_highest" checked={orderBy === 'vv_highest'}/>
+                        <label htmlFor="orderPostsVVHighest">{yasrSortPostsRadioVVHighest}</label>
+                    </div>
 
-            <div>
-                <input type="radio" id="orderPostsOverall" name="orderPostsratingSource" value="overall" checked={orderBy === 'overall'}/>
-                <label htmlFor="orderPostsOverall">{yasrSortPostsRadioOverall}</label>
-            </div>
-        </fieldset>
+                    <div>
+                        <input type="radio" id="orderPostsOverall" name="orderPostsratingSource" value="overall" checked={orderBy === 'overall'}/>
+                        <label htmlFor="orderPostsOverall">{yasrSortPostsRadioOverall}</label>
+                    </div>
+                </div>
+            </fieldset>
+            <p>&nbsp;</p>
+        </>
     );
 }
 
+export const YasrPrintRadioRatingSort = (props) => {
+    const {sort, setAttributes} = props;
+
+    const sortRating = (setAttributes, event) => {
+        const checked = event.target.value;
+        setAttributes( { sort: checked } );
+    }
+
+    return (
+        <fieldset onChange={(e) => sortRating(setAttributes, e)}>
+            <legend><strong>{__('Sort by', '')}</strong></legend>
+            <div className='yasr-indented-answer'>
+                <div>
+                    <input type="radio" id="orderPostsDesc" name="orderPostsSort" value="desc" checked={sort === 'desc'}/>
+                    <label htmlFor="orderPostsDesc">Highest</label>
+                </div>
+
+                <div>
+                    <input type="radio" id="orderPostsASC" name="orderPostsSort" value="asc" checked={sort === 'asc'}/>
+                    <label htmlFor="orderPostsASC">Lowest</label>
+                </div>
+            </div>
+
+        </fieldset>
+    );
+}
 
 /**
  * Return a div with the stars in order to vote for overall rating
@@ -234,12 +263,16 @@ export const YasrBlockPostidAttribute = (postId) => {
 
  * @returns {(null | string)}
  */
-export const YasrBlockOrderbyAttribute = (orderBy) => {
+export const YasrBlockDisplayPostsAttribute = (orderBy, sort) => {
+    let string = '';
     if(orderBy === 'vv_most' || orderBy === 'vv_highest' || orderBy === 'overall') {
-        orderBy = ` orderby=${orderBy}`;
-        return orderBy
+        string += ` orderby=${orderBy}`;
+
     }
-    return '';
+    if(sort === 'desc' || sort === 'asc') {
+        string += ` sort=${sort}`;
+    }
+    return string;
 };
 
 /**
@@ -326,10 +359,11 @@ export const YasrSetBlockAttributes = (blockName,) => {
  * @param postId
  * @param shortCode
  * @param orderby
+ * @param sort
  * @returns {string}
  * @constructor
  */
-export const YasrReturnShortcodeString = (size, context, postId, shortCode, orderby) => {
+export const YasrReturnShortcodeString = (size, context, postId, shortCode, orderby, sort) => {
     const postType = wp.data.select('core/editor').getCurrentPostType();
 
     if(!shortCode) {
@@ -351,7 +385,7 @@ export const YasrReturnShortcodeString = (size, context, postId, shortCode, orde
             return 'This shortcode can be used only on pages';
         }
 
-        let orderByAttribute = YasrBlockOrderbyAttribute(orderby);
+        let orderByAttribute = YasrBlockDisplayPostsAttribute(orderby, sort);
         shortcodeString += `${orderByAttribute || ''}`;
     }
 
