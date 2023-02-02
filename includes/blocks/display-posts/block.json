@@ -3,7 +3,7 @@
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 2,
     "name": "yet-another-stars-rating/display-posts",
-    "description": "Order your posts according to YASR ratings. This shortcode works only on pages.",
+    "description": "Display your posts according to YASR ratings. This shortcode works only on pages.",
     "icon": "star-half",
     "category": "yet-another-stars-rating",
     "example": {},

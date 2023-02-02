@@ -16,7 +16,7 @@
 class YasrDisplayPosts extends YasrShortcode {
 
     public  $orderby;
-    public  $sort;
+    public  $order;
     public  $posts_per_page;
     private $query_args;
     private $paged;
@@ -52,17 +52,17 @@ class YasrDisplayPosts extends YasrShortcode {
             $atts = (shortcode_atts(
                 array(
                     'orderby'        => 'vv_most',
-                    'sort'           => 'DESC',
+                    'order'          => 'DESC',
                     'posts_per_page' => 10
                 ), $atts, $shortcode_name
             ));
         }
 
-        if($atts['sort'] !== 'ASC' && $atts['sort'] !== 'asc') {
-            $atts['sort'] = 'DESC';
+        if($atts['order'] !== 'ASC' && $atts['order'] !== 'asc') {
+            $atts['order'] = 'DESC';
         }
 
-        $this->sort           = $atts['sort'];
+        $this->order          = $atts['order'];
         $this->posts_per_page = (int)$atts['posts_per_page'];
         $this->query_args     = $this->defaultQuery();
 
@@ -89,7 +89,7 @@ class YasrDisplayPosts extends YasrShortcode {
             'posts_per_page' => $this->posts_per_page,
             'post_status'    => 'publish',
             'paged'          => $this->paged,
-            'order'          => $this->sort
+            'order'          => $this->order
         );
     }
 
@@ -121,7 +121,7 @@ class YasrDisplayPosts extends YasrShortcode {
         }, 10, 2);
 
         add_action('posts_orderby', function() {
-            return YasrDB::returnQueryOrderByPostsVV($this->orderby, $this->sort);
+            return YasrDB::returnQueryOrderByPostsVV($this->orderby, $this->order);
         }, 10, 2);
     }
 

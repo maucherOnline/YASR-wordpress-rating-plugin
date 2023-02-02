@@ -13,9 +13,9 @@ export const yasrLeaveThisBlankText      = __('Leave this blank if you don\'t kn
 export const yasrOverallDescription      = __('Remember: only the post author can rate here.', 'yet-another-stars-rating');
 export const yasrVisitorVotesDescription = __('This is the star set where your users will be able to vote', 'yet-another-stars-rating');
 
-export const yasrSortPostsRadioVVMost    = __('by Visitor Votes, most rated posts first ', 'yet-another-stars-rating');
-export const yasrSortPostsRadioVVHighest = __('by Visitor Votes, highest rated posts first ', 'yet-another-stars-rating');
-export const yasrSortPostsRadioOverall    = __('by OverallRating ', 'yet-another-stars-rating');
+export const yasrSortPostsRadioVVMost    = __('by Visitor Votes, using number of ratings ', 'yet-another-stars-rating');
+export const yasrSortPostsRadioVVHighest = __('by Visitor Votes, using average rating ', 'yet-another-stars-rating');
+export const yasrSortPostsRadioOverall    = __('by Author Rating', 'yet-another-stars-rating');
 
 
 /**
@@ -99,7 +99,7 @@ export const YasrPrintRadioRatingSource = (props) => {
     return (
         <>
             <fieldset onChange={(e) => setRatingSource(setAttributes, e)}>
-                <legend><strong>{__('Order posts...', 'yet-another-stars-rating')}</strong></legend>
+                <legend><strong>{__('Sort posts', 'yet-another-stars-rating')}</strong></legend>
                 <div className='yasr-indented-answer'>
                     <div>
                         <input type="radio" id="orderPostsVVMost" name="orderPostsratingSource" value="vv_most" checked={orderBy === 'vv_most'}/>
@@ -132,16 +132,16 @@ export const YasrPrintRadioRatingSort = (props) => {
 
     return (
         <fieldset onChange={(e) => sortRating(setAttributes, e)}>
-            <legend><strong>{__('Sort by', '')}</strong></legend>
+            <legend><strong>{__('Order', '')}</strong></legend>
             <div className='yasr-indented-answer'>
                 <div>
                     <input type="radio" id="orderPostsDesc" name="orderPostsSort" value="desc" checked={sort === 'desc'}/>
-                    <label htmlFor="orderPostsDesc">Highest</label>
+                    <label htmlFor="orderPostsDesc">{__('Highest Rated', 'yet-another-stars-rating')}</label>
                 </div>
 
                 <div>
                     <input type="radio" id="orderPostsASC" name="orderPostsSort" value="asc" checked={sort === 'asc'}/>
-                    <label htmlFor="orderPostsASC">Lowest</label>
+                    <label htmlFor="orderPostsASC">{__('Lowest Rated', 'yet-another-stars-rating')}</label>
                 </div>
             </div>
 
@@ -265,12 +265,14 @@ export const YasrBlockPostidAttribute = (postId) => {
  */
 export const YasrBlockDisplayPostsAttribute = (orderBy, sort) => {
     let string = '';
-    if(orderBy === 'vv_most' || orderBy === 'vv_highest' || orderBy === 'overall') {
+    //vv_most is the default attribute, no need to show it
+    if(orderBy === 'vv_highest' || orderBy === 'overall') {
         string += ` orderby=${orderBy}`;
-
     }
-    if(sort === 'desc' || sort === 'asc') {
-        string += ` sort=${sort}`;
+
+    //desc is the default value, so do this only for asc
+    if(sort === 'asc') {
+        string += ` order=ASC`;
     }
     return string;
 };

@@ -1212,27 +1212,26 @@ class YasrDB {
      * This query must be used with hook posts_orderby and after posts_join_paged
      * Order the previous select values
      *
-     * @see returnQuerySelectPostsVV
-     *
      * @author Dario Curvino <@dudo>
-     *
      * @since 3.2.1
      *
      * @param $order_by
-     * @param $sort
+     * @param $order
      *
      * @return string
+     *@see returnQuerySelectPostsVV
      */
-    public static function returnQueryOrderByPostsVV ($order_by, $sort='DESC') {
-        if($sort !== 'ASC' && $sort !== 'asc') {
-            $sort = 'DESC';
+    public static function returnQueryOrderByPostsVV ($order_by, $order='DESC') {
+        $order = strtoupper($order);
+        if($order !== 'ASC') {
+            $order = 'DESC';
         }
 
         if($order_by === 'vv_highest') {
-            return " rating {$sort}, number_of_votes {$sort}";
+            return " rating {$order}, number_of_votes {$order}";
         }
         else {
-            return " number_of_votes {$sort}, rating {$sort}";
+            return " number_of_votes {$order}, rating {$order}";
         }
     }
 }
