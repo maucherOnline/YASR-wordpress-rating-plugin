@@ -40,7 +40,15 @@ if (has_post_thumbnail($post_id) === true) {
         </span>
     </div> <!-- End .entry-meta -->
     <div class='yasr-entry-content'>
-        <?php echo wp_kses_post($thumb . get_the_excerpt()); ?>
+        <?php
+        the_content(
+            sprintf(
+                /* translators: %s: Post title. Only visible to screen readers. */
+                __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'yet-another-stars-rating' ),
+                the_title( '<span class="screen-reader-text">', '</span>', false )
+            )
+        );
+        ?>
     </div>
 
     <?php
