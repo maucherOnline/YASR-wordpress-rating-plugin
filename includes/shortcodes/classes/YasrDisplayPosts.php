@@ -45,10 +45,6 @@ class YasrDisplayPosts extends YasrShortcode {
     public function __construct($atts, $shortcode_name) {
         parent::__construct($atts, $shortcode_name);
 
-        if(!is_page()) {
-            return;
-        }
-
         $this->initMembers($atts, $shortcode_name);
     }
 

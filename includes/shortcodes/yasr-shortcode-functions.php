@@ -221,7 +221,21 @@ function yasr_users_front_widget_callback() {
  * Add shortcode to display posts according to rating
  */
 add_shortcode('yasr_display_posts', 'yasr_display_posts_callback');
+/**
+ * @author Dario Curvino <@dudo>
+ *
+ * @since
+ *
+ * @param $atts
+ * @param $content
+ * @param $shortcode_tag
+ *
+ * @return string|void
+ */
 function yasr_display_posts_callback($atts, $content, $shortcode_tag) {
+    if(!is_page()) {
+        return;
+    }
     return (new YasrDisplayPosts($atts, $shortcode_tag))->returnShortcode();
 }
 
