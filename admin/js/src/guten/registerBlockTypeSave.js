@@ -1,9 +1,7 @@
 const {useBlockProps}        = wp.blockEditor;
 
 import {
-    YasrBlockDisplayPostsAttribute,
-    YasrBlockPostidAttribute,
-    YasrBlockSizeAttribute, YasrReturnShortcodeString,
+    YasrReturnShortcodeString,
     YasrSetBlockAttributes
 } from "./yasrGutenUtils";
 

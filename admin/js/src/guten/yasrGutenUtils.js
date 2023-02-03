@@ -387,7 +387,14 @@ export const YasrReturnShortcodeString = (size, context, postId, shortCode, orde
 
     if(shortCode === 'yasr_display_posts') {
         if (postType !== 'page') {
-            return 'This shortcode can be used only on pages';
+            if (context === 'save') {
+                //return nothing in frontend
+                return '';
+            }
+            else {
+                //return text in backend
+                return 'This shortcode can be used only on pages';
+            }
         }
 
         let orderByAttribute = YasrBlockDisplayPostsAttribute(orderby, sort);
