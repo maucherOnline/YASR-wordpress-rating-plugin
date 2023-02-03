@@ -38,13 +38,16 @@ if (has_post_thumbnail($post_id) === true) {
         <span>
             <?php the_date() ?>
         </span>
+        <span class="edit-link" style="display: inline;">
+            <?php edit_post_link(__( 'Edit', 'twentyfourteen' )); ?>
+        </span>
     </div> <!-- End .entry-meta -->
     <div class='yasr-entry-content'>
         <?php
         the_content(
             sprintf(
                 /* translators: %s: Post title. Only visible to screen readers. */
-                __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'yet-another-stars-rating' ),
+                __('Continue reading %s <span class="meta-nav">&rarr;</span>', 'yet-another-stars-rating'),
                 the_title( '<span class="screen-reader-text">', '</span>', false )
             )
         );
