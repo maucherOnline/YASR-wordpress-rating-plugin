@@ -13,9 +13,9 @@ export const yasrLeaveThisBlankText      = __('Leave this blank if you don\'t kn
 export const yasrOverallDescription      = __('Remember: only the post author can rate here.', 'yet-another-stars-rating');
 export const yasrVisitorVotesDescription = __('This is the star set where your users will be able to vote', 'yet-another-stars-rating');
 
-export const yasrSortPostsRadioVVMost    = __('by Visitor Votes, using number of ratings ', 'yet-another-stars-rating');
-export const yasrSortPostsRadioVVHighest = __('by Visitor Votes, using average rating ', 'yet-another-stars-rating');
-export const yasrSortPostsRadioOverall    = __('by Author Rating', 'yet-another-stars-rating');
+export const yasrSortPostsRadioVVMost    = __("Visitors' ratings count", 'yet-another-stars-rating');
+export const yasrSortPostsRadioVVHighest = __("Visitors' average rating", 'yet-another-stars-rating');
+export const yasrSortPostsRadioOverall   = __("Authors' rating", 'yet-another-stars-rating');
 
 
 /**
@@ -99,7 +99,7 @@ export const YasrPrintRadioRatingSource = (props) => {
     return (
         <>
             <fieldset onChange={(e) => setRatingSource(setAttributes, e)}>
-                <legend><strong>{__('Sort posts', 'yet-another-stars-rating')}</strong></legend>
+                <legend><strong>{__('Sort by:', 'yet-another-stars-rating')}</strong></legend>
                 <div className='yasr-indented-answer'>
                     <div>
                         <input type="radio" id="orderPostsVVMost" name="orderPostsratingSource" value="vv_most" checked={orderBy === 'vv_most'}/>
@@ -132,16 +132,16 @@ export const YasrPrintRadioRatingSort = (props) => {
 
     return (
         <fieldset onChange={(e) => sortRating(setAttributes, e)}>
-            <legend><strong>{__('Order', '')}</strong></legend>
+            <legend><strong>{__('Ordering', '')}</strong></legend>
             <div className='yasr-indented-answer'>
                 <div>
                     <input type="radio" id="orderPostsDesc" name="orderPostsSort" value="desc" checked={sort === 'desc'}/>
-                    <label htmlFor="orderPostsDesc">{__('Highest Rated', 'yet-another-stars-rating')}</label>
+                    <label htmlFor="orderPostsDesc">{__('Higher first', 'yet-another-stars-rating')}</label>
                 </div>
 
                 <div>
                     <input type="radio" id="orderPostsASC" name="orderPostsSort" value="asc" checked={sort === 'asc'}/>
-                    <label htmlFor="orderPostsASC">{__('Lowest Rated', 'yet-another-stars-rating')}</label>
+                    <label htmlFor="orderPostsASC">{__('Lower first', 'yet-another-stars-rating')}</label>
                 </div>
             </div>
 

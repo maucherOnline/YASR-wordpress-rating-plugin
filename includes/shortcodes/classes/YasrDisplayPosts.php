@@ -15,10 +15,31 @@
  */
 class YasrDisplayPosts extends YasrShortcode {
 
+    /**
+     * The data source.
+     * Default value, vv_most.
+     * Accepted values 'vv_highest', 'overall'
+     */
     public  $orderby;
+
+    /**
+     * Default DESC, accepted 'value' ASC and 'asc'
+     */
     public  $order;
+
+    /**
+     * int between 2 and 20
+     */
     public  $posts_per_page;
+
+    /**
+     * Query args
+     */
     private $query_args;
+
+    /**
+     * Number of page, default 1
+     */
     private $paged;
 
     public function __construct($atts, $shortcode_name) {
@@ -58,12 +79,21 @@ class YasrDisplayPosts extends YasrShortcode {
             ));
         }
 
+        $post_per_page = (int)$atts['posts_per_page'];
+
         if($atts['order'] !== 'ASC' && $atts['order'] !== 'asc') {
             $atts['order'] = 'DESC';
         }
 
+        if($post_per_page > 20) {
+            $post_per_page = 20;
+        }
+        if($post_per_page < 2 ) {
+            $post_per_page = 2;
+        }
+
         $this->order          = $atts['order'];
-        $this->posts_per_page = (int)$atts['posts_per_page'];
+        $this->posts_per_page = $post_per_page;
         $this->query_args     = $this->defaultQuery();
 
         if($atts['orderby'] === 'overall') {
