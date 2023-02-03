@@ -13,8 +13,8 @@ export const yasrLeaveThisBlankText      = __('Leave this blank if you don\'t kn
 export const yasrOverallDescription      = __('Remember: only the post author can rate here.', 'yet-another-stars-rating');
 export const yasrVisitorVotesDescription = __('This is the star set where your users will be able to vote', 'yet-another-stars-rating');
 
-export const yasrSortPostsRadioVVMost    = __("Visitors' ratings count", 'yet-another-stars-rating');
-export const yasrSortPostsRadioVVHighest = __("Visitors' average rating", 'yet-another-stars-rating');
+export const yasrSortPostsRadioVVCount    = __("Visitors' ratings count", 'yet-another-stars-rating');
+export const yasrSortPostsRadioVVAverage = __("Visitors' average rating", 'yet-another-stars-rating');
 export const yasrSortPostsRadioOverall   = __("Authors' rating", 'yet-another-stars-rating');
 
 
@@ -102,17 +102,20 @@ export const YasrPrintRadioRatingSource = (props) => {
                 <legend><strong>{__('Sort by:', 'yet-another-stars-rating')}</strong></legend>
                 <div className='yasr-indented-answer'>
                     <div>
-                        <input type="radio" id="orderPostsVVMost" name="orderPostsratingSource" value="vv_most" checked={orderBy === 'vv_most'}/>
-                        <label htmlFor="orderPostsVVMost">{yasrSortPostsRadioVVMost}</label>
+                        <input type="radio" id="orderPostsVVCount" name="orderPostsratingSource" value="vv_count"
+                               checked={orderBy === 'vv_count'}/>
+                        <label htmlFor="orderPostsVVCount">{yasrSortPostsRadioVVCount}</label>
                     </div>
 
                     <div>
-                        <input type="radio" id="orderPostsVVHighest" name="orderPostsratingSource" value="vv_highest" checked={orderBy === 'vv_highest'}/>
-                        <label htmlFor="orderPostsVVHighest">{yasrSortPostsRadioVVHighest}</label>
+                        <input type="radio" id="orderPostsVVAverage" name="orderPostsratingSource" value="vv_average"
+                               checked={orderBy === 'vv_average'}/>
+                        <label htmlFor="orderPostsVVAverage">{yasrSortPostsRadioVVAverage}</label>
                     </div>
 
                     <div>
-                        <input type="radio" id="orderPostsOverall" name="orderPostsratingSource" value="overall" checked={orderBy === 'overall'}/>
+                        <input type="radio" id="orderPostsOverall" name="orderPostsratingSource" value="overall"
+                               checked={orderBy === 'overall'}/>
                         <label htmlFor="orderPostsOverall">{yasrSortPostsRadioOverall}</label>
                     </div>
                 </div>
@@ -265,8 +268,8 @@ export const YasrBlockPostidAttribute = (postId) => {
  */
 export const YasrBlockDisplayPostsAttribute = (orderBy, sort) => {
     let string = '';
-    //vv_most is the default attribute, no need to show it
-    if(orderBy === 'vv_highest' || orderBy === 'overall') {
+    //vv_count is the default attribute, no need to show it
+    if(orderBy === 'vv_average' || orderBy === 'overall') {
         string += ` orderby=${orderBy}`;
     }
 

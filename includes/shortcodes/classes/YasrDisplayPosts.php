@@ -3,7 +3,7 @@
 /**
  * This shortcode must be used in a page, and returns posts ordered by rating.
  * accepted args:
- *  - orderby         Optional, accepts values 'overall', 'vv_highest', default 'vv_most'
+ *  - orderby         Optional, accepts values 'overall', 'vv_average', default 'vv_count'
  *  - sort            Optional, accepts values ASC or asc. Default DESC
  *  - posts_per_page  Optional, default 10
  *
@@ -17,8 +17,8 @@ class YasrDisplayPosts extends YasrShortcode {
 
     /**
      * The data source.
-     * Default value, vv_most.
-     * Accepted values 'vv_highest', 'overall'
+     * Default value, vv_count.
+     * Accepted values 'vv_average', 'overall'
      */
     public  $orderby;
 
@@ -72,7 +72,7 @@ class YasrDisplayPosts extends YasrShortcode {
         if ($atts !== false) {
             $atts = (shortcode_atts(
                 array(
-                    'orderby'        => 'vv_most',
+                    'orderby'        => 'vv_count',
                     'order'          => 'DESC',
                     'posts_per_page' => 10
                 ), $atts, $shortcode_name
@@ -99,10 +99,10 @@ class YasrDisplayPosts extends YasrShortcode {
         if($atts['orderby'] === 'overall') {
             $this->orderby = 'overall';
             $this->queryOverall();
-        } else if($atts['orderby'] === 'vv_highest') {
-            $this->orderby = 'vv_highest';
+        } else if($atts['orderby'] === 'vv_average') {
+            $this->orderby = 'vv_average';
         } else {
-            $this->orderby = 'vv_most';
+            $this->orderby = 'vv_count';
         }
 
     }
@@ -164,7 +164,7 @@ class YasrDisplayPosts extends YasrShortcode {
      * @return string
      */
     public function returnShortcode() {
-        if($this->orderby === 'vv_most' || $this->orderby === 'vv_highest') {
+        if($this->orderby === 'vv_count' || $this->orderby === 'vv_average') {
             $this->filterQueryVV();
         }
 

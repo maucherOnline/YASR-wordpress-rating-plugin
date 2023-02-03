@@ -15,7 +15,7 @@
     "attributes": {
         "orderby": {
             "type": "string",
-            "default": "vv_most"
+            "default": "vv_count"
         },
         "sort": {
             "type": "string",
