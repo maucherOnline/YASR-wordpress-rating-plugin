@@ -14,7 +14,8 @@ import {
     YasrPrintSelectSize,
     YasrPrintInputId,
     YasrPrintRadioRatingSource,
-    YasrPrintRadioRatingSort
+    YasrPrintRadioRatingSort,
+    YasrPrintSelectRatingPPP
 } from "./yasrGutenUtils";
 
 /**
@@ -59,6 +60,7 @@ export const YasrBlocksPanel = (props) => {
                             <>
                                 <YasrPrintRadioRatingSource {...props} />
                                 <YasrPrintRadioRatingSort {...props} />
+                                <YasrPrintSelectRatingPPP {...props} />
                             </>
                         )}
                     </>
@@ -90,7 +92,7 @@ const YasrPanelSizeAndId = (props) => {
     return (
         <>
             <h3>{yasrOptionalText}</h3>
-            <YasrSelectSizeDiv   {...blockAttributes} />
+            <YasrSelectSizeDiv   {...props} />
             <YasrPrintInputIdDiv {...blockAttributes} />
         </>
     );

@@ -63,15 +63,17 @@ export const YasrPrintInputId = (props) => {
  * @returns {JSX.Element}
  */
 export const YasrPrintSelectSize = (props) => {
+
+    const {size, setAttributes} = props;
+
     const yasrSetStarsSize = (setAttributes, event) => {
-        const selected = event.target.querySelector( 'option:checked' );
-        setAttributes( { size: selected.value } );
-        event.preventDefault();
+        const selected = event.target.value
+        setAttributes( { size: selected} );
     }
 
     return (
         <form>
-            <select value={props.size} onChange={(e) => yasrSetStarsSize(props.setAttributes, e)}>
+            <select value={size} onChange={(e) => yasrSetStarsSize(setAttributes, e)}>
                 <option value="--">{yasrSelectSizeChoose}    </option>
                 <option value="small">{yasrSelectSizeSmall}  </option>
                 <option value="medium">{yasrSelectSizeMedium}</option>
@@ -134,21 +136,45 @@ export const YasrPrintRadioRatingSort = (props) => {
     }
 
     return (
-        <fieldset onChange={(e) => sortRating(setAttributes, e)}>
-            <legend><strong>{__('Ordering', '')}</strong></legend>
+        <>
+            <fieldset onChange={(e) => sortRating(setAttributes, e)}>
+                <legend><strong>{__('Ordering', '')}</strong></legend>
+                <div className='yasr-indented-answer'>
+                    <div>
+                        <input type="radio" id="orderPostsDesc" name="orderPostsSort" value="desc" checked={sort === 'desc'}/>
+                        <label htmlFor="orderPostsDesc">{__('Higher first', 'yet-another-stars-rating')}</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="orderPostsASC" name="orderPostsSort" value="asc" checked={sort === 'asc'}/>
+                        <label htmlFor="orderPostsASC">{__('Lower first', 'yet-another-stars-rating')}</label>
+                    </div>
+                </div>
+            </fieldset>
+        <p>&nbsp;</p>
+        </>
+    );
+}
+
+export const YasrPrintSelectRatingPPP = (props) => {
+    const setPostPerPage = (setAttributes, event) => {
+        const selected = event.target.querySelector( 'option:checked' );
+        setAttributes( { postsPerPage: selected.value } );
+    }
+
+    return (
+        <>
+            <strong>{__('Posts per page', 'yet-another-stars-rating')}</strong>
             <div className='yasr-indented-answer'>
-                <div>
-                    <input type="radio" id="orderPostsDesc" name="orderPostsSort" value="desc" checked={sort === 'desc'}/>
-                    <label htmlFor="orderPostsDesc">{__('Higher first', 'yet-another-stars-rating')}</label>
-                </div>
-
-                <div>
-                    <input type="radio" id="orderPostsASC" name="orderPostsSort" value="asc" checked={sort === 'asc'}/>
-                    <label htmlFor="orderPostsASC">{__('Lower first', 'yet-another-stars-rating')}</label>
-                </div>
+                <select value={props.postsPerPage} onChange={(e) => setPostPerPage(props.setAttributes, e)}>
+                    {Array.from({ length: 19 }, (_, index) => (
+                        <option key={index + 2} value={index + 2}>
+                            {index + 2}
+                        </option>
+                    ))}
+                </select>
             </div>
-
-        </fieldset>
+        </>
     );
 }
 
@@ -266,7 +292,15 @@ export const YasrBlockPostidAttribute = (postId) => {
 
  * @returns {(null | string)}
  */
-export const YasrBlockDisplayPostsAttribute = (orderBy, sort) => {
+export const YasrBlockDisplayPostsAttribute = (orderBy, sort, postsPerPage) => {
+
+    if(postsPerPage > 20) {
+        postsPerPage = 20;
+    }
+    if(postsPerPage < 2) {
+        postsPerPage = 2;
+    }
+
     let string = '';
     //vv_count is the default attribute, no need to show it
     if(orderBy === 'vv_average' || orderBy === 'overall') {
@@ -277,6 +311,11 @@ export const YasrBlockDisplayPostsAttribute = (orderBy, sort) => {
     if(sort === 'asc') {
         string += ` order=ASC`;
     }
+
+    if(postsPerPage !== 10) {
+        string += ` posts_per_page=${postsPerPage}`;
+    }
+
     return string;
 };
 
@@ -365,10 +404,11 @@ export const YasrSetBlockAttributes = (blockName,) => {
  * @param shortCode
  * @param orderby
  * @param sort
+ * @param postsPerPage
  * @returns {string}
  * @constructor
  */
-export const YasrReturnShortcodeString = (size, context, postId, shortCode, orderby, sort) => {
+export const YasrReturnShortcodeString = (size, context, postId, shortCode, orderby, sort, postsPerPage) => {
     const postType = wp.data.select('core/editor').getCurrentPostType();
 
     if(!shortCode) {
@@ -397,7 +437,7 @@ export const YasrReturnShortcodeString = (size, context, postId, shortCode, orde
             }
         }
 
-        let orderByAttribute = YasrBlockDisplayPostsAttribute(orderby, sort);
+        let orderByAttribute = YasrBlockDisplayPostsAttribute(orderby, sort, postsPerPage);
         shortcodeString += `${orderByAttribute || ''}`;
     }
 
