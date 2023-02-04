@@ -27,10 +27,6 @@ const yasrSaveFunction = (props, metadata) => {
         className: className,
     } );
 
-    console.log(props);
-    console.log(sort);
-    console.log(postsPerPage);
-
     const shortcodeString = YasrReturnShortcodeString(size, 'save', postId, shortCode, orderby, sort, postsPerPage);
 
     return (
