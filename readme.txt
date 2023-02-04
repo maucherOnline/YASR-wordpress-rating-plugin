@@ -207,7 +207,7 @@ Yes, YASR is 100% fully compatible with PHP 8
 The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.2.1 =
-* NEW SHORTCODE:
+* NEW SHORTCODE: yasr_display_posts : you can use this shortcode in a page to show posts ordered by ratings
 * NEW FEATURE: is now possible order posts by ratings. To enable it in home page or in an archive page,
 go to "Settings -> Archive Pages ->  Do you want to order posts by rating? "
 * TWEAKED: if a shortcode is used more than once in the same page, the query is executed only once
@@ -216,6 +216,7 @@ go to "Settings -> Archive Pages ->  Do you want to order posts by rating? "
 * FIXED: wrong image size returned in rich snippets
 * FIXED: In settings->structured data options, image url didn't get saved
 * FIXED: ranking yasr_most_or_highest_rated_posts didn't work as expected is "load results with ajax" is enabled
+* FIXED: minor bug fixes
 
 = 3.2.0 =
 * FIXED: /wp-admin dashboard was crashing if php 7.1 or 7.2 were used
