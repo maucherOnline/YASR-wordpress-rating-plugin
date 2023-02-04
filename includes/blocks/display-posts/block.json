@@ -22,7 +22,7 @@
             "default": "desc"
         },
         "postsPerPage": {
-            "type": "number",
+            "type": "string",
             "default": 10
         }
     },
