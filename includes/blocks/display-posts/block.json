@@ -21,7 +21,7 @@
             "type": "string",
             "default": "desc"
         },
-        "posts_per_page": {
+        "postsPerPage": {
             "type": "number",
             "default": 10
         }

@@ -15,7 +15,7 @@ import {
 const yasrSaveFunction = (props, metadata) => {
 
     //get attributes size and postId
-    const {attributes: {size, postId, orderby, sort, posts_per_pages}} = props;
+    const {attributes: {size, postId, orderby, sort, postsPerPage}} = props;
 
     //get attributes name from metadata
     const {name} = metadata;
@@ -27,7 +27,11 @@ const yasrSaveFunction = (props, metadata) => {
         className: className,
     } );
 
-    const shortcodeString = YasrReturnShortcodeString(size, 'save', postId, shortCode, orderby, sort, posts_per_pages);
+    console.log(props);
+    console.log(sort);
+    console.log(postsPerPage);
+
+    const shortcodeString = YasrReturnShortcodeString(size, 'save', postId, shortCode, orderby, sort, postsPerPage);
 
     return (
         <div {...blockProps}>{shortcodeString}</div>

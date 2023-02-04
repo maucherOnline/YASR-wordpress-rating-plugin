@@ -63,12 +63,10 @@ export const YasrPrintInputId = (props) => {
  * @returns {JSX.Element}
  */
 export const YasrPrintSelectSize = (props) => {
-
     const {size, setAttributes} = props;
 
     const yasrSetStarsSize = (setAttributes, event) => {
-        const selected = event.target.value
-        setAttributes( { size: selected} );
+        setAttributes( { size: event.target.value} );
     }
 
     return (
@@ -94,8 +92,7 @@ export const YasrPrintRadioRatingSource = (props) => {
     const {orderBy, setAttributes} = props;
 
     const setRatingSource = (setAttributes, event) => {
-        const checked = event.target.value;
-        setAttributes( { orderby: checked } );
+        setAttributes( {orderby: event.target.value} );
     }
 
     return (
@@ -131,8 +128,7 @@ export const YasrPrintRadioRatingSort = (props) => {
     const {sort, setAttributes} = props;
 
     const sortRating = (setAttributes, event) => {
-        const checked = event.target.value;
-        setAttributes( { sort: checked } );
+        setAttributes( { sort: event.target.value } );
     }
 
     return (
@@ -156,17 +152,24 @@ export const YasrPrintRadioRatingSort = (props) => {
     );
 }
 
+/**
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export const YasrPrintSelectRatingPPP = (props) => {
-    const setPostPerPage = (setAttributes, event) => {
-        const selected = event.target.querySelector( 'option:checked' );
-        setAttributes( { postsPerPage: selected.value } );
+    const {postsPerPage, setAttributes} = props;
+
+    const setPostsPerPage = (setAttributes, event) => {
+        setAttributes( { postsPerPage: event.target.value } );
     }
 
     return (
         <>
             <strong>{__('Posts per page', 'yet-another-stars-rating')}</strong>
             <div className='yasr-indented-answer'>
-                <select value={props.postsPerPage} onChange={(e) => setPostPerPage(props.setAttributes, e)}>
+                <select value={postsPerPage} onChange={(e) => setPostsPerPage(setAttributes, e)}>
                     {Array.from({ length: 19 }, (_, index) => (
                         <option key={index + 2} value={index + 2}>
                             {index + 2}
@@ -293,7 +296,6 @@ export const YasrBlockPostidAttribute = (postId) => {
  * @returns {(null | string)}
  */
 export const YasrBlockDisplayPostsAttribute = (orderBy, sort, postsPerPage) => {
-
     if(postsPerPage > 20) {
         postsPerPage = 20;
     }

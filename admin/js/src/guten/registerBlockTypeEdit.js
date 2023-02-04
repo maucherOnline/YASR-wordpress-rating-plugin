@@ -16,7 +16,7 @@ import {YasrBlocksPanel}     from "./yasrBlocksPanel";
  * @returns {JSX.Element}
  */
 const yasrEditFunction = (props) => {
-    const {attributes: {size, postId, orderby, sort, posts_per_page}, name, isSelected, setAttributes} = props;
+    const {attributes: {size, postId, orderby, sort, postsPerPage}, name, isSelected, setAttributes} = props;
 
     const {className, shortCode, hookName, sizeAndId, orderPosts} = YasrSetBlockAttributes(name);
 
@@ -26,7 +26,7 @@ const yasrEditFunction = (props) => {
         postId:        postId,
         orderBy:       orderby,
         sort:          sort,
-        postsPerPage:  posts_per_page,
+        postsPerPage:  postsPerPage,
         setAttributes: setAttributes,
         hookName:      hookName,
         sizeAndId:     sizeAndId,
@@ -38,7 +38,7 @@ const yasrEditFunction = (props) => {
         name:      name
     } );
 
-    const shortcodeString = YasrReturnShortcodeString(size, 'edit', postId, shortCode, orderby, sort, posts_per_page);
+    const shortcodeString = YasrReturnShortcodeString(size, 'edit', postId, shortCode, orderby, sort, postsPerPage);
 
     return (
         <Fragment>

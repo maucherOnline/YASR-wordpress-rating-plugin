@@ -79,21 +79,21 @@ class YasrDisplayPosts extends YasrShortcode {
             ));
         }
 
-        $post_per_page = (int)$atts['posts_per_page'];
+        $posts_per_page = (int)$atts['posts_per_page'];
 
         if($atts['order'] !== 'ASC' && $atts['order'] !== 'asc') {
             $atts['order'] = 'DESC';
         }
 
-        if($post_per_page > 20) {
-            $post_per_page = 20;
+        if($posts_per_page > 20) {
+            $posts_per_page = 20;
         }
-        if($post_per_page < 2 ) {
-            $post_per_page = 2;
+        if($posts_per_page < 2 ) {
+            $posts_per_page = 2;
         }
 
         $this->order          = $atts['order'];
-        $this->posts_per_page = $post_per_page;
+        $this->posts_per_page = $posts_per_page;
         $this->query_args     = $this->defaultQuery();
 
         if($atts['orderby'] === 'overall') {
