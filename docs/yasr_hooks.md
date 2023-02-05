@@ -283,7 +283,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$post_id` |  | 
 
-Source: [../templates/content.php](../templates/content.php), [line 47](../templates/content.php#L47-L50)
+Source: [../templates/content.php](../templates/content.php), [line 58](../templates/content.php#L58-L61)
 
 ## Filters
 
