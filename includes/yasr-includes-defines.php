@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-//Since version 3.2.1 the defines are inside a file, instead of a class, for better support PHPStorm auto-completion
+//Since version 3.3.0 the defines are inside a file, instead of a class, for better support PHPStorm auto-completion
 //https://youtrack.jetbrains.com/issue/WI-11390/Make-define-Constants-from-inside-methods-available-for-completion-everywhere.
 
 $settings              = new YasrSettingsValues();

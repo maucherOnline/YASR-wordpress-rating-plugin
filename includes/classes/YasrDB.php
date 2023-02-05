@@ -1129,7 +1129,7 @@ class YasrDB {
      * @see visitorVotes
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $post_id
      *
@@ -1150,7 +1150,7 @@ class YasrDB {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $post_id
      * @param $user_id
@@ -1170,7 +1170,7 @@ class YasrDB {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $set_id
      *
@@ -1192,7 +1192,7 @@ class YasrDB {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since  3.2.1
+     * @since  3.3.0
      * @return string
      */
     public static function returnQuerySelectPostsVV () {
@@ -1213,7 +1213,7 @@ class YasrDB {
      * Order the previous select values
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $order_by
      * @param $order

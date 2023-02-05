@@ -4,7 +4,7 @@ Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo
 Tested up to: 6.1.1
-Stable tag: 3.2.1
+Stable tag: 3.3.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
@@ -206,7 +206,7 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
-= 3.2.1 =
+= 3.3.0 =
 * NEW SHORTCODE: yasr_display_posts : you can use this shortcode in a page to show posts ordered by ratings.
 * NEW FEATURE: is now possible order posts by ratings. To enable it in home page or in an archive page,
 go to "Settings -> Archive Pages ->  Do you want to order posts by rating? "

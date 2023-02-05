@@ -9,7 +9,7 @@
  *
  * @author Dario Curvino <@dudo>
  *
- * @since 3.2.1
+ * @since 3.3.0
  *
  * YasrOrderPosts
  */
@@ -53,7 +53,7 @@ class YasrDisplayPosts extends YasrShortcode {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $atts
      * @param $shortcode_name
@@ -112,7 +112,7 @@ class YasrDisplayPosts extends YasrShortcode {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since  3.2.1
+     * @since  3.3.0
      */
     public function defaultQuery () {
         return array(
@@ -128,7 +128,7 @@ class YasrDisplayPosts extends YasrShortcode {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since  3.2.1
+     * @since  3.3.0
      * @return void
      */
     public function queryOverall () {
@@ -141,7 +141,7 @@ class YasrDisplayPosts extends YasrShortcode {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since  3.2.1
+     * @since  3.3.0
      * @return void
      */
     public function filterQueryVV () {
@@ -160,7 +160,7 @@ class YasrDisplayPosts extends YasrShortcode {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since  3.2.1
+     * @since  3.3.0
      * @return string
      */
     public function returnShortcode() {
@@ -195,7 +195,7 @@ class YasrDisplayPosts extends YasrShortcode {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.2.1
+     * @since 3.3.0
      *
      */
     public function content() {
@@ -212,7 +212,7 @@ class YasrDisplayPosts extends YasrShortcode {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $query
      *

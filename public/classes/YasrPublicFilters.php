@@ -157,7 +157,7 @@ class YasrPublicFilters {
      * according to YASR_AUTO_INSERT_WHERE
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $stars
      * @param $content
@@ -342,7 +342,7 @@ class YasrPublicFilters {
      * Do a left join with the main query
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $join
      * @param $query
@@ -361,7 +361,7 @@ class YasrPublicFilters {
      * Add the order by clause
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $orderby
      * @param $query
@@ -379,7 +379,7 @@ class YasrPublicFilters {
      * Hooks into pre_get_posts and order posts by Overall Rating
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $query
      *
@@ -397,7 +397,7 @@ class YasrPublicFilters {
      * Return true if the current archive can be sorted, or false otherwise
      *
      * @author Dario Curvino <@dudo>
-     * @since 3.2.1
+     * @since 3.3.0
      *
      * @param $query
      *
