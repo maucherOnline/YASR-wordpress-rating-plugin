@@ -201,8 +201,8 @@ class YasrDisplayPosts extends YasrShortcode {
     public function content() {
         $templates = new YasrTemplateLoader();
 
-        //this will search for templates in a directory called "yasr" first in the child theme; if nothing is found,
-        // load yet-another-stars-rating/templates/content.php
+        //this will search for templates in a directory called "yasr" first in the child theme, then in the parent theme;
+        // if nothing is found, load yet-another-stars-rating/templates/content.php
         $templates->get_template_part('content');
     }
 
