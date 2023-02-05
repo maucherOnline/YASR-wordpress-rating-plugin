@@ -214,7 +214,7 @@ function yasr_ranking_users_callback ($atts, $content, $shortcode_tag) {
 } //End users rankings
 
 /**
- *
+ * YASR Multiset Ranking
  */
 add_shortcode ('yasr_multi_set_ranking', 'yasr_multi_set_ranking_callback');
 
@@ -222,6 +222,9 @@ function yasr_multi_set_ranking_callback($atts, $content, $shortcode_tag) {
     return (new YasrRankings($atts, $shortcode_tag))->returnMulti($atts);
 } //End function
 
+/**
+ * Yasr Visitor Multiset Ranking
+ */
 add_shortcode ('yasr_visitor_multi_set_ranking', 'yasr_visitor_multi_set_ranking_callback');
 
 function yasr_visitor_multi_set_ranking_callback($atts, $content, $shortcode_tag) {
@@ -251,7 +254,7 @@ add_shortcode('yasr_display_posts', 'yasr_display_posts_callback');
 /**
  * @author Dario Curvino <@dudo>
  *
- * @since
+ * @since 3.3.0
  *
  * @param $atts
  * @param $content
