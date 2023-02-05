@@ -241,7 +241,11 @@ function yasr_users_front_widget_callback() {
 
 
 /**
- * Add shortcode to display posts ordered by rating
+ * Yasr Display Posts
+ *
+ * Display your posts according to YASR ratings. This shortcode works only on pages.
+ *
+ *
  * @since 3.3.0
  */
 add_shortcode('yasr_display_posts', 'yasr_display_posts_callback');
