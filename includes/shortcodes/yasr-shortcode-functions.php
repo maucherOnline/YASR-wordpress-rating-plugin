@@ -46,7 +46,9 @@ function yasr_autoload_shortcodes($class) {
 //AutoLoad YASR Shortcode Classes, only when a object is created
 spl_autoload_register('yasr_autoload_shortcodes');
 
-/****** Add shortcode for overall rating ******/
+/**
+ * Yasr Overall Rating
+ */
 add_shortcode('yasr_overall_rating', 'shortcode_overall_rating_callback');
 
 /**
@@ -64,11 +66,13 @@ function shortcode_overall_rating_callback ($atts, $content=false, $shortcode_ta
 } //end function
 
 
-/****** Add shortcode for user vote ******/
-
-add_shortcode('yasr_visitor_votes', 'shortcode_visitor_votes_callback');
-
 /**
+ * Yasr Visitor Votes
+ */
+ add_shortcode('yasr_visitor_votes', 'shortcode_visitor_votes_callback');
+
+ /**
+ *
  * @param      $atts
  * @param bool $content
  * @param bool $shortcode_tag
@@ -83,8 +87,12 @@ function shortcode_visitor_votes_callback($atts, $content=false, $shortcode_tag=
     return (new YasrVisitorVotes($atts, $shortcode_tag))->returnShortcode();
 } //End function shortcode_visitor_votes_callback
 
-/****** Add shortcode for multiple set ******/
 
+/**
+ * Yasr multiset
+ *
+ * This shortcode return author multi set
+ */
 add_shortcode ('yasr_multiset',  'yasr_multiset_callback');
 
 /**
@@ -98,8 +106,9 @@ function yasr_multiset_callback($atts, $content, $shortcode_tag) {
     return (new YasrMultiSet($atts, $shortcode_tag))->printMultiset();
 }
 
-/****** Add shortcode for multiset writable by users  ******/
-
+/**
+ * Yasr Visitor Multiset
+ */
 add_shortcode ('yasr_visitor_multiset', 'yasr_visitor_multiset_callback');
 
 /**
@@ -113,14 +122,16 @@ function yasr_visitor_multiset_callback($atts, $content, $shortcode_tag) {
     return (new YasrVisitorMultiSet($atts, $shortcode_tag))->printVisitorMultiSet();
 }
 
-/*
- * @deprecated deprecated since version 2.6.2
+/**
+ * @deprecated since version 2.6.2
  * @todo remove DEC 2023
  */
 add_shortcode ('yasr_top_ten_highest_rated', 'yasr_ov_ranking_callback');
 
-/*
- * Shortcode to display the highest rated posts by overall_rating
+/**
+ * Yasr Overall Ranking
+ *
+ * This shortcode print the highest rated posts by overall_rating
  * @since 2.6.2
  */
 add_shortcode ('yasr_ov_ranking', 'yasr_ov_ranking_callback');
@@ -137,7 +148,11 @@ function yasr_ov_ranking_callback($atts, $content, $shortcode_tag) {
 } //End function
 
 
-/****** Add top 10 most rated / highest rated post *****/
+/**
+ * Yasr Visitor Votes Ranking
+ *
+ * This shortcode print the higher / most rated posts with yasr_visitor_votes
+ */
 add_shortcode ('yasr_most_or_highest_rated_posts', 'yasr_most_or_highest_rated_posts_callback');
 /**
  * @param $atts
@@ -151,26 +166,30 @@ function yasr_most_or_highest_rated_posts_callback($atts, $content, $shortcode_t
 } //End function
 
 
-/*
+/**
  * @deprecated deprecated since version 2.6.2
  * @todo remove DEC 2023
  */
 add_shortcode ('yasr_top_5_reviewers', 'yasr_ranking_users_callback');
 
-/*
+/**
+ * Yasr Top reviewers
+ *
  * Shortcode to display most active reviewers
  * @since 2.6.2
  */
 add_shortcode ('yasr_top_reviewers', 'yasr_ranking_users_callback');
 
-/*
- * @deprecated deprecated since version 2.6.2
+/**
+ * @deprecated since version 2.6.2
  * @todo remove DEC 2023
  */
 add_shortcode ('yasr_top_ten_active_users', 'yasr_ranking_users_callback');
 
-/*
- * Shortcode to display most active reviewers
+/**
+ * Yasr Most Active users
+ *
+ * This shortcode show which users leave more votes on yasr_visitor_votes
  * @since 2.6.2
  */
 add_shortcode ('yasr_most_active_users', 'yasr_ranking_users_callback');
@@ -194,7 +213,9 @@ function yasr_ranking_users_callback ($atts, $content, $shortcode_tag) {
     return $ranking_users_obj->returnTopUsers($atts);
 } //End users rankings
 
-
+/**
+ *
+ */
 add_shortcode ('yasr_multi_set_ranking', 'yasr_multi_set_ranking_callback');
 
 function yasr_multi_set_ranking_callback($atts, $content, $shortcode_tag) {
@@ -208,7 +229,9 @@ function yasr_visitor_multi_set_ranking_callback($atts, $content, $shortcode_tag
 } //End function
 
 /**
- * Add shortcode yasr_users_log_frontend and the ajax action
+ * Yasr User Rate History
+ *
+ * When a user is logged in, print all the rating that user leaved
  */
 add_shortcode('yasr_user_rate_history', 'yasr_users_front_widget_callback');
 add_action('wp_ajax_yasr_change_user_log_page_front', 'yasr_users_front_widget_callback');
@@ -218,7 +241,8 @@ function yasr_users_front_widget_callback() {
 
 
 /**
- * Add shortcode to display posts according to rating
+ * Add shortcode to display posts ordered by rating
+ * @since 3.3.0
  */
 add_shortcode('yasr_display_posts', 'yasr_display_posts_callback');
 /**
