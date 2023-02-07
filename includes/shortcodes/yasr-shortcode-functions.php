@@ -47,16 +47,37 @@ function yasr_autoload_shortcodes($class) {
 spl_autoload_register('yasr_autoload_shortcodes');
 
 /**
- * Yasr Overall Rating
- */
-add_shortcode('yasr_overall_rating', 'shortcode_overall_rating_callback');
-
-/**
+ *
+ * ## Yasr Overall Rating
+ *
+ * ### What is?
+ * `[yasr_overall_rating]` shortcode is read only and is used by the reviewer.
+ * It comes in three sizes: "Small", "Medium", and "Large".
+ * The text displayed before or after the rating can be customized in the settings.
+ * The shortcode can be manually placed or automatically inserted using the auto insert feature
+ * ### How to use it?
+ * To insert the rating in this widget, there are two ways:
+ *    - If you're using the Classic editor, simply give a rating in the YASR metabox that appears at the top right of the
+ *        screen while you're writing a new post or page.
+ *    - If you're using the new Gutenberg editor, click on the "+" icon to add a block, search for YASR, and select
+ *        YASR: Overall Rating. A new panel will appear to the right, where you can add your rating.
+ *
  * @param $atts
  * @param $content
  * @param $shortcode_tag
  *
  * @return string|void|null
+ */
+add_shortcode('yasr_overall_rating', 'shortcode_overall_rating_callback');
+
+/**
+ * @author Dario Curvino <@dudo>
+ *
+ * @param $atts
+ * @param $content
+ * @param $shortcode_tag
+ *
+ * @return string|void
  */
 function shortcode_overall_rating_callback ($atts, $content=false, $shortcode_tag=false) {
     if (YASR_SHOW_OVERALL_IN_LOOP === 'disabled' && !is_singular() && is_main_query()) {
