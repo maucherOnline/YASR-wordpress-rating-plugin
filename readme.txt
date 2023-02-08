@@ -208,8 +208,10 @@ The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.3.0 =
 * NEW SHORTCODE: yasr_display_posts : you can use this shortcode in a page to show posts ordered by ratings.
+[More info here](https://yetanotherstarsrating.com/yasr-shortcodes/yasr-display-posts/)
 * NEW FEATURE: is now possible order posts by ratings. To enable it in home page or in an archive page,
 go to "Settings -> Archive Pages ->  Do you want to order posts by rating? "
+[More info here](https://yetanotherstarsrating.com/yasr-order-posts-by-ratings/)
 * TWEAKED: if a shortcode is used more than once in the same page, the query is executed only once
 * TWEAKED: removed useless query
 * TWEAKED: setting page has now 3 columns layout

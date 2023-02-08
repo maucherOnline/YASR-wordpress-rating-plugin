@@ -380,14 +380,14 @@ class YasrSettings {
         <div class="yasr-settings-row-45">
             <div>
                 <strong>
-                    <?php esc_html_e('Do you want to order posts by rating?', 'yet-another-stars-rating'); ?>
+                    <?php esc_html_e('Do you want to order posts by ratings?', 'yet-another-stars-rating'); ?>
                 </strong>
                 <?php
                     $array_options = array(
                         'no'         => __('No', 'yet-another-stars-rating'),
-                        'vv_most'    => __('Order by Visitor Votes, most rated posts first', 'yet-another-stars-rating'),
-                        'vv_highest' => __('Order by Visitor Votes, highest rated posts first', 'yet-another-stars-rating'),
-                        'overall'    => __('Order by Overall Rating', 'yet-another-stars-rating'),
+                        'vv_most'    => __("Sort by Visitors' ratings count", 'yet-another-stars-rating'),
+                        'vv_highest' => __("Sort by Visitors' average rating", 'yet-another-stars-rating'),
+                        'overall'    => __("Sort by Authors' rating", 'yet-another-stars-rating'),
                     );
                     $default       = $option['sort_posts_by'];
                     $name          = 'yasr_general_options[sort_posts_by]';
