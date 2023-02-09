@@ -227,43 +227,5 @@ go to "Settings -> Archive Pages ->  Do you want to order posts by rating? "
 * FIXED: missing file in "Aspect and style tab"
 * TWEAKED: under the hood changes
 
-= 3.1.8 =
-* FIXED: Js error in tab "Multi Criteria" if not multi criteria rating is set
-* TWEAKED: removed class Yasr_WP_List_Table
-* Minor changes
-
-= 3.1.7 =
-* FIXED: Removed duplicate query in tabs "Migration Tools"
-* ENHANCEMENT: brand-new form to edit an existing multi set, and code refactor
-* Minor changes
-
-= 3.1.6 =
-* FIXED: [removed warning](https://github.com/Dudo1985/Yet-Another-Stars-Rating/commit/f360dbcd0324483341ffca6ea9bf95b75043673f) returned if PHP 8.1 is used when a rating plugin is imported
-* TWEAKED: classes YasrDatabaseRatings, YasrRankingData and YasrMultiSetData have been deprecated, all the method moved into YasrDB
-* TWEAKED: function yasr_get_itemType has been moved into YasrDB, file yasr-includes-db-functions.php has been deleted
-* TWEAKED: added docs' dir, which contains all the hooks used by YASR
-* TWEAKED: removed dashicons from submenu page name, added links "Contact Us" and "Support"
-* TWEAKED: updated Freemius SDK to version 2.5.3
-
-= 3.1.5 =
-* FIXED: in the editor page, fixed js null error if YASR metabox is not rendered
-* FIXED: fixed [offset warning](https://wordpress.org/support/topic/trying-to-access-array-offset-warning/) if no valid image was given
-* TWEAKED: removed warning if PHP 8.1 is used
-* TWEAKED: added new filter yasr_auto_insert_disable
-* TWEAKED: updated Freemius SDK to version 2.5.2, now included with composer
-* TWEAKED: minor changes
-
-= 3.1.4 =
-* TWEAKED: in the setting page, there is now a new form for creating multi set
-* TWEAKED: minor changes and code cleanup
-
-= 3.1.3 =
-* FIXED: security fix
-* FIXED: in the settings page, last div didn't float good
-
-= 3.1.2 =
-* TWEAKED: added new filters yasr_custom_loader and yasr_custom_loader_url to customize loader
-* FIXED: better ajax response when data is imported from another plugin
-
 = Additional Info =
 See credits.txt file
