@@ -11,7 +11,8 @@ class YasrSettingsValues {
 
     /**
      * Returns YASR General Settings
-     * If general settings are not found (i.e. option deleted from database) return YASR default values
+     * If general settings are not found (i.e. option deleted from database) return YASR default values.
+     * There is no more need to insert the new default value on YasrAdmin->updateVersion
      *
      * @author Dario Curvino <@dudo>
      * @since  3.0.4
@@ -60,7 +61,7 @@ class YasrSettingsValues {
      * @return array
      */
     public function defaultValuesGeneral() {
-        $caching_plugin       = new YasrFindCachingPlugins();
+        $caching_plugin       = new YasrCachingPlugins();
         $caching_plugin_found = $caching_plugin->cachingPluginFound();
 
         $options['auto_insert_enabled']          = 1;
@@ -74,6 +75,8 @@ class YasrSettingsValues {
         $options['stars_title_what']             = 'visitor_rating';
         $options['stars_title_exclude_pages']    = 'yes';
         $options['stars_title_where']            = 'archive';
+        $options['sort_posts_by']                = 'no';
+        $options['sort_posts_in']                = array('is_home');
         $options['show_overall_in_loop']         = 'disabled';
         $options['show_visitor_votes_in_loop']   = 'disabled';
         $options['visitors_stats']               = 'yes';

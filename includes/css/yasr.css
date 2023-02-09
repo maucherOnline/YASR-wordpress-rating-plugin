@@ -204,8 +204,6 @@ yasr_pro_comment_reviews_stats shortcode too***/
     background-color: #ffce00;
 }
 
-
-
 /* Logs widget */
 
 .yasr-log-container {
@@ -261,4 +259,26 @@ yasr_pro_comment_reviews_stats shortcode too***/
 #yasr-log-page-navigation {
     padding-top: 7px;
     text-align: center;
+}
+
+/*** shortode yasr_display_posts***/
+.yasr-entry-title {
+    font-size: 33px;
+    font-weight: 300;
+    line-height: 1.0909090909;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+}
+
+.yasr-entry-meta {
+    clear: both;
+    color: #767676;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.3333333333;
+    text-transform: uppercase;
+}
+
+.yasr-entry-content {
+    margin: 10px 0 20px 10px;
 }

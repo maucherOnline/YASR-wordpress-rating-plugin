@@ -7,6 +7,7 @@ import metadataReviewers    from '../../../../includes/blocks/ranking-reviewers/
 import metadataRateHistory  from '../../../../includes/blocks/user-rate-history/block.json';
 import metadataRankingOv    from '../../../../includes/blocks/ranking-overall-rating/block.json';
 import metadataRankingVV    from '../../../../includes/blocks/ranking-visitor-votes/block.json';
+import metadataDisplayPosts from '../../../../includes/blocks/display-posts/block.json';
 
 
 import edit      from './registerBlockTypeEdit';
@@ -20,7 +21,8 @@ const allShortcodesMetadata = {
     topReviewers:    metadataReviewers,
     userRateHistory: metadataRateHistory,
     ovRanking:       metadataRankingOv,
-    vvRanking:       metadataRankingVV
+    vvRanking:       metadataRankingVV,
+    displayPosts:    metadataDisplayPosts
 }
 
 /**

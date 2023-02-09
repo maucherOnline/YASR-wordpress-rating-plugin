@@ -21,6 +21,9 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
+//The defines are inside a file, instead of a class, for better support PHPStorm auto-completion
+//https://youtrack.jetbrains.com/issue/WI-11390/Make-define-Constants-from-inside-methods-available-for-completion-everywhere.
+
 //e.g. http://localhost/plugin_development/wp-content/plugins/yet-another-stars-rating/includes/js/
 define('YASR_JS_DIR_INCLUDES', plugins_url() . '/' . YASR_RELATIVE_PATH_INCLUDES . '/js/');
 //CSS directory absolute URL
@@ -32,6 +35,8 @@ define('YASR_LOG_TABLE',              $wpdb->prefix . 'yasr_log');
 define('YASR_LOG_MULTI_SET',          $wpdb->prefix . 'yasr_log_multi_set');
 define('YASR_MULTI_SET_NAME_TABLE',   $wpdb->prefix . 'yasr_multi_set');
 define('YASR_MULTI_SET_FIELDS_TABLE', $wpdb->prefix . 'yasr_multi_set_fields');
+
+require YASR_ABSOLUTE_PATH . '/vendor/gamajo/template-loader/class-gamajo-template-loader.php';
 
 require YASR_ABSOLUTE_PATH_INCLUDES . '/yasr-includes-functions.php';
 require YASR_ABSOLUTE_PATH_INCLUDES . '/yasr-widgets.php';
@@ -62,19 +67,8 @@ function yasr_autoload_includes_classes($class) {
 //AutoLoad Yasr Classes, only when a object is created
 spl_autoload_register('yasr_autoload_includes_classes');
 
-//Get settings
-$settings         = new YasrSettingsValues();
-$general_settings = $settings->getGeneralSettings();
-$style_settings   = $settings->getStyleSettings();
-$multi_settings   = $settings->getMultiSettings();
-
-//do define based on the settings
-$do_define = new YasrDefineOptions();
-$do_define->generalSettings($general_settings); //set all the defines for general settings
-$do_define->styleSettings($style_settings);
-$do_define->multisetSettings($multi_settings);
-$do_define->onPluginsLoaded();
-$do_define->misc();
+//do defines
+require YASR_ABSOLUTE_PATH_INCLUDES . '/yasr-includes-defines.php';
 
 //run includes filters
 $yasr_includes_filter = new YasrIncludesFilters();
@@ -85,7 +79,8 @@ $load_script = new YasrScriptsLoader();
 $load_script->loadRequiredScripts();
 
 //support for caching plugins
-$yasr_includes_filter->cachingPluginSupport();
+$yasr_caching_plugin_support = new YasrCachingPlugins();
+$yasr_caching_plugin_support->cachingPluginSupport();
 
 //Init Ajax
 $init_ajax = new YasrShortcodesAjax();

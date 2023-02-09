@@ -110,17 +110,17 @@ class YasrShortcodesAjax {
 
         if (is_user_logged_in()) {
             //try to update first, if fails the do the insert
-            $result_update_log = $this->vvUpdateRating($post_id, $current_user_id, $rating, $ip_address);
+            $result_update_log = YasrDB::vvUpdateRating($post_id, $current_user_id, $rating, $ip_address);
 
             //insert the new row
             //use ! instead of === FALSE
             if (!$result_update_log) {
-                $result_insert_log = $this->vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
+                $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
             }
 
         } //if user is not logged in insert
         else {
-            $result_insert_log = $this->vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
+            $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
         }
 
         if ($result_update_log || $result_insert_log) {
@@ -134,66 +134,6 @@ class YasrShortcodesAjax {
 
         die(); // this is required to return a proper result
 
-    }
-
-    /**
-     * Save VV rating
-     *
-     * wpdb prepare not needed here
-     * https://wordpress.stackexchange.com/questions/25947/wpdb-insert-do-i-need-to-prepare-against-sql-injection
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  2.7.7
-     *
-     * @param $post_id
-     * @param $user_id
-     * @param $rating
-     * @param $ip_address
-     *
-     * @return bool|int
-     */
-    public function vvSaveRating($post_id, $user_id, $rating, $ip_address) {
-        global $wpdb;
-        return $wpdb->replace(
-            YASR_LOG_TABLE, array(
-                'post_id' => $post_id,
-                'user_id' => $user_id,
-                'vote'    => $rating,
-                'date'    => date('Y-m-d H:i:s'),
-                'ip'      => $ip_address
-            ), array('%d', '%d', '%d', '%s', '%s', '%s')
-        );
-    }
-
-    /**
-     * @author Dario Curvino <@dudo>
-     * @since  2.7.7
-     *
-     * @param $post_id
-     * @param $user_id
-     * @param $rating
-     * @param $ip_address
-     *
-     * @return bool|int
-     */
-    public function vvUpdateRating($post_id, $user_id, $rating, $ip_address) {
-        global $wpdb;
-
-        return $wpdb->update(
-            YASR_LOG_TABLE, array(
-                'post_id' => $post_id,
-                'user_id' => $user_id,
-                'vote'    => $rating,
-                'date'    => date('Y-m-d H:i:s'),
-                'ip'      => $ip_address
-            ),
-            array(
-                'post_id' => $post_id,
-                'user_id' => $user_id
-            ),
-            array('%d', '%d', '%d', '%s', '%s', '%s'),
-            array('%d', '%d')
-        );
     }
 
     /**
@@ -369,12 +309,16 @@ class YasrShortcodesAjax {
                 //if the user is logged
                 if(is_user_logged_in()) {
                     //first try to update the vote
-                    $update_query_success = $this->mvUpdateRating ($id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address);
+                    $update_query_success = YasrDB::mvUpdateRating(
+                        $id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address
+                    );
 
                     //use ! instead of === FALSE
                     if (!$update_query_success) {
                         //insert as new rating
-                        $insert_query_success = $this->mvSaveRating ($id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address);
+                        $insert_query_success = YasrDB::mvSaveRating(
+                            $id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address
+                        );
                         //if rating is not saved, it is an error
                         if (!$insert_query_success) {
                             $array_error[] = 1;
@@ -383,7 +327,9 @@ class YasrShortcodesAjax {
                 }
                 //else try to insert vote
                 else {
-                    $replace_query_success = $this->mvSaveRating ($id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address);
+                    $replace_query_success = YasrDB::mvSaveRating(
+                        $id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address
+                    );
                     //if rating is not saved, it is an error
                     if (!$replace_query_success) {
                         $array_error[] = 1;
@@ -411,79 +357,6 @@ class YasrShortcodesAjax {
         die($this->mvReturnResponse($post_id, $set_id));
 
     } //End callback function
-
-    /**
-     * Save rating for multi set visitor
-     *
-     * @author Dario Curvino <@dudo>
-     * @since 2.7.7
-     * @param $id_field
-     * @param $set_id
-     * @param $post_id
-     * @param $rating
-     * @param $user_id
-     * @param $ip_address
-     *
-     * @return bool|int
-     */
-    public function mvSaveRating ($id_field, $set_id, $post_id, $rating, $user_id, $ip_address) {
-        global $wpdb;
-
-        //no need to insert 'comment_id', it is 0 by default
-        return $wpdb->replace(
-            YASR_LOG_MULTI_SET,
-            array(
-                'field_id' => $id_field,
-                'set_type' => $set_id,
-                'post_id'  => $post_id,
-                'vote'     => $rating,
-                'user_id'  => $user_id,
-                'date'     => date('Y-m-d H:i:s'),
-                'ip'       => $ip_address
-            ),
-            array("%d", "%d", "%d", "%d", "%d", "%s", "%s")
-        );
-    }
-
-    /**
-     * Update rating for multi set visitor
-     *
-     * @author Dario Curvino <@dudo>
-     * @since 2.7.7
-     * @param $id_field
-     * @param $set_id
-     * @param $post_id
-     * @param $rating
-     * @param $user_id
-     * @param $ip_address
-     *
-     * @return bool|int
-     */
-    public function mvUpdateRating ($id_field, $set_id, $post_id, $rating, $user_id, $ip_address) {
-        global $wpdb;
-
-        //no need to insert 'comment_id', it is 0 by default
-        return $wpdb->update(
-            YASR_LOG_MULTI_SET,
-            array(
-                'field_id' => $id_field,
-                'set_type' => $set_id,
-                'post_id'  => $post_id,
-                'vote'     => $rating,
-                'user_id'  => $user_id,
-                'date'     => date( 'Y-m-d H:i:s' ),
-                'ip'       => $ip_address
-            ),
-            array(
-                'field_id' => $id_field,
-                'set_type' => $set_id,
-                'post_id'  => $post_id,
-                'user_id'  => $user_id
-            ),
-            array( "%d", "%d", "%d", "%d", "%d", "%s", "%s" ),
-            array( "%d", "%d", "%d", "%d" )
-        );
-    }
 
     /**
      * @author Dario Curvino <@dudo>

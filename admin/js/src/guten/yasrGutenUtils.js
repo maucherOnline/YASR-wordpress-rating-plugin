@@ -8,11 +8,14 @@ export const yasrSelectSizeChoose        = __('Stars size', 'yet-another-stars-r
 export const yasrSelectSizeSmall         = __('Small', 'yet-another-stars-rating');
 export const yasrSelectSizeMedium        = __('Medium', 'yet-another-stars-rating');
 export const yasrSelectSizeLarge         = __('Large', 'yet-another-stars-rating');
-
 export const yasrLeaveThisBlankText      = __('Leave this blank if you don\'t know what you\'re doing.', 'yet-another-stars-rating');
 
 export const yasrOverallDescription      = __('Remember: only the post author can rate here.', 'yet-another-stars-rating');
 export const yasrVisitorVotesDescription = __('This is the star set where your users will be able to vote', 'yet-another-stars-rating');
+
+export const yasrSortPostsRadioVVCount    = __("Visitors' ratings count", 'yet-another-stars-rating');
+export const yasrSortPostsRadioVVAverage = __("Visitors' average rating", 'yet-another-stars-rating');
+export const yasrSortPostsRadioOverall   = __("Authors' rating", 'yet-another-stars-rating');
 
 
 /**
@@ -50,6 +53,7 @@ export const YasrPrintInputId = (props) => {
                 onKeyPress={(e) => yasrSetPostId(props.setAttributes, e)} />
         </div>
     );
+
 }
 
 /**
@@ -59,21 +63,121 @@ export const YasrPrintInputId = (props) => {
  * @returns {JSX.Element}
  */
 export const YasrPrintSelectSize = (props) => {
+    const {size, setAttributes} = props;
+
     const yasrSetStarsSize = (setAttributes, event) => {
-        const selected = event.target.querySelector( 'option:checked' );
-        setAttributes( { size: selected.value } );
-        event.preventDefault();
+        setAttributes( { size: event.target.value} );
     }
 
     return (
         <form>
-            <select value={props.size} onChange={(e) => yasrSetStarsSize(props.setAttributes, e)}>
+            <select value={size} onChange={(e) => yasrSetStarsSize(setAttributes, e)}>
                 <option value="--">{yasrSelectSizeChoose}    </option>
                 <option value="small">{yasrSelectSizeSmall}  </option>
                 <option value="medium">{yasrSelectSizeMedium}</option>
                 <option value="large">{yasrSelectSizeLarge}  </option>
             </select>
         </form>
+    );
+}
+
+/**
+ * Return a radio group to select posts by a rating source
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export const YasrPrintRadioRatingSource = (props) => {
+    const {orderBy, setAttributes} = props;
+
+    const setRatingSource = (setAttributes, event) => {
+        setAttributes( {orderby: event.target.value} );
+    }
+
+    return (
+        <>
+            <fieldset onChange={(e) => setRatingSource(setAttributes, e)}>
+                <legend><strong>{__('Sort by:', 'yet-another-stars-rating')}</strong></legend>
+                <div className='yasr-indented-answer'>
+                    <div>
+                        <input type="radio" id="orderPostsVVCount" name="orderPostsratingSource" value="vv_count"
+                               checked={orderBy === 'vv_count'}/>
+                        <label htmlFor="orderPostsVVCount">{yasrSortPostsRadioVVCount}</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="orderPostsVVAverage" name="orderPostsratingSource" value="vv_average"
+                               checked={orderBy === 'vv_average'}/>
+                        <label htmlFor="orderPostsVVAverage">{yasrSortPostsRadioVVAverage}</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="orderPostsOverall" name="orderPostsratingSource" value="overall"
+                               checked={orderBy === 'overall'}/>
+                        <label htmlFor="orderPostsOverall">{yasrSortPostsRadioOverall}</label>
+                    </div>
+                </div>
+            </fieldset>
+            <p>&nbsp;</p>
+        </>
+    );
+}
+
+export const YasrPrintRadioRatingSort = (props) => {
+    const {sort, setAttributes} = props;
+
+    const sortRating = (setAttributes, event) => {
+        setAttributes( { sort: event.target.value } );
+    }
+
+    return (
+        <>
+            <fieldset onChange={(e) => sortRating(setAttributes, e)}>
+                <legend><strong>{__('Ordering', '')}</strong></legend>
+                <div className='yasr-indented-answer'>
+                    <div>
+                        <input type="radio" id="orderPostsDesc" name="orderPostsSort" value="desc" checked={sort === 'desc'}/>
+                        <label htmlFor="orderPostsDesc">{__('Higher first', 'yet-another-stars-rating')}</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="orderPostsASC" name="orderPostsSort" value="asc" checked={sort === 'asc'}/>
+                        <label htmlFor="orderPostsASC">{__('Lower first', 'yet-another-stars-rating')}</label>
+                    </div>
+                </div>
+            </fieldset>
+        <p>&nbsp;</p>
+        </>
+    );
+}
+
+/**
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export const YasrPrintSelectRatingPPP = (props) => {
+    const {postsPerPage, setAttributes} = props;
+
+    const setPostsPerPage = (setAttributes, event) => {
+        setAttributes( { postsPerPage: event.target.value } );
+    }
+
+    return (
+        <>
+            <strong>{__('Posts per page', 'yet-another-stars-rating')}</strong>
+            <div className='yasr-indented-answer'>
+                <select value={postsPerPage} onChange={(e) => setPostsPerPage(setAttributes, e)}>
+                    {Array.from({ length: 19 }, (_, index) => (
+                        <option key={index + 2} value={index + 2}>
+                            {index + 2}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        </>
     );
 }
 
@@ -187,20 +291,54 @@ export const YasrBlockPostidAttribute = (postId) => {
 };
 
 /**
+ * Return attribute sizeString
+
+ * @returns {(null | string)}
+ */
+export const YasrBlockDisplayPostsAttribute = (orderBy, sort, postsPerPage) => {
+    if(postsPerPage > 20) {
+        postsPerPage = 20;
+    }
+    if(postsPerPage < 2) {
+        postsPerPage = 2;
+    }
+
+    let string = '';
+    //vv_count is the default attribute, no need to show it
+    if(orderBy === 'vv_average' || orderBy === 'overall') {
+        string += ` orderby=${orderBy}`;
+    }
+
+    //desc is the default value, so do this only for asc
+    if(sort === 'asc') {
+        string += ` order=ASC`;
+    }
+
+    if(postsPerPage !== 10) {
+        string += ` posts_per_page=${postsPerPage}`;
+    }
+
+    return string;
+};
+
+/**
  * Return an object with block attributes
  *
  * @param blockName
  * @returns {object}
  */
-export const YasrSetBlockAttributes = (blockName) => {
+export const YasrSetBlockAttributes = (blockName,) => {
     let blockAttributes = {
-        className:     null, //class name for the main div
-        shortCode:     null, //shortcode
+        className:     null,  //class name for the main div
+        shortCode:     null,  //shortcode
         overallRating: false, //if the overall Rating div must be displayed or not
         hookName:      false,
-        panelSettings: true, //by default, the block <PanelBody title='Settings'> is shown
-        sizeAndId:     false //by default, the block <PanelBody title='Settings'> is shown
+        panelSettings: true,  //by default, the block <PanelBody title='Settings'> is shown
+        sizeAndId:     false, //by default, hide the settings for size and id
+        orderPosts:    false
     }
+
+    const postType = wp.data.select('core/editor').getCurrentPostType();
 
     if(blockName === 'yet-another-stars-rating/overall-rating') {
         blockAttributes.overallRating = true;
@@ -214,7 +352,7 @@ export const YasrSetBlockAttributes = (blockName) => {
         blockAttributes.className   =  'yasr-vv-block';
         blockAttributes.shortCode   =  'yasr_visitor_votes';
         blockAttributes.bottomDesc  = yasrVisitorVotesDescription;
-        blockAttributes.sizeAndId  = true;
+        blockAttributes.sizeAndId   = true;
     }
 
     if(blockName === 'yet-another-stars-rating/overall-rating-ranking') {
@@ -247,7 +385,67 @@ export const YasrSetBlockAttributes = (blockName) => {
         blockAttributes.panelSettings = false;
     }
 
+    if(blockName === 'yet-another-stars-rating/display-posts') {
+        blockAttributes.className =  'yasr-display-posts';
+        blockAttributes.shortCode =  'yasr_display_posts';
+        if(postType !== '' && postType !== 'page') {
+            blockAttributes.panelSettings = false;
+        }
+        blockAttributes.orderPosts = true;
+    }
+
     return blockAttributes;
+}
+
+/**
+ * Return the shortcode string, used in both edit and save function
+ *
+ * @param size
+ * @param context
+ * @param postId
+ * @param shortCode
+ * @param orderby
+ * @param sort
+ * @param postsPerPage
+ * @returns {string}
+ * @constructor
+ */
+export const YasrReturnShortcodeString = (size, context, postId, shortCode, orderby, sort, postsPerPage) => {
+    const postType = wp.data.select('core/editor').getCurrentPostType();
+
+    if(!shortCode) {
+        return '';
+    }
+
+    //do the string only if values are not falsy
+    let shortcodeString  = `[${shortCode || ''}`;
+
+    if(shortCode === 'yasr_visitor_votes' || 'yasr_overall_rating') {
+        let sizeAttribute    = YasrBlockSizeAttribute(size, context);
+        let postIdAttribute  = YasrBlockPostidAttribute(postId);
+
+        shortcodeString += `${sizeAttribute || ''}${postIdAttribute || ''}`;
+    }
+
+    if(shortCode === 'yasr_display_posts') {
+        if (postType !== 'page') {
+            if (context === 'save') {
+                //return nothing in frontend
+                return '';
+            }
+            else {
+                //return text in backend
+                return 'This shortcode can be used only on pages';
+            }
+        }
+
+        let orderByAttribute = YasrBlockDisplayPostsAttribute(orderby, sort, postsPerPage);
+        shortcodeString += `${orderByAttribute || ''}`;
+    }
+
+    shortcodeString += ']';
+
+    return shortcodeString
 }
 
 /**

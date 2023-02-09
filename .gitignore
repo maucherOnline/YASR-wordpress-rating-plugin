@@ -12,3 +12,10 @@ package-lock.json
 /vendor/psr/
 /vendor/symfony/
 /vendor/webmozart/
+/vendor/gamajo/template-loader/.editoconfig
+/vendor/gamajo/template-loader/.gitignore
+/vendor/gamajo/template-loader/.phpcs.xml.dist
+/vendor/gamajo/template-loader/CHANGELOG.md
+/vendor/gamajo/template-loader/composer.json
+/vendor/gamajo/template-loader/LICENSE
+/vendor/gamajo/template-loader/README.md

@@ -1,18 +1,21 @@
 const {useBlockProps}        = wp.blockEditor;
 
-import {YasrBlockPostidAttribute, YasrBlockSizeAttribute, YasrSetBlockAttributes} from "./yasrGutenUtils";
+import {
+    YasrReturnShortcodeString,
+    YasrSetBlockAttributes
+} from "./yasrGutenUtils";
 
 /**
  * The Save function to use into registerBlockTypeSave
  *
  * @param props
  * @param metadata
- * @returns {JSX.Element}
+ * @returns void | {JSX.Element}
  */
 const yasrSaveFunction = (props, metadata) => {
 
     //get attributes size and postId
-    const {attributes: {size, postId}} = props;
+    const {attributes: {size, postId, orderby, sort, postsPerPage}} = props;
 
     //get attributes name from metadata
     const {name} = metadata;
@@ -24,12 +27,10 @@ const yasrSaveFunction = (props, metadata) => {
         className: className,
     } );
 
-    let sizeAttribute   = YasrBlockSizeAttribute(size, 'save');
-    let postIdAttribute = YasrBlockPostidAttribute(postId);
+    const shortcodeString = YasrReturnShortcodeString(size, 'save', postId, shortCode, orderby, sort, postsPerPage);
 
     return (
-        //must no use spaces within vars here
-        <div {...blockProps}>[{shortCode}{sizeAttribute}{postIdAttribute}]</div>
+        <div {...blockProps}>{shortcodeString}</div>
     );
 
 };

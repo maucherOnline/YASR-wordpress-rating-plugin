@@ -30,6 +30,59 @@ if (!defined('ABSPATH')) {
 class YasrDB {
 
     /**
+     * @var null | int
+     */
+    private static $post_id                     = null;
+
+    /**
+     * @var null | int
+     */
+    private static $set_id                      = null;
+
+    /**
+     * @var null | int
+     */
+    private static $user_id                     = null;
+
+    /**
+     * @var null | array
+     * null in class declaration
+     * later updated as array
+     * Here I will save data from yasr_visitor_votes
+     * @see visitorVotes
+     */
+    private static $visitor_votes_data          = null;
+
+    /**
+     * @var null | int
+     * null in class declaration
+     * later updated as int
+     * Here I will save the rating if a logged-in user has rated
+     * @see vvCurrentUserRating
+     */
+    private static $current_user_rating_data    = null;
+
+    /**
+     * @var null|int
+     * null in class declaration
+     * later updated as array
+     * Here I will save the first multiset id
+     * @see returnFirstSetId
+     */
+    private static $first_set_id                = null;
+
+    /**
+     * @var null|array
+     * null in class declaration
+     * later updated as array
+     * Here I will save data from multisetFieldsAndID
+     * @see multisetFieldsAndID
+     */
+    private static $multiset_fields_and_id_data = null;
+
+
+
+    /**
      * Returns overall rating for single post or page
      *
      * @param $post_id void|bool|int
@@ -91,13 +144,19 @@ class YasrDB {
      *        'average'          = (int)average result
      *    )
      */
-    public static function visitorVotes ($post_id = false) {
-        global $wpdb;
-
+    public static function visitorVotes ($post_id=false) {
         //if values it's not passed get the post id, most of the cases and default one
         if (!is_int($post_id)) {
             $post_id = get_the_ID();
         }
+
+        //if self::$vv_fetched_post_id === ($post_id) means that this function has already run
+        //for the current post, and data was saved in self::$visitor_votes_data;
+        if(self::visitorVotesDataExists($post_id)) {
+            return self::$visitor_votes_data;
+        }
+
+        global $wpdb;
 
         $result = $wpdb->get_results(
             $wpdb->prepare(
@@ -128,6 +187,9 @@ class YasrDB {
             }
         }
 
+        self::$visitor_votes_data = $array_to_return;
+        self::$post_id            = $post_id;
+
         return $array_to_return;
     }
 
@@ -156,15 +218,19 @@ class YasrDB {
      * @return bool|int
      */
     public static function vvCurrentUserRating($post_id = false) {
-        global $wpdb;
-
-        $user_id      = get_current_user_id();
-
-        //just to be safe
+        //get current post id if not exists
         if (!is_int($post_id)) {
             $post_id = get_the_ID();
         }
 
+        $post_id = (int)$post_id;
+        $user_id = get_current_user_id();
+
+        if(self::currentUserRatingDataExists($post_id, $user_id)) {
+           return self::$current_user_rating_data;
+        }
+
+        global $wpdb;
         $rating = $wpdb->get_var(
             $wpdb->prepare(
                 "SELECT vote FROM "
@@ -177,10 +243,73 @@ class YasrDB {
         );
 
         if ($rating === null) {
+            self::$current_user_rating_data = null;
             return false;
         }
 
-        return (int)$rating;
+        $rating = (int)$rating;
+
+        self::$current_user_rating_data = $rating;
+        self::$post_id = $post_id;
+        self::$user_id = $user_id;
+        return $rating;
+    }
+
+    /**
+     * Save VV rating
+     * wpdb prepare not needed here
+     * https://wordpress.stackexchange.com/questions/25947/wpdb-insert-do-i-need-to-prepare-against-sql-injection
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.7.7
+     *
+     * @param $post_id
+     * @param $user_id
+     * @param $rating
+     * @param $ip_address
+     *
+     * @return bool|int
+     */
+    public static function vvSaveRating($post_id, $user_id, $rating, $ip_address) {
+        global $wpdb;
+        return $wpdb->replace(
+            YASR_LOG_TABLE, array(
+                'post_id' => $post_id,
+                'user_id' => $user_id,
+                'vote'    => $rating,
+                'date'    => date('Y-m-d H:i:s'),
+                'ip'      => $ip_address
+            ),
+            array('%d', '%d', '%d', '%s', '%s', '%s')
+        );
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  2.7.7
+     *
+     * @param $post_id
+     * @param $user_id
+     * @param $rating
+     * @param $ip_address
+     *
+     * @return bool|int
+     */
+    public static function vvUpdateRating($post_id, $user_id, $rating, $ip_address) {
+        global $wpdb;
+
+        return $wpdb->update(
+            YASR_LOG_TABLE, array(
+            'post_id' => $post_id,
+            'user_id' => $user_id,
+            'vote'    => $rating,
+            'date'    => date('Y-m-d H:i:s'),
+            'ip'      => $ip_address
+        ), array(
+            'post_id' => $post_id,
+            'user_id' => $user_id
+        ), array('%d', '%d', '%d', '%s', '%s', '%s'), array('%d', '%d')
+        );
     }
 
     /**
@@ -331,7 +460,7 @@ class YasrDB {
     public static function rankingMulti($set_id, $sql_atts = false) {
         global $wpdb;
         if ($set_id === null) {
-            $set_id = YASR_FIRST_SETID;
+            $set_id = self::returnFirstSetId();
         }
 
         $set_id = (int) $set_id;
@@ -436,7 +565,7 @@ class YasrDB {
         global $wpdb;
         //if set_id is not set (e.g. in rest parameter setid is not set)
         if ($set_id === null) {
-            $set_id = YASR_FIRST_SETID;
+            $set_id = self::returnFirstSetId();
         }
 
         $set_id = (int) $set_id;
@@ -486,6 +615,10 @@ class YasrDB {
      * @return false|int
      */
     public static function returnFirstSetId() {
+        if(self::$first_set_id !== null) {
+            return self::$first_set_id;
+        }
+
         global $wpdb;
         $set_id = false;
 
@@ -499,6 +632,8 @@ class YasrDB {
         if (is_array($result) && !empty($result[0]) && property_exists($result[0], 'set_id')) {
             $set_id = (int) $result[0]->set_id;
         }
+
+        self::$first_set_id = $set_id;
 
         return $set_id;
     }
@@ -709,7 +844,7 @@ class YasrDB {
      *         'id' => 0,
      *         'name' => 'Field 1',
      *         'average_rating' => 3.5
-     *          'number_of_votes' => 3
+     *         'number_of_votes' => 3
      *     ),
      *     array (
      *         'id' => 1,
@@ -789,6 +924,7 @@ class YasrDB {
 
     /**
      * This function returns a multidimensional array of multiset ID and Fields
+     *
      *    array (
      *        array (
      *            'id' => '0',
@@ -807,6 +943,10 @@ class YasrDB {
     public static function multisetFieldsAndID($set_id) {
         $set_id = (int)$set_id;
 
+        if(self::multisetFieldsAndIdDataExists($set_id)) {
+            return self::$multiset_fields_and_id_data;
+        }
+
         global $wpdb;
 
         $result = $wpdb->get_results(
@@ -821,8 +961,13 @@ class YasrDB {
         );
 
         if (empty($result)) {
+            self::$multiset_fields_and_id_data = null;
             return false;
         }
+
+        self::$multiset_fields_and_id_data = $result;
+        self::$set_id = $set_id;
+
         return $result;
     }
 
@@ -851,6 +996,77 @@ class YasrDB {
 
         return $wpdb->num_rows;
     }
+
+    /**
+     * Save rating for multi set visitor
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.7.7
+     *
+     * @param $id_field
+     * @param $set_id
+     * @param $post_id
+     * @param $rating
+     * @param $user_id
+     * @param $ip_address
+     *
+     * @return bool|int
+     */
+    public static function mvSaveRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address) {
+        global $wpdb;
+
+        //no need to insert 'comment_id', it is 0 by default
+        return $wpdb->replace(
+            YASR_LOG_MULTI_SET, array(
+            'field_id' => $id_field,
+            'set_type' => $set_id,
+            'post_id'  => $post_id,
+            'vote'     => $rating,
+            'user_id'  => $user_id,
+            'date'     => date('Y-m-d H:i:s'),
+            'ip'       => $ip_address
+        ), array("%d", "%d", "%d", "%d", "%d", "%s", "%s")
+        );
+    }
+
+
+    /**
+     * Update rating for multi set visitor
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  2.7.7
+     *
+     * @param $id_field
+     * @param $set_id
+     * @param $post_id
+     * @param $rating
+     * @param $user_id
+     * @param $ip_address
+     *
+     * @return bool|int
+     */
+    public static function mvUpdateRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address) {
+        global $wpdb;
+
+        //no need to insert 'comment_id', it is 0 by default
+        return $wpdb->update(
+            YASR_LOG_MULTI_SET, array(
+            'field_id' => $id_field,
+            'set_type' => $set_id,
+            'post_id'  => $post_id,
+            'vote'     => $rating,
+            'user_id'  => $user_id,
+            'date'     => date('Y-m-d H:i:s'),
+            'ip'       => $ip_address
+        ), array(
+            'field_id' => $id_field,
+            'set_type' => $set_id,
+            'post_id'  => $post_id,
+            'user_id'  => $user_id
+        ), array("%d", "%d", "%d", "%d", "%d", "%s", "%s"), array("%d", "%d", "%d", "%d")
+        );
+    }
+
 
     /**
      * Return the postmeta itemType
@@ -906,4 +1122,116 @@ class YasrDB {
         return $snippet_type;
     }
 
+    /**
+     * check if for the current post id, $visitor_votes_data already exists.
+     * This is needed to avoid duplicate query
+     * (e.g. if shortcode with same post_id is included more than once in the same post)
+     * @see visitorVotes
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.0
+     *
+     * @param $post_id
+     *
+     * @return bool
+     */
+    public static function visitorVotesDataExists($post_id) {
+        if(is_array(self::$visitor_votes_data) && (self::$post_id === $post_id)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * check if for the current post id, and current user id, $current_user_rating_data already exists.
+     * This is needed to avoid duplicate query
+     * (e.g. if shortcode with same post_id is included more than once in the same post)
+     * @see vvCurrentUserRating
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.0
+     *
+     * @param $post_id
+     * @param $user_id
+     *
+     * @return bool
+     */
+    public static function currentUserRatingDataExists($post_id, $user_id) {
+        if(is_int(self::$current_user_rating_data) && (self::$post_id === $post_id) && (self::$user_id === $user_id)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if for the current $set_id, multisetFieldsAndID has already run
+     * @see multisetFieldsAndID
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.0
+     *
+     * @param $set_id
+     *
+     * @return bool
+     */
+    public static function multisetFieldsAndIdDataExists($set_id) {
+        if (is_array(self::$multiset_fields_and_id_data) && (self::$set_id === $set_id)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This query must be used with hook posts_join_paged
+     * Select number of votes and rating from YASR_LOG_TABLE
+     *
+     * DOESN'T HAVE THE ORDER BY
+     * @see returnQueryOrderByPostsVV
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.0
+     * @return string
+     */
+    public static function returnQuerySelectPostsVV () {
+        global $wpdb;
+        return "LEFT JOIN
+            (
+                SELECT post_id, COUNT(post_id) AS number_of_votes, ROUND(SUM(vote) / COUNT(post_id), 1) AS rating
+                FROM " . YASR_LOG_TABLE . ", ". $wpdb->posts ." AS p 
+                WHERE post_id = p.ID
+                AND p.post_status = 'publish'
+                GROUP BY post_id
+                HAVING number_of_votes >= 1
+            )  rating ON rating.post_id = ". $wpdb->posts .".ID";
+    }
+
+    /**
+     * This query must be used with hook posts_orderby and after posts_join_paged
+     * Order the previous select values
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.0
+     *
+     * @param $order_by
+     * @param $order
+     *
+     * @return string
+     *@see returnQuerySelectPostsVV
+     */
+    public static function returnQueryOrderByPostsVV ($order_by, $order='DESC') {
+        $order = strtoupper($order);
+        if($order !== 'ASC') {
+            $order = 'DESC';
+        }
+
+        if($order_by === 'vv_highest') {
+            return " rating {$order}, number_of_votes {$order}";
+        }
+        else {
+            return " number_of_votes {$order}, rating {$order}";
+        }
+    }
 }

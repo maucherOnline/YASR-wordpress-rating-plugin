@@ -391,7 +391,6 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
             <?php
         }
 
-
     }
 
 }

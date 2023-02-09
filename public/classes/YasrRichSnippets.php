@@ -62,7 +62,7 @@ class YasrRichSnippets {
             $visitor_votes  = $vv_attributes;
         }
 
-        $script_type     = '<script type="application/ld+json">';
+        $script_type     = '<script type="application/ld+json" class="yasr-schema-graph">';
         $end_script_type = '</script>';
 
         $review_choosen = YasrDB::getItemType();
@@ -212,17 +212,14 @@ class YasrRichSnippets {
             $logo_image_url = YASR_PUBLISHER_LOGO;
             $post_image_url = $logo_image_url; //this will be overwritten if it has_post_thumbnail is true
 
-            $logo_image_url_absolute = $_SERVER['DOCUMENT_ROOT'] . parse_url(YASR_PUBLISHER_LOGO, PHP_URL_PATH);
-
-            $post_image_size = yasr_getimagesize($logo_image_url_absolute);
-            $logo_image_size = yasr_getimagesize($logo_image_url_absolute);
+            $post_image_size = yasr_getimagesize(YASR_PUBLISHER_LOGO);
+            $logo_image_size = yasr_getimagesize(YASR_PUBLISHER_LOGO);
         }
 
         //if exists featured image get the url and overwrite the variable
         if (has_post_thumbnail()) {
             $post_image_url          = wp_get_attachment_url(get_post_thumbnail_id());
-            $post_image_url_absolute = $_SERVER['DOCUMENT_ROOT'] . parse_url($post_image_url, PHP_URL_PATH);
-            $post_image_size         = yasr_getimagesize($post_image_url_absolute);
+            $post_image_size         = yasr_getimagesize($post_image_url);
         }
 
         return array (

@@ -2,13 +2,12 @@ const {Fragment}             = wp.element;
 const {useBlockProps}        = wp.blockEditor;
 
 import {
-    YasrBlockPostidAttribute,
-    YasrBlockSizeAttribute,
     YasrPrintSelectSize,
+    YasrReturnShortcodeString,
     YasrSetBlockAttributes
 } from "./yasrGutenUtils";
 
-import {YasrBlocksPanel} from "./yasrBlocksPanel";
+import {YasrBlocksPanel}     from "./yasrBlocksPanel";
 
 /**
  * Return the edit Function to be used in registerBlockType
@@ -17,17 +16,21 @@ import {YasrBlocksPanel} from "./yasrBlocksPanel";
  * @returns {JSX.Element}
  */
 const yasrEditFunction = (props) => {
-    const {attributes: {size, postId}, name, isSelected, setAttributes} = props;
+    const {attributes: {size, postId, orderby, sort, postsPerPage}, name, isSelected, setAttributes} = props;
 
-    const {className, shortCode, hookName, sizeAndId} = YasrSetBlockAttributes(name);
+    const {className, shortCode, hookName, sizeAndId, orderPosts} = YasrSetBlockAttributes(name);
 
     const panelAttributes = {
         block:         name,
         size:          size,
         postId:        postId,
+        orderBy:       orderby,
+        sort:          sort,
+        postsPerPage:  postsPerPage,
         setAttributes: setAttributes,
         hookName:      hookName,
-        sizeAndId:     sizeAndId
+        sizeAndId:     sizeAndId,
+        orderPosts:    orderPosts
     }
 
     const blockProps = useBlockProps( {
@@ -35,14 +38,13 @@ const yasrEditFunction = (props) => {
         name:      name
     } );
 
-    let sizeAttribute   = YasrBlockSizeAttribute(size, 'edit');
-    let postIdAttribute = YasrBlockPostidAttribute(postId);
+    const shortcodeString = YasrReturnShortcodeString(size, 'edit', postId, shortCode, orderby, sort, postsPerPage);
 
     return (
         <Fragment>
             {isSelected && <YasrBlocksPanel {...panelAttributes} /> }
             <div {...blockProps}>
-                [{shortCode}{sizeAttribute}{postIdAttribute}]
+                {shortcodeString}
                 {isSelected && sizeAndId && <YasrPrintSelectSize size={size} setAttributes={setAttributes} />}
             </div>
         </Fragment>

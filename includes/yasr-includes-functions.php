@@ -211,7 +211,7 @@ function yasr_unique_multidim_array($array, $key) {
  * @return bool
  */
 function yasr_check_valid_url($url) {
-    if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+    if (wp_http_validate_url($url) === false) {
         return false;
     }
 

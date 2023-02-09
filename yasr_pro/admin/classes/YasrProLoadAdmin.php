@@ -70,7 +70,7 @@ class YasrProLoadAdmin {
         }, 10, 2);
 
         //Change lock icon
-        add_filter('yasr_feature_locked', static function (){
+        add_filter('yasr_feature_locked', static function () {
             $text = __('You\'ve unlocked this feature!', 'yasr-pro');
             return '<span class="dashicons dashicons-unlock" title="'.$text.'"></span>';
         }, 10, 1);
@@ -79,6 +79,11 @@ class YasrProLoadAdmin {
         add_filter('yasr_feature_locked_html_attribute', static function (){
             return '';
         }, 10, 1);
+
+        //Change disabled attribute
+        add_filter('yasr_feature_locked_text', static function () {
+            return '';
+        });
 
         //Shows form in edit category page
         add_action('plugins_loaded', static function(){

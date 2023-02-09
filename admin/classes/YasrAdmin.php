@@ -80,6 +80,22 @@ class YasrAdmin {
         yasr_fs()->add_filter( 'reshow_trial_after_every_n_sec', static function ($thirty_days_in_sec) {
             return 2 * MONTH_IN_SECONDS;
         } );
+
+        /**
+         * Customize optin image
+         *
+         * https://freemius.com/help/documentation/wordpress-sdk/opt-in-message/#opt_in_icon_customization
+         */
+        yasr_fs()->add_filter( 'plugin_icon' , static function () {
+            return YASR_ABSOLUTE_PATH . '/includes/img/yet-another-stars-rating.png';
+        });
+
+        /*
+         * This will disable the feedback form when the plugin is disabled
+         *
+         * https://freemius.com/help/documentation/wordpress-sdk/gists/#disable_deactivation_feedback_form
+         */
+        yasr_fs()->add_filter( 'show_deactivation_feedback_form', '__return_false' );
     }
 
     /**
@@ -262,6 +278,9 @@ class YasrAdmin {
     /**
      * Update version number and backward compatibility
      *
+     * Since version 3.0.4 there is the class YasrSettingsValues, which return the default correct settings if not exists.
+     * So, when a new release has a new option, there is no more need to insert it here
+     *
      * @author Dario Curvino <@dudo>
      * @since  3.1.7
      * @return void
@@ -279,8 +298,6 @@ class YasrAdmin {
                     if(array_key_exists('text_before_overall', $yasr_stored_options)) {
                         $yasr_stored_options['text_before_overall'] =
                             str_replace('%overall_rating%', '%rating%', $yasr_stored_options['text_before_overall']);
-
-                        update_option('yasr_general_options', $yasr_stored_options);
                     }
                 }
 
@@ -291,11 +308,11 @@ class YasrAdmin {
                     if (array_key_exists('text_before_stars', $yasr_stored_options)) {
                         if($yasr_stored_options['text_before_stars'] === 0) {
                             $yasr_stored_options['text_before_overall']  = '';
-
-                            update_option('yasr_general_options', $yasr_stored_options);
                         }
                     }
                 }
+
+                update_option('yasr_general_options', $yasr_stored_options);
 
                 //In version 2.9.7 the column comment_id is added
                 //Remove Dec 2023

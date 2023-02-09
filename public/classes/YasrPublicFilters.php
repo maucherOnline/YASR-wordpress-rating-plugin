@@ -27,6 +27,15 @@ class YasrPublicFilters {
             });
         }
 
+        if(YASR_SORT_POSTS_BY === 'vv_most' || YASR_SORT_POSTS_BY === 'vv_highest') {
+            $this->orderPostsVisitorVotes();
+        }
+
+        //order posts by overall rating
+        if(YASR_SORT_POSTS_BY === 'overall') {
+            add_action('pre_get_posts', array($this, 'orderPostsOverallRating'));
+        }
+
     }
 
     /**
@@ -34,7 +43,7 @@ class YasrPublicFilters {
      *
      * @return bool|string|void
      */
-    public static function autoInsert($content) {
+    public function autoInsert($content) {
         //If this is a page and auto insert is excluded for pages, return
         if (YASR_AUTO_INSERT_EXCLUDE_PAGES === 'yes' && is_page()) {
             return $content;
@@ -56,12 +65,12 @@ class YasrPublicFilters {
             return $content;
         }
 
-        if(self::excludePostType() === true) {
+        if($this->excludePostType() === true) {
             return $content;
         }
 
         //add stars to the content
-        return self::addStarsToContent($content);
+        return $this->addStarsToContent($content);
 
     } //End function yasr_auto_insert_shortcode_callback
 
@@ -75,7 +84,7 @@ class YasrPublicFilters {
      *
      * @return bool
      */
-    public static function excludePostType() {
+    public function excludePostType() {
         //create an empty array
         $excluded_cpt = array();
 
@@ -109,7 +118,7 @@ class YasrPublicFilters {
      *
      * @return false|string
      */
-    public static function addStarsToContent ($content) {
+    public function addStarsToContent ($content) {
         $shortcode_align = YASR_AUTO_INSERT_ALIGN;
 
         //if it is not left, or right, default is center
@@ -130,56 +139,50 @@ class YasrPublicFilters {
         $content_and_stars = false;
 
         if (YASR_AUTO_INSERT_WHAT === 'overall_rating') {
-            switch (YASR_AUTO_INSERT_WHERE) {
-                case 'top':
-                    $content_and_stars = $overall_rating_code . $content;
-                    break;
-
-                case 'bottom':
-                    $content_and_stars = $content . $overall_rating_code;
-                    break;
-
-                case 'both' :
-                    $content_and_stars = $overall_rating_code . $content . $overall_rating_code;
-                    break;
-            } //End Switch
+            $content_and_stars = $this->returnStarsPlacement($overall_rating_code, $content);
         }
         elseif (YASR_AUTO_INSERT_WHAT === 'visitor_rating') {
-            switch (YASR_AUTO_INSERT_WHERE) {
-                case 'top':
-                    $content_and_stars = $visitor_votes_code . $content;
-                    break;
-
-                case 'bottom':
-                    $content_and_stars = $content . $visitor_votes_code;
-                    break;
-
-                case 'both':
-                    $content_and_stars = $visitor_votes_code . $content . $visitor_votes_code;
-                    break;
-            } //End Switch
+            $content_and_stars = $this->returnStarsPlacement($visitor_votes_code, $content);
         }
         elseif (YASR_AUTO_INSERT_WHAT === 'both') {
-            switch (YASR_AUTO_INSERT_WHERE) {
-                case 'top':
-                    $content_and_stars = $overall_rating_code . $visitor_votes_code . $content;
-                    break;
-
-                case 'bottom':
-                    $content_and_stars = $content . $overall_rating_code . $visitor_votes_code;
-                    break;
-
-                case 'both':
-                    $content_and_stars = $overall_rating_code . $visitor_votes_code .
-                        $content .
-                        $overall_rating_code . $visitor_votes_code;
-                    break;
-            } //End Switch
+            $stars = $overall_rating_code . $visitor_votes_code;
+            $content_and_stars = $this->returnStarsPlacement($stars, $content);
         }
 
         return $content_and_stars;
     }
 
+    /**
+     * Helper method for addStarsToContent which returns the stars before, after or before AND after the posts,
+     * according to YASR_AUTO_INSERT_WHERE
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.0
+     *
+     * @param $stars
+     * @param $content
+     *
+     * @return string
+     */
+    private function returnStarsPlacement($stars, $content) {
+        $content_and_stars = false;
+
+        switch (YASR_AUTO_INSERT_WHERE) {
+            case 'top':
+                $content_and_stars = $stars . $content;
+                break;
+
+            case 'bottom':
+                $content_and_stars = $content . $stars;
+                break;
+
+            case 'both' :
+                $content_and_stars = $stars . $content . $stars;
+                break;
+        } //End Switch
+
+        return $content_and_stars;
+    }
 
     /**
      * @since 2.4.3
@@ -306,7 +309,7 @@ class YasrPublicFilters {
 
 
         //Use this hook to customize widget overall
-        //if doesn't exists a filter for yasr_title_overall_widget, put $overall_widget into $content_after_title
+        //if it doesn't exist a filter for yasr_title_overall_widget, put $overall_widget into $content_after_title
         return apply_filters('yasr_title_overall_widget', $overall_widget, $overall_rating);
     }
 
@@ -327,4 +330,106 @@ class YasrPublicFilters {
             return $more_link_element;
         },9999,1);
     }
+
+    public function orderPostsVisitorVotes() {
+        if (!is_admin()) {
+            add_action('posts_join_paged', array($this, 'joinQueryPostsVV'), 10, 2);
+            add_action('posts_orderby', array($this, 'orderQueryPostsVV'), 10, 2);
+        }
+    }
+
+    /**
+     * Do a left join with the main query
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.0
+     *
+     * @param $join
+     * @param $query
+     *
+     * @return string
+     */
+    public function joinQueryPostsVV($join, $query) {
+        if ($this->canSortCurrentArchive($query)) {
+            $join .= YasrDB::returnQuerySelectPostsVV();
+            return $join;
+        }
+        return $join;
+    }
+
+    /**
+     * Add the order by clause
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.0
+     *
+     * @param $orderby
+     * @param $query
+     *
+     * @return string
+     */
+    public function orderQueryPostsVV($orderby, $query) {
+        if ($this->canSortCurrentArchive($query)) {
+            return YasrDB::returnQueryOrderByPostsVV(YASR_SORT_POSTS_BY);
+        }
+        return $orderby;
+    }
+
+    /**
+     * Hooks into pre_get_posts and order posts by Overall Rating
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.0
+     *
+     * @param $query
+     *
+     * @return void
+     */
+    public function orderPostsOverallRating($query) {
+        if($this->canSortCurrentArchive($query)) {
+            $query->set('meta_key', 'yasr_overall_rating');
+            $query->set('orderby', 'meta_value_num');
+            $query->set('order', 'DESC');
+        }
+    }
+
+    /**
+     * Return true if the current archive can be sorted, or false otherwise
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.0
+     *
+     * @param $query
+     *
+     * @return bool
+     */
+    public function canSortCurrentArchive ($query) {
+        //be sure that I'm not hooking into admin && $query->is_main_query()
+        // from the doc:
+        // With the $query->is_main_query() conditional from the query object you can target the main query of a page request.
+        // The main query is used by the primary post loop that displays the main content for a post, page or archive.
+        if (!is_admin() && $query->is_main_query() ) {
+            $archives_to_sort = json_decode(YASR_SORT_POSTS_IN);
+
+            //archives_to_sort is stored with the function name, something like:
+            //is_home, is_archive, is_tag
+            if (is_array($archives_to_sort)) {
+                foreach ($archives_to_sort as $archive) {
+                    //to be safe, check the archive (function name) again
+                    if ($archive === 'is_home' || $archive === 'is_category' || $archive === 'is_tag') {
+                        //I check here that the function is callable
+                        if (is_callable($archive)) {
+                            //adding to a var the () , will call a function with that name
+                            //https://www.php.net/manual/en/functions.variable-functions.php
+                            if ($archive()) {
+                                return true;
+                            }
+                        }
+                    }
+                } //end foreach
+            }
+        }
+        return false;
+    }
+
 }

@@ -9,10 +9,13 @@ import {
     yasrLeaveThisBlankText,
     yasrOptionalText,
     YasrDivRatingOverall,
-    YasrPrintInputId,
-    YasrPrintSelectSize,
     YasrNoSettingsPanel,
-    YasrSetBlockAttributes
+    YasrSetBlockAttributes,
+    YasrPrintSelectSize,
+    YasrPrintInputId,
+    YasrPrintRadioRatingSource,
+    YasrPrintRadioRatingSort,
+    YasrPrintSelectRatingPPP
 } from "./yasrGutenUtils";
 
 /**
@@ -22,14 +25,14 @@ import {
  * @return {JSX.Element}
  */
 export const YasrBlocksPanel = (props) => {
-    const {block: name, hookName, sizeAndId} = props;
+    const {block: name, hookName, sizeAndId, orderPosts} = props;
 
     const {overallRating, panelSettings, bottomDesc} = YasrSetBlockAttributes(name);
 
     //Create an empty element to hook into
     let hookedDiv = <></>;
 
-    //if an hook name exists, wp.hooks.doAction
+    //if a hook name exists, wp.hooks.doAction
     if(hookName !== false) {
         hookedDiv = [<YasrNoSettingsPanel key={0}/>];
         {wp.hooks.doAction(hookName, hookedDiv)}
@@ -40,6 +43,7 @@ export const YasrBlocksPanel = (props) => {
         return <></>;
     }
 
+
     return (
         <InspectorControls>
             {
@@ -48,10 +52,21 @@ export const YasrBlocksPanel = (props) => {
             }
             <PanelBody title='Settings'>
                 {hookedDiv}
-                {
-                    //Return block settings if needed
-                    panelSettings && sizeAndId && <YasrPanelSizeAndId {...props} />
-                }
+                {panelSettings && (
+                    <>
+                        {sizeAndId && (
+                            <YasrPanelSizeAndId {...props} />
+                        )}
+                        {orderPosts && (
+                            <>
+                                <YasrPrintRadioRatingSource {...props} />
+                                <YasrPrintRadioRatingSort {...props} />
+                                <YasrPrintSelectRatingPPP {...props} />
+                            </>
+                        )}
+                    </>
+                )}
+
                 <div className="yasr-guten-block-panel">
                     {bottomDesc}
                 </div>
@@ -78,7 +93,7 @@ const YasrPanelSizeAndId = (props) => {
     return (
         <>
             <h3>{yasrOptionalText}</h3>
-            <YasrSelectSizeDiv   {...blockAttributes} />
+            <YasrSelectSizeDiv   {...props} />
             <YasrPrintInputIdDiv {...blockAttributes} />
         </>
     );
@@ -120,3 +135,4 @@ const YasrPrintInputIdDiv = (props) => {
         </div>
     )
 }
+

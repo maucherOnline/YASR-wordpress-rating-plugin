@@ -168,7 +168,7 @@ class YasrScriptsLoader {
             true
         );
 
-        if (defined('YASR_CATCH_INFINITE_SCROLL_INSTALLED') && YASR_CATCH_INFINITE_SCROLL_INSTALLED === true) {
+        if (defined('YASR_CATCH_INFINITE_SCROLL_INSTALLED') && yasr_is_catch_infinite_sroll_installed() === true) {
             $array_dep = array('jquery', 'yasr-global-functions', 'yasr-window-var', 'wp-element');
 
             //laod tippy only if the shortcode has loaded it
@@ -470,7 +470,7 @@ class YasrScriptsLoader {
             $use_register_post_type = true;
         }
 
-        $this->register_blocks($use_register_post_type);
+        $this->registerBlocks($use_register_post_type);
     }
 
 
@@ -480,7 +480,7 @@ class YasrScriptsLoader {
      *
      * @param bool $use_register_post_type
      */
-    private function register_blocks($use_register_post_type = false) {
+    private function registerBlocks($use_register_post_type = false) {
 
         //get all content in the dir
         $scan = scandir(YASR_ABSOLUTE_BLOCKS_PATH);

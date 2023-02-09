@@ -56,7 +56,6 @@ class YasrSettings {
          *  Since 0.8.9
          */
         add_filter('admin_footer_text', array($this, 'customFooter'));
-
     }
 
     /**
@@ -70,6 +69,8 @@ class YasrSettings {
             array($this, 'sanitize')
         );
 
+        //Do not use defines here, use $options instead!
+        //Otherwise, default values for a disabled setting will not show
         $settings  = new YasrSettingsValues();
         $options   = $settings->getGeneralSettings();
 
@@ -105,16 +106,16 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_visitors_stats', $this->descriptionVVStats(),
-            array($this, 'vvStats'),
+            'yasr_allow_only_logged_in_id', $this->descriptionAllowVote(),
+            array($this, 'loggedOnly'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
             $options
         );
 
         add_settings_field(
-            'yasr_allow_only_logged_in_id', $this->descriptionAllowVote(),
-            array($this, 'loggedOnly'),
+            'yasr_visitors_stats', $this->descriptionVVStats(),
+            array($this, 'vvStats'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
             $options
@@ -145,7 +146,6 @@ class YasrSettings {
             'yasr_general_options_section_id',
             $options
         );
-
     }
 
     /**
@@ -160,6 +160,7 @@ class YasrSettings {
      * @param $option
      */
     public function autoInsert($option) {
+        $class   = 'yasr-auto-insert-options-class';
         ?>
         <div>
             <strong>
@@ -176,7 +177,7 @@ class YasrSettings {
                 </label>
             </div>
 
-            <div class="yasr-settings-row-35">
+            <div class="yasr-settings-row-33">
                 <div>
                     <?php
                     $option_title = __('What?', 'yet-another-stars-rating');
@@ -187,7 +188,6 @@ class YasrSettings {
                     );
                     $default = $option['auto_insert_what'];
                     $name    = 'yasr_general_options[auto_insert_what]';
-                    $class   = 'yasr-auto-insert-options-class';
 
                     echo yasr_kses(
                         YasrPhpFieldsHelper::radio($option_title, $class, $array_options, $name, $default)
@@ -204,7 +204,6 @@ class YasrSettings {
                         );
                         $default = $option['auto_insert_where'];
                         $name    = 'yasr_general_options[auto_insert_where]';
-                        $class   = 'yasr-auto-insert-options-class';
 
                         echo yasr_kses(
                             YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
@@ -221,7 +220,6 @@ class YasrSettings {
                         );
                         $default = $option['auto_insert_align'];
                         $name    = 'yasr_general_options[auto_insert_align]';
-                        $class   = 'yasr-auto-insert-options-class';
 
                         echo yasr_kses(
                             YasrPhpFieldsHelper::radio($option_title, $class, $array_options, $name, $default)
@@ -234,11 +232,10 @@ class YasrSettings {
                     </strong>
                     <?php
                         $name  = 'yasr_general_options[auto_insert_size]';
-                        $class = 'yasr-auto-insert-options-class';
                         $id    = 'yasr-auto-insert-options-stars-size-';
 
                         echo yasr_kses(
-                            self::radioSelectSize($name, $class, $option['auto_insert_size'], $id)
+                            self::radioSelectSize($name, $class, $option['auto_insert_size'], $id, false)
                         );
                     ?>
                 </div>
@@ -251,7 +248,6 @@ class YasrSettings {
                         );
                         $default = $option['auto_insert_exclude_pages'];
                         $name    = 'yasr_general_options[auto_insert_exclude_pages]';
-                        $class   = 'yasr-auto-insert-options-class';
 
                         echo yasr_kses(
                             YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
@@ -269,7 +265,6 @@ class YasrSettings {
                             );
                             $default = $option['auto_insert_custom_post_only'];
                             $name    = 'yasr_general_options[auto_insert_custom_post_only]';
-                            $class   = 'yasr-auto-insert-options-class';
 
                             echo yasr_kses(
                                 YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
@@ -304,6 +299,7 @@ class YasrSettings {
      * @param $option
      */
     public function starsTitle($option) {
+        $class   = 'yasr-stars-title-options-class';
         ?>
         <div>
             <div class="yasr-onoffswitch-big">
@@ -316,17 +312,16 @@ class YasrSettings {
                     <span class="yasr-onoffswitch-switch"></span>
                 </label>
             </div>
-            <div class="yasr-settings-row-35">
+            <div class="yasr-settings-row-33">
                 <div>
                     <?php
                         $option_title = __('What?', 'yet-another-stars-rating');
                         $array_options = array (
                             'visitor_rating'  => __('Visitor Votes', 'yet-another-stars-rating'),
-                            'overall_rating'  => __('Overall Rating / Author Rating', 'yet-another-stars-rating'),
+                            'overall_rating'  => __('Overall Rating', 'yet-another-stars-rating'),
                         );
                         $default = $option['stars_title_what'];
                         $name    = 'yasr_general_options[stars_title_what]';
-                        $class   = 'yasr-stars-title-options-class';
 
                         echo yasr_kses(
                             YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
@@ -342,14 +337,13 @@ class YasrSettings {
                     );
                     $default = $option['stars_title_exclude_pages'];
                     $name    = 'yasr_general_options[stars_title_exclude_pages]';
-                    $class   = 'yasr-stars-title-options-class';
 
                     echo yasr_kses(
                         YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
                     );
                     ?>
                 </div>
-                <div style="flex: 0 0 50%">
+                <div>
                     <?php
                     $option_title = __('Where do you want show ratings?', 'yet-another-stars-rating');
                     $array_options = array (
@@ -359,7 +353,6 @@ class YasrSettings {
                     );
                     $default = $option['stars_title_where'];
                     $name    = 'yasr_general_options[stars_title_where]';
-                    $class   = 'yasr-stars-title-options-class';
 
                     echo yasr_kses(
                         YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
@@ -377,7 +370,7 @@ class YasrSettings {
     }
 
     /**
-     * Display options for stars in archive pages
+     * Display options for archive pages
      *
      * @author Dario Curvino <@dudo>
      * @param $option
@@ -387,46 +380,149 @@ class YasrSettings {
         <div class="yasr-settings-row-45">
             <div>
                 <strong>
-                    <?php esc_html_e('Show "Overall Rating" in Archive Pages?', 'yet-another-stars-rating'); ?>
+                    <?php esc_html_e('Do you want to order posts by ratings?', 'yet-another-stars-rating'); ?>
                 </strong>
-                <div class="yasr-onoffswitch-big">
-                    <input type="checkbox" name="yasr_general_options[show_overall_in_loop]" class="yasr-onoffswitch-checkbox"
-                           id="yasr-show-overall-in-loop-switch" <?php if($option['show_overall_in_loop'] === 'enabled') {
-                        echo " checked='checked' ";
-                    } ?> >
-                    <label class="yasr-onoffswitch-label" for="yasr-show-overall-in-loop-switch">
-                        <span class="yasr-onoffswitch-inner"></span>
-                        <span class="yasr-onoffswitch-switch"></span>
-                    </label>
-                </div>
-                <br/>
-                <?php esc_html_e('Enable to show "Overall Rating" in archive pages.','yet-another-stars-rating') ?>
-            </div>
+                <?php
+                    $array_options = array(
+                        'no'         => __('No', 'yet-another-stars-rating'),
+                        'vv_most'    => __("Sort by Visitors' ratings count", 'yet-another-stars-rating'),
+                        'vv_highest' => __("Sort by Visitors' average rating", 'yet-another-stars-rating'),
+                        'overall'    => __("Sort by Authors' rating", 'yet-another-stars-rating'),
+                    );
+                    $default       = $option['sort_posts_by'];
+                    $name          = 'yasr_general_options[sort_posts_by]';
+                    $class         = 'yasr-settings-archive-pages';
 
+                    echo yasr_kses(
+                        YasrPhpFieldsHelper::radio(false, $class, $array_options, $name, $default)
+                    );
+                    ?>
+
+                <div id="yasr-sort-posts-list-archives" class="yasr-sort-posts-list-archives">
+                    <strong style="vertical-align: bottom;">
+                        <?php esc_html_e('Apply to:', 'yet-another-stars-rating') ?>
+                    </strong>
+                    <span>
+                        <label for="yasr-sort-posts-homepage">
+                            <input
+                                type="checkbox"
+                                id="yasr-sort-posts-homepage"
+                                value="is_home"
+                                name="yasr_general_options[sort_posts_in][]"
+                                <?php echo in_array('is_home', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                            >
+                            <?php esc_html_e('Home Page', 'yet-another-stars-rating');?>
+                        </label>
+                    </span>
+                    <span>
+                        <label for="yasr-sort-posts-categories">
+                            <input type="checkbox"
+                                   id="yasr-sort-posts-categories"
+                                   value="is_category"
+                                   name="yasr_general_options[sort_posts_in][]"
+                                   <?php echo in_array('is_category', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                            >
+                            <?php esc_html_e('Categories', 'yet-another-stars-rating');?>
+                        </label>
+                    </span>
+                    <span>
+                        <label for="yasr-sort-posts-tags">
+                            <input type="checkbox"
+                                   id="yasr-sort-posts-tags"
+                                   value="is_tag"
+                                   name="yasr_general_options[sort_posts_in][]"
+                                   <?php echo in_array('is_tag', $option['sort_posts_in']) ? 'checked' : ''; ?>
+                            >
+                            <?php esc_html_e('Tags', 'yet-another-stars-rating');?>
+                        </label>
+                    </span>
+                </div>
+            </div>
+        
             <div>
-                <strong>
-                    <?php esc_html_e('Show "Visitor Votes" in Archive Page?', 'yet-another-stars-rating') ?>
-                </strong>
-                <div class="yasr-onoffswitch-big">
-                    <input type="checkbox" name="yasr_general_options[show_visitor_votes_in_loop]" class="yasr-onoffswitch-checkbox"
-                           id="yasr-show-visitor-votes-in-loop-switch" <?php if ($option['show_visitor_votes_in_loop'] === 'enabled') {
-                        echo " checked='checked' ";
-                    } ?> >
-                    <label class="yasr-onoffswitch-label" for="yasr-show-visitor-votes-in-loop-switch">
-                        <span class="yasr-onoffswitch-inner"></span>
-                        <span class="yasr-onoffswitch-switch"></span>
-                    </label>
+                <div>
+                    <span>
+                        <strong>
+                            <?php esc_html_e('Show "Overall Rating" in Archive Pages?', 'yet-another-stars-rating'); ?>
+                        </strong>
+                    </span>
+                    <div class="yasr-onoffswitch-big">
+                        <input type="checkbox" name="yasr_general_options[show_overall_in_loop]" class="yasr-onoffswitch-checkbox"
+                            id="yasr-show-overall-in-loop-switch" <?php if($option['show_overall_in_loop'] === 'enabled') {
+                            echo " checked='checked' ";
+                        } ?> >
+                        <label class="yasr-onoffswitch-label" for="yasr-show-overall-in-loop-switch">
+                            <span class="yasr-onoffswitch-inner"></span>
+                            <span class="yasr-onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                    <div class="yasr-element-row-container-description">
+                        <?php
+                            esc_html_e('Enable to show "Overall Rating" in archive pages.','yet-another-stars-rating');
+                        ?>
+                    </div>
                 </div>
-                <br/>
-                <?php esc_html_e('Enable to show "Visitor Votes" in archive pages','yet-another-stars-rating') ?>
+                <div>
+                    <span>
+                        <strong>
+                            <?php esc_html_e('Show "Visitor Votes" in Archive Page?', 'yet-another-stars-rating') ?>
+                        </strong>
+                    </span>
+                    <div class="yasr-onoffswitch-big">
+                        <input type="checkbox" name="yasr_general_options[show_visitor_votes_in_loop]" class="yasr-onoffswitch-checkbox"
+                            id="yasr-show-visitor-votes-in-loop-switch" <?php if ($option['show_visitor_votes_in_loop'] === 'enabled') {
+                            echo " checked='checked' ";
+                        } ?> >
+                        <label class="yasr-onoffswitch-label" for="yasr-show-visitor-votes-in-loop-switch">
+                            <span class="yasr-onoffswitch-inner"></span>
+                            <span class="yasr-onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                    <div class="yasr-element-row-container-description">
+                        <?php
+                            esc_html_e('Enable to show "Visitor Votes" in archive pages','yet-another-stars-rating');
+                        ?>
+                    </div>
+                </div>
             </div>
-
         </div>
         <p>&nbsp;</p>
         <hr>
         <?php
 
     }
+
+    /**
+     * Display options for choose who is allowed to votes
+     *
+     * @author Dario Curvino <@dudo>
+     * @param $option
+     */
+    public function loggedOnly($option) {
+        ?>
+        <div class="yasr-settings-padding-left">
+            <?php
+            $array_options = array(
+                'logged_only' => __('Allow only logged-in users', 'yet-another-stars-rating' ),
+                'allow_anonymous'  => __('Allow everybody (logged in and anonymous)', 'yet-another-stars-rating' ),
+            );
+            $default       = $option['allowed_user'];
+            $name          = 'yasr_general_options[allowed_user]';
+            $class         = 'yasr_auto_insert_loggedonly';
+
+            echo yasr_kses(
+                YasrPhpFieldsHelper::radio( false, $class, $array_options, $name, $default )
+            );
+            ?>
+            <br />
+            <?php
+                submit_button(YASR_SAVE_All_SETTINGS_TEXT);
+            ?>
+        </div>
+        <hr />
+        <?php
+
+    } //End function
 
     /**
      * Display options for vvStats
@@ -466,48 +562,10 @@ class YasrSettings {
                      alt="yasr-statsexplained">
             </div>
         </div>
-        <?php
-            submit_button(YASR_SAVE_All_SETTINGS_TEXT);
-        ?>
         <hr />
         <?php
 
     }
-
-    /**
-     * Display options for choose who is allowed to votes
-     *
-     * @author Dario Curvino <@dudo>
-     * @param $option
-     */
-    public function loggedOnly($option) {
-        ?>
-        <div class="yasr-settings-padding-left">
-            <?php
-            $array_options = array(
-                'logged_only' => __('Allow only logged-in users', 'yet-another-stars-rating' ),
-                'allow_anonymous'  => __('Allow everybody (logged in and anonymous)', 'yet-another-stars-rating' ),
-            );
-            $default       = $option['allowed_user'];
-            $name          = 'yasr_general_options[allowed_user]';
-            $class         = 'yasr_auto_insert_loggedonly';
-
-            echo yasr_kses(
-                YasrPhpFieldsHelper::radio( false, $class, $array_options, $name, $default )
-            );
-            ?>
-            <br />
-            <div class="yasr-indented-answer">
-                <?php
-                    esc_html_e('Select who can rate your posts.','yet-another-stars-rating')
-                ?>
-            </div>
-        </div>
-        <p>&nbsp;</p>
-        <hr />
-        <?php
-
-    } //End function
 
     /**
      * Display options for rich snippets
@@ -733,7 +791,7 @@ class YasrSettings {
                         Not required for yasr_overall_rating and yasr_multiset.',
                         'yet-another-stars-rating'
                     );
-                    $caching_plugin = new YasrFindCachingPlugins();
+                    $caching_plugin = new YasrCachingPlugins();
                     $caching_plugin_found = $caching_plugin->cachingPluginFound();
                     if($caching_plugin_found !== false) {
                         echo wp_kses_post('<div class="yasr-element-row-container-description">'.
@@ -783,20 +841,18 @@ class YasrSettings {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @param $option
+     * @param $options
      *
      * @return array
      */
-    public function sanitize($option) {
+    public function sanitize($options) {
         //Array to return
         $output = array();
 
-        $tidy_installed = self::isTidyInstalled();
-
         // Loop through each of the incoming options
-        foreach ($option as $key => $value) {
+        foreach ($options as $key => $option) {
             // Check to see if the current option has a value. If so, process it.
-            if (isset($option[$key])) {
+            if (isset($option)) {
                 //Tags are not allowed for any fields
                 $allowed_tags = '';
 
@@ -809,23 +865,27 @@ class YasrSettings {
                     $allowed_tags = '<strong><p>';
 
                     // handle quoted strings and allow some tags
-                    $output[$key] = strip_tags(stripslashes($option[$key]), $allowed_tags);
+                }
 
-                    //if tidy extension is enabled, fix errors in html
-                    if ($tidy_installed === true) {
-                        $tidy         = new Tidy();
-                        $output[$key] = $tidy->repairString($output[$key], array('show-body-only' => true));
+                //sort posts in is an array, so loop it
+                if($key === 'sort_posts_in') {
+                    if(is_array($option)) {
+                        foreach ($option as $archive_name) {
+                            $output[$key][] = strip_tags(stripslashes($archive_name), $allowed_tags);
+                        }
+                    } else {
+                        //if there is only one element checked, it is not an array, here I cast
+                        // yasr_general_option[sort_posts_in] into an array of 1 element
+                        $output[$key][] = strip_tags(stripslashes($option), $allowed_tags);
                     }
-
                 }
                 else {
-                    // handle quoted strings and allow no tags
-                    $output[$key] = strip_tags(stripslashes($option[$key]), $allowed_tags);
+                    $output[$key] = strip_tags(stripslashes($option), $allowed_tags);
                 }
 
                 if ($key === 'publisher_logo') {
                     //if is not a valid url get_site_icon_url instead
-                    if (filter_var($value, FILTER_VALIDATE_URL) === false) {
+                    if (yasr_check_valid_url($option)) {
                         $output[$key] = get_site_icon_url();
                     }
                 }
@@ -852,6 +912,11 @@ class YasrSettings {
         //if exists value must be 1
         else {
             $output['stars_title'] = 'yes';
+        }
+
+        //if sort_post_in doesn't exist, cast into a single element array
+        if(!array_key_exists('sort_posts_in', $output)) {
+            $output['sort_posts_in'] = array('is_home');
         }
 
         //Same as above but for [show_overall_in_loop] key
@@ -1163,32 +1228,12 @@ class YasrSettings {
         $name = esc_html__('Archive Pages', 'yet-another-stars-rating');
 
         $div_desc = '<div class="yasr-settings-description">';
-        $description
-                  = esc_html__(
-            'Enable or disable these settings if you want to show ratings in archive pages (categories, tags, etc.)',
+        $description = esc_html__(
+            'Here you can order your posts by ratings (please note that this may not work with all themes) 
+            and enable/disable ratings in your archive pages (homepage, categories, tags, etc.)',
             'yet-another-stars-rating'
         );
         $end_div  = '.</div>';
-
-        return $name . $div_desc . $description . $end_div;
-    }
-
-    /**
-     * @author Dario Curvino <@dudo>
-     * @since  2.6.6
-     * @return string
-     */
-    public function descriptionVVStats() {
-        $name = esc_html__('Show stats for visitors votes?', 'yet-another-stars-rating');
-
-        $div_desc    = '<div class="yasr-settings-description">';
-        $description = sprintf(
-            esc_html__(
-                'Enable or disable the chart bar icon (and tooltip hover it) next to the %syasr_visitor_votes%s shortcode',
-                'yet-another-stars-rating'
-            ), '<em>', '</em>'
-        );
-        $end_div     = '.</div>';
 
         return $name . $div_desc . $description . $end_div;
     }
@@ -1207,6 +1252,26 @@ class YasrSettings {
                 'Select who can rate your posts for %syasr_visitor_votes%s and %syasr_visitor_multiset%s shortcodes',
                 'yet-another-stars-rating'
             ), '<em>', '</em>', '<em>', '</em>'
+        );
+        $end_div     = '.</div>';
+
+        return $name . $div_desc . $description . $end_div;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  2.6.6
+     * @return string
+     */
+    public function descriptionVVStats() {
+        $name = esc_html__('Show stats for visitors votes?', 'yet-another-stars-rating');
+
+        $div_desc    = '<div class="yasr-settings-description">';
+        $description = sprintf(
+            esc_html__(
+                'Enable or disable the chart bar icon (and tooltip hover it) next to the %syasr_visitor_votes%s shortcode',
+                'yet-another-stars-rating'
+            ), '<em>', '</em>'
         );
         $end_div     = '.</div>';
 
@@ -1556,26 +1621,6 @@ class YasrSettings {
             return $text;
         }
         return $text;
-    }
-
-    /**
-     * Return true if tidy is installed and version is later than 25 Nov 2017, false otherwise
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  3.0.5
-     * @return bool
-     */
-    public static function isTidyInstalled() {
-        if (extension_loaded('tidy')) {
-            $tidy_release_date         = strtotime(tidy_get_release());
-            $tidy_working_release_date = strtotime('2017/11/25');
-
-            if ($tidy_release_date >= $tidy_working_release_date) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

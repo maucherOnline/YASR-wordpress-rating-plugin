@@ -4,7 +4,7 @@ Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo
 Tested up to: 6.1.1
-Stable tag: 3.2.0
+Stable tag: 3.3.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
@@ -206,50 +206,27 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.3.0 =
+* NEW SHORTCODE: yasr_display_posts : you can use this shortcode in a page to show posts ordered by ratings.
+[More info here](https://yetanotherstarsrating.com/yasr-shortcodes/yasr-display-posts/)
+* NEW FEATURE: is now possible order posts by ratings. To enable it in home page or in an archive page,
+go to "Settings -> Archive Pages ->  Do you want to order posts by rating? "
+[More info here](https://yetanotherstarsrating.com/yasr-order-posts-by-ratings/)
+* FIXED: wrong image size returned in rich snippets
+* FIXED: In settings->structured data options, image url didn't get saved
+* FIXED: ranking yasr_most_or_highest_rated_posts didn't work as expected is "load results with ajax" is enabled
+* FIXED: minor bug fixes
+* TWEAKED: if a shortcode is used more than once in the same page, the query is executed only once
+* TWEAKED: removed useless query
+* TWEAKED: setting page has now 3 columns layout
+* TWEAKED: removed deprecated classes YasrDatabaseRatings, YasrMultiSetData and YasrRankingData
+
 = 3.2.0 =
 * FIXED: /wp-admin dashboard was crashing if php 7.1 or 7.2 were used
 
 = 3.1.9 =
 * FIXED: missing file in "Aspect and style tab"
 * TWEAKED: under the hood changes
-
-= 3.1.8 =
-* FIXED: Js error in tab "Multi Criteria" if not multi criteria rating is set
-* TWEAKED: removed class Yasr_WP_List_Table
-* Minor changes
-
-= 3.1.7 =
-* FIXED: Removed duplicate query in tabs "Migration Tools"
-* ENHANCEMENT: brand-new form to edit an existing multi set, and code refactor
-* Minor changes
-
-= 3.1.6 =
-* FIXED: [removed warning](https://github.com/Dudo1985/Yet-Another-Stars-Rating/commit/f360dbcd0324483341ffca6ea9bf95b75043673f) returned if PHP 8.1 is used when a rating plugin is imported
-* TWEAKED: classes YasrDatabaseRatings, YasrRankingData and YasrMultiSetData have been deprecated, all the method moved into YasrDB
-* TWEAKED: function yasr_get_itemType has been moved into YasrDB, file yasr-includes-db-functions.php has been deleted
-* TWEAKED: added docs' dir, which contains all the hooks used by YASR
-* TWEAKED: removed dashicons from submenu page name, added links "Contact Us" and "Support"
-* TWEAKED: updated Freemius SDK to version 2.5.3
-
-= 3.1.5 =
-* FIXED: in the editor page, fixed js null error if YASR metabox is not rendered
-* FIXED: fixed [offset warning](https://wordpress.org/support/topic/trying-to-access-array-offset-warning/) if no valid image was given
-* TWEAKED: removed warning if PHP 8.1 is used
-* TWEAKED: added new filter yasr_auto_insert_disable
-* TWEAKED: updated Freemius SDK to version 2.5.2, now included with composer
-* TWEAKED: minor changes
-
-= 3.1.4 =
-* TWEAKED: in the setting page, there is now a new form for creating multi set
-* TWEAKED: minor changes and code cleanup
-
-= 3.1.3 =
-* FIXED: security fix
-* FIXED: in the settings page, last div didn't float good
-
-= 3.1.2 =
-* TWEAKED: added new filters yasr_custom_loader and yasr_custom_loader_url to customize loader
-* FIXED: better ajax response when data is imported from another plugin
 
 = Additional Info =
 See credits.txt file

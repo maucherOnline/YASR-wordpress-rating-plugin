@@ -736,7 +736,7 @@ class YasrSettingsMultiset {
      *
      * @param $set_name
      *
-     * @since
+     * @since  3.1.7
      * @return bool|int|\mysqli_result|resource|null
      */
     private function saveMultisetName ($set_name) {
@@ -759,7 +759,7 @@ class YasrSettingsMultiset {
      * @param int   $elements_filled
      * @param array $fields
      *
-     * @since
+     * @since  3.1.7
      * @return bool|int|\mysqli_result|resource|null
      */
     private function saveMultisetFields ($elements_filled, $fields) {
@@ -1013,7 +1013,6 @@ class YasrSettingsMultiset {
      * @param $number_of_stored_elements
      * @param $set_id
      *
-     * @since
      * @return false|void
      */
     private function editMultisetNewFieldAdded($i, $number_of_stored_elements, $set_id) {
@@ -1113,7 +1112,7 @@ class YasrSettingsMultiset {
      * Remove a specific field from a multiset along with the data
      *
      * @author Dario Curvino <@dudo>
-     * @since
+     * @since  3.1.7
      * @return int|false
      */
     private function deleteMultisetField($set_id, $field_to_remove) {
@@ -1187,7 +1186,7 @@ class YasrSettingsMultiset {
      * @param $set_id
      * @param $field_id
      *
-     * @since
+     * @since  3.1.7
      * @return bool|int|\mysqli_result|resource|null
      */
     private function updateMultisetField($field_name, $set_id, $field_id) {

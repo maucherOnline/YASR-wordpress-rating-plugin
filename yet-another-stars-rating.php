@@ -4,7 +4,7 @@
  * Plugin Name: Yet Another Stars Rating
  * Plugin URI: http://wordpress.org/plugins/yet-another-stars-rating/
  * Description: Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
- * Version: 3.2.0
+ * Version: 3.3.0
  * Requires at least: 4.7
  * Requires PHP: 5.4
  * Author: Dario Curvino
@@ -81,7 +81,7 @@ if ( ! function_exists( 'yasr_fs' ) ) {
     // Signal that SDK was initiated.
     do_action('yasr_fs_loaded');
 
-    define('YASR_VERSION_NUM', '3.2.0');
+    define('YASR_VERSION_NUM', '3.3.0');
 
     //Plugin absolute path
     //e.g. /var/www/html/plugin_development/wp-content/plugins/yet-another-stars-rating
@@ -101,6 +101,9 @@ if ( ! function_exists( 'yasr_fs' ) ) {
 
     //public absolute path
     define('YASR_ABSOLUTE_PATH_PUBLIC', YASR_ABSOLUTE_PATH . '/public');
+
+    //templates absolute path
+    define('YASR_ABSOLUTE_PATH_TEMPLATES', YASR_ABSOLUTE_PATH . '/templates');
 
     //admin relative path
     define('YASR_RELATIVE_PATH_ADMIN', YASR_RELATIVE_PATH . '/admin');
