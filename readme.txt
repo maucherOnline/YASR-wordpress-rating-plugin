@@ -212,13 +212,14 @@ The full changelog can be found in the plugin's directory. Recent entries:
 * NEW FEATURE: is now possible order posts by ratings. To enable it in home page or in an archive page,
 go to "Settings -> Archive Pages ->  Do you want to order posts by rating? "
 [More info here](https://yetanotherstarsrating.com/yasr-order-posts-by-ratings/)
-* TWEAKED: if a shortcode is used more than once in the same page, the query is executed only once
-* TWEAKED: removed useless query
-* TWEAKED: setting page has now 3 columns layout
 * FIXED: wrong image size returned in rich snippets
 * FIXED: In settings->structured data options, image url didn't get saved
 * FIXED: ranking yasr_most_or_highest_rated_posts didn't work as expected is "load results with ajax" is enabled
 * FIXED: minor bug fixes
+* TWEAKED: if a shortcode is used more than once in the same page, the query is executed only once
+* TWEAKED: removed useless query
+* TWEAKED: setting page has now 3 columns layout
+* TWEAKED: removed deprecated classes YasrDatabaseRatings, YasrMultiSetData and YasrRankingData
 
 = 3.2.0 =
 * FIXED: /wp-admin dashboard was crashing if php 7.1 or 7.2 were used
