@@ -199,8 +199,8 @@ class YasrProRankings extends YasrRankings {
 
         if (isset($atts['required_votes'])) {
             //this mean that the request is coming from rest (&required_votes=XXX)
-            if(is_int($atts['required_votes'])) {
-                $required_votes = $atts['required_votes'];
+            if(is_numeric($atts['required_votes'])) {
+                $required_votes = (int) $atts['required_votes'];
             }
 
             else if(is_array($atts['required_votes'])) {
