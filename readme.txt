@@ -206,6 +206,12 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.3.1 =
+[//]: # fs_premium_only_begin
+* FIXED: wrong results returned by yasr_most_or_highest_rated_posts if "Load results with ajax?" is enabled.
+See[#6]https://github.com/Dudo1985/Yet-Another-Stars-Rating/issues/6)
+[//]: # fs_premium_only_end
+
 = 3.3.0 =
 * NEW SHORTCODE: yasr_display_posts : you can use this shortcode in a page to show posts ordered by ratings.
 [More info here](https://yetanotherstarsrating.com/yasr-shortcodes/yasr-display-posts/)
