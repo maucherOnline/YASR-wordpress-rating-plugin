@@ -5,18 +5,15 @@ const {useState, useEffect} = wp.element;
 /**
  * Return a string with query params to append to the url
  *
- * @param queryParams
+ * @param params
  * @param dataSource
  * @returns {string}
  */
-const returnQueryParams = (queryParams, dataSource) => {
+const returnQueryParams = (params, dataSource) => {
     let cleanedQuery = '';
 
-    if (queryParams !== '' && queryParams !== false) {
-        let params = new URLSearchParams(queryParams);
-
+    if (params !== '' && params !== false) {
         //'view' param is not cleaned here, but in component 'returnRankingTable'
-
         if(params.get('order_by') !== null) {
             cleanedQuery += 'order_by='+params.get('order_by');
         }
@@ -51,16 +48,6 @@ const returnQueryParams = (queryParams, dataSource) => {
             }
         }
 
-        if(dataSource === 'visitor_votes') {
-            if (params.get('required_votes[most]') !== null) {
-                cleanedQuery += '&required_votes=' + params.get('required_votes[most]');
-            }
-
-            if (params.get('required_votes[highest]') !== null) {
-                cleanedQuery += '&required_votes=' + params.get('required_votes[highest]');
-            }
-        }
-
     }
 
     return cleanedQuery;
@@ -81,15 +68,28 @@ const returnRestUrl = (rankingParams, source, nonce) => {
     let queryParams       = ((rankingParams !== '') ? rankingParams : '');
     let urlYasrRanking;
 
+    if (queryParams !== '' && queryParams !== false) {
+        queryParams = new URLSearchParams(queryParams);
+    }
+
     const cleanedQuery = returnQueryParams(queryParams, dataSource);
 
     if(dataSource === 'author_ranking' || dataSource === 'author_multi' || dataSource === 'overall_rating') {
         urlYasrRanking = [yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&source=' + dataSource + cleanedQuery + nonceString];
     }
     else {
+        let mostVotes    = '';
+        let highestVotes = '';
+        if (queryParams.get('required_votes[most]') !== null) {
+            mostVotes = '&required_votes=' + queryParams.get('required_votes[most]');
+        }
+
+        if (queryParams.get('required_votes[highest]') !== null) {
+            highestVotes = '&required_votes=' + queryParams.get('required_votes[highest]');
+        }
         urlYasrRanking = [
-            yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&show=most&source='    + dataSource + cleanedQuery + nonceString,
-            yasrWindowVar.ajaxurl + '?action=yasr_load_rankings&show=highest&source=' + dataSource + cleanedQuery + nonceString
+            yasrWindowVar.ajaxurl + `?action=yasr_load_rankings&show=most&source=${dataSource}${cleanedQuery}${mostVotes}${nonceString}`,
+            yasrWindowVar.ajaxurl + `?action=yasr_load_rankings&show=highest&source=${dataSource}${cleanedQuery}${highestVotes}${nonceString}`,
         ];
 
     }
