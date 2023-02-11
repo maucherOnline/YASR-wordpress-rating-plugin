@@ -1159,19 +1159,23 @@ class YasrSettings {
                 ?>
             </a>
 
-            <?php do_action('yasr_add_settings_tab', $active_tab);
+            <?php
+                /**
+                 * Hook here to add new settings tab
+                 */
+                do_action('yasr_add_settings_tab', $active_tab);
 
-            if(defined('YASR_RATING_PLUGIN_FOUND') && YASR_RATING_PLUGIN_FOUND !== false) {
-                ?>
-                <a href="?page=yasr_settings_page&tab=migration_tools"
-                   id="migration_tools"
-                   class="nav-tab <?php if ($active_tab === 'migration_tools') {
-                       echo 'nav-tab-active';
-                   } ?>">
-                    <?php esc_html_e('Migration Tools', 'yet-another-stars-rating'); ?>
-                </a>
-                <?php
-            }
+                if(defined('YASR_RATING_PLUGIN_FOUND') && YASR_RATING_PLUGIN_FOUND !== false) {
+                    ?>
+                    <a href="?page=yasr_settings_page&tab=migration_tools"
+                       id="migration_tools"
+                       class="nav-tab <?php if ($active_tab === 'migration_tools') {
+                           echo 'nav-tab-active';
+                       } ?>">
+                        <?php esc_html_e('Migration Tools', 'yet-another-stars-rating'); ?>
+                    </a>
+                    <?php
+                }
 
             ?>
 

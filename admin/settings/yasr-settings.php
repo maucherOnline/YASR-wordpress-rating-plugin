@@ -86,7 +86,9 @@ if (!current_user_can('manage_options')) {
                 include(YASR_ABSOLUTE_PATH_ADMIN . '/settings/yasr-settings-migration.php');
             } //End tab migration
 
-            //Adds new tab content here
+            /**
+             * Hook here to add new settings tab content
+             */
             do_action('yasr_settings_tab_content', $active_tab);
 
         ?>

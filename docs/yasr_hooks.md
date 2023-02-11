@@ -163,18 +163,20 @@ Source: [../admin/settings/yasr-settings-migration.php](../admin/settings/yasr-s
 
 ### `yasr_add_settings_tab`
 
+*Hook here to add new settings tab*
+
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
 `$active_tab` |  | 
 
-Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1162](../admin/settings/classes/YasrSettings.php#L1162-L1162)
+Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1163](../admin/settings/classes/YasrSettings.php#L1163-L1166)
 
 ### `yasr_right_settings_panel_box`
 
 
-Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1327](../admin/settings/classes/YasrSettings.php#L1327-L1327)
+Source: [../admin/settings/classes/YasrSettings.php](../admin/settings/classes/YasrSettings.php), [line 1331](../admin/settings/classes/YasrSettings.php#L1331-L1331)
 
 ### `yasr_style_options_add_settings_field`
 
@@ -188,13 +190,15 @@ Source: [../admin/settings/classes/YasrSettingsStyle.php](../admin/settings/clas
 
 ### `yasr_settings_tab_content`
 
+*Hook here to add new settings tab content*
+
 **Arguments**
 
 Argument | Type | Description
 -------- | ---- | -----------
 `$active_tab` |  | 
 
-Source: [../admin/settings/yasr-settings.php](../admin/settings/yasr-settings.php), [line 90](../admin/settings/yasr-settings.php#L90-L90)
+Source: [../admin/settings/yasr-settings.php](../admin/settings/yasr-settings.php), [line 89](../admin/settings/yasr-settings.php#L89-L92)
 
 ### `yasr_ur_add_custom_form_fields`
 
