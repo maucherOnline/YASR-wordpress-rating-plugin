@@ -26,6 +26,7 @@ if (!current_user_can('manage_options')) {
     /** @noinspection ForgottenDebugOutputInspection */
     wp_die(__('You do not have sufficient permissions to access this page.', 'yet-another-stars-rating'));
 }
+$settings_stats = new YasrStats();
 
 ?>
 
@@ -41,59 +42,12 @@ if (!current_user_can('manage_options')) {
             $active_tab = 'logs';
         }
 
-        YasrStats::printTabs($active_tab);
+        $settings_stats->printTabs($active_tab);
     ?>
     <div class="yasr-settingsdiv yasr-settings-table">
         <div class="yasr-settings-table">
             <?php
-
-                if ($active_tab === 'logs' || $active_tab === '') {
-                    ?>
-                    <form action="#" id="" method="POST">
-                        <?php
-                            wp_nonce_field('yasr-delete-stats-logs', 'yasr-nonce-delete-stats-logs');
-                            $yasr_stats_log_table = new YasrStatsListTable($active_tab);
-                            $yasr_stats_log_table->prepare_items();
-                            $yasr_stats_log_table->display();
-                        ?>
-                    </form>
-
-                    <?php
-
-                } //End if tab 'logs'
-
-                if ($active_tab === 'logs_multi') {
-                    ?>
-                    <form action="#" id="" method="POST">
-                        <?php
-                            wp_nonce_field('yasr-delete-stats-logs', 'yasr-nonce-delete-stats-logs');
-                            $yasr_stats_log_table = new YasrStatsListTable($active_tab);
-                            $yasr_stats_log_table->prepare_items();
-                            $yasr_stats_log_table->display();
-                        ?>
-                    </form>
-                    <?php
-
-                } //End if tab 'general_settings'
-
-                if ($active_tab === 'overall') {
-                    ?>
-                    <form action="#" id="" method="POST">
-                        <?php
-                        wp_nonce_field('yasr-delete-stats-logs', 'yasr-nonce-delete-stats-logs');
-                        $yasr_stats_log_table = new YasrStatsListTable($active_tab);
-                        $yasr_stats_log_table->prepare_items();
-                        $yasr_stats_log_table->display();
-                        ?>
-                    </form>
-                    <?php
-
-                } //End if tab 'overall'
-
-                /**
-                 * Hook here to add new settings tab content
-                 */
-                do_action('yasr_stats_tab_content', $active_tab);
+                $settings_stats->printTabsContent($active_tab);
             ?>
         </div>
     </div>
