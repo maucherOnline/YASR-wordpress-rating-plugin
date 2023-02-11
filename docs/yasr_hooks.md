@@ -131,7 +131,9 @@ Argument | Type | Description
 
 Source: [../admin/classes/YasrAdmin.php](../admin/classes/YasrAdmin.php), [line 161](../admin/classes/YasrAdmin.php#L161-L166)
 
-### `yasr_add_stats_tab`
+### `yasr_stats_tab_content`
+
+*Hook here to add new settings tab content*
 
 **Arguments**
 
@@ -139,17 +141,7 @@ Argument | Type | Description
 -------- | ---- | -----------
 `$active_tab` |  | 
 
-Source: [../admin/settings/yasr-stats-page.php](../admin/settings/yasr-stats-page.php), [line 63](../admin/settings/yasr-stats-page.php#L63-L63)
-
-### `yasr_settings_check_active_tab`
-
-**Arguments**
-
-Argument | Type | Description
--------- | ---- | -----------
-`$active_tab` |  | 
-
-Source: [../admin/settings/yasr-stats-page.php](../admin/settings/yasr-stats-page.php), [line 130](../admin/settings/yasr-stats-page.php#L130-L130)
+Source: [../admin/settings/yasr-stats-page.php](../admin/settings/yasr-stats-page.php), [line 93](../admin/settings/yasr-stats-page.php#L93-L96)
 
 ### `yasr_migration_page_bottom`
 
@@ -160,6 +152,18 @@ Argument | Type | Description
 `$import_plugin->plugin_imported` |  | 
 
 Source: [../admin/settings/yasr-settings-migration.php](../admin/settings/yasr-settings-migration.php), [line 63](../admin/settings/yasr-settings-migration.php#L63-L63)
+
+### `yasr_add_stats_tab`
+
+*Use this hook to add a tab into yasr_stats_page*
+
+**Arguments**
+
+Argument | Type | Description
+-------- | ---- | -----------
+`$active_tab` |  | 
+
+Source: [../admin/settings/classes/YasrStats.php](../admin/settings/classes/YasrStats.php), [line 31](../admin/settings/classes/YasrStats.php#L31-L34)
 
 ### `yasr_add_settings_tab`
 

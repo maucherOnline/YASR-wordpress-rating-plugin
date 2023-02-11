@@ -1149,7 +1149,7 @@ class YasrSettings {
                    echo 'nav-tab-active';
                } ?>">
                 <?php
-                esc_html_e("Rankings", 'yet-another-stars-rating');
+                esc_html_e('Rankings', 'yet-another-stars-rating');
                 //Print the lock/unlock dashicon only in the pro version
                 if (yasr_fs()->is__premium_only()) { //these if can't be merged
                     if (yasr_fs()->can_use_premium_code()) {
