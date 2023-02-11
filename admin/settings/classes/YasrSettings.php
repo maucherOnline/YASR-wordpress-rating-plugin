@@ -270,7 +270,7 @@ class YasrSettings {
                                 YasrPhpFieldsHelper::radio( $option_title, $class, $array_options, $name, $default )
                             );
                             ?>
-                            <div>
+                            <div class="yasr-element-row-container-description">
                                 <?php
                                     esc_html_e('Select yes if you want to use auto insert only in custom post types',
                                     'yet-another-stars-rating');
