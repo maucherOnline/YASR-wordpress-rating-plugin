@@ -32,16 +32,16 @@ if (!current_user_can('manage_options')) {
 <div class="wrap">
     <h2>Yet Another Stars Rating: <?php esc_html_e('Settings', 'yet-another-stars-rating'); ?></h2>
     <?php
-    settings_errors();
+        settings_errors();
 
-    if (isset($_GET['tab'])) {
-        $active_tab = $_GET['tab'];
-    } else {
-        $active_tab = 'general_settings';
-    }
+        if (isset($_GET['tab'])) {
+            $active_tab = $_GET['tab'];
+        } else {
+            $active_tab = 'general_settings';
+        }
 
-    //Do the settings tab
-    YasrSettings::printTabs($active_tab);
+        //Do the settings tab
+        YasrSettings::printTabs($active_tab);
     ?>
     <div class="yasr-settingsdiv">
         <div class="yasr-settings-table">

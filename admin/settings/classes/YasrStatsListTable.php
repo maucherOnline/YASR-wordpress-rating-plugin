@@ -25,8 +25,7 @@ if (!defined('ABSPATH')) {
 /**
  * Create a new table class that will extend the WP_List_Table
  */
-class YasrStats extends WP_List_Table {
-
+class YasrStatsListTable extends WP_List_Table {
     private $active_tab;
 
     public function __construct($active_tab) {
@@ -262,7 +261,6 @@ class YasrStats extends WP_List_Table {
     }
 
     protected function column_cb($item) {
-
         return sprintf(
             "<input type='checkbox' name='yasr_logs_votes_to_delete[]' id='{$item['id']}' value='{$item['id']}' />"
         );

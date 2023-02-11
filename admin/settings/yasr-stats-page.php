@@ -79,7 +79,7 @@ if (isset($_GET['tab'])) {
                 <form action="#" id="" method="POST">
                     <?php
                         wp_nonce_field('yasr-delete-stats-logs', 'yasr-nonce-delete-stats-logs');
-                        $yasr_stats_log_table = new YasrStats($active_tab);
+                        $yasr_stats_log_table = new YasrStatsListTable($active_tab);
                         $yasr_stats_log_table->prepare_items();
                         $yasr_stats_log_table->display();
                     ?>
@@ -98,7 +98,7 @@ if (isset($_GET['tab'])) {
                 <form action="#" id="" method="POST">
                     <?php
                         wp_nonce_field('yasr-delete-stats-logs', 'yasr-nonce-delete-stats-logs');
-                        $yasr_stats_log_table = new YasrStats($active_tab);
+                        $yasr_stats_log_table = new YasrStatsListTable($active_tab);
                         $yasr_stats_log_table->prepare_items();
                         $yasr_stats_log_table->display();
                     ?>
@@ -116,7 +116,7 @@ if (isset($_GET['tab'])) {
                 <form action="#" id="" method="POST">
                     <?php
                     wp_nonce_field('yasr-delete-stats-logs', 'yasr-nonce-delete-stats-logs');
-                    $yasr_stats_log_table = new YasrStats($active_tab);
+                    $yasr_stats_log_table = new YasrStatsListTable($active_tab);
                     $yasr_stats_log_table->prepare_items();
                     $yasr_stats_log_table->display();
                     ?>
