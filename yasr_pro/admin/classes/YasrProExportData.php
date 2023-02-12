@@ -23,6 +23,17 @@ class YasrProExportData {
         add_action('yasr_stats_tab_content', array($this, 'tabContent'));
     }
 
+    /**
+     * The new tab
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.1
+     *
+     * @param $active_tab
+     *
+     * @return void
+     */
     public function exportTab ($active_tab) {
         ?>
         <a href="?page=yasr_stats_page&tab=yasr_csv_export"
@@ -34,6 +45,17 @@ class YasrProExportData {
         <?php
     }
 
+    /**
+     * Tab content
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.1
+     *
+     * @param $active_tab
+     *
+     * @return void
+     */
     public function tabContent($active_tab) {
         if ($active_tab === 'yasr_csv_export') {
 
@@ -42,7 +64,6 @@ class YasrProExportData {
             if($array_csv) {
                 $this->createCSV($array_csv);
             }
-
             ?>
 
             <div class="yasr-settingsdiv">
@@ -50,9 +71,7 @@ class YasrProExportData {
                     $this->drowTable();
                 ?>
             </div>
-
             <?php
-
         } //End tab ur options
     }
 
@@ -67,11 +86,11 @@ class YasrProExportData {
             $nonce = $_POST['yasr_csv_nonce'];
 
             if (!wp_verify_nonce( $nonce, 'yasr-multiset-csv' ) ) {
-                die('Error while checking nonce');
+                wp_die(esc_html__('Error while checking nonce', 'yet-another-stars-rating'));
             }
 
             if (!current_user_can( 'manage_options' ) ) {
-                die(__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
+                wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
             }
 
             return $this->returnResults();
