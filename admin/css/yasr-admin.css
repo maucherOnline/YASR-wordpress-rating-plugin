@@ -196,7 +196,7 @@
 
 
 /*
-@media (min-width: 1177px) {
+@media (min-width: 1300) {
     .yasr_table_multi_set_admin td:nth-child(1) {
         width: 40%;
     }
@@ -464,7 +464,7 @@
     font-size: 14px;
 }
 
-@media (min-width: 1177px) {
+@media (min-width: 1300px) {
 
     .yasr-settingsdiv {
         float: left;
@@ -500,7 +500,7 @@
 
 /*** Multi page rules ***/
 
-@media (max-width: 1176px) {
+@media (max-width: 1300px) {
 
     .yasr-settingsdiv {
         float: left;
@@ -658,14 +658,14 @@
     justify-content: left;
 }
 
-@media (max-width: 1177px) {
+@media (max-width: 1300px) {
     .yasr-settings-row-48 > div {
         /*It is 45 and applied space between*/
         flex: 0 0 90%;
     }
 }
 
-@media (min-width: 1177px) {
+@media (min-width: 1300px) {
     .yasr-settings-row-48 > div {
         /*It is 45 and applied space between*/
         flex: 0 0 48%;
@@ -899,7 +899,6 @@ div.yasr-select-img-container input {
 
 }
 
-
 /**** End Yasr Aspect & Styles tab ***/
 
 /**** Migration Tools Page ****/
@@ -1022,4 +1021,26 @@ div.yasr-select-img-container input {
 #yasr-log-page-navigation {
     padding-top: 7px;
     text-align: center;
+}
+
+/***** Export page ******/
+
+.yasr-container {
+    display: flex;
+    flex-wrap: wrap;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+}
+
+.yasr-box {
+    flex-basis: 45%;
+    height: 300px;
+    background-color: #fff;
+    border: 1px solid #EAEAEA;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -66,7 +66,7 @@ class YasrProExportData {
             }
             ?>
 
-            <div class="yasr-settingsdiv">
+            <div>
                 <?php
                     $this->drowTable();
                 ?>
@@ -92,7 +92,6 @@ class YasrProExportData {
             if (!current_user_can( 'manage_options' ) ) {
                 wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
             }
-
 
             return $this->returnVisitorMultiData();
         }
@@ -173,6 +172,15 @@ class YasrProExportData {
         <h3>
             <?php _e('Export Multi Set', 'yet-another-stars-rating'); ?>
         </h3>
+
+        <div class="yasr-container">
+            <div class="yasr-box">ciao</div>
+            <div class="yasr-box">ciao</div>
+            <div class="yasr-box">ciao</div>
+            <div class="yasr-box">ciao</div>
+            <div class="yasr-box">ciao</div>
+            <div class="yasr-box">ciao</div>
+        </div>
 
         <table class="form-table" id="yasr-export-multiset-csv">
             <tr>
