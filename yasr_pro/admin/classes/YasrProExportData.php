@@ -25,8 +25,8 @@ class YasrProExportData {
 
     public function exportTab ($active_tab) {
         ?>
-        <a href="?page=yasr_stats_page&tab=multiset_csv_export"
-           class="nav-tab <?php if ($active_tab === 'multiset_csv_export') {
+        <a href="?page=yasr_stats_page&tab=yasr_csv_export"
+           class="nav-tab <?php if ($active_tab === 'yasr_csv_export') {
                echo 'nav-tab-active';
            } ?>">
             <?php esc_html_e('Export data', 'yasr-multiset-csv-export'); ?>
@@ -35,7 +35,7 @@ class YasrProExportData {
     }
 
     public function tabContent($active_tab) {
-        if ($active_tab === 'multiset_csv_export') {
+        if ($active_tab === 'yasr_csv_export') {
 
             $array_csv = $this->checkIfPost();
 
@@ -158,7 +158,7 @@ class YasrProExportData {
             <tr>
                 <td>
                     <div class="yasr-indented-answer">
-                        <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=multiset_csv_export')) ?>"
+                        <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
                               method="post">
                             <button class="button-primary" id="yasr-export-multiset-csv-submit">
                                 <?php _e( 'Export CSV Multi Set', 'yasr-multiset-csv-export' );  ?>
@@ -218,7 +218,6 @@ class YasrProExportData {
                 $output_array[$i]['url']  = content_url() . '/' . $file_name;
                 $output_array[$i]['name'] = $file_name;
                 $i++;
-
             }
         }
 
