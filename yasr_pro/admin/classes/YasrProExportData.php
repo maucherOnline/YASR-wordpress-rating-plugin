@@ -12,7 +12,7 @@ class YasrProExportData {
 
     public function init () {
         //file name with date. e.g. format is 2020-Apr-25-10
-        $file_name     = 'yasr-' . date('Y-M-d__H:i:s') . '.csv';
+        $file_name     = 'yasr_' . date('Y-M-d__H:i:s') . '.csv';
 
         $this->temp_dir_abs  = WP_CONTENT_DIR;
         $this->file_and_path = $this->temp_dir_abs .'/'. $file_name;
@@ -185,7 +185,12 @@ class YasrProExportData {
     }
 
     /**
-     * Create link for download
+     * Create link to download the file
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.1
+     * @return void
      */
     public function createLinks() {
         $now = time();
@@ -195,20 +200,25 @@ class YasrProExportData {
 
         $i=0;
         foreach($directory_obj as $file) {
-            //check if is file
+            //check if is a file
             if ($file->isFile() && ($file->getExtension() === 'csv')) {
                 //get file name
                 $file_name = $file->getFilename();
 
+                //if file name doesn't start with yasr_, go to next iteration
+                if(substr($file_name, 0, 5) !== "yasr_") {
+                    continue;
+                }
                 //if files are older than 1 day, delete
-                if ($now - $file->getCTime() >= 60*60*24){
-                    unlink( $this->file_and_path );
+                if ($now - $file->getCTime() >= 60 * 60 * 24) {
+                    unlink($this->file_and_path);
                 }
 
                 //save in an array url and file name
-                $output_array[$i]['url'] =  content_url() . '/' . $file_name;
+                $output_array[$i]['url']  = content_url() . '/' . $file_name;
                 $output_array[$i]['name'] = $file_name;
                 $i++;
+
             }
         }
 
