@@ -93,7 +93,8 @@ class YasrProExportData {
                 wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
             }
 
-            return $this->returnResults();
+
+            return $this->returnVisitorMultiData();
         }
     }
 
@@ -102,7 +103,7 @@ class YasrProExportData {
      *
      * @return array|object|null
      */
-    private function returnResults() {
+    private function returnVisitorMultiData() {
         global $wpdb;
 
         //get logs
@@ -121,7 +122,7 @@ class YasrProExportData {
             AND   field.parent_set_id = log.set_type
             AND   log.field_id = field.field_id
             AND   posts.ID = log.post_id
-            ORDER BY post_id DESC',
+            ORDER BY log.date DESC',
             ARRAY_A
         );
 
