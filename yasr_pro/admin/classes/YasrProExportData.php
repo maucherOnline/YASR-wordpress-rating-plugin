@@ -1,5 +1,10 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit('You\'re not allowed to see this page');
+} // Exit if accessed directly
+
+
 /**
  * @author Dario Curvino <@dudo>
  * @since
@@ -52,34 +57,21 @@ class YasrProExportData {
      */
     public function tabContent($active_tab) {
         if ($active_tab === 'yasr_csv_export') {
+            $this->checkIfPost();
 
-            $array_csv = $this->checkIfPost();
-
-            if($array_csv) {
-                $this->createCSV($array_csv);
-            }
-            ?>
-
-            <div>
-                <?php
-                    $this->drowTable();
-                ?>
-            </div>
-            <?php
+            $this->printForm();
         } //End tab ur options
     }
 
-
-
     /**
-     * Check if $_POST['yasr_csv_nonce'], and if so
-     * call returnResults
+     * Check if $_POST['yasr_csv_nonce'], and later create the csv according to the post data
      *
-     * @return array|object|void|null
+     * @return void
      */
     public function checkIfPost() {
         if(isset($_POST['yasr_csv_nonce'])) {
-            $nonce = $_POST['yasr_csv_nonce'];
+            $data_to_export = false;
+            $nonce          = $_POST['yasr_csv_nonce'];
 
             if (!wp_verify_nonce( $nonce, 'yasr-export-csv' ) ) {
                 wp_die(esc_html__('Error while checking nonce', 'yet-another-stars-rating'));
@@ -91,12 +83,18 @@ class YasrProExportData {
 
             if($_POST['yasr_export_visitor_multiset']) {
                 $this->setFilePath('visitor_multiset');
-                return $this->returnVisitorMultiData();
+                $data_to_export = $this->returnVisitorMultiData();
             }
 
+            if($data_to_export) {
+                $this->createCSV($data_to_export);
+            }
         }
     }
 
+    /**
+     * Set file name and path
+     */
     public function setFilePath($post_prefix) {
         //file name with date. e.g. format is 2020-Apr-25-10
         $file_name     = 'yasr_' . $post_prefix . '_' . date('Y-M-d__H:i:s') . '.csv';
@@ -105,13 +103,11 @@ class YasrProExportData {
         $this->file_and_path = $this->temp_dir_abs .'/'. $file_name;
     }
 
-
-
     /**
      * Create the csv file, if file already exists (must have same second)
      * delete it
      *
-     * @param $array_csv
+     * @param $array_csv array must have properties "result" and "columns"
      */
     public function createCSV($array_csv) {
         if ($array_csv) {
@@ -123,18 +119,9 @@ class YasrProExportData {
             // Open file in append mode
             $opened_file = fopen($this->file_and_path, 'ab');
 
-            $array_column_names = array(
-                'TITLE',
-                'SET NAME',
-                'FIELD',
-                'VOTE',
-                'DATE',
-                'SET ID'
-            );
+            fputcsv($opened_file, $array_csv['columns']);
 
-            fputcsv($opened_file, $array_column_names);
-
-            foreach ($array_csv as $value) {
+            foreach ($array_csv['results'] as $value) {
                 fputcsv($opened_file, $value);
             }
 
@@ -143,28 +130,30 @@ class YasrProExportData {
     }
 
     /**
-     * Drow form and table, set the nonce
+     * Drow form, set the nonce
      */
-    public function drowTable () {
+    public function printForm () {
         ?>
-        <h3>
-            <?php _e('Export Multi Set', 'yet-another-stars-rating'); ?>
-        </h3>
+        <div>
+            <h3>
+                <?php _e('Export Multi Set', 'yet-another-stars-rating'); ?>
+            </h3>
 
-        <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
-              method="post">
-            <div class="yasr-container">
-                <div class="yasr-box">ciao</div>
-                <div class="yasr-box">ciao</div>
-                <div class="yasr-box">
-                    <?php $this->printExportBox('visitor_multiset'); ?>
+            <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
+                  method="post">
+                <div class="yasr-container">
+                    <div class="yasr-box">ciao</div>
+                    <div class="yasr-box">ciao</div>
+                    <div class="yasr-box">
+                        <?php $this->printExportBox('visitor_multiset'); ?>
+                    </div>
+
+                    <div class="yasr-box">ciao</div>
+                    <div class="yasr-box">ciao</div>
+                    <div class="yasr-box">ciao</div>
                 </div>
-
-                <div class="yasr-box">ciao</div>
-                <div class="yasr-box">ciao</div>
-                <div class="yasr-box">ciao</div>
-            </div>
-        </form>
+            </form>
+        </div>
 
         <?php
 
@@ -242,7 +231,6 @@ class YasrProExportData {
             </button>
             <input type="hidden"
                    name="yasr_csv_nonce"
-                   id="yasr-export-nonce"
                    value="<?php echo esc_attr($nonce) ?>">
 
             <input type="hidden"
@@ -258,15 +246,17 @@ class YasrProExportData {
     }
 
     /**
-     * Do the query to export visitor multiset and return results
+     * Do the query to export visitor multiset and return along with csv columns
      *
-     * @return array|object|null
+     * @return array
      */
     private function returnVisitorMultiData() {
         global $wpdb;
 
+        $array_to_return = array();
+
         //get logs
-        $results = $wpdb->get_results(
+        $array_to_return['results'] = $wpdb->get_results(
             'SELECT posts.post_title as TITLE,
             multiset.set_name as "SET NAME",
             field.field_name as FIELD,
@@ -285,6 +275,15 @@ class YasrProExportData {
             ARRAY_A
         );
 
-        return($results);
+        $array_to_return['columns'] = array(
+            'TITLE',
+            'SET NAME',
+            'FIELD',
+            'VOTE',
+            'DATE',
+            'SET ID'
+        );
+
+        return($array_to_return);
     }
 }
