@@ -11,12 +11,6 @@ class YasrProExportData {
     public $temp_dir_abs;
 
     public function init () {
-        //file name with date. e.g. format is 2020-Apr-25-10
-        $file_name     = 'yasr_' . date('Y-M-d__H:i:s') . '.csv';
-
-        $this->temp_dir_abs  = WP_CONTENT_DIR;
-        $this->file_and_path = $this->temp_dir_abs .'/'. $file_name;
-
         //Simply add the tabs on settings page
         add_action('yasr_add_stats_tab', array($this, 'exportTab'), 999);
 
@@ -40,7 +34,7 @@ class YasrProExportData {
            class="nav-tab <?php if ($active_tab === 'yasr_csv_export') {
                echo 'nav-tab-active';
            } ?>">
-            <?php esc_html_e('Export data', 'yasr-multiset-csv-export'); ?>
+            <?php esc_html_e('Export data', 'yet-another-stars-rating'); ?>
         </a>
         <?php
     }
@@ -75,6 +69,8 @@ class YasrProExportData {
         } //End tab ur options
     }
 
+
+
     /**
      * Check if $_POST['yasr_csv_nonce'], and if so
      * call returnResults
@@ -85,7 +81,7 @@ class YasrProExportData {
         if(isset($_POST['yasr_csv_nonce'])) {
             $nonce = $_POST['yasr_csv_nonce'];
 
-            if (!wp_verify_nonce( $nonce, 'yasr-multiset-csv' ) ) {
+            if (!wp_verify_nonce( $nonce, 'yasr-export-csv' ) ) {
                 wp_die(esc_html__('Error while checking nonce', 'yet-another-stars-rating'));
             }
 
@@ -93,40 +89,23 @@ class YasrProExportData {
                 wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
             }
 
-            return $this->returnVisitorMultiData();
+            if($_POST['yasr_export_visitor_multiset']) {
+                $this->setFilePath('visitor_multiset');
+                return $this->returnVisitorMultiData();
+            }
+
         }
     }
 
-    /**
-     * Do the query to export visitor multiset and return results
-     *
-     * @return array|object|null
-     */
-    private function returnVisitorMultiData() {
-        global $wpdb;
+    public function setFilePath($post_prefix) {
+        //file name with date. e.g. format is 2020-Apr-25-10
+        $file_name     = 'yasr_' . $post_prefix . '_' . date('Y-M-d__H:i:s') . '.csv';
 
-        //get logs
-        $results = $wpdb->get_results(
-            'SELECT posts.post_title as TITLE,
-            multiset.set_name as "SET NAME",
-            field.field_name as FIELD,
-            log.vote as VOTE,
-            log.date as DATE,
-            log.set_type as "SET ID"
-            FROM ' . $wpdb->posts .' as posts,
-                ' . YASR_LOG_MULTI_SET . '  as log,
-                ' . YASR_MULTI_SET_NAME_TABLE .'  as multiset,
-                ' . YASR_MULTI_SET_FIELDS_TABLE . ' as field
-            WHERE log.set_type = multiset.set_id
-            AND   field.parent_set_id = log.set_type
-            AND   log.field_id = field.field_id
-            AND   posts.ID = log.post_id
-            ORDER BY log.date DESC',
-            ARRAY_A
-        );
-
-        return($results);
+        $this->temp_dir_abs  = WP_CONTENT_DIR;
+        $this->file_and_path = $this->temp_dir_abs .'/'. $file_name;
     }
+
+
 
     /**
      * Create the csv file, if file already exists (must have same second)
@@ -167,47 +146,26 @@ class YasrProExportData {
      * Drow form and table, set the nonce
      */
     public function drowTable () {
-        $yasr_multiset_csv_nonce = wp_create_nonce('yasr-multiset-csv');
         ?>
         <h3>
             <?php _e('Export Multi Set', 'yet-another-stars-rating'); ?>
         </h3>
 
-        <div class="yasr-container">
-            <div class="yasr-box">ciao</div>
-            <div class="yasr-box">ciao</div>
-            <div class="yasr-box">ciao</div>
-            <div class="yasr-box">ciao</div>
-            <div class="yasr-box">ciao</div>
-            <div class="yasr-box">ciao</div>
-        </div>
+        <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
+              method="post">
+            <div class="yasr-container">
+                <div class="yasr-box">ciao</div>
+                <div class="yasr-box">ciao</div>
+                <div class="yasr-box">
+                    <?php $this->printExportBox('visitor_multiset'); ?>
+                </div>
 
-        <table class="form-table" id="yasr-export-multiset-csv">
-            <tr>
-                <td>
-                    <div class="yasr-indented-answer">
-                        <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
-                              method="post">
-                            <button class="button-primary" id="yasr-export-multiset-csv-submit">
-                                <?php _e( 'Export CSV Multi Set', 'yasr-multiset-csv-export' );  ?>
-                            </button>
-                            <input type="hidden"
-                                   name="yasr_csv_nonce"
-                                   id="yasr-export-multiset-csv-submit-nonce"
-                                   value="<?php echo esc_attr($yasr_multiset_csv_nonce) ?>">
-                        </form>
-                    </div>
+                <div class="yasr-box">ciao</div>
+                <div class="yasr-box">ciao</div>
+                <div class="yasr-box">ciao</div>
+            </div>
+        </form>
 
-                    <div id="yasr-export-multiset-csv-answer" class="yasr-indented-answer">
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <?php $this->createLinks(); ?>
-                </td>
-            </tr>
-        </table>
         <?php
 
     }
@@ -217,10 +175,13 @@ class YasrProExportData {
      *
      * @author Dario Curvino <@dudo>
      *
+     * @param $post_prefix
      * @since  3.3.1
      * @return void
      */
-    public function createLinks() {
+    public function createLinks($post_prefix) {
+        $this->setFilePath($post_prefix);
+
         $now = time();
 
         $directory_obj = new DirectoryIterator($this->temp_dir_abs);
@@ -257,6 +218,73 @@ class YasrProExportData {
             echo '<a href="'.esc_url($output['url']).'">'.esc_html($output['name']).'</a>';
             echo '<br />';
         }
+    }
 
+    /**
+     * Print the box with button to export data
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.1
+     *
+     * @param $name string what to export
+     *
+     * @return void
+     */
+    private function printExportBox ($name) {
+        $nonce       = wp_create_nonce('yasr-export-csv');
+        $id          = 'yasr-export-csv-' . $name;
+        $name_hidden = 'yasr_export_'. $name
+        ?>
+        <div>
+            <button class="button-primary" id="<?php echo esc_attr($id) ?>">
+                <?php esc_html_e( 'Export CSV Multi Set', 'yet-another-stars-rating' );  ?>
+            </button>
+            <input type="hidden"
+                   name="yasr_csv_nonce"
+                   id="yasr-export-nonce"
+                   value="<?php echo esc_attr($nonce) ?>">
+
+            <input type="hidden"
+                   name="<?php echo esc_attr($name_hidden) ?>"
+                   value="<?php echo esc_attr($name) ?>">
+        </div>
+        <div class="yasr-indented-answer">
+            <?php
+                $this->createLinks($name);
+            ?>
+        </div>
+        <?php
+    }
+
+    /**
+     * Do the query to export visitor multiset and return results
+     *
+     * @return array|object|null
+     */
+    private function returnVisitorMultiData() {
+        global $wpdb;
+
+        //get logs
+        $results = $wpdb->get_results(
+            'SELECT posts.post_title as TITLE,
+            multiset.set_name as "SET NAME",
+            field.field_name as FIELD,
+            log.vote as VOTE,
+            log.date as DATE,
+            log.set_type as "SET ID"
+            FROM ' . $wpdb->posts .' as posts,
+                ' . YASR_LOG_MULTI_SET . '  as log,
+                ' . YASR_MULTI_SET_NAME_TABLE .'  as multiset,
+                ' . YASR_MULTI_SET_FIELDS_TABLE . ' as field
+            WHERE log.set_type = multiset.set_id
+            AND   field.parent_set_id = log.set_type
+            AND   log.field_id = field.field_id
+            AND   posts.ID = log.post_id
+            ORDER BY log.date DESC',
+            ARRAY_A
+        );
+
+        return($results);
     }
 }
