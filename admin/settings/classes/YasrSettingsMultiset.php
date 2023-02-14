@@ -223,8 +223,7 @@ class YasrSettingsMultiset {
 
         ?>
         <div class="<?php echo esc_attr($class) ?>"
-             id="<?php echo esc_attr($id_container) ?>"
-             value="<?php echo esc_attr($i) ?>">
+             id="<?php echo esc_attr($id_container) ?>">
             <label>
                 <input type="text"
                        name="<?php echo esc_attr($name); ?>"
