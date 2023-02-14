@@ -299,8 +299,6 @@ class YasrSettingsMultiset {
         <?php
     }
 
-
-
     /**
      * Print the form to edit the multi set
      *
@@ -343,6 +341,13 @@ class YasrSettingsMultiset {
      * @return void
      */
     private function formEditMultisetPrintFields($set_fields, $set_id) {
+        //this mean that set name exists, but has no fields (this could happen if manually deleted in db)
+        if(!is_array($set_fields)) {
+            //delete the empty set
+            $this->deleteMultisetName(false, $set_id);
+            return;
+        }
+
         $i = 1;
         echo '<div id="edit-set-criteria-container">';
             foreach ($set_fields as $field) {
