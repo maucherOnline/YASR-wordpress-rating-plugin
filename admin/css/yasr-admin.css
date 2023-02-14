@@ -1028,16 +1028,40 @@ div.yasr-select-img-container input {
 .yasr-container {
     display: flex;
     flex-wrap: wrap;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-    justify-content: center;
 }
 
 .yasr-box {
     flex-basis: 45%;
-    height: 300px;
+    min-height: 200px;
     background-color: #fff;
     border: 1px solid #EAEAEA;
     box-sizing: border-box;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
     margin: 10px;
+    font-size: 14px;
+}
+
+.yasr-box h4 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 0;
+    padding: 10px;
+    background-color: #ddd;
+}
+
+.yasr-box h5 {
+    font-size: 14px;
+    font-weight: normal;
+    margin: 5px;
+    padding-left: 5px;
+}
+
+.yasr-box button {
+    margin: 10px !important;
+}
+
+.yasr-box hr {
+    border-top: 1px solid #ddd;
+    border-top-color: rgb(221, 221, 221);
 }

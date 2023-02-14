@@ -131,16 +131,26 @@ class YasrProExportData {
         ?>
         <div>
             <h3>
-                <?php _e('Export Multi Set', 'yet-another-stars-rating'); ?>
+                <?php _e('Export Data', 'yet-another-stars-rating'); ?>
             </h3>
 
             <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
                   method="post">
                 <div class="yasr-container">
-                    <div class="yasr-box">ciao</div>
+                    <div class="yasr-box">
+                        <?php
+                            $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
+                            $this->printExportBox('overall_rating', 'Overall Rating', $description);
+                        ?>
+                    </div>
                     <div class="yasr-box">ciao</div>
                     <div class="yasr-box">
-                        <?php $this->printExportBox('visitor_multiset'); ?>
+                        <?php
+                            $description = esc_html__('Export all ratings saved with shortcode',
+                                'yet-another-stars-rating');
+                            $description .= ' <strong>yasr_visitor_multiset</strong>';
+                            $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
+                        ?>
                     </div>
 
                     <div class="yasr-box">ciao</div>
@@ -213,18 +223,34 @@ class YasrProExportData {
      *
      * @since 3.3.1
      *
-     * @param $name string what to export
+     * @param $name            string     what to export
+     * @param $readable_name   string     readable name
+     * @param $description     string     box description
      *
      * @return void
      */
-    private function printExportBox ($name) {
+    private function printExportBox ($name, $readable_name, $description) {
         $nonce       = wp_create_nonce('yasr-export-csv');
         $id          = 'yasr-export-csv-' . $name;
-        $name_hidden = 'yasr_export_'. $name
+        $name_hidden = 'yasr_export_'. $name;
+
+        $translated_readable_name = sprintf('%s', esc_html__($readable_name));
         ?>
         <div>
+            <h4>
+                <?php
+                $h5_text  = esc_html__('Export', 'yet-another-stars-rating');
+                $h5_text .= ' ' . $translated_readable_name;
+
+                echo $h5_text;
+                ?>
+            </h4>
+            <h5>
+                <?php echo yasr_kses($description); ?>
+            </h5>
+            <hr />
             <button class="button-primary" id="<?php echo esc_attr($id) ?>">
-                <?php esc_html_e( 'Export CSV Multi Set', 'yet-another-stars-rating' );  ?>
+                <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
             </button>
             <input type="hidden"
                    name="yasr_csv_nonce"
