@@ -771,10 +771,11 @@ class YasrSettingsMultiset {
                    FROM " . YASR_MULTI_SET_NAME_TABLE,
             ARRAY_A);
 
+        $parent_set_id      = $parent_set_id[0]['id'];
         $insert_set_value   = false; //avoid undefined
 
         for ($i = 1; $i <= $elements_filled; $i ++) {
-            $insert_set_value = $this->saveField($parent_set_id[0]['id'], $fields[$i], $i);
+            $insert_set_value = $this->saveField($parent_set_id, $fields[$i], $i);
         }
 
         return $insert_set_value;
@@ -788,27 +789,28 @@ class YasrSettingsMultiset {
      * @param $set_id
      * @param $field_name
      * @param $field_id
-     * @param bool|int $id   This is only needed to support table created with YASR before of 2.0.9
      *
      * @since  3.1.7
      * @return bool|int|\mysqli_result|resource|null
      */
-    private function saveField($set_id, $field_name, $field_id, $id=false) {
+    private function saveField($set_id, $field_name, $field_id) {
         global $wpdb;
 
-        //default where, without id because is auto increment
+        //since version 2.0.9 id is auto_increment by default, still doing this to compatibility for
+        //existing installs where auto_increment didn't work because set_id=1 already exists
+        $existing_id = $wpdb->get_results("SELECT MAX(id) as id FROM " . YASR_MULTI_SET_FIELDS_TABLE, ARRAY_A);
+
+        $new_id      =  $existing_id[0]['id']+1;
+
+        //default where, I need to insert the id even if is auto_insert. to keep compatibility with
+        ///to keep compatibility with versions INSTALLED before 2.0.9
         $where_array = array(
+            'id'            => $new_id,
             'parent_set_id' => $set_id,
             'field_name'    => $field_name,
             'field_id'      => $field_id
         );
-        $format_array =  array('%d', '%s', '%d');
-
-        //This is to keep compatibility with versions INSTALLED before 2.0.9
-        if($id !== false && is_int($id)) {
-            $where_array['id'] = $id;
-            $format_array[] = '%d';
-        }
+        $format_array =  array('%d', '%d', '%s', '%d');
 
         //do the replacement
         return $wpdb->replace(
@@ -1046,18 +1048,12 @@ class YasrSettingsMultiset {
                             DESC LIMIT 1",
             ARRAY_A);
 
-        //since version 2.0.9 id is auto_increment by default, still doing this to compatibility for
-        //existing installs where auto_increment didn't work because set_id=1 already exists
-        $existing_id = $wpdb->get_results("SELECT MAX(id) as id FROM " . YASR_MULTI_SET_FIELDS_TABLE, ARRAY_A);
-
         $new_field_id =  $highest_field_id[0]['field_id']+1;
-        $new_id       =  $existing_id[0]['id']+1;
 
         $insert_set_value = $this->saveField(
             $set_id,
             $field_name,
-            $new_field_id,
-            $new_id
+            $new_field_id
         );
 
         if ($insert_set_value === false) {
@@ -1066,7 +1062,6 @@ class YasrSettingsMultiset {
 
             return 'error';
         }
-
 
         return false;
     }
