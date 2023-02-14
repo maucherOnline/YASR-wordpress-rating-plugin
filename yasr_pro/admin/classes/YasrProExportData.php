@@ -111,11 +111,6 @@ class YasrProExportData {
      */
     public function createCSV($array_csv) {
         if ($array_csv) {
-            //IF file with same name already exists, delete it
-            if (file_exists($this->file_and_path)) {
-                unlink($this->file_and_path);
-            }
-
             // Open file in append mode
             $opened_file = fopen($this->file_and_path, 'ab');
 
@@ -178,6 +173,7 @@ class YasrProExportData {
 
         $i=0;
         foreach($directory_obj as $file) {
+
             //check if is a file
             if ($file->isFile() && ($file->getExtension() === 'csv')) {
                 //get file name
@@ -187,9 +183,10 @@ class YasrProExportData {
                 if(substr($file_name, 0, 5) !== "yasr_") {
                     continue;
                 }
-                //if files are older than 1 day, delete
-                if ($now - $file->getCTime() >= 60 * 60 * 24) {
-                    unlink($this->file_and_path);
+                //if files are older than 1 week, delete and go to next iteration
+                if ($now - $file->getCTime() >= WEEK_IN_SECONDS) {
+                    unlink($this->temp_dir_abs . '/' . $file_name);
+                    continue;
                 }
 
                 //save in an array url and file name
