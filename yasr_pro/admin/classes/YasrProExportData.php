@@ -13,8 +13,6 @@ if (!defined('ABSPATH')) {
 class YasrProExportData {
     private $file_and_path;
 
-    public $temp_dir_abs;
-
     public function init () {
         //Simply add the tabs on settings page
         add_action('yasr_add_stats_tab', array($this, 'exportTab'), 999);
@@ -99,8 +97,7 @@ class YasrProExportData {
         //file name with date. e.g. format is 2020-Apr-25-10
         $file_name     = 'yasr_' . $post_prefix . '_' . date('Y-M-d__H:i:s') . '.csv';
 
-        $this->temp_dir_abs  = WP_CONTENT_DIR;
-        $this->file_and_path = $this->temp_dir_abs .'/'. $file_name;
+        $this->file_and_path = WP_CONTENT_DIR .'/'. $file_name;
     }
 
     /**
@@ -186,7 +183,7 @@ class YasrProExportData {
 
         $now = time();
 
-        $directory_obj = new DirectoryIterator($this->temp_dir_abs);
+        $directory_obj = new DirectoryIterator(WP_CONTENT_DIR);
         $output_array = array();
 
         $i=0;
@@ -205,7 +202,7 @@ class YasrProExportData {
                 }
                 //if files are older than 1 week, delete and go to next iteration
                 if ($now - $file->getCTime() >= WEEK_IN_SECONDS) {
-                    unlink($this->temp_dir_abs . '/' . $file_name);
+                    unlink(WP_CONTENT_DIR . '/' . $file_name);
                     continue;
                 }
 
