@@ -57,7 +57,7 @@ class YasrProExportData {
         if ($active_tab === 'yasr_csv_export') {
             $this->checkIfPost();
 
-            $this->printForm();
+            $this->printPage();
         } //End tab ur options
     }
 
@@ -124,7 +124,7 @@ class YasrProExportData {
     /**
      * Drow form, set the nonce
      */
-    public function printForm () {
+    public function printPage () {
         ?>
         <div>
             <h3>
