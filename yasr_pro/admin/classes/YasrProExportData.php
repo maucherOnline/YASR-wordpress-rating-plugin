@@ -131,8 +131,16 @@ class YasrProExportData {
         ?>
         <div>
             <h3>
-                <?php _e('Export Data', 'yet-another-stars-rating'); ?>
+                <?php esc_html_e('Export Data', 'yet-another-stars-rating'); ?>
             </h3>
+            <div class="yasr-help-box-settings" style="display: block">
+                <?php
+                    $url = wp_upload_dir();
+                    esc_html_e('All the .csv files are saved into', 'yet-another-stars-rating');
+                    echo ' ' . '<strong>'.$url['baseurl'].'</strong>. ';
+                    esc_html_e('The files are deleted automatically after 7 days.', 'yet-another-stars-rating');
+                ?>
+            </div>
 
             <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
                   method="post">
@@ -189,8 +197,10 @@ class YasrProExportData {
                 //get file name
                 $file_name = $file->getFilename();
 
-                //if file name doesn't start with yasr_, go to next iteration
-                if(substr($file_name, 0, 5) !== "yasr_") {
+                $length = strlen('yasr_'.$post_prefix);
+
+                //if file name doesn't start with yasr_ + post_prefix, go to next iteration
+                if(substr($file_name, 0, $length) !== "yasr_".$post_prefix) {
                     continue;
                 }
                 //if files are older than 1 week, delete and go to next iteration
@@ -211,8 +221,10 @@ class YasrProExportData {
 
         //echo the array
         foreach ($output_array as $output) {
+            echo '<p>';
+            echo '<span class="dashicons dashicons-arrow-down-alt"></span>';
             echo '<a href="'.esc_url($output['url']).'">'.esc_html($output['name']).'</a>';
-            echo '<br />';
+            echo '</p>';
         }
     }
 

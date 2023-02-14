@@ -1030,8 +1030,23 @@ div.yasr-select-img-container input {
     flex-wrap: wrap;
 }
 
+@media (max-width: 699px) {
+    .yasr-container {
+        justify-content: center;
+    }
+    .yasr-box {
+        flex-basis: 95%;
+    }
+}
+
+@media (min-width: 700px) {
+    .yasr-box {
+        flex-basis: 45%;
+    }
+}
+
 .yasr-box {
-    flex-basis: 45%;
+
     min-height: 200px;
     background-color: #fff;
     border: 1px solid #EAEAEA;
@@ -1039,6 +1054,7 @@ div.yasr-select-img-container input {
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
     margin: 10px;
     font-size: 14px;
+    padding-bottom: 10px;
 }
 
 .yasr-box h4 {
@@ -1051,7 +1067,7 @@ div.yasr-select-img-container input {
 }
 
 .yasr-box h5 {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: normal;
     margin: 5px;
     padding-left: 5px;
