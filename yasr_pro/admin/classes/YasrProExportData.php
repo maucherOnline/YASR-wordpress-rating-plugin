@@ -88,12 +88,12 @@ class YasrProExportData {
                 wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
             }
 
-            if($_POST['yasr_export_visitor_votes']) {
+            if(isset($_POST['yasr_export_visitor_votes']) && $_POST['yasr_export_visitor_votes']) {
                 $this->setFilePath('visitor_votes');
                 $data_to_export = $this->returnVisitorVotesData();
             }
 
-            else if($_POST['yasr_export_visitor_multiset']) {
+            if(isset($_POST['yasr_export_visitor_multiset']) && $_POST['yasr_export_visitor_multiset']) {
                 $this->setFilePath('visitor_multiset');
                 $data_to_export = $this->returnVisitorMultiData();
             }
@@ -153,37 +153,35 @@ class YasrProExportData {
                 ?>
             </div>
 
-            <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
-                  method="post">
-                <div class="yasr-container">
-                    <div class="yasr-box">
-                        <?php
-                            $description = esc_html__('Export all ratings saved through the shortcode ',
-                                'yet-another-stars-rating');
-                            $description .= ' <strong>yasr_visitor_votes</strong>';
-                            $this->printExportBox('visitor_votes', 'Visitor Votes', $description);
-                        ?>
-                    </div>
-                    <div class="yasr-box">
-                        <?php
-                            $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
-                            $this->printExportBox('overall_rating', 'Overall Rating', $description);
-                        ?>
-                    </div>
-                    <div class="yasr-box">
-                        <?php
-                            $description = esc_html__('Export all ratings saved with shortcode',
-                                'yet-another-stars-rating');
-                            $description .= ' <strong>yasr_visitor_multiset</strong>';
-                            $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
-                        ?>
-                    </div>
 
-                    <div class="yasr-box">ciao</div>
-                    <div class="yasr-box">ciao</div>
-                    <div class="yasr-box">ciao</div>
+            <div class="yasr-container">
+                <div class="yasr-box">
+                    <?php
+                        $description = esc_html__('Export all ratings saved through the shortcode ',
+                            'yet-another-stars-rating');
+                        $description .= ' <strong>yasr_visitor_votes</strong>';
+                        $this->printExportBox('visitor_votes', 'Visitor Votes', $description);
+                    ?>
                 </div>
-            </form>
+                <div class="yasr-box">
+                    <?php
+                        $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
+                        $this->printExportBox('overall_rating', 'Overall Rating', $description);
+                    ?>
+                </div>
+                <div class="yasr-box">
+                    <?php
+                        $description = esc_html__('Export all ratings saved with shortcode',
+                            'yet-another-stars-rating');
+                        $description .= ' <strong>yasr_visitor_multiset</strong>';
+                        $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
+                    ?>
+                </div>
+
+                <div class="yasr-box">ciao</div>
+                <div class="yasr-box">ciao</div>
+                <div class="yasr-box">ciao</div>
+            </div>
         </div>
 
         <?php
@@ -266,35 +264,38 @@ class YasrProExportData {
 
         $translated_readable_name = sprintf('%s', esc_html__($readable_name));
         ?>
-        <div>
-            <h4>
+        <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
+              method="post">
+            <div>
+                <h4>
+                    <?php
+                    $h5_text  = esc_html__('Export', 'yet-another-stars-rating');
+                    $h5_text .= ' ' . $translated_readable_name;
+
+                    echo $h5_text;
+                    ?>
+                </h4>
+                <h5>
+                    <?php echo yasr_kses($description); ?>
+                </h5>
+                <hr />
+                <button class="button-primary" id="<?php echo esc_attr($id) ?>">
+                    <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
+                </button>
+                <input type="hidden"
+                       name="yasr_csv_nonce"
+                       value="<?php echo esc_attr($nonce) ?>">
+
+                <input type="hidden"
+                       name="<?php echo esc_attr($name_hidden) ?>"
+                       value="<?php echo esc_attr($name) ?>">
+            </div>
+            <div class="yasr-indented-answer">
                 <?php
-                $h5_text  = esc_html__('Export', 'yet-another-stars-rating');
-                $h5_text .= ' ' . $translated_readable_name;
-
-                echo $h5_text;
+                    $this->createLinks($name);
                 ?>
-            </h4>
-            <h5>
-                <?php echo yasr_kses($description); ?>
-            </h5>
-            <hr />
-            <button class="button-primary" id="<?php echo esc_attr($id) ?>">
-                <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
-            </button>
-            <input type="hidden"
-                   name="yasr_csv_nonce"
-                   value="<?php echo esc_attr($nonce) ?>">
-
-            <input type="hidden"
-                   name="<?php echo esc_attr($name_hidden) ?>"
-                   value="<?php echo esc_attr($name) ?>">
-        </div>
-        <div class="yasr-indented-answer">
-            <?php
-                $this->createLinks($name);
-            ?>
-        </div>
+            </div>
+        </form>
         <?php
     }
 
