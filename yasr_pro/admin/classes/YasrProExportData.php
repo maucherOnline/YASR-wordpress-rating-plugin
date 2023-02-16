@@ -36,8 +36,17 @@ class YasrProExportData {
         <a href="?page=yasr_stats_page&tab=yasr_csv_export"
            class="nav-tab <?php if ($active_tab === 'yasr_csv_export') {
                echo 'nav-tab-active';
-           } ?>">
-            <?php esc_html_e('Export data', 'yet-another-stars-rating'); ?>
+           } ?>"
+        >
+            <?php
+                esc_html_e('Export data', 'yet-another-stars-rating');
+                if (yasr_fs()->is__premium_only()) { //these if can't be merged
+                    if (yasr_fs()->can_use_premium_code()) {
+                        echo YASR_LOCKED_FEATURE;
+                    }
+                }
+
+            ?>
         </a>
         <?php
     }
@@ -144,11 +153,18 @@ class YasrProExportData {
                 <div class="yasr-container">
                     <div class="yasr-box">
                         <?php
+                            $description = esc_html__('Export all ratings saved through the shortcode ',
+                                'yet-another-stars-rating');
+                            $description .= ' <strong>yasr_visitor_votes</strong>';
+                            $this->printExportBox('visitor_votes', 'Visitor Votes', $description);
+                        ?>
+                    </div>
+                    <div class="yasr-box">
+                        <?php
                             $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
                             $this->printExportBox('overall_rating', 'Overall Rating', $description);
                         ?>
                     </div>
-                    <div class="yasr-box">ciao</div>
                     <div class="yasr-box">
                         <?php
                             $description = esc_html__('Export all ratings saved with shortcode',
