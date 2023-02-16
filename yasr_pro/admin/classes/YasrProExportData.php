@@ -88,7 +88,12 @@ class YasrProExportData {
                 wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
             }
 
-            if($_POST['yasr_export_visitor_multiset']) {
+            if($_POST['yasr_export_visitor_votes']) {
+                $this->setFilePath('visitor_votes');
+                $data_to_export = $this->returnVisitorVotesData();
+            }
+
+            else if($_POST['yasr_export_visitor_multiset']) {
                 $this->setFilePath('visitor_multiset');
                 $data_to_export = $this->returnVisitorMultiData();
             }
@@ -291,6 +296,41 @@ class YasrProExportData {
             ?>
         </div>
         <?php
+    }
+
+    /**
+     * Do the query to export visitor votes data and return along with csv columns
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.1.3
+     * @return array
+     */
+    private function returnVisitorVotesData() {
+        global $wpdb;
+
+        $array_to_return = array();
+
+        $array_to_return['results'] = $wpdb->get_results(
+            'SELECT posts.post_title as TITLE,
+            users.user_login as USER,
+            log.vote as VOTE,
+            log.date as DATE
+            FROM ' . $wpdb->posts .' as posts,
+            '.$wpdb->users.' as users,
+            ' . YASR_LOG_TABLE . '   as log
+            WHERE posts.ID = log.post_id
+            ORDER BY log.date DESC',
+            ARRAY_A);
+
+        $array_to_return['columns'] = array(
+            'TITLE',
+            'USER',
+            'VOTE',
+            'DATE',
+        );
+
+        return $array_to_return;
     }
 
     /**
