@@ -206,6 +206,9 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.3.2 =
+* FIXED: "new criteria" button didn't work in Settings -> "Multi Criteria" tab
+
 = 3.3.1 =
 * FIXED:   in old YASR installations (first install < 2.0.9) new multi sets didn't get saved
 * TWEAKED: minor changes
