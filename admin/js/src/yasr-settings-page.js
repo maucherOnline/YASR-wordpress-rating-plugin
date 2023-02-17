@@ -6,13 +6,12 @@ import {
     selectMultiset,
 } from "./yasrMultiCriteriaUtils";
 
-//get active Tab
-let activeTab;
-let tabClass = document.getElementsByClassName('nav-tab-active');
+import {
+    getActiveTab
+} from "./yasr-admin-functions";
 
-if(tabClass.length > 0){
-    activeTab = document.getElementsByClassName('nav-tab-active')[0].id;
-}
+//get active Tab
+const activeTab = getActiveTab();
 
 function setupDeselectEvent() {
     var selected = {};

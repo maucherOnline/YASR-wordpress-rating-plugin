@@ -20,3 +20,15 @@ tippy(
         trigger: 'click'
     }
 );
+
+export const getActiveTab = () => {
+    //get active Tab
+    let activeTab;
+    let tabClass = document.getElementsByClassName('nav-tab-active');
+
+    if(tabClass.length > 0){
+        activeTab = document.getElementsByClassName('nav-tab-active')[0].id;
+    }
+
+    return activeTab;
+}

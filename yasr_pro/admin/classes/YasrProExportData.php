@@ -264,8 +264,8 @@ class YasrProExportData {
 
         $translated_readable_name = sprintf('%s', esc_html__($readable_name));
         ?>
-        <form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
-              method="post">
+        <?php /*<form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
+              method="post">*/ ?>
             <div>
                 <h4>
                     <?php
@@ -295,8 +295,8 @@ class YasrProExportData {
                     $this->createLinks($name);
                 ?>
             </div>
-        </form>
         <?php
+        // </form>
     }
 
     /**
