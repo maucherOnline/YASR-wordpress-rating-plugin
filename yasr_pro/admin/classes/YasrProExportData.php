@@ -25,7 +25,7 @@ class YasrProExportData {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.3.1
+     * @since 3.3.2
      *
      * @param $active_tab
      *
@@ -56,7 +56,7 @@ class YasrProExportData {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.3.1
+     * @since 3.3.2
      *
      * @param $active_tab
      *
@@ -194,7 +194,7 @@ class YasrProExportData {
      * @author Dario Curvino <@dudo>
      *
      * @param $post_prefix
-     * @since  3.3.1
+     * @since  3.3.2
      * @return void
      */
     public function createLinks($post_prefix) {
@@ -249,7 +249,7 @@ class YasrProExportData {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.3.1
+     * @since 3.3.2
      *
      * @param $name            string     what to export
      * @param $readable_name   string     readable name
@@ -304,7 +304,7 @@ class YasrProExportData {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.1.3
+     * @since 3.3.2
      * @return array
      */
     private function returnVisitorVotesData() {
