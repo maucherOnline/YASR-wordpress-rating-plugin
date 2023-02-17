@@ -124,7 +124,9 @@ export const editFormAddElement = () => {
  */
 const returnArrayElementsValues = (className) => {
     return [...document.getElementsByClassName(className)]
-        .map(el => parseInt(el.attributes.value.value));
+        .map(
+            el => parseInt(el.dataset.row)
+        );
 }
 
 /**
@@ -170,7 +172,7 @@ const createNewCriteria = (newRowNumber, secClass, containerId, inputName, input
 
     newCriteria.className = divClass;
     newCriteria.id        = `${containerId}${newRowNumber}`;
-    newCriteria.setAttribute("value", newRowNumber); //newCriteria.value doesnt' work here
+    newCriteria.setAttribute('data-row', `${newRowNumber}`);
 
     let removeButtonId;
     if(context === 'edit-form') {
