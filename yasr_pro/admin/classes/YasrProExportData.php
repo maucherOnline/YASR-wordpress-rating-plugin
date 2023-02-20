@@ -6,16 +6,25 @@ if (!defined('ABSPATH')) {
 
 
 /**
+ * Class to export data
+ *
  * @author Dario Curvino <@dudo>
- * @since
- * @return
+ * @since  3.3.3
  */
 class YasrProExportData {
     private $file_and_path;
 
+    /**
+     * Init the class
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.3
+     * @return void
+     */
     public function init () {
         //Simply add the tabs on settings page
-        add_action('yasr_add_stats_tab', array($this, 'exportTab'), 999);
+        add_action('yasr_add_stats_tab',     array($this, 'exportTab'), 999);
 
         add_action('yasr_stats_tab_content', array($this, 'tabContent'));
     }
@@ -25,7 +34,7 @@ class YasrProExportData {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.3.2
+     * @since 3.3.3
      *
      * @param $active_tab
      *
@@ -56,7 +65,7 @@ class YasrProExportData {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.3.2
+     * @since 3.3.3
      *
      * @param $active_tab
      *
@@ -194,7 +203,7 @@ class YasrProExportData {
      * @author Dario Curvino <@dudo>
      *
      * @param $post_prefix
-     * @since  3.3.2
+     * @since  3.3.3
      * @return void
      */
     public function createLinks($post_prefix) {
@@ -249,7 +258,7 @@ class YasrProExportData {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.3.2
+     * @since 3.3.3
      *
      * @param $name            string     what to export
      * @param $readable_name   string     readable name
@@ -304,7 +313,7 @@ class YasrProExportData {
      *
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.3.2
+     * @since 3.3.3
      * @return array
      */
     private function returnVisitorVotesData() {
