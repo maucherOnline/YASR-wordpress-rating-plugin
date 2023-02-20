@@ -74,10 +74,108 @@ class YasrProExportData {
      *
      * @return void
      */
-    public function tabContent($active_tab) {
+    public function tabContent ($active_tab) {
         if ($active_tab === 'yasr_csv_export') {
-            $this->printPage();
-        } //End tab ur options
+            $nonce       = wp_create_nonce('yasr-export-csv');
+            ?>
+            <div>
+                <h3>
+                    <?php esc_html_e('Export Data', 'yet-another-stars-rating'); ?>
+                </h3>
+                <div class="yasr-help-box-settings" style="display: block">
+                    <?php
+                    $url = wp_upload_dir();
+                    esc_html_e('All the .csv files are saved into', 'yet-another-stars-rating');
+                    echo ' ' . '<strong>'.$url['baseurl'].'</strong>. ';
+                    esc_html_e('The files are deleted automatically after 7 days.', 'yet-another-stars-rating');
+                    ?>
+                </div>
+
+                <div class="yasr-container">
+                    <input type="hidden"
+                           name="yasr_csv_nonce"
+                           value="<?php echo esc_attr($nonce) ?>"
+                           id="yasr_csv_nonce">
+                    <div class="yasr-box">
+                        <?php
+                        $description = esc_html__('Export all ratings saved through the shortcode ',
+                            'yet-another-stars-rating');
+                        $description .= ' <strong>yasr_visitor_votes</strong>';
+                        $this->printExportBox('visitor_votes', 'Visitor Votes', $description);
+                        ?>
+                    </div>
+                    <div class="yasr-box">
+                        <?php
+                        $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
+                        $this->printExportBox('overall_rating', 'Overall Rating', $description);
+                        ?>
+                    </div>
+                    <div class="yasr-box">
+                        <?php
+                        $description = esc_html__('Export all ratings saved with shortcode',
+                            'yet-another-stars-rating');
+                        $description .= ' <strong>yasr_visitor_multiset</strong>';
+                        $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
+                        ?>
+                    </div>
+
+                    <div class="yasr-box">ciao</div>
+                    <div class="yasr-box">ciao</div>
+                    <div class="yasr-box">ciao</div>
+                </div>
+            </div>
+        <?php
+        }
+    }
+
+    /**
+     * Print the box with button to export data
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.3
+     *
+     * @param $name            string     what to export
+     * @param $readable_name   string     readable name
+     * @param $description     string     box description
+     *
+     * @return void
+     */
+    private function printExportBox ($name, $readable_name, $description) {
+        $id          = 'yasr-export-csv-' . $name;
+        $name_hidden = 'yasr_export_'. $name;
+
+        $translated_readable_name = sprintf('%s', esc_html__($readable_name));
+        ?>
+        <div>
+            <h4>
+                <?php
+                $h5_text  = esc_html__('Export', 'yet-another-stars-rating');
+                $h5_text .= ' ' . $translated_readable_name;
+
+                echo $h5_text;
+                ?>
+            </h4>
+            <h5>
+                <?php echo yasr_kses($description); ?>
+            </h5>
+            <hr />
+            <button class="button-primary" id="<?php echo esc_attr($id) ?>">
+                <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
+            </button>
+
+            <input type="hidden"
+                   name="<?php echo esc_attr($name_hidden) ?>"
+                   value="<?php echo esc_attr($name) ?>">
+        </div>
+        <div id="yasr-export-vv-ajax-result" style="margin: 5px 20px;" >
+        </div>
+        <div class="yasr-indented-answer">
+            <?php
+            $this->createLinks($name);
+            ?>
+        </div>
+        <?php
     }
 
     /**
@@ -103,7 +201,7 @@ class YasrProExportData {
             // Open file in append mode
             $opened_file = fopen($this->file_and_path, 'ab');
 
-            $success = fputcsv($opened_file, $array_csv['columns']);
+            $success     = fputcsv($opened_file, $array_csv['columns']);
 
             if($success === false) {
                 $this->returnAjaxResponse('error', $error_txt);
@@ -121,63 +219,6 @@ class YasrProExportData {
             $success = esc_html__('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
             $this->returnAjaxResponse('success', $success);
         }
-    }
-
-    /**
-     * Drow form, set the nonce
-     */
-    public function printPage () {
-        $nonce       = wp_create_nonce('yasr-export-csv');
-        ?>
-        <div>
-            <h3>
-                <?php esc_html_e('Export Data', 'yet-another-stars-rating'); ?>
-            </h3>
-            <div class="yasr-help-box-settings" style="display: block">
-                <?php
-                    $url = wp_upload_dir();
-                    esc_html_e('All the .csv files are saved into', 'yet-another-stars-rating');
-                    echo ' ' . '<strong>'.$url['baseurl'].'</strong>. ';
-                    esc_html_e('The files are deleted automatically after 7 days.', 'yet-another-stars-rating');
-                ?>
-            </div>
-
-            <div class="yasr-container">
-                <input type="hidden"
-                       name="yasr_csv_nonce"
-                       value="<?php echo esc_attr($nonce) ?>"
-                       id="yasr_csv_nonce">
-                <div class="yasr-box">
-                    <?php
-                        $description = esc_html__('Export all ratings saved through the shortcode ',
-                            'yet-another-stars-rating');
-                        $description .= ' <strong>yasr_visitor_votes</strong>';
-                        $this->printExportBox('visitor_votes', 'Visitor Votes', $description);
-                    ?>
-                </div>
-                <div class="yasr-box">
-                    <?php
-                        $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
-                        $this->printExportBox('overall_rating', 'Overall Rating', $description);
-                    ?>
-                </div>
-                <div class="yasr-box">
-                    <?php
-                        $description = esc_html__('Export all ratings saved with shortcode',
-                            'yet-another-stars-rating');
-                        $description .= ' <strong>yasr_visitor_multiset</strong>';
-                        $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
-                    ?>
-                </div>
-
-                <div class="yasr-box">ciao</div>
-                <div class="yasr-box">ciao</div>
-                <div class="yasr-box">ciao</div>
-            </div>
-        </div>
-
-        <?php
-
     }
 
     /**
@@ -234,56 +275,6 @@ class YasrProExportData {
             echo '<a href="'.esc_url($output['url']).'">'.esc_html($output['name']).'</a>';
             echo '</p>';
         }
-    }
-
-    /**
-     * Print the box with button to export data
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @since 3.3.3
-     *
-     * @param $name            string     what to export
-     * @param $readable_name   string     readable name
-     * @param $description     string     box description
-     *
-     * @return void
-     */
-    private function printExportBox ($name, $readable_name, $description) {
-        $id          = 'yasr-export-csv-' . $name;
-        $name_hidden = 'yasr_export_'. $name;
-
-        $translated_readable_name = sprintf('%s', esc_html__($readable_name));
-        ?>
-        <div>
-            <h4>
-                <?php
-                $h5_text  = esc_html__('Export', 'yet-another-stars-rating');
-                $h5_text .= ' ' . $translated_readable_name;
-
-                echo $h5_text;
-                ?>
-            </h4>
-            <h5>
-                <?php echo yasr_kses($description); ?>
-            </h5>
-            <hr />
-            <button class="button-primary" id="<?php echo esc_attr($id) ?>">
-                <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
-            </button>
-
-            <input type="hidden"
-                   name="<?php echo esc_attr($name_hidden) ?>"
-                   value="<?php echo esc_attr($name) ?>">
-        </div>
-        <div id="yasr-export-vv-ajax-result" style="margin: 5px 20px;" >
-        </div>
-        <div class="yasr-indented-answer">
-            <?php
-                $this->createLinks($name);
-            ?>
-        </div>
-        <?php
     }
 
     /**
