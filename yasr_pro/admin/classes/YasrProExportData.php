@@ -129,18 +129,28 @@ class YasrProExportData {
      */
     public function createCSV($array_csv) {
         if ($array_csv) {
+            $error_txt = __('Error in creating the CSV file.', 'yet-another-stars-rating');
+
             // Open file in append mode
             $opened_file = fopen($this->file_and_path, 'ab');
 
-            fputcsv($opened_file, $array_csv['columns']);
+            $success = fputcsv($opened_file, $array_csv['columns']);
+
+            if($success === false) {
+                $this->returnAjaxResponse('error', $error_txt);
+            }
 
             foreach ($array_csv['results'] as $value) {
-                fputcsv($opened_file, $value);
+                $success = fputcsv($opened_file, $value);
+                if($success === false) {
+                    $this->returnAjaxResponse('error', $error_txt);
+                }
             }
 
             fclose($opened_file);
 
-            $this->returnAjaxResponse('success', 'Ok');
+            $success = __('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
+            $this->returnAjaxResponse('success', $success);
         }
     }
 
@@ -313,7 +323,7 @@ class YasrProExportData {
      * @author Dario Curvino <@dudo>
      *
      * @since 3.3.3
-     * @return string
+     * @return void
      */
     public function returnVisitorVotesData() {
         $this->setFilePath('visitor_votes');

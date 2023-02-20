@@ -27,10 +27,27 @@ if (activeTab === 'yasr_csv_export') {
                 answerDiv.innerHTML = yasrReturnErrorDiv(response.text);
                 return;
             }
+
+            //Print success
+            answerDiv.innerHTML = yasrReturnSuccessDiv(response.text);
         });
     });
 }
 
-const yasrReturnErrorDiv = (error) => {
-    return `<div class="notice notice-error" style="padding: 10px">${error}</div>`;
+/**
+ * Return an error div
+ * @param text
+ * @returns {`<div class="notice notice-error" style="padding: 10px">${string}</div>`}
+ */
+const yasrReturnErrorDiv = (text) => {
+    return `<div class="notice notice-error" style="padding: 10px">${text}</div>`;
+}
+
+/**
+ * Return a success div
+ * @param text
+ * @returns {`<div class="notice notice-success" style="padding: 10px">${string}</div>`}
+ */
+const yasrReturnSuccessDiv = (text) => {
+    return `<div class="notice notice-success" style="padding: 10px">${text}</div>`;
 }
