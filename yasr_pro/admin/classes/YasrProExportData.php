@@ -76,39 +76,8 @@ class YasrProExportData {
      */
     public function tabContent($active_tab) {
         if ($active_tab === 'yasr_csv_export') {
-            $this->checkIfPost();
-
             $this->printPage();
         } //End tab ur options
-    }
-
-    /**
-     * Check if $_POST['yasr_csv_nonce'], and later create the csv according to the post data
-     *
-     * @return void
-     */
-    public function checkIfPost() {
-        if(isset($_POST['yasr_csv_nonce'])) {
-            $nonce          = $_POST['yasr_csv_nonce'];
-
-            $valid_nonce = YasrShortcodesAjax::validNonce($nonce, 'yasr-export-csv');
-
-            if ($valid_nonce !== true) {
-                wp_die(esc_html__('Error while checking nonce', 'yet-another-stars-rating'));
-            }
-
-            if (!current_user_can( 'manage_options' ) ) {
-                wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
-            }
-
-            /*
-            if(isset($_POST['yasr_export_visitor_multiset']) && $_POST['yasr_export_visitor_multiset']) {
-                $this->setFilePath('visitor_multiset');
-                $data_to_export = $this->returnVisitorMultiData();
-            }*/
-
-
-        }
     }
 
     /**
@@ -129,7 +98,7 @@ class YasrProExportData {
      */
     public function createCSV($array_csv) {
         if ($array_csv) {
-            $error_txt = __('Error in creating the CSV file.', 'yet-another-stars-rating');
+            $error_txt = esc_html__('Error in creating the CSV file.', 'yet-another-stars-rating');
 
             // Open file in append mode
             $opened_file = fopen($this->file_and_path, 'ab');
@@ -149,7 +118,7 @@ class YasrProExportData {
 
             fclose($opened_file);
 
-            $success = __('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
+            $success = esc_html__('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
             $this->returnAjaxResponse('success', $success);
         }
     }
@@ -326,6 +295,8 @@ class YasrProExportData {
      * @return void
      */
     public function returnVisitorVotesData() {
+        $this->checkNonce();
+
         $this->setFilePath('visitor_votes');
 
         global $wpdb;
@@ -353,7 +324,7 @@ class YasrProExportData {
             );
             $this->createCSV($data_to_export);
         } else {
-            $error_text = __('Error while preparing data to export', 'yet-another-stars-rating');
+            $error_text = esc_html__('Error while preparing data to export', 'yet-another-stars-rating');
 
             $this->returnAjaxResponse('error', $error_text);
         }
@@ -400,6 +371,28 @@ class YasrProExportData {
         );
 
         return($array_to_return);
+    }
+
+    /**
+     * Check for nonce
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.3
+     * @return true|void
+     */
+    public function checkNonce () {
+        $nonce          = $_POST['nonce'];
+        $error_nonce    = esc_html__('Invalid Nonce. Data can\'t be exported.', 'yet-another-stars-rating');
+
+        $valid_nonce = YasrShortcodesAjax::validNonce($nonce, 'yasr-export-csv', $error_nonce);
+
+        if($valid_nonce !== true) {
+            echo $valid_nonce;
+            die();
+        }
+
+        return true;
     }
 
     /**
