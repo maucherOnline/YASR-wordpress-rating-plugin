@@ -43,6 +43,7 @@ class YasrProExportData {
     public function exportTab ($active_tab) {
         ?>
         <a href="?page=yasr_stats_page&tab=yasr_csv_export"
+           id="yasr_csv_export"
            class="nav-tab <?php if ($active_tab === 'yasr_csv_export') {
                echo 'nav-tab-active';
            } ?>"
