@@ -13,17 +13,6 @@ import {
 //get active Tab
 const activeTab = getActiveTab();
 
-function setupDeselectEvent() {
-    var selected = {};
-    jQuery('input[type="radio"]').on('click', function() {
-        if (this.name in selected && this != selected[this.name])
-            jQuery(selected[this.name]).trigger("deselect");
-        selected[this.name] = this;
-    }).filter(':checked').each(function() {
-        selected[this.name] = this;
-    });
-}
-
 //-------------------General Settings Code---------------------
 if (activeTab === 'general_settings') {
     const autoInsertEnabled = document.getElementById('yasr_auto_insert_switch');
