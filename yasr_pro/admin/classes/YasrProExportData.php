@@ -27,6 +27,8 @@ class YasrProExportData {
         add_action('yasr_add_stats_tab',     array($this, 'exportTab'), 999);
 
         add_action('yasr_stats_tab_content', array($this, 'tabContent'));
+
+        add_action('wp_ajax_yasr_export_csv', array($this, 'returnVisitorVotesData'));
     }
 
     /**
@@ -98,19 +100,16 @@ class YasrProExportData {
                 wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
             }
 
-            if(isset($_POST['yasr_export_visitor_votes']) && $_POST['yasr_export_visitor_votes']) {
-                $this->setFilePath('visitor_votes');
+            /*if(isset($_POST['yasr_export_visitor_votes']) && $_POST['yasr_export_visitor_votes']) {
                 $data_to_export = $this->returnVisitorVotesData();
             }
 
             if(isset($_POST['yasr_export_visitor_multiset']) && $_POST['yasr_export_visitor_multiset']) {
                 $this->setFilePath('visitor_multiset');
                 $data_to_export = $this->returnVisitorMultiData();
-            }
+            }*/
 
-            if($data_to_export) {
-                $this->createCSV($data_to_export);
-            }
+
         }
     }
 
@@ -149,6 +148,7 @@ class YasrProExportData {
      * Drow form, set the nonce
      */
     public function printPage () {
+        $nonce       = wp_create_nonce('yasr-export-csv');
         ?>
         <div>
             <h3>
@@ -163,8 +163,11 @@ class YasrProExportData {
                 ?>
             </div>
 
-
             <div class="yasr-container">
+                <input type="hidden"
+                       name="yasr_csv_nonce"
+                       value="<?php echo esc_attr($nonce) ?>"
+                       id="yasr_csv_nonce">
                 <div class="yasr-box">
                     <?php
                         $description = esc_html__('Export all ratings saved through the shortcode ',
@@ -268,7 +271,6 @@ class YasrProExportData {
      * @return void
      */
     private function printExportBox ($name, $readable_name, $description) {
-        $nonce       = wp_create_nonce('yasr-export-csv');
         $id          = 'yasr-export-csv-' . $name;
         $name_hidden = 'yasr_export_'. $name;
 
@@ -292,9 +294,6 @@ class YasrProExportData {
                 <button class="button-primary" id="<?php echo esc_attr($id) ?>">
                     <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
                 </button>
-                <input type="hidden"
-                       name="yasr_csv_nonce"
-                       value="<?php echo esc_attr($nonce) ?>">
 
                 <input type="hidden"
                        name="<?php echo esc_attr($name_hidden) ?>"
@@ -315,14 +314,16 @@ class YasrProExportData {
      * @author Dario Curvino <@dudo>
      *
      * @since 3.3.3
-     * @return array
+     * @return void
      */
-    private function returnVisitorVotesData() {
+    public function returnVisitorVotesData() {
+        $this->setFilePath('visitor_votes');
+
         global $wpdb;
 
-        $array_to_return = array();
+        $data_to_export = array();
 
-        $array_to_return['results'] = $wpdb->get_results(
+        $data_to_export['results'] = $wpdb->get_results(
             'SELECT posts.post_title as TITLE,
             users.user_login as USER,
             log.vote as VOTE,
@@ -334,14 +335,17 @@ class YasrProExportData {
             ORDER BY log.date DESC',
             ARRAY_A);
 
-        $array_to_return['columns'] = array(
+        $data_to_export['columns'] = array(
             'TITLE',
             'USER',
             'VOTE',
             'DATE',
         );
 
-        return $array_to_return;
+        if($data_to_export) {
+            $this->createCSV($data_to_export);
+        }
+
     }
 
     /**
