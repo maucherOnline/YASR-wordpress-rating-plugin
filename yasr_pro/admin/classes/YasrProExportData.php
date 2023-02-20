@@ -28,7 +28,7 @@ class YasrProExportData {
 
         add_action('yasr_stats_tab_content', array($this, 'tabContent'));
 
-        add_action('wp_ajax_yasr_export_csv', array($this, 'returnVisitorVotesData'));
+        add_action('wp_ajax_yasr_export_csv_vv', array($this, 'returnVisitorVotesData'));
     }
 
     /**
@@ -89,10 +89,11 @@ class YasrProExportData {
      */
     public function checkIfPost() {
         if(isset($_POST['yasr_csv_nonce'])) {
-            $data_to_export = false;
             $nonce          = $_POST['yasr_csv_nonce'];
 
-            if (!wp_verify_nonce( $nonce, 'yasr-export-csv' ) ) {
+            $valid_nonce = YasrShortcodesAjax::validNonce($nonce, 'yasr-export-csv');
+
+            if ($valid_nonce !== true) {
                 wp_die(esc_html__('Error while checking nonce', 'yet-another-stars-rating'));
             }
 
@@ -100,10 +101,7 @@ class YasrProExportData {
                 wp_die(esc_html__( 'You do not have sufficient permissions to access this page.', 'yet-another-stars-rating' ));
             }
 
-            /*if(isset($_POST['yasr_export_visitor_votes']) && $_POST['yasr_export_visitor_votes']) {
-                $data_to_export = $this->returnVisitorVotesData();
-            }
-
+            /*
             if(isset($_POST['yasr_export_visitor_multiset']) && $_POST['yasr_export_visitor_multiset']) {
                 $this->setFilePath('visitor_multiset');
                 $data_to_export = $this->returnVisitorMultiData();
@@ -141,6 +139,8 @@ class YasrProExportData {
             }
 
             fclose($opened_file);
+
+            $this->returnAjaxResponse('success', 'Ok');
         }
     }
 
@@ -276,36 +276,35 @@ class YasrProExportData {
 
         $translated_readable_name = sprintf('%s', esc_html__($readable_name));
         ?>
-        <?php /*<form action="<?php echo esc_url(admin_url('admin.php?page=yasr_stats_page&tab=yasr_csv_export')) ?>"
-              method="post">*/ ?>
-            <div>
-                <h4>
-                    <?php
-                    $h5_text  = esc_html__('Export', 'yet-another-stars-rating');
-                    $h5_text .= ' ' . $translated_readable_name;
-
-                    echo $h5_text;
-                    ?>
-                </h4>
-                <h5>
-                    <?php echo yasr_kses($description); ?>
-                </h5>
-                <hr />
-                <button class="button-primary" id="<?php echo esc_attr($id) ?>">
-                    <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
-                </button>
-
-                <input type="hidden"
-                       name="<?php echo esc_attr($name_hidden) ?>"
-                       value="<?php echo esc_attr($name) ?>">
-            </div>
-            <div class="yasr-indented-answer">
+        <div>
+            <h4>
                 <?php
-                    $this->createLinks($name);
+                $h5_text  = esc_html__('Export', 'yet-another-stars-rating');
+                $h5_text .= ' ' . $translated_readable_name;
+
+                echo $h5_text;
                 ?>
-            </div>
+            </h4>
+            <h5>
+                <?php echo yasr_kses($description); ?>
+            </h5>
+            <hr />
+            <button class="button-primary" id="<?php echo esc_attr($id) ?>">
+                <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
+            </button>
+
+            <input type="hidden"
+                   name="<?php echo esc_attr($name_hidden) ?>"
+                   value="<?php echo esc_attr($name) ?>">
+        </div>
+        <div id="yasr-export-vv-ajax-result" style="margin: 5px 20px;" >
+        </div>
+        <div class="yasr-indented-answer">
+            <?php
+                $this->createLinks($name);
+            ?>
+        </div>
         <?php
-        // </form>
     }
 
     /**
@@ -314,7 +313,7 @@ class YasrProExportData {
      * @author Dario Curvino <@dudo>
      *
      * @since 3.3.3
-     * @return void
+     * @return string
      */
     public function returnVisitorVotesData() {
         $this->setFilePath('visitor_votes');
@@ -335,15 +334,18 @@ class YasrProExportData {
             ORDER BY log.date DESC',
             ARRAY_A);
 
-        $data_to_export['columns'] = array(
-            'TITLE',
-            'USER',
-            'VOTE',
-            'DATE',
-        );
-
-        if($data_to_export) {
+        if(!empty($data_to_export['results'])) {
+            $data_to_export['columns'] = array(
+                'TITLE',
+                'USER',
+                'VOTE',
+                'DATE',
+            );
             $this->createCSV($data_to_export);
+        } else {
+            $error_text = __('Error while preparing data to export', 'yet-another-stars-rating');
+
+            $this->returnAjaxResponse('error', $error_text);
         }
 
     }
@@ -388,5 +390,24 @@ class YasrProExportData {
         );
 
         return($array_to_return);
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.3
+     *
+     * @param $status
+     * @param $text
+     *
+     * @return void
+     */
+    public function returnAjaxResponse ($status, $text) {
+        echo json_encode(array(
+            'status' => $status,
+            'text'   => wp_kses_post($text)
+        ));
+        //close Ajax
+        die();
     }
 }
