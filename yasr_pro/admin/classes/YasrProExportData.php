@@ -192,36 +192,55 @@ class YasrProExportData {
     }
 
     /**
-     * Create the csv file, if file already exists (must have same second)
-     * delete it
+     * Open the file and return it if no error are found
      *
-     * @param $array_csv array must have properties "result" and "columns"
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.3
+     *
+     * @param $mode  | fopen mode. w=write, a = append
+     *
+     * @return false|mixed|resource
      */
-    public function createCSV($array_csv) {
+    public function openCsv ($mode) {
+        $error_txt = esc_html__('Error while creating the CSV file.', 'yet-another-stars-rating');
+
+        // Open file in append mode
+        $file_open = fopen($this->file_and_path, $mode);
+
+        if($file_open === false) {
+            $this->returnAjaxResponse('error', $error_txt);
+        }
+
+        return $file_open;
+    }
+
+    /**
+     * Write into the csv file
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.3
+     *
+     * @param $opened_file
+     * @param $array_csv
+     *
+     * @return void
+     */
+    public function writeCSV($opened_file, $array_csv) {
+        $error_txt = esc_html__('Error while creating the CSV file.', 'yet-another-stars-rating');
+
         if ($array_csv) {
-            $error_txt = esc_html__('Error in creating the CSV file.', 'yet-another-stars-rating');
-
-            // Open file in append mode
-            $opened_file = fopen($this->file_and_path, 'ab');
-
-            $success     = fputcsv($opened_file, $array_csv['columns']);
+            //write the opened file
+            $success    = fputcsv($opened_file, $array_csv);
 
             if($success === false) {
                 $this->returnAjaxResponse('error', $error_txt);
             }
-
-            foreach ($array_csv['results'] as $value) {
-                $success = fputcsv($opened_file, $value);
-                if($success === false) {
-                    $this->returnAjaxResponse('error', $error_txt);
-                }
-            }
-
-            fclose($opened_file);
-
-            $success = esc_html__('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
-            $this->returnAjaxResponse('success', $success);
+            return;
         }
+
+        $this->returnAjaxResponse('error', $error_txt);
     }
 
     /**
@@ -311,11 +330,6 @@ class YasrProExportData {
         $result = @$this->mysqli->query($sql);
 
         if ($result) {
-            $error_txt = esc_html__('Error in creating the CSV file.', 'yet-another-stars-rating');
-
-            // Open file in append mode
-            $opened_file = fopen($this->file_and_path, 'w');
-
             $columns = array(
                 'TITLE',
                 'USER',
@@ -323,27 +337,29 @@ class YasrProExportData {
                 'DATE',
             );
 
-            $success = fputcsv($opened_file, $columns);
-            if($success === false) {
-                $this->returnAjaxResponse('error', $error_txt);
+            //open file in write mode
+            $open_csv = $this->openCsv('w');
+
+            //write the columns header
+            $this->writeCSV($open_csv, $columns);
+
+            //open file in append mode
+            $open_csv = $this->openCsv('a');
+            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                //write row by row
+                $this->writeCSV($open_csv, $row);
             }
 
-            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                $opened_file = fopen($this->file_and_path, 'a');
-                $success = fputcsv($opened_file, $row);
-                if($success === false) {
-                    $this->returnAjaxResponse('error', $error_txt);
-                }
-            }
-            fclose($opened_file);
+            //close the csv
+            fclose($open_csv);
+
+            //empty the memory
             @mysqli_free_result($result);
+
             $success = esc_html__('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
             $this->returnAjaxResponse('success', $success);
         }
 
-       /* if(!empty($data_to_export['results'])) {
-
-            $this->createCSV($data_to_export);*/
         else {
             $error_text = esc_html__('Error while preparing data to export', 'yet-another-stars-rating');
 
