@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 class YasrProExportData {
     private $file_and_path;
 
+    private $mysqli;
     /**
      * Init the class
      *
@@ -29,6 +30,8 @@ class YasrProExportData {
         add_action('yasr_stats_tab_content', array($this, 'tabContent'));
 
         add_action('wp_ajax_yasr_export_csv_vv', array($this, 'returnVisitorVotesData'));
+
+        $this->mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     }
 
     /**
@@ -98,24 +101,24 @@ class YasrProExportData {
                            id="yasr_csv_nonce">
                     <div class="yasr-box">
                         <?php
-                        $description = esc_html__('Export all ratings saved through the shortcode ',
-                            'yet-another-stars-rating');
-                        $description .= ' <strong>yasr_visitor_votes</strong>';
-                        $this->printExportBox('visitor_votes', 'Visitor Votes', $description);
+                            $description = esc_html__('Export all ratings saved through the shortcode ',
+                                'yet-another-stars-rating');
+                            $description .= ' <strong>yasr_visitor_votes</strong>';
+                            $this->printExportBox('visitor_votes', 'Visitor Votes', $description);
                         ?>
                     </div>
                     <div class="yasr-box">
                         <?php
-                        $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
-                        $this->printExportBox('overall_rating', 'Overall Rating', $description);
+                            $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
+                            $this->printExportBox('overall_rating', 'Overall Rating', $description);
                         ?>
                     </div>
                     <div class="yasr-box">
                         <?php
-                        $description = esc_html__('Export all ratings saved with shortcode',
-                            'yet-another-stars-rating');
-                        $description .= ' <strong>yasr_visitor_multiset</strong>';
-                        $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
+                            $description = esc_html__('Export all ratings saved with shortcode',
+                                'yet-another-stars-rating');
+                            $description .= ' <strong>yasr_visitor_multiset</strong>';
+                            $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
                         ?>
                     </div>
 
@@ -292,29 +295,56 @@ class YasrProExportData {
 
         global $wpdb;
 
-        $data_to_export = array();
+        $sql = 'SELECT 
+            posts.post_title AS TITLE, 
+            IF(log.user_id = 0, "Anonymous", IFNULL(users.user_login, "User Deleted")) AS USER, 
+            log.vote AS VOTE, 
+            log.date AS DATE 
+        FROM 
+            '. $wpdb->posts .' AS posts 
+            JOIN '.YASR_LOG_TABLE.' AS log ON posts.ID = log.post_id 
+            LEFT JOIN '. $wpdb->users .' AS users ON log.user_id = users.ID 
+        WHERE 
+            log.user_id = 0 OR users.ID IS NOT NULL OR log.user_id <> 0
+        ORDER BY DATE ASC;';
 
-        $data_to_export['results'] = $wpdb->get_results(
-            'SELECT posts.post_title as TITLE,
-            users.user_login as USER,
-            log.vote as VOTE,
-            log.date as DATE
-            FROM ' . $wpdb->posts .' as posts,
-            '.$wpdb->users.' as users,
-            ' . YASR_LOG_TABLE . '   as log
-            WHERE posts.ID = log.post_id
-            ORDER BY log.date DESC',
-            ARRAY_A);
+        $result = @$this->mysqli->query($sql);
 
-        if(!empty($data_to_export['results'])) {
-            $data_to_export['columns'] = array(
+        if ($result) {
+            $error_txt = esc_html__('Error in creating the CSV file.', 'yet-another-stars-rating');
+
+            // Open file in append mode
+            $opened_file = fopen($this->file_and_path, 'w');
+
+            $columns = array(
                 'TITLE',
                 'USER',
                 'VOTE',
                 'DATE',
             );
-            $this->createCSV($data_to_export);
-        } else {
+
+            $success = fputcsv($opened_file, $columns);
+            if($success === false) {
+                $this->returnAjaxResponse('error', $error_txt);
+            }
+
+            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                $opened_file = fopen($this->file_and_path, 'a');
+                $success = fputcsv($opened_file, $row);
+                if($success === false) {
+                    $this->returnAjaxResponse('error', $error_txt);
+                }
+            }
+            fclose($opened_file);
+            @mysqli_free_result($result);
+            $success = esc_html__('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
+            $this->returnAjaxResponse('success', $success);
+        }
+
+       /* if(!empty($data_to_export['results'])) {
+
+            $this->createCSV($data_to_export);*/
+        else {
             $error_text = esc_html__('Error while preparing data to export', 'yet-another-stars-rating');
 
             $this->returnAjaxResponse('error', $error_text);
