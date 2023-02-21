@@ -4,13 +4,15 @@ import {getActiveTab} from "./yasr-admin-functions";
 const activeTab = getActiveTab();
 
 if (activeTab === 'yasr_csv_export') {
-    const nonce     = document.getElementById('yasr_csv_nonce').value;
-    const buttonVV  = document.getElementById('yasr-export-csv-visitor_votes');
-    const answerDiv = document.getElementById('yasr-export-vv-ajax-result');
+
+    const nonce       = document.getElementById('yasr_csv_nonce').value;
+    const buttonVV    = document.getElementById('yasr-export-csv-visitor_votes');
+    const answerDivVV = document.getElementById('yasr-export-vv-ajax-result');
 
     buttonVV.addEventListener('click', function () {
-        answerDiv.innerHTML = yasrWindowVar.loaderHtml;
-        answerDiv.innerHTML += '<span> Getting data, please wait</span>';
+
+        answerDivVV.innerHTML = yasrWindowVar.loaderHtml;
+        answerDivVV.innerHTML += '<span> Getting data, please wait</span>';
 
         const data = {
             action: 'yasr_export_csv_vv',
@@ -18,18 +20,22 @@ if (activeTab === 'yasr_csv_export') {
         };
 
         jQuery.post(ajaxurl, data, function (response) {
+        }).done ((response) => {
             response = yasrValidJson(response);
             if(response === false) {
-                answerDiv.innerHTML = 'Not a valid Json Element';
+                answerDivVV.innerHTML = yasrReturnErrorDiv('Not a valid Json Element');
                 return;
             }
             if(response.status === 'error') {
-                answerDiv.innerHTML = yasrReturnErrorDiv(response.text);
+                answerDivVV.innerHTML = yasrReturnErrorDiv(response.text);
                 return;
             }
 
             //Print success
-            answerDiv.innerHTML = yasrReturnSuccessDiv(response.text);
+            answerDivVV.innerHTML = yasrReturnSuccessDiv(response.text);
+        }).fail(function(response) {
+            let error = `Error in ajax request, status code ${response.status}`;
+            answerDivVV.innerHTML = yasrReturnErrorDiv(error);
         });
     });
 }
