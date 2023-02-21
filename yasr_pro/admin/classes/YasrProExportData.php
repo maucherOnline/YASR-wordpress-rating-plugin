@@ -14,7 +14,6 @@ if (!defined('ABSPATH')) {
 class YasrProExportData {
     private $file_and_path;
 
-    private $mysqli;
     /**
      * Init the class
      *
@@ -30,8 +29,6 @@ class YasrProExportData {
         add_action('yasr_stats_tab_content', array($this, 'tabContent'));
 
         add_action('wp_ajax_yasr_export_csv_vv', array($this, 'returnVisitorVotesData'));
-
-        $this->mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     }
 
     /**
@@ -192,58 +189,6 @@ class YasrProExportData {
     }
 
     /**
-     * Open the file and return it if no error are found
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @since 3.3.3
-     *
-     * @param $mode  | fopen mode. w=write, a = append
-     *
-     * @return false|mixed|resource
-     */
-    public function openCsv ($mode) {
-        $error_txt = esc_html__('Error while creating the CSV file.', 'yet-another-stars-rating');
-
-        // Open file in append mode
-        $file_open = fopen($this->file_and_path, $mode);
-
-        if($file_open === false) {
-            $this->returnAjaxResponse('error', $error_txt);
-        }
-
-        return $file_open;
-    }
-
-    /**
-     * Write into the csv file
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @since 3.3.3
-     *
-     * @param $opened_file
-     * @param $array_csv
-     *
-     * @return void
-     */
-    public function writeCSV($opened_file, $array_csv) {
-        $error_txt = esc_html__('Error while creating the CSV file.', 'yet-another-stars-rating');
-
-        if ($array_csv) {
-            //write the opened file
-            $success    = fputcsv($opened_file, $array_csv);
-
-            if($success === false) {
-                $this->returnAjaxResponse('error', $error_txt);
-            }
-            return;
-        }
-
-        $this->returnAjaxResponse('error', $error_txt);
-    }
-
-    /**
      * Create link to download the file
      *
      * @author Dario Curvino <@dudo>
@@ -327,44 +272,14 @@ class YasrProExportData {
             log.user_id = 0 OR users.ID IS NOT NULL OR log.user_id <> 0
         ORDER BY DATE ASC;';
 
-        $result = @$this->mysqli->query($sql);
+        $columns = array(
+            'TITLE',
+            'USER',
+            'VOTE',
+            'DATE',
+        );
 
-        if ($result) {
-            $columns = array(
-                'TITLE',
-                'USER',
-                'VOTE',
-                'DATE',
-            );
-
-            //open file in write mode
-            $open_csv = $this->openCsv('w');
-
-            //write the columns header
-            $this->writeCSV($open_csv, $columns);
-
-            //open file in append mode
-            $open_csv = $this->openCsv('a');
-            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                //write row by row
-                $this->writeCSV($open_csv, $row);
-            }
-
-            //close the csv
-            fclose($open_csv);
-
-            //empty the memory
-            @mysqli_free_result($result);
-
-            $success = esc_html__('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
-            $this->returnAjaxResponse('success', $success);
-        }
-
-        else {
-            $error_text = esc_html__('Error while preparing data to export', 'yet-another-stars-rating');
-
-            $this->returnAjaxResponse('error', $error_text);
-        }
+        $this->doQuery($columns, $sql);
 
     }
 
@@ -408,6 +323,103 @@ class YasrProExportData {
         );
 
         return($array_to_return);
+    }
+
+    /**
+     * Do the query and write csv
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.3
+     *
+     * @param $columns
+     * @param $sql
+     *
+     * @return void
+     */
+    public function doQuery($columns, $sql) {
+        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        $result = @$mysqli->query($sql);
+
+        if ($result) {
+            //open file in write mode
+            $open_csv = $this->openCsv('w');
+
+            //write the columns header
+            $this->writeCSV($open_csv, $columns);
+
+            //open file in append mode
+            $open_csv = $this->openCsv('a');
+
+            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                //write row by row
+                $this->writeCSV($open_csv, $row);
+            }
+
+            //close the csv
+            fclose($open_csv);
+
+            //empty the memory
+            @mysqli_free_result($result);
+
+            $success = esc_html__('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
+            $this->returnAjaxResponse('success', $success);
+        }  else {
+            $error_text = esc_html__('Error while preparing data to export', 'yet-another-stars-rating');
+            $this->returnAjaxResponse('error', $error_text);
+        }
+    }
+
+    /**
+     * Open the file and return it if no error are found
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.3
+     *
+     * @param $mode  | fopen mode. w=write, a = append
+     *
+     * @return false|mixed|resource
+     */
+    public function openCsv ($mode) {
+        $error_txt = esc_html__('Error while creating the CSV file.', 'yet-another-stars-rating');
+
+        // Open file in append mode
+        $file_open = fopen($this->file_and_path, $mode);
+
+        if($file_open === false) {
+            $this->returnAjaxResponse('error', $error_txt);
+        }
+
+        return $file_open;
+    }
+
+    /**
+     * Write into the csv file
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.3
+     *
+     * @param $opened_file
+     * @param $array_csv
+     *
+     * @return void
+     */
+    public function writeCSV($opened_file, $array_csv) {
+        $error_txt = esc_html__('Error while creating the CSV file.', 'yet-another-stars-rating');
+
+        if ($array_csv) {
+            //write the opened file
+            $success    = fputcsv($opened_file, $array_csv);
+
+            if($success === false) {
+                $this->returnAjaxResponse('error', $error_txt);
+            }
+            return;
+        }
+
+        $this->returnAjaxResponse('error', $error_txt);
     }
 
     /**
