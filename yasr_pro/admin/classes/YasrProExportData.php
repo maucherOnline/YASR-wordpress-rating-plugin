@@ -270,7 +270,7 @@ class YasrProExportData {
             LEFT JOIN '. $wpdb->users .' AS users ON log.user_id = users.ID 
         WHERE 
             log.user_id = 0 OR users.ID IS NOT NULL OR log.user_id <> 0
-        ORDER BY DATE ASC;';
+        ORDER BY DATE DESC;';
 
         $columns = array(
             'TITLE',
@@ -280,7 +280,6 @@ class YasrProExportData {
         );
 
         $this->doQuery($columns, $sql);
-
     }
 
     /**
@@ -338,8 +337,9 @@ class YasrProExportData {
      * @return void
      */
     public function doQuery($columns, $sql) {
-        $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        $result = @$mysqli->query($sql);
+        $pdo    = YasrDB::PDOConnect();
+
+        $result = @$pdo->query($sql);
 
         if ($result) {
             //open file in write mode
@@ -351,7 +351,7 @@ class YasrProExportData {
             //open file in append mode
             $open_csv = $this->openCsv('a');
 
-            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 //write row by row
                 $this->writeCSV($open_csv, $row);
             }
@@ -359,8 +359,8 @@ class YasrProExportData {
             //close the csv
             fclose($open_csv);
 
-            //empty the memory
-            @mysqli_free_result($result);
+            //empty the pdo var, no needed anymore
+            $pdo = null;
 
             $success = esc_html__('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
             $this->returnAjaxResponse('success', $success);
