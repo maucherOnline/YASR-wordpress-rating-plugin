@@ -149,8 +149,8 @@ class YasrProLoadAdmin {
             ); //js
         }
 
-        //add this only in yasr setting page (admin.php?page=yasr_settings_page)
-        if ($hook === $yasr_settings_page) {
+        //add this only in yasr setting page (admin.php?page=yasr_settings_page) and stats page
+        if ($hook === $yasr_settings_page || $hook === 'yet-another-stars-rating_page_yasr_stats_page') {
             wp_enqueue_script(
                 'yasrprosettings',
                 YASR_PRO_JS_DIR . 'yasr-pro-settings.js', array('jquery', 'tippy', 'yasradmin', 'yasr-window-var'),

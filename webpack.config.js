@@ -46,7 +46,8 @@ var yasrAdminBabel    = Object.assign({}, config, {
         ],
         'admin/js/yasr-settings': [
             './admin/js/src/yasr-settings-page.js',
-            './admin/js/src/yasr-settings-rankings.js'
+            './admin/js/src/yasr-settings-rankings.js',
+            './admin/js/src/yasr-stats-page.js'
         ],
         'admin/js/yasr-pricing-page': './admin/js/src/yasr-pricing-page.js',
 
