@@ -285,7 +285,7 @@ class YasrProExportData {
             'DATE',
         );
 
-        $this->doQuery($columns, $sql);
+        $this->doQueryAndSaveCsv($columns, $sql);
     }
 
     /**
@@ -342,7 +342,7 @@ class YasrProExportData {
      *
      * @return void
      */
-    public function doQuery($columns, $sql) {
+    public function doQueryAndSaveCsv($columns, $sql, $page_size=1000) {
         //be sure to initialize it again
         $this->pdoConnect();
 
