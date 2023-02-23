@@ -14,6 +14,8 @@ if (!defined('ABSPATH')) {
 class YasrProExportData {
     private $file_and_path;
 
+    private $upload_dir_writable;
+
     //Here I will store the pdo object
     public $pdo = null;
 
@@ -82,7 +84,9 @@ class YasrProExportData {
      */
     public function tabContent ($active_tab) {
         if ($active_tab === 'yasr_csv_export') {
-            $nonce       = wp_create_nonce('yasr-export-csv');
+            $upload_dir                = wp_upload_dir();
+            $this->upload_dir_writable = wp_is_writable($upload_dir ['path']);
+            $nonce                     = wp_create_nonce('yasr-export-csv');
             ?>
             <div>
                 <h3>
@@ -90,10 +94,17 @@ class YasrProExportData {
                 </h3>
                 <div class="yasr-help-box-settings" style="display: block">
                     <?php
-                    $url = wp_upload_dir();
-                    esc_html_e('All the .csv files are saved into', 'yet-another-stars-rating');
-                    echo ' ' . '<strong>'.$url['baseurl'].'</strong>. ';
-                    esc_html_e('The files are deleted automatically after 7 days.', 'yet-another-stars-rating');
+                        esc_html_e('All the .csv files are saved into', 'yet-another-stars-rating');
+                        echo ' ' . '<strong>'.$upload_dir ['baseurl'].'</strong>. ';
+                        esc_html_e('The files are deleted automatically after 7 days.', 'yet-another-stars-rating');
+
+                    if($this->upload_dir_writable === false) {
+                        $error = esc_html__("Upload folder is not writable, data can't be saved!", 'yet-another-stars-rating');
+                        echo '<div style="margin-top: 20px; padding-left: 5px; border: 1px solid #c3c4c7; border-left-color: #d63638; 
+                                          border-left-width: 4px; box-shadow: 0 1px 1px rgba(0,0,0,.04);">
+                                          <h3>'.$error.'</h3>
+                              </div>';
+                    }
                     ?>
                 </div>
 
@@ -148,6 +159,11 @@ class YasrProExportData {
      * @return void
      */
     private function printExportBox ($name, $readable_name, $description) {
+        $button_disabled = '';
+        if($this->upload_dir_writable === false) {
+            $button_disabled = 'disabled';
+        }
+
         $id          = 'yasr-export-csv-' . $name;
         $name_hidden = 'yasr_export_'. $name;
 
@@ -166,7 +182,7 @@ class YasrProExportData {
                 <?php echo yasr_kses($description); ?>
             </h5>
             <hr />
-            <button class="button-primary" id="<?php echo esc_attr($id) ?>">
+            <button class="button-primary" id="<?php echo esc_attr($id)?>" <?php echo esc_attr($button_disabled)?>>
                 <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
             </button>
 
