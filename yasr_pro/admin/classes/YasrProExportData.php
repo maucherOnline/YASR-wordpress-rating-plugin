@@ -15,7 +15,7 @@ class YasrProExportData {
     private $file_and_path;
 
     //Here I will store the pdo object
-    public $pdo;
+    public $pdo = null;
 
     /**
      * Init the class
@@ -33,7 +33,8 @@ class YasrProExportData {
 
         add_action('wp_ajax_yasr_export_csv_vv', array($this, 'returnVisitorVotesData'));
 
-        $this->pdo = YasrDB::PDOConnect();
+        //keep this here, so we can have a wp_die immediately if unable to connect
+        $this->pdoConnect();
     }
 
     /**
@@ -342,6 +343,8 @@ class YasrProExportData {
      * @return void
      */
     public function doQuery($columns, $sql) {
+        //be sure to initialize it again
+        $this->pdoConnect();
 
         $result = @$this->pdo->query($sql);
 
@@ -364,7 +367,7 @@ class YasrProExportData {
             fclose($open_csv);
 
             //empty the pdo var, no needed anymore
-            $pdo = null;
+            $this->pdo = null;
 
             $success = esc_html__('CSV file created, refresh the page to download it.', 'yet-another-stars-rating');
             $this->returnAjaxResponse('success', $success);
@@ -446,6 +449,20 @@ class YasrProExportData {
         }
 
         return true;
+    }
+
+    /**
+     * Initialize $this->pdo, if it is null
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.3
+     * @return void
+     */
+    public function pdoConnect() {
+        if ($this->pdo === null) {
+            $this->pdo = YasrDB::PDOConnect();
+        }
     }
 
     /**
