@@ -14,6 +14,9 @@ if (!defined('ABSPATH')) {
 class YasrProExportData {
     private $file_and_path;
 
+    //Here I will store the pdo object
+    public $pdo;
+
     /**
      * Init the class
      *
@@ -29,6 +32,8 @@ class YasrProExportData {
         add_action('yasr_stats_tab_content', array($this, 'tabContent'));
 
         add_action('wp_ajax_yasr_export_csv_vv', array($this, 'returnVisitorVotesData'));
+
+        $this->pdo = YasrDB::PDOConnect();
     }
 
     /**
@@ -337,9 +342,8 @@ class YasrProExportData {
      * @return void
      */
     public function doQuery($columns, $sql) {
-        $pdo    = YasrDB::PDOConnect();
 
-        $result = @$pdo->query($sql);
+        $result = @$this->pdo->query($sql);
 
         if ($result) {
             //open file in write mode

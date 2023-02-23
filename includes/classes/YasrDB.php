@@ -1245,17 +1245,12 @@ class YasrDB {
      * @return \PDO|void
      */
     public static function PDOConnect() {
-        $hostname = DB_HOST;
-        $dbname   = DB_NAME;
-        $user     = DB_USER;
-        $pass     = DB_PASSWORD;
-
         try {
-            $pdo = new PDO("mysql:host=$hostname;dbname=$dbname", $user, $pass);
+            $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $pdo;
         } catch (PDOException $e) {
-            wp_die($e);
+            wp_die(esc_html__('Error Establishing A Database Connection', 'yet-another-stars-rating'));
         }
     }
 }
