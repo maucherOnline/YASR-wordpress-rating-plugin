@@ -29,11 +29,13 @@ class YasrProExportData {
      */
     public function init () {
         //Simply add the tabs on settings page
-        add_action('yasr_add_stats_tab',     array($this, 'exportTab'), 999);
+        add_action('yasr_add_stats_tab',         array($this, 'exportTab'), 999);
 
-        add_action('yasr_stats_tab_content', array($this, 'tabContent'));
+        add_action('yasr_stats_tab_content',     array($this, 'tabContent'));
 
         add_action('wp_ajax_yasr_export_csv_vv', array($this, 'returnVisitorVotesData'));
+
+        add_action('wp_ajax_yasr_export_csv_mv', array($this, 'returnVisitorMultiData'));
 
         //keep this here, so we can have a wp_die immediately if unable to connect
         $this->pdoConnect();
@@ -123,16 +125,17 @@ class YasrProExportData {
                     </div>
                     <div class="yasr-box">
                         <?php
-                            $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
-                            $this->printExportBox('overall_rating', 'Overall Rating', $description);
-                        ?>
-                    </div>
-                    <div class="yasr-box">
-                        <?php
-                            $description = esc_html__('Export all ratings saved with shortcode',
+                            $description = esc_html__('Export all ratings saved through the shortcode ',
                                 'yet-another-stars-rating');
                             $description .= ' <strong>yasr_visitor_multiset</strong>';
                             $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
+                        ?>
+                    </div>
+
+                    <div class="yasr-box">
+                        <?php
+                            $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
+                            $this->printExportBox('overall_rating', 'Overall Rating', $description);
                         ?>
                     </div>
 
@@ -164,8 +167,9 @@ class YasrProExportData {
             $button_disabled = 'disabled';
         }
 
-        $id          = 'yasr-export-csv-' . $name;
-        $name_hidden = 'yasr_export_'. $name;
+        $button_id    = 'yasr-export-csv-' . $name;
+        $answer_id    = 'yasr-export-ajax-result-'.$name;
+        $name_hidden  = 'yasr_export_'. $name;
 
         $translated_readable_name = sprintf('%s', esc_html__($readable_name));
         ?>
@@ -182,7 +186,7 @@ class YasrProExportData {
                 <?php echo yasr_kses($description); ?>
             </h5>
             <hr />
-            <button class="button-primary" id="<?php echo esc_attr($id)?>" <?php echo esc_attr($button_disabled)?>>
+            <button class="button-primary" id="<?php echo esc_attr($button_id)?>" <?php echo esc_attr($button_disabled)?>>
                 <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
             </button>
 
@@ -190,11 +194,11 @@ class YasrProExportData {
                    name="<?php echo esc_attr($name_hidden) ?>"
                    value="<?php echo esc_attr($name) ?>">
         </div>
-        <div id="yasr-export-vv-ajax-result" style="margin: 5px 20px;" >
+        <div id="<?php echo esc_attr($answer_id) ?>" style="margin: 5px 20px;" >
         </div>
         <div class="yasr-indented-answer">
             <?php
-            $this->createLinks($name);
+                $this->createLinks($name);
             ?>
         </div>
         <?php
@@ -306,35 +310,33 @@ class YasrProExportData {
 
     /**
      * Do the query to export visitor multiset and return along with csv columns
-     *
-     * @return array
-     */
-    private function returnVisitorMultiData() {
+     **/
+    public function returnVisitorMultiData() {
+        $this->checkNonce();
+
+        $this->setFilePath('visitor_multiset');
+
         global $wpdb;
 
-        $array_to_return = array();
-
         //get logs
-        $array_to_return['results'] = $wpdb->get_results(
-            'SELECT posts.post_title as TITLE,
-            multiset.set_name as "SET NAME",
-            field.field_name as FIELD,
-            log.vote as VOTE,
-            log.date as DATE,
-            log.set_type as "SET ID"
-            FROM ' . $wpdb->posts .' as posts,
-                ' . YASR_LOG_MULTI_SET . '  as log,
-                ' . YASR_MULTI_SET_NAME_TABLE .'  as multiset,
-                ' . YASR_MULTI_SET_FIELDS_TABLE . ' as field
-            WHERE log.set_type = multiset.set_id
-            AND   field.parent_set_id = log.set_type
-            AND   log.field_id = field.field_id
-            AND   posts.ID = log.post_id
-            ORDER BY log.date DESC',
-            ARRAY_A
-        );
+        $sql = 'SELECT posts.post_title as TITLE,
+                    multiset.set_name as "SET NAME",
+                    field.field_name as FIELD,
+                    log.vote as VOTE,
+                    log.date as DATE,
+                    log.set_type as "SET ID"
+                FROM ' . $wpdb->posts .' as posts,
+                    ' . YASR_LOG_MULTI_SET . '  as log,
+                    ' . YASR_MULTI_SET_NAME_TABLE .'  as multiset,
+                    ' . YASR_MULTI_SET_FIELDS_TABLE . ' as field
+                WHERE log.set_type = multiset.set_id
+                AND   field.parent_set_id = log.set_type
+                AND   log.field_id = field.field_id
+                AND   posts.ID = log.post_id
+                ORDER BY log.date DESC'
+        ;
 
-        $array_to_return['columns'] = array(
+        $columns = array(
             'TITLE',
             'SET NAME',
             'FIELD',
@@ -343,22 +345,21 @@ class YasrProExportData {
             'SET ID'
         );
 
-        return($array_to_return);
+        $this->doQueryAndSaveCsv($columns, $sql);
     }
 
     /**
      * Do the query and write csv
      *
      * @author Dario Curvino <@dudo>
+     * @since  3.3.3
      *
-     * @since 3.3.3
-     *
-     * @param $columns
-     * @param $sql
+     * @param     $columns
+     * @param     $sql
      *
      * @return void
      */
-    public function doQueryAndSaveCsv($columns, $sql, $page_size=1000) {
+    public function doQueryAndSaveCsv($columns, $sql) {
         //be sure to initialize it again
         $this->pdoConnect();
 
