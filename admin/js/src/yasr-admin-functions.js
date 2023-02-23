@@ -32,3 +32,21 @@ export const getActiveTab = () => {
 
     return activeTab;
 }
+
+/**
+ * Return an error div
+ * @param text
+ * @returns {`<div class="notice notice-error" style="padding: 10px">${string}</div>`}
+ */
+export const yasrReturnErrorDiv = (text) => {
+    return `<div class="notice notice-error" style="padding: 10px">${text}</div>`;
+}
+
+/**
+ * Return a success div
+ * @param text
+ * @returns {`<div class="notice notice-success" style="padding: 10px">${string}</div>`}
+ */
+export const yasrReturnSuccessDiv = (text) => {
+    return `<div class="notice notice-success" style="padding: 10px">${text}</div>`;
+}

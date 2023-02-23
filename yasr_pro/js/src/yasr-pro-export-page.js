@@ -1,3 +1,5 @@
+import {yasrReturnErrorDiv, yasrReturnSuccessDiv} from "../../../admin/js/src/yasr-admin-functions";
+
 /**
  * Function to hook at yasr_stats_page_csv
  */
@@ -54,24 +56,6 @@ const yasrExportData = () => {
             let error = `Error in ajax request, status code ${response.status}`;
             answerDiv.innerHTML = yasrReturnErrorDiv(error);
         });
-    }
-
-    /**
-     * Return an error div
-     * @param text
-     * @returns {`<div class="notice notice-error" style="padding: 10px">${string}</div>`}
-     */
-    const yasrReturnErrorDiv = (text) => {
-        return `<div class="notice notice-error" style="padding: 10px">${text}</div>`;
-    }
-
-    /**
-     * Return a success div
-     * @param text
-     * @returns {`<div class="notice notice-success" style="padding: 10px">${string}</div>`}
-     */
-    const yasrReturnSuccessDiv = (text) => {
-        return `<div class="notice notice-success" style="padding: 10px">${text}</div>`;
     }
 
 }
