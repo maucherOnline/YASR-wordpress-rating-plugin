@@ -37,6 +37,8 @@ class YasrProExportData {
 
         add_action('wp_ajax_yasr_export_csv_mv', array($this, 'returnVisitorMultiData'));
 
+        add_action('wp_ajax_yasr_export_csv_ov', array($this, 'returnOverallRatingData'));
+
         //keep this here, so we can have a wp_die immediately if unable to connect
         $this->pdoConnect();
     }
@@ -115,6 +117,9 @@ class YasrProExportData {
                            name="yasr_csv_nonce"
                            value="<?php echo esc_attr($nonce) ?>"
                            id="yasr_csv_nonce">
+
+                    <!-- Boxes starts here -->
+                    <!-- Visitor Votes -->
                     <div class="yasr-box">
                         <?php
                             $description = esc_html__('Export all ratings saved through the shortcode ',
@@ -123,6 +128,7 @@ class YasrProExportData {
                             $this->printExportBox('visitor_votes', 'Visitor Votes', $description);
                         ?>
                     </div>
+                    <!-- Visitor Multiset -->
                     <div class="yasr-box">
                         <?php
                             $description = esc_html__('Export all ratings saved through the shortcode ',
@@ -131,7 +137,7 @@ class YasrProExportData {
                             $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
                         ?>
                     </div>
-
+                    <!-- Overall Rating -->
                     <div class="yasr-box">
                         <?php
                             $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
@@ -271,7 +277,7 @@ class YasrProExportData {
     }
 
     /**
-     * Do the query to export visitor votes data and return along with csv columns
+     * Check the nonce, set file path and return the sql
      *
      * @author Dario Curvino <@dudo>
      *
@@ -286,17 +292,17 @@ class YasrProExportData {
         global $wpdb;
 
         $sql = 'SELECT 
-            posts.post_title AS TITLE, 
-            IF(log.user_id = 0, "Anonymous", IFNULL(users.user_login, "User Deleted")) AS USER, 
-            log.vote AS VOTE, 
-            log.date AS DATE 
-        FROM 
-            '. $wpdb->posts .' AS posts 
-            JOIN '.YASR_LOG_TABLE.' AS log ON posts.ID = log.post_id 
-            LEFT JOIN '. $wpdb->users .' AS users ON log.user_id = users.ID 
-        WHERE 
-            log.user_id = 0 OR users.ID IS NOT NULL OR log.user_id <> 0
-        ORDER BY DATE DESC;';
+                    posts.post_title AS TITLE, 
+                    IF(log.user_id = 0, "Anonymous", IFNULL(users.user_login, "User Deleted")) AS USER, 
+                    log.vote AS VOTE, 
+                    log.date AS DATE 
+                FROM 
+                    '. $wpdb->posts .' AS posts 
+                    JOIN '.YASR_LOG_TABLE.' AS log ON posts.ID = log.post_id 
+                    LEFT JOIN '. $wpdb->users .' AS users ON log.user_id = users.ID 
+                WHERE 
+                    log.user_id = 0 OR users.ID IS NOT NULL OR log.user_id <> 0
+                ORDER BY DATE DESC;';
 
         $columns = array(
             'TITLE',
@@ -309,8 +315,13 @@ class YasrProExportData {
     }
 
     /**
-     * Do the query to export visitor multiset and return along with csv columns
-     **/
+     * Check the nonce, set file path and return the sql
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.3
+     * @return void
+     */
     public function returnVisitorMultiData() {
         $this->checkNonce();
 
@@ -343,6 +354,43 @@ class YasrProExportData {
             'VOTE',
             'DATE',
             'SET ID'
+        );
+
+        $this->doQueryAndSaveCsv($columns, $sql);
+    }
+
+    /**
+     * Check the nonce, set file path and return the sql
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.3
+     * @return void
+     */
+    public function returnOverallRatingData() {
+        $this->checkNonce();
+
+        $this->setFilePath('overall_rating');
+
+        global $wpdb;
+
+        $sql = 'SELECT p.post_title AS title,
+                u.user_login  AS author,
+                m.meta_value  AS rating,
+                p.post_date   AS date
+                FROM '.$wpdb->posts.'    AS p,
+                     '.$wpdb->users.'    AS u,
+                     '.$wpdb->postmeta.' AS m
+                WHERE m.post_id = p.ID
+                AND   meta_key = "yasr_overall_rating"
+                AND   p.post_author = u.ID
+                ORDER BY p.post_date DESC; ';
+
+        $columns = array (
+            'TITLE',
+            'AUTHOR',
+            'RATING',
+            'DATE'
         );
 
         $this->doQueryAndSaveCsv($columns, $sql);

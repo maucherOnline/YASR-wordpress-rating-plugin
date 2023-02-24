@@ -8,8 +8,10 @@ const yasrExportData = () => {
     const nonce       = document.getElementById('yasr_csv_nonce').value;
     const buttonVV    = document.getElementById('yasr-export-csv-visitor_votes');
     const buttonMV    = document.getElementById('yasr-export-csv-visitor_multiset');
+    const buttonOV    = document.getElementById('yasr-export-csv-overall_rating');
     const answerDivVV = document.getElementById('yasr-export-ajax-result-visitor_votes');
     const answerDivMV = document.getElementById('yasr-export-ajax-result-visitor_multiset');
+    const answerDivOV = document.getElementById('yasr-export-ajax-result-overall_rating');
 
     //nonce is the same for all buttons
     let data = {
@@ -26,6 +28,12 @@ const yasrExportData = () => {
     buttonMV.addEventListener('click', function () {
         data.action = 'yasr_export_csv_mv';
         yasrExportCsvPost(data, answerDivMV)
+    });
+
+    //event on click when the export for visitor multi is clicked
+    buttonOV.addEventListener('click', function () {
+        data.action = 'yasr_export_csv_ov';
+        yasrExportCsvPost(data, answerDivOV)
     });
 
     /**
