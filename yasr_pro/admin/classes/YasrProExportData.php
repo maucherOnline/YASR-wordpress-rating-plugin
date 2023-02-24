@@ -304,14 +304,7 @@ class YasrProExportData {
                     log.user_id = 0 OR users.ID IS NOT NULL OR log.user_id <> 0
                 ORDER BY DATE DESC;';
 
-        $columns = array(
-            'TITLE',
-            'USER',
-            'VOTE',
-            'DATE',
-        );
-
-        $this->doQueryAndSaveCsv($columns, $sql);
+        $this->doQueryAndSaveCsv($sql);
     }
 
     /**
@@ -347,16 +340,7 @@ class YasrProExportData {
                 ORDER BY log.date DESC'
         ;
 
-        $columns = array(
-            'TITLE',
-            'SET NAME',
-            'FIELD',
-            'VOTE',
-            'DATE',
-            'SET ID'
-        );
-
-        $this->doQueryAndSaveCsv($columns, $sql);
+        $this->doQueryAndSaveCsv($sql);
     }
 
     /**
@@ -386,14 +370,7 @@ class YasrProExportData {
                 AND   p.post_author = u.ID
                 ORDER BY p.post_date DESC; ';
 
-        $columns = array (
-            'TITLE',
-            'AUTHOR',
-            'RATING',
-            'DATE'
-        );
-
-        $this->doQueryAndSaveCsv($columns, $sql);
+        $this->doQueryAndSaveCsv($sql);
     }
 
     /**
@@ -407,13 +384,25 @@ class YasrProExportData {
      *
      * @return void
      */
-    public function doQueryAndSaveCsv($columns, $sql) {
+    public function doQueryAndSaveCsv($sql) {
         //be sure to initialize it again
         $this->pdoConnect();
 
         $result = @$this->pdo->query($sql);
 
         if ($result) {
+            //store here the name of columns
+            $columns = array();
+
+            // loop for every column
+            for ($i = 0; $i < $result->columnCount(); $i++) {
+                //get column meta returns an array
+                //https://www.php.net/manual/en/pdostatement.getcolumnmeta.php
+                $col = $result->getColumnMeta($i);
+                //get col['name'] and make it uppercase
+                $columns[] = strtoupper($col['name']);
+            }
+
             //open file in write mode
             $open_csv = $this->openCsv('w');
 
@@ -423,6 +412,7 @@ class YasrProExportData {
             //open file in append mode
             $open_csv = $this->openCsv('a');
 
+            //loop the query result
             while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 //write row by row
                 $this->writeCSV($open_csv, $row);
