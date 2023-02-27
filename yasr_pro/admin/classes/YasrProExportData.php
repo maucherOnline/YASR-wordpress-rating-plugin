@@ -28,6 +28,8 @@ class YasrProExportData {
      * @return void
      */
     public function init () {
+        remove_action('yasr_stats_tab_content',  array('YasrStats', 'exportDataFreeVersion'));
+
         add_action('yasr_stats_tab_content',     array($this, 'tabContent'));
 
         add_action('wp_ajax_yasr_export_csv_vv', array($this, 'returnVisitorVotesData'));

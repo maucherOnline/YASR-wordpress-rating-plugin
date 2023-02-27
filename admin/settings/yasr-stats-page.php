@@ -26,7 +26,6 @@ if (!current_user_can('manage_options')) {
     /** @noinspection ForgottenDebugOutputInspection */
     wp_die(__('You do not have sufficient permissions to access this page.', 'yet-another-stars-rating'));
 }
-$settings_stats = new YasrStats();
 
 ?>
 
@@ -42,12 +41,17 @@ $settings_stats = new YasrStats();
             $active_tab = 'logs';
         }
 
-        $settings_stats->printTabs($active_tab);
+        YasrStats::printTabs($active_tab);
     ?>
     <div class="yasr-settingsdiv yasr-settings-table">
         <div class="yasr-settings-table">
             <?php
-                $settings_stats->printTabsContent($active_tab);
+                YasrStats::printTabsContent($active_tab);
+
+                /**
+                 * Hook here to add new stats tab content
+                 */
+                do_action('yasr_stats_tab_content', $active_tab);
             ?>
         </div>
     </div>
