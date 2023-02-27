@@ -28,9 +28,6 @@ class YasrProExportData {
      * @return void
      */
     public function init () {
-        //Simply add the tabs on settings page
-        add_action('yasr_add_stats_tab',         array($this, 'exportTab'), 999);
-
         add_action('yasr_stats_tab_content',     array($this, 'tabContent'));
 
         add_action('wp_ajax_yasr_export_csv_vv', array($this, 'returnVisitorVotesData'));
@@ -41,38 +38,6 @@ class YasrProExportData {
 
         //keep this here, so we can have a wp_die immediately if unable to connect
         $this->pdoConnect();
-    }
-
-    /**
-     * The new tab
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @since 3.3.3
-     *
-     * @param $active_tab
-     *
-     * @return void
-     */
-    public function exportTab ($active_tab) {
-        ?>
-        <a href="?page=yasr_stats_page&tab=yasr_csv_export"
-           id="yasr_csv_export"
-           class="nav-tab <?php if ($active_tab === 'yasr_csv_export') {
-               echo 'nav-tab-active';
-           } ?>"
-        >
-            <?php
-                esc_html_e('Export data', 'yet-another-stars-rating');
-                if (yasr_fs()->is__premium_only()) { //these if can't be merged
-                    if (yasr_fs()->can_use_premium_code()) {
-                        echo YASR_LOCKED_FEATURE;
-                    }
-                }
-
-            ?>
-        </a>
-        <?php
     }
 
     /**

@@ -26,17 +26,29 @@ class YasrStats {
             </a>
 
             <a href="?page=yasr_stats_page&tab=logs_multi" class="nav-tab
-            <?php echo ($active_tab === 'logs_multi') ? 'nav-tab-active' : ''; ?>"
+                <?php echo ($active_tab === 'logs_multi') ? 'nav-tab-active' : ''; ?>"
             >
                 <?php esc_html_e('MultiSet', 'yet-another-stars-rating'); ?>
             </a>
 
             <a href="?page=yasr_stats_page&tab=overall" class="nav-tab
-            <?php echo ($active_tab === 'overall') ? 'nav-tab-active' : ''; ?>"
+                <?php echo ($active_tab === 'overall') ? 'nav-tab-active' : ''; ?>"
             >
                 <?php esc_html_e('Overall Rating', 'yet-another-stars-rating'); ?>
             </a>
 
+            <a href="?page=yasr_stats_page&tab=yasr_csv_export" id="yasr_csv_export" class="nav-tab
+                <?php echo ($active_tab === 'yasr_csv_export') ? 'nav-tab-active' : ''; ?>"
+            >
+                <?php
+                    esc_html_e('Export data', 'yet-another-stars-rating');
+                    if (yasr_fs()->is__premium_only()) { //these if can't be merged
+                        if (yasr_fs()->can_use_premium_code()) {
+                            echo YASR_LOCKED_FEATURE;
+                        }
+                    }
+                ?>
+            </a>
             <?php
                 /**
                 * Use this hook to add a tab into yasr_stats_page
