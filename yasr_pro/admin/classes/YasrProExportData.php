@@ -144,10 +144,6 @@ class YasrProExportData {
                             $this->printExportBox('overall_rating', 'Overall Rating', $description);
                         ?>
                     </div>
-
-                    <div class="yasr-box">ciao</div>
-                    <div class="yasr-box">ciao</div>
-                    <div class="yasr-box">ciao</div>
                 </div>
             </div>
         <?php
