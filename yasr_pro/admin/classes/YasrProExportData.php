@@ -228,7 +228,6 @@ class YasrProExportData {
      * @author Dario Curvino <@dudo>
      * @since  3.3.3
      *
-     * @param     $columns
      * @param     $sql
      *
      * @return void
