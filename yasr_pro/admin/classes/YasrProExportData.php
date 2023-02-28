@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
  * @author Dario Curvino <@dudo>
  * @since  3.3.3
  */
-class YasrProExportData extends YasrStatsExport {
+class YasrProExportData {
     private $file_and_path;
 
     //Here I will store the pdo object
