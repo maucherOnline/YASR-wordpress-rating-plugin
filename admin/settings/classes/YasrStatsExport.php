@@ -80,7 +80,8 @@ class YasrStatsExport {
                     <!-- Overall Rating -->
                     <div class="yasr-box">
                         <?php
-                        $description = esc_html__('Save all the author ratings', 'yet-another-stars-rating');
+                        $description = esc_html__('Save all author ratings.', 'yet-another-stars-rating');
+                        $description .= ' <strong>(yasr_overall_rating)</strong>';
                         $this->printExportBox('overall_rating', 'Overall Rating', $description);
                         ?>
                     </div>
@@ -130,10 +131,12 @@ class YasrStatsExport {
             <hr />
 
             <?php
-                $button =  '<button class="button-primary yasr-export">'.
+                $button = '<a href="'.esc_url(yasr_fs()->get_upgrade_url()).'">';
+                $button .='<button class="button-primary yasr-export">'.
                                 esc_html__( 'Unlock with premium', 'yet-another-stars-rating' )
                             .'&nbsp;'.YASR_LOCKED_FEATURE
                             .'</button>';
+                $button .= '</a>';
                 $button = apply_filters('yasr_export_box_button', $button, $button_id, $button_disabled);
 
                 echo wp_kses_post($button);
