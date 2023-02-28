@@ -38,17 +38,17 @@ class YasrStatsExport {
                 </h3>
                 <div class="yasr-help-box-settings" style="display: block">
                     <?php
-                    esc_html_e('All the .csv files are saved into', 'yet-another-stars-rating');
-                    echo ' ' . '<strong>'.$upload_dir ['baseurl'].'</strong>. ';
-                    esc_html_e('The files are deleted automatically after 7 days.', 'yet-another-stars-rating');
+                        esc_html_e('All the .csv files are saved into', 'yet-another-stars-rating');
+                        echo ' ' . '<strong>'.$upload_dir ['baseurl'].'</strong>. ';
+                        esc_html_e('The files are deleted automatically after 7 days.', 'yet-another-stars-rating');
 
-                    if($this->upload_dir_writable === false) {
-                        $error = esc_html__("Upload folder is not writable, data can't be saved!", 'yet-another-stars-rating');
-                        echo '<div style="margin-top: 20px; padding-left: 5px; border: 1px solid #c3c4c7; border-left-color: #d63638; 
-                                          border-left-width: 4px; box-shadow: 0 1px 1px rgba(0,0,0,.04);">
-                                          <h3>'.$error.'</h3>
-                              </div>';
-                    }
+                        if($this->upload_dir_writable === false) {
+                            $error = esc_html__("Upload folder is not writable, data can't be saved!", 'yet-another-stars-rating');
+                            echo '<div style="margin-top: 20px; padding-left: 5px; border: 1px solid #c3c4c7; border-left-color: #d63638; 
+                                              border-left-width: 4px; box-shadow: 0 1px 1px rgba(0,0,0,.04);">
+                                              <h3>'.$error.'</h3>
+                                  </div>';
+                        }
                     ?>
                 </div>
 
@@ -62,27 +62,27 @@ class YasrStatsExport {
                     <!-- Visitor Votes -->
                     <div class="yasr-box">
                         <?php
-                        $description = esc_html__('Export all ratings saved through the shortcode ',
-                            'yet-another-stars-rating');
-                        $description .= ' <strong>yasr_visitor_votes</strong>';
-                        $this->printExportBox('visitor_votes', 'Visitor Votes', $description);
-                        ?>
+                            $description = esc_html__('Export all ratings saved through the shortcode ',
+                                'yet-another-stars-rating');
+                            $description .= ' <strong>yasr_visitor_votes</strong>';
+                            $this->printExportBox('visitor_votes', 'Visitor Votes', $description);
+                            ?>
                     </div>
                     <!-- Visitor Multiset -->
                     <div class="yasr-box">
                         <?php
-                        $description = esc_html__('Export all ratings saved through the shortcode ',
-                            'yet-another-stars-rating');
-                        $description .= ' <strong>yasr_visitor_multiset</strong>';
-                        $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
+                            $description = esc_html__('Export all ratings saved through the shortcode ',
+                                'yet-another-stars-rating');
+                            $description .= ' <strong>yasr_visitor_multiset</strong>';
+                            $this->printExportBox('visitor_multiset', 'Visitor Multi Set', $description);
                         ?>
                     </div>
                     <!-- Overall Rating -->
                     <div class="yasr-box">
                         <?php
-                        $description = esc_html__('Save all author ratings.', 'yet-another-stars-rating');
-                        $description .= ' <strong>(yasr_overall_rating)</strong>';
-                        $this->printExportBox('overall_rating', 'Overall Rating', $description);
+                            $description = esc_html__('Save all author ratings.', 'yet-another-stars-rating');
+                            $description .= ' <strong>(yasr_overall_rating)</strong>';
+                            $this->printExportBox('overall_rating', 'Overall Rating', $description);
                         ?>
                     </div>
                 </div>
@@ -119,10 +119,10 @@ class YasrStatsExport {
         <div>
             <h4>
                 <?php
-                $h5_text  = esc_html__('Export', 'yet-another-stars-rating');
-                $h5_text .= ' ' . $translated_readable_name;
+                    $h5_text  = esc_html__('Export', 'yet-another-stars-rating');
+                    $h5_text .= ' ' . $translated_readable_name;
 
-                echo $h5_text;
+                    echo esc_html($h5_text);
                 ?>
             </h4>
             <h5>
@@ -137,6 +137,10 @@ class YasrStatsExport {
                             .'&nbsp;'.YASR_LOCKED_FEATURE
                             .'</button>';
                 $button .= '</a>';
+
+                /**
+                 *  Use this hook to customize the button
+                 */
                 $button = apply_filters('yasr_export_box_button', $button, $button_id, $button_disabled);
 
                 echo wp_kses_post($button);
@@ -150,6 +154,9 @@ class YasrStatsExport {
         </div>
         <div class="yasr-indented-answer">
             <?php
+                /**
+                 *  Hook here to do an action at the end of the box
+                 */
                 do_action('yasr_export_box_end', $name);
             ?>
         </div>
