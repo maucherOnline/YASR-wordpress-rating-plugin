@@ -1030,6 +1030,10 @@ div.yasr-select-img-container input {
     flex-wrap: wrap;
 }
 
+.yasr-export > span {
+    vertical-align: sub;
+}
+
 @media (max-width: 699px) {
     .yasr-container {
         justify-content: center;

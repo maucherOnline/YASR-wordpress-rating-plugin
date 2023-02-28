@@ -26,7 +26,9 @@ class YasrProExportData extends YasrStatsExport {
      * @return void
      */
     public function init () {
-        add_action('yasr_export_box_end',     array($this, 'createLinks'));
+        add_filter('yasr_export_box_button',     array($this, 'replaceButton'), 10, 3);
+
+        add_action('yasr_export_box_end',        array($this, 'createLinks'));
 
         add_action('wp_ajax_yasr_export_csv_vv', array($this, 'returnVisitorVotesData'));
 
@@ -38,6 +40,24 @@ class YasrProExportData extends YasrStatsExport {
         $this->pdoConnect();
     }
 
+    /**
+     * Replace the export button with a working button
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.3
+     *
+     * @param $button
+     * @param $button_id
+     * @param $button_disabled
+     *
+     * @return string
+     */
+    public function replaceButton($button, $button_id, $button_disabled) {
+        return  '<button class="button-primary" id="'.esc_attr($button_id).'"'. esc_attr($button_disabled).'>'.
+                    esc_html__( 'Export Data', 'yet-another-stars-rating' ).'
+                 </button>';
+    }
 
     /**
      * Set file name and path

@@ -128,9 +128,16 @@ class YasrStatsExport {
                 <?php echo yasr_kses($description); ?>
             </h5>
             <hr />
-            <button class="button-primary" id="<?php echo esc_attr($button_id)?>" <?php echo esc_attr($button_disabled)?>>
-                <?php esc_html_e( 'Export Data', 'yet-another-stars-rating' );  ?>
-            </button>
+
+            <?php
+                $button =  '<button class="button-primary yasr-export">'.
+                                esc_html__( 'Unlock with premium', 'yet-another-stars-rating' )
+                            .'&nbsp;'.YASR_LOCKED_FEATURE
+                            .'</button>';
+                $button = apply_filters('yasr_export_box_button', $button, $button_id, $button_disabled);
+
+                echo wp_kses_post($button);
+            ?>
 
             <input type="hidden"
                    name="<?php echo esc_attr($name_hidden) ?>"
