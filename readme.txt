@@ -206,6 +206,14 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.3.3 =
+* TWEAKED: added support for WP-CLI
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* NEW FEATURE: it is possible to export data in CSV format. Go to Yet Another Stars Rating -> Manage Ratings -> Export Data
+
+[//]: # fs_premium_only_end
+
 = 3.3.2 =
 * FIXED: "new criteria" button didn't work in Settings -> "Multi Criteria" tab
 
