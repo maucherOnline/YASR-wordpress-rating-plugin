@@ -6,24 +6,12 @@ import {
     selectMultiset,
 } from "./yasrMultiCriteriaUtils";
 
+import {
+    getActiveTab
+} from "./yasr-admin-functions";
+
 //get active Tab
-let activeTab;
-let tabClass = document.getElementsByClassName('nav-tab-active');
-
-if(tabClass.length > 0){
-    activeTab = document.getElementsByClassName('nav-tab-active')[0].id;
-}
-
-function setupDeselectEvent() {
-    var selected = {};
-    jQuery('input[type="radio"]').on('click', function() {
-        if (this.name in selected && this != selected[this.name])
-            jQuery(selected[this.name]).trigger("deselect");
-        selected[this.name] = this;
-    }).filter(':checked').each(function() {
-        selected[this.name] = this;
-    });
-}
+const activeTab = getActiveTab();
 
 //-------------------General Settings Code---------------------
 if (activeTab === 'general_settings') {

@@ -6,16 +6,16 @@
  */
 class YasrStats {
 
+
     /**
      * @author Dario Curvino <@dudo>
-     *
-     * @since refactor in class sice 3.3.1
+     * @since  refactor in class sice 3.3.1
      *
      * @param $active_tab
      *
      * @return void
      */
-    public function printTabs($active_tab) {
+    public static function printTabs($active_tab) {
         ?>
         <h2 class="nav-tab-wrapper yasr-no-underline">
 
@@ -26,17 +26,29 @@ class YasrStats {
             </a>
 
             <a href="?page=yasr_stats_page&tab=logs_multi" class="nav-tab
-            <?php echo ($active_tab === 'logs_multi') ? 'nav-tab-active' : ''; ?>"
+                <?php echo ($active_tab === 'logs_multi') ? 'nav-tab-active' : ''; ?>"
             >
                 <?php esc_html_e('MultiSet', 'yet-another-stars-rating'); ?>
             </a>
 
             <a href="?page=yasr_stats_page&tab=overall" class="nav-tab
-            <?php echo ($active_tab === 'overall') ? 'nav-tab-active' : ''; ?>"
+                <?php echo ($active_tab === 'overall') ? 'nav-tab-active' : ''; ?>"
             >
                 <?php esc_html_e('Overall Rating', 'yet-another-stars-rating'); ?>
             </a>
 
+            <a href="?page=yasr_stats_page&tab=yasr_csv_export" id="yasr_csv_export" class="nav-tab
+                <?php echo ($active_tab === 'yasr_csv_export') ? 'nav-tab-active' : ''; ?>"
+            >
+                <?php
+                    esc_html_e('Export data', 'yet-another-stars-rating');
+                    if (yasr_fs()->is__premium_only()) { //these if can't be merged
+                        if (yasr_fs()->can_use_premium_code()) {
+                            echo YASR_LOCKED_FEATURE;
+                        }
+                    }
+                ?>
+            </a>
             <?php
                 /**
                 * Use this hook to add a tab into yasr_stats_page
@@ -57,14 +69,13 @@ class YasrStats {
      * Print tabs content of yasr stats page
      *
      * @author Dario Curvino <@dudo>
-     *
-     * @since 3.3.1
+     * @since  3.3.1
      *
      * @param $active_tab
      *
      * @return void
      */
-    public function printTabsContent ($active_tab) {
+    public static function printTabsContent ($active_tab) {
         if ($active_tab === 'logs' || $active_tab === '') {
             ?>
             <form action="#" id="" method="POST">
@@ -107,10 +118,5 @@ class YasrStats {
             <?php
 
         } //End if tab 'overall'
-
-        /**
-         * Hook here to add new settings tab content
-         */
-        do_action('yasr_stats_tab_content', $active_tab);
     }
 }

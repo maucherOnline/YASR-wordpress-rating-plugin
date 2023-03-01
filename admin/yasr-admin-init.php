@@ -100,5 +100,8 @@ $yasr_admin->init();
 $yasr_settings = new YasrSettings();
 $yasr_settings->init();
 
+$yasr_stats_export = new YasrStatsExport();
+$yasr_stats_export->init();
+
 $yasr_editor  = new YasrEditorHooks();
 $yasr_editor->init();

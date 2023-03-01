@@ -30,6 +30,8 @@ class YasrProLoadAdmin {
     public $yasr_stylish_admin;
     public $yasr_ur_admin;
 
+    public $yasr_export;
+
     public function init() {
         //load js or css before the ones in the free version are loaded
         add_action('yasr_add_admin_scripts_begin', array($this, 'loadBefore'));
@@ -55,6 +57,9 @@ class YasrProLoadAdmin {
 
         $this->yasr_ur_admin = new YasrProUrAdmin();
         $this->yasr_ur_admin->init();
+
+        $this->yasr_export = new YasrProExportData();
+        $this->yasr_export->init();
 
         //Filter menu to show contact page
         yasr_fs()->add_filter('is_submenu_visible', function ($is_visible, $menu_id) {
@@ -144,8 +149,8 @@ class YasrProLoadAdmin {
             ); //js
         }
 
-        //add this only in yasr setting page (admin.php?page=yasr_settings_page)
-        if ($hook === $yasr_settings_page) {
+        //add this only in yasr setting page (admin.php?page=yasr_settings_page) and stats page
+        if ($hook === $yasr_settings_page || $hook === 'yet-another-stars-rating_page_yasr_stats_page') {
             wp_enqueue_script(
                 'yasrprosettings',
                 YASR_PRO_JS_DIR . 'yasr-pro-settings.js', array('jquery', 'tippy', 'yasradmin', 'yasr-window-var'),

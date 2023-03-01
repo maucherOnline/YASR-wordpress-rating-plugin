@@ -177,6 +177,10 @@ class YasrAdmin {
             YasrScriptsLoader::loadTableCss();
         }
 
+        if($hook === 'yet-another-stars-rating_page_yasr_stats_page') {
+            YasrScriptsLoader::loadAdminSettings();
+        }
+
     }
 
     /**

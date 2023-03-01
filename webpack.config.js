@@ -18,7 +18,8 @@ var yasrAdmin    = Object.assign({}, config, {
         'yasr_pro/js/yasr-pro-settings': [
             './yasr_pro/js/src/yasr-pro-settings-cr-1.js',
             './yasr_pro/js/src/yasr-pro-settings-cr-2.js',
-            './yasr_pro/js/src/yasr-pro-settings-ur-1.js'
+            './yasr_pro/js/src/yasr-pro-settings-ur-1.js',
+            './yasr_pro/js/src/yasr-pro-export-page.js'
         ],
         'yasr_pro/js/yasr-pro-edit-comments': './yasr_pro/js/src/yasr-pro-edit-comments.js',
     },
@@ -46,7 +47,8 @@ var yasrAdminBabel    = Object.assign({}, config, {
         ],
         'admin/js/yasr-settings': [
             './admin/js/src/yasr-settings-page.js',
-            './admin/js/src/yasr-settings-rankings.js'
+            './admin/js/src/yasr-settings-rankings.js',
+            './admin/js/src/yasr-stats-page.js'
         ],
         'admin/js/yasr-pricing-page': './admin/js/src/yasr-pricing-page.js',
 

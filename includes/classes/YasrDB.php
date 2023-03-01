@@ -1234,4 +1234,23 @@ class YasrDB {
             return " number_of_votes {$order}, rating {$order}";
         }
     }
+
+
+    /**
+     * Do a connection with PDO
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.3
+     * @return \PDO|void
+     */
+    public static function PDOConnect() {
+        try {
+            $pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $pdo;
+        } catch (PDOException $e) {
+            wp_die(esc_html__('Error Establishing A Database Connection', 'yet-another-stars-rating'));
+        }
+    }
 }

@@ -6,7 +6,8 @@
         "ext-json": "*",
         "ext-fileinfo": "*",
         "ext-mysqli": "*",
-        "gamajo/template-loader": "^1.3"
+        "gamajo/template-loader": "^1.3",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",

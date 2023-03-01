@@ -5,7 +5,8 @@ module.exports = {
     entry: {
         'yasr-settings': [
             './admin/js/src/yasr-settings-page.js',
-            './admin/js/src/yasr-settings-rankings.js'
+            './admin/js/src/yasr-settings-rankings.js',
+            './admin/js/src/yasr-stats-page.js'
         ]
     },
     module: {
