@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-if (!current_user_can('manage_options')) {
+if (!current_user_can('manage_options') && !defined('WP_CLI') ) {
     /** @noinspection ForgottenDebugOutputInspection */
     wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'yet-another-stars-rating'));
 }
