@@ -198,16 +198,25 @@ class YasrDB {
      * used in stats page
      *
      * @author Dario Curvino <@dudo>
-     * @since 2.5.2
+     * @since  2.5.2
+     *
+     * @param int $limit  | how many rows shows
+     * @param int $offset | starting point
      *
      * @return array|object|null
      */
-    public static function allVisitorVotes() {
+    public static function allVisitorVotes($limit=25, $offset=0) {
+        $limit  = (int)$limit;
+        $offset = (int)$offset;
+
         global $wpdb;
 
-        $query = 'SELECT * FROM ' .YASR_LOG_TABLE.  ' ORDER BY date';
+        $query = 'SELECT * FROM ' .YASR_LOG_TABLE.  ' ORDER BY date DESC LIMIT %d OFFSET %d';
 
-        return $wpdb->get_results($query, ARRAY_A);
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                $query, $limit, $offset
+        ),ARRAY_A);
     }
 
     /**
