@@ -211,7 +211,6 @@ The full changelog can be found in the plugin's directory. Recent entries:
 [//]: # fs_premium_only_begin
 PREMIUM ONLY:
 * NEW FEATURE: it is possible to export data in CSV format. Go to Yet Another Stars Rating -> Manage Ratings -> Export Data
-
 [//]: # fs_premium_only_end
 
 = 3.3.2 =
