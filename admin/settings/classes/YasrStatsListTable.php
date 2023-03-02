@@ -38,16 +38,32 @@ class YasrStatsListTable extends WP_List_Table {
      * @return Void
      */
     public function prepare_items() {
-        $columns  = $this->get_columns();
-        $hidden   = $this->get_hidden_columns();
-        $sortable = $this->get_sortable_columns();
+        global $wpdb;
+
+        $columns    = $this->get_columns();
+        $hidden     = $this->get_hidden_columns();
+        $sortable   = $this->get_sortable_columns();
+
+        $totalItems = false; //default value
+        $slice_data = true;
 
         //print bulk_Actions
         $this->get_bulk_actions();
         $this->process_bulk_action();
 
+        $perPage     = 25;
+        $currentPage = $this->get_pagenum();
+
+        $offset       = (int)($currentPage - 1) * $perPage;
+
         if ($this->active_tab === 'logs' || $this->active_tab === '') {
-            $data = YasrDB::allVisitorVotes();
+            $data = YasrDB::allVisitorVotes($perPage, $offset);
+
+            //Data is limited to 25 rows, there is no need to slice de data
+            $slice_data = false;
+
+            //The number of total rows on _yasr_log
+            $totalItems  =  (int)$wpdb->get_var('SELECT COUNT(*) FROM ' . YASR_LOG_TABLE);
         }
         else if($this->active_tab === 'logs_multi') {
             $data = YasrDB::returnAllLogMulti();
@@ -58,9 +74,9 @@ class YasrStatsListTable extends WP_List_Table {
 
         usort($data, array( $this, 'sort_data' ));
 
-        $perPage     = 25;
-        $currentPage = $this->get_pagenum();
-        $totalItems  = count($data);
+        if($totalItems === false) {
+            $totalItems = count($data);
+        }
 
         $this->set_pagination_args(
             array(
@@ -69,7 +85,9 @@ class YasrStatsListTable extends WP_List_Table {
             )
         );
 
-        $data = array_slice($data, (( $currentPage - 1 ) * $perPage ), $perPage);
+        if($slice_data !== false) {
+            $data = array_slice($data, (($currentPage - 1) * $perPage), $perPage);
+        }
 
         $this->_column_headers = array( $columns, $hidden, $sortable );
         $this->items           = $data;
