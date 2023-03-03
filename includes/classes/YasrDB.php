@@ -114,22 +114,45 @@ class YasrDB {
      * @since  2.5.2
      * @return array|object|\stdClass[]|null
      */
-    public static function allOverallRatings() {
+    public static function allOverallRatings($limit=25, $offset=0) {
         global $wpdb;
 
         $query = "SELECT pm.post_id,      
                          pm.meta_value   as vote, 
                          pm.meta_id      as id,
                          p.post_author   as user_id,
-                         p.post_modified as date 
+                         p.post_date     as date 
                   FROM $wpdb->postmeta   as pm,
                        $wpdb->posts      as p 
                   WHERE pm.meta_key = 'yasr_overall_rating'
                       AND p.ID = pm.post_id
-                      AND pm.meta_value > 0";
+                      AND pm.meta_value > 0
+                  ORDER BY p.post_date DESC
+                  LIMIT %d 
+                  OFFSET %d";
 
-        return $wpdb->get_results($query, ARRAY_A);
+        return $wpdb->get_results(
+            $wpdb->prepare($query, $limit, $offset),
+        ARRAY_A);
 
+    }
+
+    /**
+     * Return the number of rows in postmeta where metakey = yasr_overall_rating
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.3
+     * @return int
+     */
+    public static function ovNumberOfRows() {
+        global $wpdb;
+        return (int)$wpdb->get_var(
+            'SELECT COUNT(*) 
+                   FROM ' . $wpdb->postmeta .' 
+                   WHERE meta_key = "yasr_overall_rating"
+                       AND meta_value > 0'
+        );
     }
 
     /**

@@ -68,8 +68,7 @@ class YasrStatsListTable extends WP_List_Table {
 
         $perPage     = 25;
         $currentPage = $this->get_pagenum();
-
-        $offset       = (int)($currentPage - 1) * $perPage;
+        $offset       = ($currentPage - 1) * $perPage;
 
         if ($this->active_tab === 'logs' || $this->active_tab === '') {
             $data = YasrDB::allVisitorVotes($perPage, $offset);
@@ -84,7 +83,13 @@ class YasrStatsListTable extends WP_List_Table {
             $data = YasrDB::returnAllLogMulti();
         }
         else if($this->active_tab === 'overall') {
-            $data = YasrDB::allOverallRatings();
+            $data = YasrDB::allOverallRatings($perPage, $offset);
+
+            //Data is limited to 25 rows, there is no need to slice de data
+            $slice_data = false;
+
+            //The number of total rows on postmeta where metakey = yasr_overall_rating
+            $totalItems = YasrDB::ovNumberOfRows();
         }
 
         usort($data, array( $this, 'sort_data' ));
