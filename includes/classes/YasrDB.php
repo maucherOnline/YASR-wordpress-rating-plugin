@@ -815,6 +815,14 @@ class YasrDB {
             ARRAY_A);
     }
 
+    /**
+     * Return the number of rows in YASR_LOG_MULTI_SET
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.3
+     * @return int
+     */
     public static function returnLogMultiNumberOfRows () {
         global $wpdb;
         return (int)$wpdb->get_var('SELECT COUNT(*) FROM ' . YASR_LOG_MULTI_SET);
