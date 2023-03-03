@@ -26,6 +26,21 @@ if (!defined('ABSPATH')) {
  * Create a new table class that will extend the WP_List_Table
  */
 class YasrStatsListTable extends WP_List_Table {
+
+    /**
+     * I will store here the $set_id
+     *
+     * @var $set_id
+     */
+    private $set_id;
+
+    /**
+     * Store the set name, to avoid duplicate queries
+     *
+     * @var $set_name
+     */
+    private $set_name = false;
+
     private $active_tab;
 
     public function __construct($active_tab) {
@@ -163,14 +178,9 @@ class YasrStatsListTable extends WP_List_Table {
      *
      * @return Mixed|void
      */
-    protected function column_default( $item, $column_name ) {
+    protected function column_default($item, $column_name) {
 
         global $wpdb;
-        $set_id = '';
-
-        if (isset($item['set_type'])) {
-            $set_id = (int)$item['set_type'];
-        }
 
         switch ($column_name) {
             case 'post_id':
@@ -195,15 +205,27 @@ class YasrStatsListTable extends WP_List_Table {
                 return $user->user_login;
 
             case 'set_type':
-                $data = $wpdb->get_results(
-                    $wpdb->prepare(
-                        "SELECT set_name
-                                FROM " . YASR_MULTI_SET_NAME_TABLE . "
-                                WHERE set_id = %d", $set_id),
-                    ARRAY_A);
+                $old_set_id = $this->set_id;
 
-                if(!empty($data)) {
-                    return $data[0]['set_name'];
+                if (isset($item['set_type'])) {
+                    if($this->set_id !== (int)$item['set_type']) {
+                        $this->set_id = (int) $item['set_type'];
+                    }
+                }
+
+                //do the query only when the set_id changes
+                if($old_set_id !== $this->set_id) {
+                    $this->set_name = $wpdb->get_var(
+                        $wpdb->prepare(
+                            "SELECT set_name
+                                FROM " . YASR_MULTI_SET_NAME_TABLE . "
+                                WHERE set_id = %d", $this->set_id
+                        )
+                    );
+                }
+
+                if(is_string($this->set_name)) {
+                    return $this->set_name;
                 }
 
                 return __('Multi Set doesn\'t exists', 'yet-another-stars-rating');
@@ -216,7 +238,7 @@ class YasrStatsListTable extends WP_List_Table {
                                 FROM " . YASR_MULTI_SET_FIELDS_TABLE . "
                                 WHERE parent_set_id = %d
                                 AND field_id = %d",
-                        $set_id, $field_id),
+                        $this->set_id, $field_id),
                     ARRAY_A);
 
                 if(!empty($data)) {
