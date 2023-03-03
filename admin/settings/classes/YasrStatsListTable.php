@@ -47,6 +47,7 @@ class YasrStatsListTable extends WP_List_Table {
         parent::__construct();
         $this->active_tab = $active_tab;
     }
+
     /**
      * Prepare the items for the table to process
      *
@@ -55,12 +56,11 @@ class YasrStatsListTable extends WP_List_Table {
     public function prepare_items() {
         global $wpdb;
 
-        $columns    = $this->get_columns();
-        $hidden     = $this->get_hidden_columns();
-        $sortable   = $this->get_sortable_columns();
+        $columns  = $this->get_columns();
+        $hidden   = $this->get_hidden_columns();
+        $sortable = $this->get_sortable_columns();
 
         $totalItems = false; //default value
-        $slice_data = true;
 
         //print bulk_Actions
         $this->get_bulk_actions();
@@ -68,33 +68,30 @@ class YasrStatsListTable extends WP_List_Table {
 
         $perPage     = 25;
         $currentPage = $this->get_pagenum();
-        $offset       = ($currentPage - 1) * $perPage;
+        $offset      = ($currentPage - 1) * $perPage;
 
         if ($this->active_tab === 'logs' || $this->active_tab === '') {
             $data = YasrDB::allVisitorVotes($perPage, $offset);
 
-            //Data is limited to 25 rows, there is no need to slice de data
-            $slice_data = false;
+            //The number of total rows on _yasr_log
+            $totalItems = YasrDB::vvNumberOfRows();
+        }
+        else if ($this->active_tab === 'logs_multi') {
+            $data = YasrDB::returnLogMulti($perPage, $offset);
 
             //The number of total rows on _yasr_log
-            $totalItems  =  YasrDB::vvNumberOfRows();
+            $totalItems = YasrDB::returnLogMultiNumberOfRows();
         }
-        else if($this->active_tab === 'logs_multi') {
-            $data = YasrDB::returnAllLogMulti();
-        }
-        else if($this->active_tab === 'overall') {
+        else if ($this->active_tab === 'overall') {
             $data = YasrDB::allOverallRatings($perPage, $offset);
-
-            //Data is limited to 25 rows, there is no need to slice de data
-            $slice_data = false;
 
             //The number of total rows on postmeta where metakey = yasr_overall_rating
             $totalItems = YasrDB::ovNumberOfRows();
         }
 
-        usort($data, array( $this, 'sort_data' ));
+        usort($data, array($this, 'sort_data'));
 
-        if($totalItems === false) {
+        if ($totalItems === false) {
             $totalItems = count($data);
         }
 
@@ -105,11 +102,7 @@ class YasrStatsListTable extends WP_List_Table {
             )
         );
 
-        if($slice_data !== false) {
-            $data = array_slice($data, (($currentPage - 1) * $perPage), $perPage);
-        }
-
-        $this->_column_headers = array( $columns, $hidden, $sortable );
+        $this->_column_headers = array($columns, $hidden, $sortable);
         $this->items           = $data;
 
     }
@@ -122,19 +115,18 @@ class YasrStatsListTable extends WP_List_Table {
     public function get_columns() {
 
         $columns = array(
-            'cb'           => '<input type="checkbox" />',
-            'id'           => 'ID',
-            'post_id'      => 'Title',
-            'vote'         => 'Vote',
-            'user_id'      => 'User ID',
-            'date'         => 'Date'
+            'cb'      => '<input type="checkbox" />',
+            'id'      => 'ID',
+            'post_id' => 'Title',
+            'vote'    => 'Vote',
+            'user_id' => 'User ID',
+            'date'    => 'Date'
         );
 
-        if($this->active_tab === 'logs_multi') {
+        if ($this->active_tab === 'logs_multi') {
             //insert multiset and field name
-            $columns = array_slice($columns, 0, 3, true) +
-                array('set_type' => 'MultiSet', 'field_id' => 'Field Name') +
-                array_slice($columns, 3, count($columns) - 1, true) ;
+            $columns = array_slice($columns, 0, 3, true) + array('set_type' => 'MultiSet', 'field_id' => 'Field Name')
+                + array_slice($columns, 3, count($columns) - 1, true);
         }
 
         if (YASR_ENABLE_IP === 'yes') {
@@ -167,9 +159,9 @@ class YasrStatsListTable extends WP_List_Table {
             'ip'      => array('ip', false)
         );
 
-        if($this->active_tab === 'logs_multi') {
-            $sortable_columns['set_type'] =  array('set_type', false);
-            $sortable_columns['field_id'] =  array('field_id', false);
+        if ($this->active_tab === 'logs_multi') {
+            $sortable_columns['set_type'] = array('set_type', false);
+            $sortable_columns['field_id'] = array('field_id', false);
         }
 
         return $sortable_columns;
@@ -178,7 +170,7 @@ class YasrStatsListTable extends WP_List_Table {
     /**
      * Define what data to show on each column of the table
      *
-     * @param Array $item Data
+     * @param Array  $item        Data
      * @param String $column_name - Current column name
      *
      * @return Mixed|void
@@ -203,7 +195,7 @@ class YasrStatsListTable extends WP_List_Table {
 
                 //If !user means that the vote are anonymous
                 if ($user === false) {
-                    $user             = (object) array( 'user_login' );
+                    $user             = (object) array('user_login');
                     $user->user_login = __('anonymous', 'yet-another-stars-rating');
                 }
 
@@ -213,13 +205,13 @@ class YasrStatsListTable extends WP_List_Table {
                 $old_set_id = $this->set_id;
 
                 if (isset($item['set_type'])) {
-                    if($this->set_id !== (int)$item['set_type']) {
+                    if ($this->set_id !== (int) $item['set_type']) {
                         $this->set_id = (int) $item['set_type'];
                     }
                 }
 
                 //do the query only when the set_id changes
-                if($old_set_id !== $this->set_id) {
+                if ($old_set_id !== $this->set_id) {
                     $this->set_name = $wpdb->get_var(
                         $wpdb->prepare(
                             "SELECT set_name
@@ -229,7 +221,7 @@ class YasrStatsListTable extends WP_List_Table {
                     );
                 }
 
-                if(is_string($this->set_name)) {
+                if (is_string($this->set_name)) {
                     return $this->set_name;
                 }
 
@@ -237,16 +229,16 @@ class YasrStatsListTable extends WP_List_Table {
 
             case 'field_id':
                 $field_id = $item[$column_name];
-                $data = $wpdb->get_results(
+                $data     = $wpdb->get_results(
                     $wpdb->prepare(
                         "SELECT field_name
                                 FROM " . YASR_MULTI_SET_FIELDS_TABLE . "
                                 WHERE parent_set_id = %d
-                                AND field_id = %d",
-                        $this->set_id, $field_id),
-                    ARRAY_A);
+                                AND field_id = %d", $this->set_id, $field_id
+                    ), ARRAY_A
+                );
 
-                if(!empty($data)) {
+                if (!empty($data)) {
                     return $data[0]['field_name'];
                 }
 
@@ -254,7 +246,7 @@ class YasrStatsListTable extends WP_List_Table {
 
             case 'date':
                 $date = $item[$column_name];
-                if($item[$column_name] === '0000-00-00 00:00:00') {
+                if ($item[$column_name] === '0000-00-00 00:00:00') {
                     $date = __('Imported Data', 'yet-another-stars-rating');
                 }
                 return $date;
@@ -272,7 +264,7 @@ class YasrStatsListTable extends WP_List_Table {
      *
      * @return Mixed
      */
-    protected function sort_data( $a, $b ) {
+    protected function sort_data($a, $b) {
 
         // Set defaults (just need to avoid undefined variable at first load,
         // it is already ordered with the query
@@ -289,13 +281,13 @@ class YasrStatsListTable extends WP_List_Table {
             $order = $_GET['order'];
         }
 
-        $result = strcmp($a[ $orderby ], $b[ $orderby ]);
+        $result = strcmp($a[$orderby], $b[$orderby]);
 
         if ($order === 'asc') {
             return $result;
         }
 
-        return - $result;
+        return -$result;
     }
 
 
@@ -314,33 +306,31 @@ class YasrStatsListTable extends WP_List_Table {
     //process bulk action
     protected function process_bulk_action() {
         if ($this->current_action() === 'delete') {
-            check_admin_referer( 'yasr-delete-stats-logs', 'yasr-nonce-delete-stats-logs' );
+            check_admin_referer('yasr-delete-stats-logs', 'yasr-nonce-delete-stats-logs');
 
             global $wpdb;
 
             $table = YASR_LOG_TABLE;
 
-            if($this->active_tab === 'logs_multi') {
+            if ($this->active_tab === 'logs_multi') {
                 $table = YASR_LOG_MULTI_SET;
             }
 
             foreach ($_POST['yasr_logs_votes_to_delete'] as $log_id) {
                 //force to be an int
-                $log_id = (int)$log_id;
+                $log_id = (int) $log_id;
 
                 //If user is deleting an overall rating value, use delete_meta and return
-                if($this->active_tab === 'overall') {
+                if ($this->active_tab === 'overall') {
                     delete_meta($log_id);
                     return;
                 }
 
                 //delete the log id
                 $wpdb->delete(
-                    $table,
-                    array(
+                    $table, array(
                         'id' => $log_id
-                    ),
-                    array( '%d' )
+                    ), array('%d')
                 );
 
             }

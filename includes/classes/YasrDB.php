@@ -802,12 +802,22 @@ class YasrDB {
      * @since 2.5.2
      * @return array|object|null
      */
-    public static function returnAllLogMulti() {
+    public static function returnLogMulti($limit, $offset) {
         global $wpdb;
 
-        $query = 'SELECT * FROM ' . YASR_LOG_MULTI_SET . ' ORDER BY date, set_type, post_id DESC';
+        $query = 'SELECT * FROM ' . YASR_LOG_MULTI_SET . ' 
+                    ORDER BY date, set_type, post_id DESC
+                    LIMIT %d
+                    OFFSET %d';
 
-        return $wpdb->get_results($query, ARRAY_A);
+        return $wpdb->get_results(
+            $wpdb->prepare($query, $limit, $offset),
+            ARRAY_A);
+    }
+
+    public static function returnLogMultiNumberOfRows () {
+        global $wpdb;
+        return (int)$wpdb->get_var('SELECT COUNT(*) FROM ' . YASR_LOG_MULTI_SET);
     }
 
     /**
