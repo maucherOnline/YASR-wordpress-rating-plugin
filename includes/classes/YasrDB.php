@@ -220,7 +220,7 @@ class YasrDB {
     }
 
     /**
-     * Return the nu,ber of rows in YASR_LOG_TABLE
+     * Return the number of rows in YASR_LOG_TABLE
      *
      * @author Dario Curvino <@dudo>
      *
