@@ -220,6 +220,19 @@ class YasrDB {
     }
 
     /**
+     * Return the nu,ber of rows in YASR_LOG_TABLE
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.3
+     * @return int
+     */
+    public static function vvNumberOfRows () {
+        global $wpdb;
+        return (int)$wpdb->get_var('SELECT COUNT(*) FROM ' . YASR_LOG_TABLE);
+    }
+
+    /**
      * Check if current user has already rated, and if so, return the rating, or false otherwise
      *
      * @param int | bool $post_id

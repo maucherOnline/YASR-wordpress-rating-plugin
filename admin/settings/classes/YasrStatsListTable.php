@@ -63,7 +63,7 @@ class YasrStatsListTable extends WP_List_Table {
             $slice_data = false;
 
             //The number of total rows on _yasr_log
-            $totalItems  =  (int)$wpdb->get_var('SELECT COUNT(*) FROM ' . YASR_LOG_TABLE);
+            $totalItems  =  YasrDB::vvNumberOfRows();
         }
         else if($this->active_tab === 'logs_multi') {
             $data = YasrDB::returnAllLogMulti();
