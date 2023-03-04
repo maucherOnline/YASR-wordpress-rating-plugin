@@ -806,13 +806,14 @@ class YasrDB {
         global $wpdb;
 
         $query = 'SELECT * FROM ' . YASR_LOG_MULTI_SET . ' 
-                    ORDER BY date, set_type, post_id DESC
+                    ORDER BY date DESC, set_type ASC, post_id DESC 
                     LIMIT %d
                     OFFSET %d';
 
         return $wpdb->get_results(
             $wpdb->prepare($query, $limit, $offset),
-            ARRAY_A);
+            ARRAY_A
+        );
     }
 
     /**
