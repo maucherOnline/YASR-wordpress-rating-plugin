@@ -34,12 +34,14 @@ class YasrStatsListTable extends WP_List_Table {
      */
     private $set_id;
 
+
     /**
-     * Store the set name, to avoid duplicate queries
+     * The array that will store the multiset data
+     *      $multiset = array (index => set name) where index is the set id
      *
-     * @var $set_name
+     * @var array
      */
-    private $set_name = false;
+    private $multiset = array();
 
     private $active_tab;
 
@@ -200,17 +202,14 @@ class YasrStatsListTable extends WP_List_Table {
                 return $user->user_login;
 
             case 'set_type':
-                $old_set_id = $this->set_id;
 
                 if (isset($item['set_type'])) {
-                    if ($this->set_id !== (int) $item['set_type']) {
-                        $this->set_id =   (int) $item['set_type'];
-                    }
+                    $this->set_id = (int) $item['set_type'];
                 }
 
-                //do the query only when the set_id changes
-                if ($old_set_id !== $this->set_id) {
-                    $this->set_name = $wpdb->get_var(
+                //do the query only if the key set_id doesn't exist into array multiset
+                if (!array_key_exists($this->set_id, $this->multiset)) {
+                    $this->multiset[$this->set_id] = $wpdb->get_var(
                         $wpdb->prepare(
                             "SELECT set_name
                                 FROM " . YASR_MULTI_SET_NAME_TABLE . "
@@ -219,8 +218,8 @@ class YasrStatsListTable extends WP_List_Table {
                     );
                 }
 
-                if (is_string($this->set_name)) {
-                    return $this->set_name;
+                if (!empty($this->multiset[$this->set_id])) {
+                    return $this->multiset[$this->set_id];
                 }
 
                 return __('Multi Set doesn\'t exists', 'yet-another-stars-rating');
