@@ -54,8 +54,6 @@ class YasrStatsListTable extends WP_List_Table {
      * @return Void
      */
     public function prepare_items() {
-        global $wpdb;
-
         $columns  = $this->get_columns();
         $hidden   = $this->get_hidden_columns();
         $sortable = $this->get_sortable_columns();
@@ -70,13 +68,7 @@ class YasrStatsListTable extends WP_List_Table {
         $currentPage = $this->get_pagenum();
         $offset      = ($currentPage - 1) * $perPage;
 
-        if ($this->active_tab === 'logs' || $this->active_tab === '') {
-            $data = YasrDB::allVisitorVotes($perPage, $offset);
-
-            //The number of total rows on _yasr_log
-            $totalItems = YasrDB::vvNumberOfRows();
-        }
-        else if ($this->active_tab === 'logs_multi') {
+        if ($this->active_tab === 'logs_multi') {
             $data = YasrDB::returnLogMulti($perPage, $offset);
 
             //The number of total rows on _yasr_log
@@ -87,6 +79,13 @@ class YasrStatsListTable extends WP_List_Table {
 
             //The number of total rows on postmeta where metakey = yasr_overall_rating
             $totalItems = YasrDB::ovNumberOfRows();
+        }
+        //Visito votes logs is the default tab
+        else {
+            $data = YasrDB::allVisitorVotes($perPage, $offset);
+
+            //The number of total rows on _yasr_log
+            $totalItems = YasrDB::vvNumberOfRows();
         }
 
         usort($data, array($this, 'sort_data'));
@@ -176,7 +175,6 @@ class YasrStatsListTable extends WP_List_Table {
      * @return Mixed|void
      */
     protected function column_default($item, $column_name) {
-
         global $wpdb;
 
         switch ($column_name) {
