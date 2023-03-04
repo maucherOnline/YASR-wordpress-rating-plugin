@@ -37,7 +37,12 @@ class YasrStatsListTable extends WP_List_Table {
 
     /**
      * The array that will store the multiset data
-     *      $multiset = array (index => set name) where index is the set id
+     *      $multiset = array {
+     *          [SETID]=> array {
+     *              ["set_name"]=> SET NAME
+     *              [FIELD ID]  => FIELD NAME
+     *          }
+     *      }
      *
      * @var array
      */
@@ -202,14 +207,13 @@ class YasrStatsListTable extends WP_List_Table {
                 return $user->user_login;
 
             case 'set_type':
-
                 if (isset($item['set_type'])) {
                     $this->set_id = (int) $item['set_type'];
                 }
 
                 //do the query only if the key set_id doesn't exist into array multiset
                 if (!array_key_exists($this->set_id, $this->multiset)) {
-                    $this->multiset[$this->set_id]['name'] = $wpdb->get_var(
+                    $this->multiset[$this->set_id]['set_name'] = $wpdb->get_var(
                         $wpdb->prepare(
                             "SELECT set_name
                                 FROM " . YASR_MULTI_SET_NAME_TABLE . "
@@ -218,25 +222,33 @@ class YasrStatsListTable extends WP_List_Table {
                     );
                 }
 
-                if (!empty($this->multiset[$this->set_id]['name'])) {
-                    return $this->multiset[$this->set_id]['name'];
+                //return the multiset name
+                if (!empty($this->multiset[$this->set_id]['set_name'])) {
+                    return $this->multiset[$this->set_id]['set_name'];
                 }
 
                 return __('Multi Set doesn\'t exists', 'yet-another-stars-rating');
 
             case 'field_id':
                 $field_id = (int)$item[$column_name];
-                $data     = $wpdb->get_var(
-                    $wpdb->prepare(
-                        "SELECT field_name
-                                FROM " . YASR_MULTI_SET_FIELDS_TABLE . "
-                                WHERE parent_set_id = %d
-                                AND field_id = %d", $this->set_id, $field_id
-                    )
-                );
 
-                if (!empty($data)) {
-                    return $data;
+                //get the field name only if not exists in $this->multiset
+                if(!array_key_exists($field_id, $this->multiset[$this->set_id])) {
+                    $this->multiset[$this->set_id][$field_id] =
+                        $wpdb->get_var(
+                            $wpdb->prepare(
+                                "SELECT field_name
+                                    FROM " . YASR_MULTI_SET_FIELDS_TABLE . "
+                                    WHERE parent_set_id = %d
+                                    AND field_id = %d",
+                                $this->set_id,
+                                $field_id
+                            )
+                    );
+                }
+
+                if (!empty($this->multiset[$this->set_id][$field_id])) {
+                    return $this->multiset[$this->set_id][$field_id];
                 }
 
                 return __('Field doesn\'t exists', 'yet-another-stars-rating');
