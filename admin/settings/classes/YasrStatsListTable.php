@@ -179,7 +179,7 @@ class YasrStatsListTable extends WP_List_Table {
 
         switch ($column_name) {
             case 'post_id':
-                $post_id = $item[$column_name];
+                $post_id    = (int)$item[$column_name];
 
                 $title_post = wp_strip_all_tags(get_the_title($post_id));
                 $link       = get_permalink($post_id);
@@ -187,7 +187,7 @@ class YasrStatsListTable extends WP_List_Table {
                 return '<a href="' . $link . '">' . $title_post . '</a>';
 
             case 'user_id':
-                $user_id = $item[$column_name];
+                $user_id = (int)$item[$column_name];
 
                 $user = get_user_by('id', $user_id);
 
@@ -204,7 +204,7 @@ class YasrStatsListTable extends WP_List_Table {
 
                 if (isset($item['set_type'])) {
                     if ($this->set_id !== (int) $item['set_type']) {
-                        $this->set_id = (int) $item['set_type'];
+                        $this->set_id =   (int) $item['set_type'];
                     }
                 }
 
@@ -226,7 +226,7 @@ class YasrStatsListTable extends WP_List_Table {
                 return __('Multi Set doesn\'t exists', 'yet-another-stars-rating');
 
             case 'field_id':
-                $field_id = $item[$column_name];
+                $field_id = (int)$item[$column_name];
                 $data     = $wpdb->get_results(
                     $wpdb->prepare(
                         "SELECT field_name
