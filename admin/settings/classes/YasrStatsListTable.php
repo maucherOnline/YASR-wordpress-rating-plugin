@@ -226,17 +226,17 @@ class YasrStatsListTable extends WP_List_Table {
 
             case 'field_id':
                 $field_id = (int)$item[$column_name];
-                $data     = $wpdb->get_results(
+                $data     = $wpdb->get_var(
                     $wpdb->prepare(
                         "SELECT field_name
                                 FROM " . YASR_MULTI_SET_FIELDS_TABLE . "
                                 WHERE parent_set_id = %d
                                 AND field_id = %d", $this->set_id, $field_id
-                    ), ARRAY_A
+                    )
                 );
 
                 if (!empty($data)) {
-                    return $data[0]['field_name'];
+                    return $data;
                 }
 
                 return __('Field doesn\'t exists', 'yet-another-stars-rating');
