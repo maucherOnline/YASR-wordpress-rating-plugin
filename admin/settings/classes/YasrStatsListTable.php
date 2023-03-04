@@ -209,7 +209,7 @@ class YasrStatsListTable extends WP_List_Table {
 
                 //do the query only if the key set_id doesn't exist into array multiset
                 if (!array_key_exists($this->set_id, $this->multiset)) {
-                    $this->multiset[$this->set_id] = $wpdb->get_var(
+                    $this->multiset[$this->set_id]['name'] = $wpdb->get_var(
                         $wpdb->prepare(
                             "SELECT set_name
                                 FROM " . YASR_MULTI_SET_NAME_TABLE . "
@@ -218,8 +218,8 @@ class YasrStatsListTable extends WP_List_Table {
                     );
                 }
 
-                if (!empty($this->multiset[$this->set_id])) {
-                    return $this->multiset[$this->set_id];
+                if (!empty($this->multiset[$this->set_id]['name'])) {
+                    return $this->multiset[$this->set_id]['name'];
                 }
 
                 return __('Multi Set doesn\'t exists', 'yet-another-stars-rating');
