@@ -115,11 +115,13 @@ function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
         element.addEventListener('click', function () {
 
             const multiSetPostId = this.getAttribute('data-postid');
-            const multiSetId = this.getAttribute('data-setid');
-            const nonce = this.getAttribute('data-nonce');
+            const multiSetId     = this.getAttribute('data-setid');
+            const nonce          = this.getAttribute('data-nonce');
+            const submitButton   = document.getElementById(`yasr-send-visitor-multiset-${multiSetPostId}-${multiSetId}`);
+            const loader         = document.getElementById(`yasr-loader-multiset-visitor-${multiSetPostId}-${multiSetId}`)
 
-            jQuery('#yasr-send-visitor-multiset-' + multiSetPostId + '-' + multiSetId).hide();
-            jQuery('#yasr-loader-multiset-visitor-' + multiSetPostId + '-' + multiSetId).show();
+            submitButton.style.display = 'none';
+            loader.style.display       = 'block';
 
             const isUserLoggedIn = JSON.parse(yasrWindowVar.isUserLoggedIn);
 
