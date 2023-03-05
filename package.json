@@ -9,14 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "admin": "webpack --watch --config webpack-admin.dev.js",
-    "pricing": "webpack --watch --config webpack-pricing.dev.js",
-    "edit-comments": "webpack --watch --config webpack-pro-edit-comments.dev.js",
-    "settings": "webpack --watch --config webpack-settings.dev.js",
-    "settings-pro": "webpack --watch --config webpack-pro-settings.dev.js",
     "front": "webpack --watch --config webpack-front.dev.js",
-    "classic-editor": "webpack --watch --config webpack-classicEditor.dev.js",
-    "guten": "webpack --watch --config webpack-guten.dev.js",
-    "guten-pro": "webpack --watch --config webpack-guten-pro.dev.js",
     "build": "webpack"
   },
   "repository": {
