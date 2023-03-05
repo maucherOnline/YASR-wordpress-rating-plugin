@@ -45,6 +45,8 @@ function yasrSetRating (yasrRatingsInDom) {
 }
 
 function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
+    const visitorMultiSubmitButtons = document.querySelectorAll('.yasr-send-visitor-multiset');
+
     //will have field id and vote
     var ratingObject = "";
 
@@ -108,41 +110,45 @@ function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
 
     }
 
-    jQuery('.yasr-send-visitor-multiset').on('click', function() {
-        const multiSetPostId = this.getAttribute('data-postid');
-        const multiSetId     = this.getAttribute('data-setid');
-        const nonce          = this.getAttribute('data-nonce');
+    //add an event listener for each submit button
+    visitorMultiSubmitButtons.forEach(function(element) {
+        element.addEventListener('click', function () {
 
-        jQuery('#yasr-send-visitor-multiset-'+multiSetPostId+'-'+multiSetId).hide();
-        jQuery('#yasr-loader-multiset-visitor-'+multiSetPostId+'-'+multiSetId).show();
+            const multiSetPostId = this.getAttribute('data-postid');
+            const multiSetId = this.getAttribute('data-setid');
+            const nonce = this.getAttribute('data-nonce');
 
-        const isUserLoggedIn   = JSON.parse(yasrWindowVar.isUserLoggedIn);
+            jQuery('#yasr-send-visitor-multiset-' + multiSetPostId + '-' + multiSetId).hide();
+            jQuery('#yasr-loader-multiset-visitor-' + multiSetPostId + '-' + multiSetId).show();
 
-        const data = {
-            action: 'yasr_visitor_multiset_field_vote',
-            post_id: multiSetPostId,
-            rating: ratingArray,
-            set_id: multiSetId
-        };
+            const isUserLoggedIn = JSON.parse(yasrWindowVar.isUserLoggedIn);
 
-        if(isUserLoggedIn === true) {
-            Object.assign(data, {nonce: nonce});
-        }
+            const data = {
+                action: 'yasr_visitor_multiset_field_vote',
+                post_id: multiSetPostId,
+                rating: ratingArray,
+                set_id: multiSetId
+            };
 
-        //Send value to the Server
-        jQuery.post(yasrWindowVar.ajaxurl, data).done(
-            function(response) {
-                let responseText;
-                response = JSON.parse(response);
-                responseText = response.text
+            if (isUserLoggedIn === true) {
+                Object.assign(data, {nonce: nonce});
+            }
 
-                jQuery('#yasr-loader-multiset-visitor-' + multiSetPostId + '-' + multiSetId).text(responseText);
-            }).fail(
-            function(e, x, settings, exception) {
-                console.error('YASR ajax call failed. Can\'t save data');
-                console.log(e);
-            });
+            //Send value to the Server
+            jQuery.post(yasrWindowVar.ajaxurl, data).done(
+                function (response) {
+                    let responseText;
+                    response = JSON.parse(response);
+                    responseText = response.text
 
+                    jQuery('#yasr-loader-multiset-visitor-' + multiSetPostId + '-' + multiSetId).text(responseText);
+                }).fail(
+                function (e, x, settings, exception) {
+                    console.error('YASR ajax call failed. Can\'t save data');
+                    console.log(e);
+                });
+
+        })
     });
     
 } //End function
