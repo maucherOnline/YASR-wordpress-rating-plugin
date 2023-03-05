@@ -1051,9 +1051,10 @@ class YasrDB {
         global $wpdb;
 
         return (int)$wpdb->get_var(
-            $wpdb->prepare('SELECT COUNT(field_id) 
-                                  FROM ' . YASR_MULTI_SET_FIELDS_TABLE .
-                                  ' WHERE parent_set_id=%d',
+            $wpdb->prepare(
+                'SELECT COUNT(*) 
+                       FROM ' . YASR_MULTI_SET_FIELDS_TABLE .
+                       ' WHERE parent_set_id=%d',
             $set_id)
         );
     }
