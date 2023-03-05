@@ -468,7 +468,7 @@ class YasrDB {
         //must returns rating and post_id
         $query = apply_filters('yasr_rankings_query_tu', $atts);
 
-        //if query === $sql_params (both are falses) means that filters doesn't exists
+        //if query === $sql_params (both are false) means that filters doesn't exist
         if ($query === $atts) {
             $query = 'SELECT COUNT(user_id) as total_count, 
                         user_id as user
@@ -567,7 +567,7 @@ class YasrDB {
         //must returns rating and post_id
         $query = apply_filters('yasr_rankings_query_tr', $atts);
 
-        //if query === $sql_params (both are falses) means that filters doesn't exists
+        //if query === $sql_params (both are false) means that filters doesn't exist
         if ($query === $atts) {
             $query = "SELECT COUNT( pm.post_id ) AS total_count,
                           p.post_author    AS user,
@@ -1292,10 +1292,10 @@ class YasrDB {
         }
 
         if($order_by === 'vv_highest') {
-            return " rating {$order}, number_of_votes {$order}";
+            return " rating $order, number_of_votes $order";
         }
         else {
-            return " number_of_votes {$order}, rating {$order}";
+            return " number_of_votes $order, rating $order";
         }
     }
 
