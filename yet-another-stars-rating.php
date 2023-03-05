@@ -184,17 +184,16 @@ if ( ! function_exists( 'yasr_fs' ) ) {
         $settings_link .= __('Settings', 'yet-another-stars-rating');
         $settings_link .= '</a>';
 
-        //array_unshit adds to the beginning of array
+        //array_unshift adds to the beginning of array
         array_unshift($links, $settings_link);
 
         return $links;
     }
 
-    //this add a link under the plugin description
+    //this adds a link under the plugin description
     add_filter('plugin_row_meta', 'yasr_plugin_row_meta', 10, 5);
 
     function yasr_plugin_row_meta($links, $file) {
-
         $plugin = plugin_basename(__FILE__);
 
         //Show buy yasr pro only if this is free plan
@@ -215,7 +214,6 @@ if ( ! function_exists( 'yasr_fs' ) ) {
         }
 
         return $links;
-
     } //End function
 
     if (yasr_fs()->is__premium_only()) { //these if can't be merged
