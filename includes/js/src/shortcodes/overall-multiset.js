@@ -143,7 +143,7 @@ function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
                     response = JSON.parse(response);
                     responseText = response.text
 
-                    jQuery('#yasr-loader-multiset-visitor-' + multiSetPostId + '-' + multiSetId).text(responseText);
+                    loader.innerText=responseText;
                 }).fail(
                 function (e, x, settings, exception) {
                     console.error('YASR ajax call failed. Can\'t save data');
