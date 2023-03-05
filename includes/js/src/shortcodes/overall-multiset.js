@@ -45,7 +45,7 @@ function yasrSetRating (yasrRatingsInDom) {
 }
 
 function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
-    const visitorMultiSubmitButtons = document.querySelectorAll('.yasr-send-visitor-multiset');
+    const visitorMultiSubmitButtons = document.getElementsByClassName('yasr-send-visitor-multiset');
 
     //will have field id and vote
     var ratingObject = "";
@@ -111,8 +111,8 @@ function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
     }
 
     //add an event listener for each submit button
-    visitorMultiSubmitButtons.forEach(function(element) {
-        element.addEventListener('click', function () {
+    for (let i=0; i< visitorMultiSubmitButtons.length; i++) {
+        visitorMultiSubmitButtons[i].addEventListener('click', function () {
 
             const multiSetPostId = this.getAttribute('data-postid');
             const multiSetId     = this.getAttribute('data-setid');
@@ -151,6 +151,6 @@ function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
                 });
 
         })
-    });
+    }
     
 } //End function
