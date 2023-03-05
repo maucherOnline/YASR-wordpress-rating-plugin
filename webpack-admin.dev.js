@@ -1,3 +1,7 @@
+/**
+ * This file will compile the .js assets in dev mode, admin side
+ */
+
 const path = require('path');
 
 var config = {

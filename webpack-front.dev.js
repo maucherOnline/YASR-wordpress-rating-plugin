@@ -1,5 +1,8 @@
+/**
+ * This file will compile the .js assets in dev mode, front side
+ */
+
 const path = require('path');
-const TerserPlugin = require("terser-webpack-plugin");
 
 var config = {
     module: {},
