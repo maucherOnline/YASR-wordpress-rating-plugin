@@ -1046,19 +1046,16 @@ class YasrDB {
      * @return int
      */
     public static function multisetLength($set_id) {
-        $set_id = (int) $set_id;
+        $set_id = (int)$set_id;
 
         global $wpdb;
 
-        $result = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT f.field_id AS id
-                        FROM " . YASR_MULTI_SET_FIELDS_TABLE . " AS f
-                        WHERE f.parent_set_id=%d", $set_id
-            )
+        return (int)$wpdb->get_var(
+            $wpdb->prepare('SELECT COUNT(field_id) 
+                                  FROM ' . YASR_MULTI_SET_FIELDS_TABLE .
+                                  ' WHERE parent_set_id=%d',
+            $set_id)
         );
-
-        return $wpdb->num_rows;
     }
 
     /**
