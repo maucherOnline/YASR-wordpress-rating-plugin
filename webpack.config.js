@@ -1,3 +1,7 @@
+/**
+ * This file will compile the .js assets in production mode
+ */
+
 const path          = require('path');
 const TerserPlugin  = require('terser-webpack-plugin');
 
