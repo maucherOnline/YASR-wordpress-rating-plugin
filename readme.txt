@@ -209,6 +209,7 @@ The full changelog can be found in the plugin's directory. Recent entries:
 = 3.3.3 =
 * TWEAKED: in Yet Another Stars Rating -> Manage Ratings, all the data is now fetched ~x3 time faster
 * TWEAKED: added support for WP-CLI
+* TWEAKED: updated freemius SDK to version 2.5.4
 [//]: # fs_premium_only_begin
 PREMIUM ONLY:
 * NEW FEATURE: it is possible to export data in CSV format. Go to Yet Another Stars Rating -> Manage Ratings -> Export Data
