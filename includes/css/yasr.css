@@ -261,6 +261,10 @@ yasr_pro_comment_reviews_stats shortcode too***/
     text-align: center;
 }
 
+.yasr-last-ratings-loader {
+    display: none;
+}
+
 /*** shortode yasr_display_posts***/
 .yasr-entry-title {
     font-size: 33px;

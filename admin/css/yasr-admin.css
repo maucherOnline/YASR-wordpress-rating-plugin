@@ -1023,6 +1023,10 @@ div.yasr-select-img-container input {
     text-align: center;
 }
 
+.yasr-last-ratings-loader {
+    display: none;
+}
+
 /***** Export page ******/
 
 .yasr-container {

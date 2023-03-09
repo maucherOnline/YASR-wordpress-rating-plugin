@@ -140,7 +140,7 @@ class YasrLastRatingsWidget {
             return $this->returnWidget();
         }
 
-        echo $this->returnWidget();
+        echo wp_kses_post($this->returnWidget());
 
         $this->die_if_is_ajax();
     }
@@ -290,59 +290,43 @@ class YasrLastRatingsWidget {
      * This function will print the row with pagination
      */
     private function pagination($html_to_return) {
-        if ($this->num_of_pages <= 3) {
-            for ($i = 1; $i <= $this->num_of_pages; $i++) {
-                if ($i === $this->page_num) {
-                    $html_to_return .= "<button class='button-primary' value='$i'>$i</button>&nbsp;&nbsp;";
-                } else {
-                    $html_to_return .= "<button class=$this->button_class value='$i'>$i</button>&nbsp;&nbsp;";
-                }
-            }
-            $html_to_return .= "<span id='yasr-loader-log-metabox' style='display:none;'>&nbsp;
-                                        <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
-                                    </span>";
-        }
-        else {
-            $start_for = $this->page_num - 1;
-
-            if ($start_for <= 0) {
-                $start_for = 1;
-            }
-
-            $end_for = $this->page_num + 1;
-
-            if ($end_for >= $this->num_of_pages) {
-                $end_for = $this->num_of_pages;
-            }
-
-            if ($this->page_num >= 3) {
-                $html_to_return .= "<button class=$this->button_class value='1'>
+        if ($this->page_num >= 3 && $this->num_of_pages > 3) {
+            $html_to_return .= "<button class=$this->button_class value='1'>
                                             &laquo; First </button>&nbsp;&nbsp;...&nbsp;&nbsp;";
-            }
-
-            for ($i = $start_for; $i <= $end_for; $i++) {
-                if ($i === $this->page_num) {
-                    $html_to_return .= "<button class='button-primary' value='$i'>$i</button>&nbsp;&nbsp;";
-                } else {
-                    $html_to_return .= "<button class=$this->button_class value='$i'>$i</button>&nbsp;&nbsp;";
-                }
-            }
-
-            $num_of_page_less_one = $this->num_of_pages - 1;
-
-            if ($this->page_num != $this->num_of_pages && $this->page_num != $num_of_page_less_one) {
-                $html_to_return .= "...&nbsp;&nbsp;
-                                        <button class=$this->button_class 
-                                            value='$this->num_of_pages'>
-                                            Last &raquo;</button>
-                                            &nbsp;&nbsp;";
-            }
-
-            $html_to_return .= "<span id='$this->span_loader_id' style='display:none;' >&nbsp;
-                                        <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
-                                    </span>";
-
         }
+
+        $start_for = $this->page_num - 1;
+
+        if ($start_for <= 0) {
+            $start_for = 1;
+        }
+
+        $end_for = $this->page_num + 1;
+
+        if ($end_for >= $this->num_of_pages) {
+            $end_for = $this->num_of_pages;
+        }
+
+        for ($i = $start_for; $i <= $end_for; $i++) {
+            if ($i === $this->page_num) {
+                $html_to_return .= "<button class='button-primary' value='$i'>$i</button>&nbsp;&nbsp;";
+            } else {
+                $html_to_return .= "<button class=$this->button_class value='$i'>$i</button>&nbsp;&nbsp;";
+            }
+        }
+
+        if ($this->num_of_pages > 3 && $this->page_num < $this->num_of_pages
+        ) {
+            $html_to_return .= "...&nbsp;&nbsp;
+                                <button class=$this->button_class 
+                                    value='$this->num_of_pages'>
+                                    Last &raquo;</button>
+                                    &nbsp;&nbsp;";
+        }
+
+        $html_to_return .= "<span class='yasr-last-ratings-loader' id='".$this->span_loader_id."'>&nbsp;
+                                <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
+                            </span>";
 
         return $html_to_return;
     }
