@@ -166,7 +166,8 @@ class YasrLastRatingsWidget {
 
     /**
      * Return the widget
-     * @return string|void
+     *
+     * @return string
      */
     private function returnWidget() {
         global $wpdb;
@@ -190,6 +191,7 @@ class YasrLastRatingsWidget {
 
         $html_to_return = "<div class='yasr-log-container' id='$this->container_id'>";
 
+        $i = 0;
         foreach ($log_result as $column) {
             $user = get_user_by('id', $column->user_id); //Get info user from user id
 
@@ -223,30 +225,15 @@ class YasrLastRatingsWidget {
             //Set value depending if we're on user or admin widget
             if ($this->user_widget !== true) {
                 if (YASR_ENABLE_IP === 'yes') {
-                    $ip_span = '<span class="yasr-log-ip">' . __("Ip address", 'yet-another-stars-rating') . ': 
-                               <span style="color:blue">' . $column->ip . '</span>
-                           </span>';
+                    $ip_span = '<span class="yasr-log-ip">' . __('Ip address', 'yet-another-stars-rating') . ': 
+                                    <span style="color:blue">' . $column->ip . '</span>
+                                </span>';
                 }
-            } else {
-                $ip_span = '';
             }
 
-            $rows_content = '<div class="yasr-log-div-child">
-                                  <div class="yasr-log-image">'
-                            .$avatar.
-                            '</div>
-                                  <div class="yasr-log-child-head">
-                                      <span id="yasr-log-vote">'.$yasr_log_vote_text.'</span>
-                                      <span id="yasr-log-post"><a href="'. $link .'">'.esc_html($post_title).'</a></span>
-                                  </div>
-                                  <div class="yasr-log-ip-date">'
-                            .$ip_span.
-                            '<span class="yasr-log-date">'.$column->date.'</span>
-                                  </div>
-                            </div>';
+            $html_to_return .= $this->rowContent($avatar, $i, $yasr_log_vote_text, $link, $post_title, $ip_span, $column);
 
-            $html_to_return .= $rows_content;
-
+            $i = $i +1;
         } //End foreach
 
         $html_to_return .= "<div id='yasr-log-page-navigation'>";
@@ -254,7 +241,7 @@ class YasrLastRatingsWidget {
         //use data attribute instead of value of #yasr-log-total-pages, because, on ajaxresponse,
         //the "last" button could not exist
         $html_to_return .= "<span id='$this->span_total_pages' data-yasr-log-total-pages='$this->num_of_pages'>";
-        $html_to_return .= __("Pages", 'yet-another-stars-rating') . ": ($this->num_of_pages) &nbsp;&nbsp;&nbsp;";
+        $html_to_return .= __('Pages', 'yet-another-stars-rating') . ": ($this->num_of_pages) &nbsp;&nbsp;&nbsp;";
         $html_to_return .= '</span>';
 
         $html_to_return  = $this->pagination($html_to_return);
@@ -264,6 +251,39 @@ class YasrLastRatingsWidget {
 
         return $html_to_return; // End else if !$log result
 
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.4
+     *
+     * @param $avatar
+     * @param $i
+     * @param $yasr_log_vote_text
+     * @param $link
+     * @param $post_title
+     * @param $ip_span
+     * @param $column
+     *
+     * @return string
+     */
+    private function rowContent ($avatar, $i, $yasr_log_vote_text, $link, $post_title, $ip_span, $column) {
+        return "<div class='yasr-log-div-child'>
+                    <div class='yasr-log-image'>
+                        $avatar
+                    </div>
+                    <div class='yasr-log-child-head'>
+                        <span class='yasr-log-vote' id='yasr-log-vote-$i'>$yasr_log_vote_text</span>
+                        <span class='yasr-log-post' id='yasr-log-post-$i'><a href='$link'>".esc_html($post_title)."</a></span>
+                    </div>
+                    <div class='yasr-log-ip-date'>
+                        $ip_span
+                        <span class='yasr-log-date'>
+                            $column->date
+                        </span>
+                    </div>
+              </div>";
     }
 
     /**

@@ -988,7 +988,7 @@ div.yasr-select-img-container input {
     padding-left: 37px;
 }
 
-#yasr-log-vote {
+.yasr-log-vote {
     color: red;
 }
 

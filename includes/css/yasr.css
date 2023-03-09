@@ -226,7 +226,7 @@ yasr_pro_comment_reviews_stats shortcode too***/
     padding-left: 37px;
 }
 
-#yasr-log-vote {
+.yasr-log-vote {
     color: red;
 }
 
