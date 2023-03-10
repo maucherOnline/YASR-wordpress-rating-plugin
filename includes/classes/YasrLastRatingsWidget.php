@@ -48,7 +48,7 @@ class YasrLastRatingsWidget {
         if (isset($_POST['pagenum'])) {
             $this->page_num     = (int)$_POST['pagenum'];
             $this->num_of_pages = (int)$_POST['totalpages'];
-            $this->offset       = (int)($this->page_num - 1) * $this->limit;
+            $this->offset       = ($this->page_num - 1) * $this->limit;
         } else {
             $this->page_num = 1;
         }
@@ -88,7 +88,7 @@ class YasrLastRatingsWidget {
         $this->button_class     = 'yasr-log-pagenum';
         $this->span_loader_id   = 'yasr-loader-log-metabox';
 
-        echo $this->returnWidget();
+        echo wp_kses_post($this->returnWidget());
 
         $this->die_if_is_ajax();
     }
@@ -160,7 +160,7 @@ class YasrLastRatingsWidget {
         if(wp_doing_ajax() === false) {
             return $this->userWidget(true);
         }
-        echo $this->userWidget(true);
+        echo wp_kses_post($this->userWidget(true));
         $this->die_if_is_ajax();
     }
 
@@ -315,8 +315,7 @@ class YasrLastRatingsWidget {
             }
         }
 
-        if ($this->num_of_pages > 3 && $this->page_num < $this->num_of_pages
-        ) {
+        if ($this->num_of_pages > 3 && $this->page_num < $this->num_of_pages) {
             $html_to_return .= "...&nbsp;&nbsp;
                                 <button class=$this->button_class 
                                     value='$this->num_of_pages'>
