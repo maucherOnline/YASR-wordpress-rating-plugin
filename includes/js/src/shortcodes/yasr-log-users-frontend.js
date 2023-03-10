@@ -3,7 +3,7 @@ jQuery(document).ready(function () {
     //Log
     jQuery('.yasr-user-log-page-num').on('click', function () {
         jQuery('#yasr-loader-user-log-metabox').show();
-        var data = {
+        let data = {
             action: 'yasr_change_user_log_page_front',
             pagenum: jQuery(this).val(),
             totalpages: jQuery('#yasr-user-log-total-pages').data('yasr-log-total-pages')
@@ -16,7 +16,7 @@ jQuery(document).ready(function () {
     });
 
     jQuery(document).ajaxComplete(function (event, xhr, settings) {
-        var isYasrAjaxCall = true;
+        let isYasrAjaxCall = true;
 
         if (typeof settings.data === 'undefined') {
             return;
@@ -29,7 +29,7 @@ jQuery(document).ready(function () {
             jQuery('.yasr-user-log-page-num').on('click', function () {
                 jQuery('#yasr-loader-user-log-metabox').show();
 
-                var data = {
+                let data = {
                     action: 'yasr_change_user_log_page_front',
                     pagenum: jQuery(this).val(),
                     totalpages: jQuery('#yasr-user-log-total-pages').data('yasr-log-total-pages')

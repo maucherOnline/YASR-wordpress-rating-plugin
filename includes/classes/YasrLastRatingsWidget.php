@@ -160,6 +160,7 @@ class YasrLastRatingsWidget {
         if(wp_doing_ajax() === false) {
             return $this->userWidget(true);
         }
+        $this->returnAjaxResponseUser();
         echo wp_kses_post($this->userWidget(true));
         $this->die_if_is_ajax();
     }
@@ -279,7 +280,7 @@ class YasrLastRatingsWidget {
                     </div>
                     <div class='yasr-log-ip-date'>
                         $ip_span
-                        <span class='yasr-log-date'>
+                        <span class='yasr-log-date' id='yasr-log-date-$i'>
                             $column->date
                         </span>
                     </div>
@@ -328,6 +329,37 @@ class YasrLastRatingsWidget {
                             </span>";
 
         return $html_to_return;
+    }
+
+    public function returnAjaxResponseUser () {
+        $user_id = get_current_user_id();
+
+        global $wpdb;
+
+        $n_rows = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT COUNT(*) FROM "
+                . YASR_LOG_TABLE . " WHERE user_id = %d ",
+                $user_id));
+
+        $log_query =  $wpdb->get_results(
+            $wpdb->prepare("SELECT * FROM "
+            . YASR_LOG_TABLE .
+            " WHERE user_id = $user_id 
+             ORDER BY date 
+             DESC LIMIT %d,  %d",
+            $this->offset, $this->limit
+            )
+        );
+
+        if($log_query === NULL) {
+            $array_to_return['status'] = 'error';
+        } else {
+            $array_to_return['status'] = 'success';
+            $array_to_return['data']   = $log_query;
+        }
+
+        wp_send_json($array_to_return);
     }
 
     /**
