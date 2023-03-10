@@ -160,7 +160,7 @@ class YasrLastRatingsWidget {
         if(wp_doing_ajax() === false) {
             return $this->userWidget(true);
         }
-        $this->returnAjaxResponseUser();
+        //$this->returnAjaxResponseUser();
         echo wp_kses_post($this->userWidget(true));
         $this->die_if_is_ajax();
     }
