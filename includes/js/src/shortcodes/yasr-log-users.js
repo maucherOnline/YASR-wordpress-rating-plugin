@@ -3,10 +3,12 @@
     const paginationButtons = document.getElementById('yasr-user-log-page-navigation-buttons');
     const totalPages        = document.getElementById('yasr-user-log-total-pages').dataset.yasrLogTotalPages;
 
+    let spanVote = []
     let rowTitle = []; //array containing all the DOM containers for the title
     let rowDate  = []; //array containing all the DOM containers for the dates
 
     for (let i=0; i < 8; i++) {
+        spanVote[i] = document.getElementById(`yasr-user-log-vote-${i}`);
         rowTitle[i] = document.getElementById(`yasr-user-log-post-${i}`);
         rowDate[i]  = document.getElementById(`yasr-user-log-date-${i}`);
     }
@@ -100,11 +102,15 @@ function yasrUpdateLogUsersPagination (pagenum) {
             let title;
             for (let i=0; i < 8; i++) {
                 if (response.data[i]) {
+                    spanVote[i].innerText = response.data[i].vote;
+
                     title = `<a href="${response.data[i].permalink}">${response.data[i].post_title}</a>`
                     //update the title
                     rowTitle[i].innerHTML = title;
                     //update the date
                     rowDate[i].innerText = response.data[i].date
+                } else {
+                    rowTitle[i].innerText = '';
                 }
             }
             //hide the loader

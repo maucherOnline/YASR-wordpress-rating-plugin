@@ -190,18 +190,6 @@ class YasrLastRatingsWidget {
             $post_title = get_post_field( 'post_title', $column->post_id, 'raw' ); //Get post title from post id
             $link       = get_permalink($column->post_id); //Get post link from post id
 
-            if ($this->user_widget !== true) {
-                $yasr_log_vote_text = ' ' . sprintf(
-                        __('Vote %d from %s on', 'yet-another-stars-rating'),
-                        $column->vote,
-                        '<strong style="color: blue">' . $user->user_login . '</strong>'
-                    );
-            } else {
-                $yasr_log_vote_text = ' ' . sprintf(
-                        __('You rated %s on', 'yet-another-stars-rating'),
-                        '<strong style="color: blue">' . $column->vote . '</strong>'
-                    );
-            }
 
             //Default values (for admin widget)
             $ip_span = ''; //default value
@@ -215,7 +203,7 @@ class YasrLastRatingsWidget {
                 }
             }
 
-            $html_to_return .= $this->rowContent($avatar, $i, $yasr_log_vote_text, $link, $post_title, $ip_span, $column);
+            $html_to_return .= $this->rowContent($avatar, $i, $user, $link, $post_title, $ip_span, $column);
 
             $i = $i +1;
         } //End foreach
@@ -254,14 +242,25 @@ class YasrLastRatingsWidget {
      *
      * @return string
      */
-    private function rowContent ($avatar, $i, $yasr_log_vote_text, $link, $post_title, $ip_span, $column) {
-
+    private function rowContent ($avatar, $i, $user, $link, $post_title, $ip_span, $column) {
+        if ($this->user_widget !== true) {
+            $yasr_log_vote_text = ' ' . sprintf(
+                    __('Vote %d from %s on', 'yet-another-stars-rating'),
+                    $column->vote,
+                    '<strong style="color: blue">' . $user->user_login . '</strong>'
+                );
+        } else {
+            $yasr_log_vote_text = ' ' . sprintf(
+                    __('You rated %s on', 'yet-another-stars-rating'),
+                    '<span id="yasr-user-log-vote-'.$i.'" style="color: blue;">' . $column->vote . '</span>'
+                );
+        }
         if($this->user_widget === true) {
-            $text_id  = "yasr-user-log-vote-$i";
+            $text_id  = "yasr-user-log-text-$i";
             $title_id = "yasr-user-log-post-$i";
             $date_id  = "yasr-user-log-date-$i";
         } else {
-            $text_id  = "yasr-log-vote-$i";
+            $text_id  = "yasr-log-text-$i";
             $title_id = "yasr-log-post-$i";
             $date_id  = "yasr-log-date-$i";
         }
