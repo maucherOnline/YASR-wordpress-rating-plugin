@@ -161,8 +161,6 @@ class YasrLastRatingsWidget {
             return $this->userWidget(true);
         }
         $this->returnAjaxResponseUser();
-        echo wp_kses_post($this->userWidget(true));
-        $this->die_if_is_ajax();
     }
 
     /**
@@ -241,9 +239,11 @@ class YasrLastRatingsWidget {
 
         //use data attribute instead of value of #yasr-log-total-pages, because, on ajaxresponse,
         //the "last" button could not exist
-        $html_to_return .= "<span id='$this->span_total_pages' data-yasr-log-total-pages='$this->num_of_pages'>";
+        $html_to_return .= "<div id='$this->span_total_pages' 
+                                 data-yasr-log-total-pages='$this->num_of_pages' 
+                                 style='display: inline'>";
         $html_to_return .= __('Pages', 'yet-another-stars-rating') . ": ($this->num_of_pages) &nbsp;&nbsp;&nbsp;";
-        $html_to_return .= '</span>';
+        $html_to_return .= '</div>';
 
         $html_to_return  = $this->pagination($html_to_return);
 
@@ -295,6 +295,8 @@ class YasrLastRatingsWidget {
      * This function will print the row with pagination
      */
     private function pagination($html_to_return) {
+        $html_to_return .= '<div id="yasr-user-log-page-navigation-buttons" style="display: inline">';
+
         if ($this->page_num >= 3 && $this->num_of_pages > 3) {
             $html_to_return .= "<button class=$this->button_class value='1'>
                                             &laquo; First </button>&nbsp;&nbsp;...&nbsp;&nbsp;";
@@ -328,6 +330,9 @@ class YasrLastRatingsWidget {
                                     &nbsp;&nbsp;";
         }
 
+        $html_to_return .= '</div>';
+
+        //loader
         $html_to_return .= "<span class='yasr-last-ratings-loader' id='".$this->span_loader_id."'>&nbsp;
                                 <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
                             </span>";
@@ -372,7 +377,7 @@ class YasrLastRatingsWidget {
                 $i++;
             }
 
-            $array_to_return['data']   = $log_query;
+            $array_to_return['data'] = $log_query;
         }
 
         wp_send_json($array_to_return);
