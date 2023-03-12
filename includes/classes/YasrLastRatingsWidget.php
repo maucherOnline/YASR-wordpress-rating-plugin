@@ -160,7 +160,7 @@ class YasrLastRatingsWidget {
         if(wp_doing_ajax() === false) {
             return $this->userWidget(true);
         }
-        //$this->returnAjaxResponseUser();
+        $this->returnAjaxResponseUser();
         echo wp_kses_post($this->userWidget(true));
         $this->die_if_is_ajax();
     }
@@ -275,8 +275,12 @@ class YasrLastRatingsWidget {
                         $avatar
                     </div>
                     <div class='yasr-log-child-head'>
-                        <span class='yasr-log-vote' id='yasr-log-vote-$i'>$yasr_log_vote_text</span>
-                        <span class='yasr-log-post' id='yasr-log-post-$i'><a href='$link'>".esc_html($post_title)."</a></span>
+                        <span class='yasr-log-vote' id='yasr-log-vote-$i'>
+                            $yasr_log_vote_text
+                        </span>
+                        <span class='yasr-log-post' id='yasr-log-post-$i'>
+                            <a href='$link'>".esc_html($post_title)."</a>
+                        </span>
                     </div>
                     <div class='yasr-log-ip-date'>
                         $ip_span
@@ -336,26 +340,30 @@ class YasrLastRatingsWidget {
 
         global $wpdb;
 
-        $n_rows = $wpdb->get_var(
-            $wpdb->prepare(
-                "SELECT COUNT(*) FROM "
-                . YASR_LOG_TABLE . " WHERE user_id = %d ",
-                $user_id));
-
         $log_query =  $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM "
-            . YASR_LOG_TABLE .
-            " WHERE user_id = $user_id 
-             ORDER BY date 
+            $wpdb->prepare("SELECT p.post_title, l.vote, l.date, l.post_id 
+            FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
+            WHERE l.user_id = %d 
+                AND p.ID = l.post_id
+            ORDER BY date 
              DESC LIMIT %d,  %d",
-            $this->offset, $this->limit
-            )
+            $user_id, $this->offset, $this->limit
+            ), ARRAY_A
         );
 
         if($log_query === NULL) {
             $array_to_return['status'] = 'error';
         } else {
             $array_to_return['status'] = 'success';
+
+            $i=0;
+            //get the permalink and add it to log_query
+            foreach ($log_query as $result) {
+                $permalink = get_permalink($result['post_id']);
+                $log_query[$i]['permalink'] = $permalink;
+                $i++;
+            }
+
             $array_to_return['data']   = $log_query;
         }
 

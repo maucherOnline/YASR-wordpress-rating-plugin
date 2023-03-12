@@ -1,6 +1,12 @@
 //Vote user log
-jQuery(document).ready(function () {
+//jQuery(document).ready(function () {
     const totalPages = document.getElementById('yasr-user-log-total-pages').dataset.yasrLogTotalPages;
+
+    let rowTitle = []; //array containing all the id with titles
+
+    for (let i=0; i < 8; i++) {
+        rowTitle[i] = document.getElementById(`yasr-log-post-${i}`);
+    }
 
     //Log
     jQuery('.yasr-user-log-page-num').on('click', function () {
@@ -42,10 +48,14 @@ jQuery(document).ready(function () {
         };
 
         jQuery.post(yasrWindowVar.ajaxurl, data, function (response) {
-            jQuery('#yasr-user-log-container').html(response); //This will hide the loader gif too
+            for (let i=0; i < 8; i++) {
+                rowTitle[i].innerHTML = response.data[i].post_title;
+            }
+            loader.style.display = 'none';
+            //jQuery('#yasr-user-log-container').html(response); //This will hide the loader gif too
         });
     }
 
-});
+//});
 
 
