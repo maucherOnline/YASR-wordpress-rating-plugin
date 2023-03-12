@@ -29,7 +29,6 @@ if (!defined('ABSPATH')) {
  * Class YasrShortcodesAjax
  */
 class YasrShortcodesAjax {
-
     public function init() {
         if (YASR_ENABLE_AJAX === 'yes') {
             //load vv with ajax
@@ -49,7 +48,7 @@ class YasrShortcodesAjax {
         add_action('wp_ajax_nopriv_yasr_visitor_multiset_field_vote', array($this, 'saveMV'));
 
         //yasr_user_rate_history action to change page
-        add_action('wp_ajax_yasr_change_user_log_page_front', array('YasrLastRatingsWidget', 'returnAjaxResponseUser'));
+        add_action('wp_ajax_yasr_change_user_log_page_front',      array($this, 'returnAjaxResponseUser'));
 
         //VV load stats
         if(YASR_VISITORS_STATS === 'yes') {
@@ -218,8 +217,6 @@ class YasrShortcodesAjax {
 
         //default values
         $array_to_return = array(
-            'number_of_votes'  => 0,
-            'sum_votes'        => 0,
             'stars_attributes' => array(
                 'read_only'   => true,
                 'span_bottom' => false
@@ -623,6 +620,56 @@ class YasrShortcodesAjax {
 
         return $data_to_return;
 
+    }
+
+    /**
+     * Return the ajax response for the user widget
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.3.4
+     *
+     * @param YasrLastRatingsWidget $instance
+     *
+     * @return void
+     */
+    public function returnAjaxResponseUser() {
+        $user_id = get_current_user_id();
+
+        $page_num = (int) $_POST['pagenum'];
+        $limit    = 8;
+        $offset   = ($page_num - 1) * $limit;
+
+        global $wpdb;
+
+        $log_query = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT p.post_title, l.vote, l.date, l.post_id 
+            FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
+            WHERE l.user_id = %d 
+                AND p.ID = l.post_id
+            ORDER BY date 
+             DESC LIMIT %d,  %d", $user_id, $offset, $limit
+            ), ARRAY_A
+        );
+
+        if ($log_query === null) {
+            $array_to_return['status'] = 'error';
+        }
+        else {
+            $array_to_return['status'] = 'success';
+
+            $i = 0;
+            //get the permalink and add it to log_query
+            foreach ($log_query as $result) {
+                $permalink                  = get_permalink($result['post_id']);
+                $log_query[$i]['permalink'] = $permalink;
+                $i++;
+            }
+
+            $array_to_return['data'] = $log_query;
+        }
+
+        wp_send_json($array_to_return);
     }
 
     /**

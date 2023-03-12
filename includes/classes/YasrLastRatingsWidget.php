@@ -323,55 +323,6 @@ class YasrLastRatingsWidget {
     }
 
     /**
-     * Return the ajax response for the user widget
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  3.3.4
-     *
-     * @param YasrLastRatingsWidget $instance
-     *
-     * @return void
-     */
-    public static function returnAjaxResponseUser () {
-        $user_id = get_current_user_id();
-
-        $page_num = (int)$_POST['pagenum'];
-        $limit    = 8;
-        $offset   = ($page_num - 1) * $limit;
-
-        global $wpdb;
-
-        $log_query =  $wpdb->get_results(
-            $wpdb->prepare("SELECT p.post_title, l.vote, l.date, l.post_id 
-            FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
-            WHERE l.user_id = %d 
-                AND p.ID = l.post_id
-            ORDER BY date 
-             DESC LIMIT %d,  %d",
-            $user_id, $offset, $limit
-            ), ARRAY_A
-        );
-
-        if($log_query === NULL) {
-            $array_to_return['status'] = 'error';
-        } else {
-            $array_to_return['status'] = 'success';
-
-            $i=0;
-            //get the permalink and add it to log_query
-            foreach ($log_query as $result) {
-                $permalink = get_permalink($result['post_id']);
-                $log_query[$i]['permalink'] = $permalink;
-                $i++;
-            }
-
-            $array_to_return['data'] = $log_query;
-        }
-
-        wp_send_json($array_to_return);
-    }
-
-    /**
      * @author Dario Curvino <@dudo>
      * @since 2.8.5
      * If is_ajax === true, call die()
