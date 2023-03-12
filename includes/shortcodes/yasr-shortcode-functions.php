@@ -258,9 +258,9 @@ function yasr_visitor_multi_set_ranking_callback($atts, $content, $shortcode_tag
  * When a user is logged in, print all the rating that user leaved
  */
 add_shortcode('yasr_user_rate_history', 'yasr_users_front_widget_callback');
-add_action('wp_ajax_yasr_change_user_log_page_front', 'yasr_users_front_widget_callback');
 function yasr_users_front_widget_callback() {
-    return (new YasrLastRatingsWidget())->userWidgetShortcode();
+    YasrScriptsLoader::loadLogUsersFrontend();
+    return (new YasrLastRatingsWidget())->userWidget(true);
 } //End callback function
 
 

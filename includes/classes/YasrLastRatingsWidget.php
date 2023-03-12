@@ -146,24 +146,6 @@ class YasrLastRatingsWidget {
     }
 
     /**
-     * Callback function to make user widget works as shortcode
-     * If it is not under ajax call, shortcode must be returned.
-     * Otherwise, printed
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  2.8.5
-     * @return string|void
-     */
-    public function userWidgetShortcode () {
-        YasrScriptsLoader::loadLogUsersFrontend();
-
-        if(wp_doing_ajax() === false) {
-            return $this->userWidget(true);
-        }
-        $this->returnAjaxResponseUser();
-    }
-
-    /**
      * Return the widget
      *
      * @return string
@@ -344,12 +326,18 @@ class YasrLastRatingsWidget {
      * Return the ajax response for the user widget
      *
      * @author Dario Curvino <@dudo>
-     *
      * @since  3.3.4
+     *
+     * @param YasrLastRatingsWidget $instance
+     *
      * @return void
      */
-    public function returnAjaxResponseUser () {
+    public static function returnAjaxResponseUser () {
         $user_id = get_current_user_id();
+
+        $page_num = (int)$_POST['pagenum'];
+        $limit    = 8;
+        $offset   = ($page_num - 1) * $limit;
 
         global $wpdb;
 
@@ -360,7 +348,7 @@ class YasrLastRatingsWidget {
                 AND p.ID = l.post_id
             ORDER BY date 
              DESC LIMIT %d,  %d",
-            $user_id, $this->offset, $this->limit
+            $user_id, $offset, $limit
             ), ARRAY_A
         );
 
