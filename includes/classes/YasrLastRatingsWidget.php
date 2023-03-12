@@ -335,6 +335,14 @@ class YasrLastRatingsWidget {
         return $html_to_return;
     }
 
+    /**
+     * Return the ajax response for the user widget
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.3.4
+     * @return void
+     */
     public function returnAjaxResponseUser () {
         $user_id = get_current_user_id();
 
