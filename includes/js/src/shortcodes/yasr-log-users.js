@@ -102,7 +102,7 @@ function yasrUpdateLogUsersPagination (pagenum) {
             let title;
             for (let i=0; i < 8; i++) {
                 if (response.data[i]) {
-                    spanVote[i].innerText = response.data[i].vote;
+                    spanVote[i].innerText = parseInt(response.data[i].vote);
 
                     title = `<a href="${response.data[i].permalink}">${response.data[i].post_title}</a>`
                     //update the title

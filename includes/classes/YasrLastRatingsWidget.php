@@ -104,7 +104,6 @@ class YasrLastRatingsWidget {
 
     /**
      * This function will set the values for print the user widget logs
-     *
      * $this->user_widget
      * $this->n_rows
      * $this->log_query
@@ -113,7 +112,7 @@ class YasrLastRatingsWidget {
      * $this->button_class
      * $this->span_loader_id
      *
-     * @return string|void
+     * @return string
      */
     public function userWidget() {
         $user_id = get_current_user_id();
@@ -234,7 +233,7 @@ class YasrLastRatingsWidget {
      *
      * @param $avatar
      * @param $i
-     * @param $yasr_log_vote_text
+     * @param $user
      * @param $link
      * @param $post_title
      * @param $ip_span
@@ -243,16 +242,18 @@ class YasrLastRatingsWidget {
      * @return string
      */
     private function rowContent ($avatar, $i, $user, $link, $post_title, $ip_span, $column) {
+        $vote = (int)$column->vote;
+
         if ($this->user_widget !== true) {
             $yasr_log_vote_text = ' ' . sprintf(
                     __('Vote %d from %s on', 'yet-another-stars-rating'),
-                    $column->vote,
+                    $vote,
                     '<strong style="color: blue">' . $user->user_login . '</strong>'
                 );
         } else {
             $yasr_log_vote_text = ' ' . sprintf(
                     __('You rated %s on', 'yet-another-stars-rating'),
-                    '<span id="yasr-user-log-vote-'.$i.'" style="color: blue;">' . $column->vote . '</span>'
+                    '<span id="yasr-user-log-vote-'.$i.'" style="color: blue;">' . $vote . '</span>'
                 );
         }
         if($this->user_widget === true) {
