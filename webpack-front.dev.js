@@ -19,7 +19,7 @@ var yasrFront    = Object.assign({}, config, {
         ],
         'includes/js/shortcodes/overall-multiset': './includes/js/src/shortcodes/overall-multiset.js',
         'includes/js/shortcodes/visitorVotes': './includes/js/src/shortcodes/visitorVotes.js',
-        'includes/js/shortcodes/yasr-log-users-frontend': './includes/js/src/shortcodes/yasr-log-users.js',
+        'includes/js/shortcodes/yasr-log-users': './includes/js/src/shortcodes/yasr-log-users.js',
 
         'yasr_pro/js/reviewsInComments': [
             './yasr_pro/js/src/reviewsInComments.js',
