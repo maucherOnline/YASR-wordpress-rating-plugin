@@ -7,8 +7,8 @@
     let rowDate  = []; //array containing all the DOM containers for the dates
 
     for (let i=0; i < 8; i++) {
-        rowTitle[i] = document.getElementById(`yasr-log-post-${i}`);
-        rowDate[i]  = document.getElementById(`yasr-log-date-${i}`);
+        rowTitle[i] = document.getElementById(`yasr-user-log-post-${i}`);
+        rowDate[i]  = document.getElementById(`yasr-user-log-date-${i}`);
     }
 
     //Log

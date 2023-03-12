@@ -14,6 +14,7 @@ var yasrAdmin       = Object.assign({}, config, {
         'admin/js/yasr-admin': [
             './admin/js/src/yasr-admin-functions.js',
             './admin/js/src/yasr-admin-dashboard.js',
+            './includes/js/src/shortcodes/yasr-log-users.js'
         ],
         'admin/js/yasr-editor-screen': './admin/js/src/yasr-editor-screen.js',
 

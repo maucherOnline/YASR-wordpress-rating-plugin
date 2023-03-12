@@ -260,7 +260,7 @@ function yasr_visitor_multi_set_ranking_callback($atts, $content, $shortcode_tag
 add_shortcode('yasr_user_rate_history', 'yasr_users_front_widget_callback');
 function yasr_users_front_widget_callback() {
     YasrScriptsLoader::loadLogUsersFrontend();
-    return (new YasrLastRatingsWidget())->userWidget(true);
+    return (new YasrLastRatingsWidget())->userWidget();
 } //End callback function
 
 

@@ -31,6 +31,11 @@ if (!defined('ABSPATH')) {
  *
  */
 class YasrLastRatingsWidget {
+
+    /**
+     * @var string
+     */
+
     private $limit = 8;
     private $offset = 0;
     private $page_num;
@@ -39,6 +44,9 @@ class YasrLastRatingsWidget {
     private $log_query;
     private $button_class;
     private $span_loader_id;
+
+    private $pagination_id;
+
     private $user_widget = false;
     private $container_id;
     private $span_total_pages;
@@ -87,6 +95,7 @@ class YasrLastRatingsWidget {
         $this->span_total_pages = 'yasr-log-total-pages';
         $this->button_class     = 'yasr-log-pagenum';
         $this->span_loader_id   = 'yasr-loader-log-metabox';
+        $this->pagination_id    = 'yasr-log-page-navigation-buttons';
 
         echo wp_kses_post($this->returnWidget());
 
@@ -104,10 +113,9 @@ class YasrLastRatingsWidget {
      * $this->button_class
      * $this->span_loader_id
      *
-     * @param  $shortcode
      * @return string|void
      */
-    public function userWidget($shortcode=false) {
+    public function userWidget() {
         $user_id = get_current_user_id();
 
         if($user_id === 0) {
@@ -135,14 +143,9 @@ class YasrLastRatingsWidget {
         $this->span_total_pages = 'yasr-user-log-total-pages';
         $this->button_class     = 'yasr-user-log-page-num';
         $this->span_loader_id   = 'yasr-loader-user-log-metabox';
+        $this->pagination_id    = 'yasr-user-log-page-navigation-buttons';
 
-        if($shortcode === true) {
-            return $this->returnWidget();
-        }
-
-        echo wp_kses_post($this->returnWidget());
-
-        $this->die_if_is_ajax();
+        return $this->returnWidget();
     }
 
     /**
@@ -252,21 +255,32 @@ class YasrLastRatingsWidget {
      * @return string
      */
     private function rowContent ($avatar, $i, $yasr_log_vote_text, $link, $post_title, $ip_span, $column) {
+
+        if($this->user_widget === true) {
+            $text_id  = "yasr-user-log-vote-$i";
+            $title_id = "yasr-user-log-post-$i";
+            $date_id  = "yasr-user-log-date-$i";
+        } else {
+            $text_id  = "yasr-log-vote-$i";
+            $title_id = "yasr-log-post-$i";
+            $date_id  = "yasr-log-date-$i";
+        }
+
         return "<div class='yasr-log-div-child'>
                     <div class='yasr-log-image'>
                         $avatar
                     </div>
                     <div class='yasr-log-child-head'>
-                        <span class='yasr-log-vote' id='yasr-log-vote-$i'>
+                        <span class='yasr-log-vote' id='".esc_html($text_id)."'>
                             $yasr_log_vote_text
                         </span>
-                        <span class='yasr-log-post' id='yasr-log-post-$i'>
+                        <span class='yasr-log-post' id='".esc_html($title_id)."'>
                             <a href='$link'>".esc_html($post_title)."</a>
                         </span>
                     </div>
                     <div class='yasr-log-ip-date'>
                         $ip_span
-                        <span class='yasr-log-date' id='yasr-log-date-$i'>
+                        <span class='yasr-log-date' id='".esc_html($date_id)."'>
                             $column->date
                         </span>
                     </div>
@@ -277,7 +291,12 @@ class YasrLastRatingsWidget {
      * This function will print the row with pagination
      */
     private function pagination($html_to_return) {
-        $html_to_return .= '<div id="yasr-user-log-page-navigation-buttons" style="display: inline">';
+        if($this->user_widget === true) {
+            $container_id = "yasr-user-log-page-navigation-buttons";
+        } else {
+            $container_id = "yasr-log-page-navigation-buttons";
+        }
+        $html_to_return .= '<div id="'.esc_html($container_id).'" style="display: inline">';
 
         if ($this->page_num >= 3 && $this->num_of_pages > 3) {
             $html_to_return .= "<button class=$this->button_class value='1'>
