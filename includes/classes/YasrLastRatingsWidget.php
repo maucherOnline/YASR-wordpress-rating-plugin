@@ -32,8 +32,6 @@ if (!defined('ABSPATH')) {
  */
 class YasrLastRatingsWidget {
 
-    private $num_of_pages;
-    private $n_rows;
     private $log_query;
     private $button_class;
     private $span_loader_id;
@@ -61,7 +59,7 @@ class YasrLastRatingsWidget {
         global $wpdb;
 
         //query for admin widget
-        $this->n_rows = $wpdb->get_var(
+        $number_of_rows = $wpdb->get_var(
             "SELECT COUNT(*) FROM "
             . YASR_LOG_TABLE
         );
@@ -75,7 +73,7 @@ class YasrLastRatingsWidget {
         $this->button_class     = 'yasr-log-pagenum';
         $this->span_loader_id   = 'yasr-loader-log-metabox';
 
-        echo wp_kses_post($this->returnWidget());
+        echo wp_kses_post($this->returnWidget($number_of_rows));
     }
 
     /**
@@ -102,11 +100,14 @@ class YasrLastRatingsWidget {
 
         global $wpdb;
 
-        $this->n_rows = $wpdb->get_var(
+        $number_of_rows = $wpdb->get_var(
             $wpdb->prepare(
-                "SELECT COUNT(*) FROM "
-                . YASR_LOG_TABLE . " WHERE user_id = %d ",
-                $user_id));
+                "SELECT COUNT(*) 
+                          FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l  
+                          WHERE user_id = %d
+                              AND p.ID = l.post_id ",
+                $user_id)
+        );
 
         $this->log_query = "SELECT * 
                                 FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
@@ -120,7 +121,7 @@ class YasrLastRatingsWidget {
         $this->button_class     = 'yasr-user-log-page-num';
         $this->span_loader_id   = 'yasr-loader-user-log-metabox';
 
-        return $this->returnWidget();
+        return $this->returnWidget($number_of_rows);
     }
 
     /**
@@ -128,15 +129,15 @@ class YasrLastRatingsWidget {
      *
      * @return string
      */
-    private function returnWidget() {
+    private function returnWidget($number_of_rows) {
         global $wpdb;
 
         $limit = 8;
 
-        if($this->n_rows > 0) {
-            $this->num_of_pages = ceil($this->n_rows / $limit);
+        if($number_of_rows > 0) {
+            $n_of_pages = ceil($number_of_rows / $limit);
         } else {
-            $this->num_of_pages = 1;
+            $n_of_pages = 1;
         }
 
         //do the query
@@ -154,7 +155,7 @@ class YasrLastRatingsWidget {
 
         $html_to_return .= $this->loopResults($log_result);
 
-        $html_to_return .= $this->pagination();
+        $html_to_return .= $this->pagination($n_of_pages);
 
         $html_to_return .= '</div>'; //End Yasr Log Container
 
@@ -280,13 +281,13 @@ class YasrLastRatingsWidget {
     /**
      * This function will print the row with pagination
      */
-    private function pagination() {
+    private function pagination($n_of_pages) {
         $html_pagination = "<div id='yasr-log-page-navigation'>";
 
         $html_pagination .= "<div id='$this->span_total_pages' 
-                                 data-yasr-log-total-pages='$this->num_of_pages' 
+                                 data-yasr-log-total-pages='$n_of_pages' 
                                  style='display: inline'>";
-        $html_pagination .= __('Pages', 'yet-another-stars-rating') . ": ($this->num_of_pages) &nbsp;&nbsp;&nbsp;";
+        $html_pagination .= __('Pages', 'yet-another-stars-rating') . ": ($n_of_pages) &nbsp;&nbsp;&nbsp;";
         $html_pagination .= '</div>';
 
         if($this->user_widget === true) {
@@ -300,8 +301,8 @@ class YasrLastRatingsWidget {
         //current page (always the first) plus one
         $end_for = 2;
 
-        if ($end_for >= $this->num_of_pages) {
-            $end_for = $this->num_of_pages;
+        if ($end_for >= $n_of_pages) {
+            $end_for = $n_of_pages;
         }
 
         for ($i = 1; $i <= $end_for; $i++) {
@@ -312,10 +313,10 @@ class YasrLastRatingsWidget {
             }
         }
 
-        if ($this->num_of_pages > 3) {
+        if ($n_of_pages > 3) {
             $html_pagination .= "...&nbsp;&nbsp;
                                 <button class=$this->button_class 
-                                    value='$this->num_of_pages'>
+                                    value='$n_of_pages'>
                                     Last &raquo;</button>
                                     &nbsp;&nbsp;";
         }
