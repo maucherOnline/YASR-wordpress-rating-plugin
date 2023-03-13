@@ -150,10 +150,38 @@ class YasrLastRatingsWidget {
             return __('No Recent votes yet', 'yet-another-stars-rating');
         }
 
-        $html_to_return = "<div class='yasr-log-container' id='$this->container_id'>";
+        $html_to_return  = "<div class='yasr-log-container' id='$this->container_id'>";
 
+        $html_to_return .= $this->loopResults($log_result);
+
+        $html_to_return .= $this->pagination();
+
+        $html_to_return .= '</div>'; //End Yasr Log Container
+
+        return $html_to_return;
+    }
+
+    /**
+     * Loop the query results and return the html with content
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.4
+     *
+     * @param $query_results
+     *
+     * @return string|void
+     */
+    public function loopResults ($query_results) {
         $i = 0;
-        foreach ($log_result as $result) {
+
+        if(!is_array($query_results)) {
+            return;
+        }
+
+        $rows = '';
+
+        foreach ($query_results as $result) {
             $user = get_user_by('id', $result->user_id); //Get info user from user id
 
             //If user === false means that the vote are anonymous
@@ -178,13 +206,12 @@ class YasrLastRatingsWidget {
                 }
             }
 
-            $html_to_return .= $this->rowContent($avatar, $i, $user, $link, $post_title, $ip_span, $result);
+            $rows .= $this->rowContent($avatar, $i, $user, $link, $post_title, $ip_span, $result);
 
             $i = $i +1;
         } //End foreach
 
-        return $this->pagination($html_to_return);
-
+        return $rows;
     }
 
     /**
@@ -253,14 +280,14 @@ class YasrLastRatingsWidget {
     /**
      * This function will print the row with pagination
      */
-    private function pagination($html_to_return) {
-        $html_to_return .= "<div id='yasr-log-page-navigation'>";
+    private function pagination() {
+        $html_pagination = "<div id='yasr-log-page-navigation'>";
 
-        $html_to_return .= "<div id='$this->span_total_pages' 
+        $html_pagination .= "<div id='$this->span_total_pages' 
                                  data-yasr-log-total-pages='$this->num_of_pages' 
                                  style='display: inline'>";
-        $html_to_return .= __('Pages', 'yet-another-stars-rating') . ": ($this->num_of_pages) &nbsp;&nbsp;&nbsp;";
-        $html_to_return .= '</div>';
+        $html_pagination .= __('Pages', 'yet-another-stars-rating') . ": ($this->num_of_pages) &nbsp;&nbsp;&nbsp;";
+        $html_pagination .= '</div>';
 
         if($this->user_widget === true) {
             $container_id = "yasr-user-log-page-navigation-buttons";
@@ -268,7 +295,7 @@ class YasrLastRatingsWidget {
             $container_id = "yasr-log-page-navigation-buttons";
         }
 
-        $html_to_return .= '<div id="'.esc_html($container_id).'" style="display: inline">';
+        $html_pagination .= '<div id="'.esc_html($container_id).'" style="display: inline">';
 
         //current page (always the first) plus one
         $end_for = 2;
@@ -279,30 +306,29 @@ class YasrLastRatingsWidget {
 
         for ($i = 1; $i <= $end_for; $i++) {
             if ($i === 1) {
-                $html_to_return .= "<button class='button-primary' value='$i'>$i</button>&nbsp;&nbsp;";
+                $html_pagination .= "<button class='button-primary' value='$i'>$i</button>&nbsp;&nbsp;";
             } else {
-                $html_to_return .= "<button class=$this->button_class value='$i'>$i</button>&nbsp;&nbsp;";
+                $html_pagination .= "<button class=$this->button_class value='$i'>$i</button>&nbsp;&nbsp;";
             }
         }
 
         if ($this->num_of_pages > 3) {
-            $html_to_return .= "...&nbsp;&nbsp;
+            $html_pagination .= "...&nbsp;&nbsp;
                                 <button class=$this->button_class 
                                     value='$this->num_of_pages'>
                                     Last &raquo;</button>
                                     &nbsp;&nbsp;";
         }
 
-        $html_to_return .= '</div>';
+        $html_pagination .= '</div>';
 
         //loader
-        $html_to_return .= "<span class='yasr-last-ratings-loader' id='".$this->span_loader_id."'>&nbsp;
+        $html_pagination .= "<span class='yasr-last-ratings-loader' id='".$this->span_loader_id."'>&nbsp;
                                 <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
                             </span>";
 
-        $html_to_return .= '</div>'; //End yasr-log-page-navigation
-        $html_to_return .= '</div>'; //End Yasr Log Container
+        $html_pagination .= '</div>'; //End yasr-log-page-navigation
 
-        return $html_to_return;
+        return $html_pagination;
     }
 }
