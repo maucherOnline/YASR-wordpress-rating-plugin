@@ -33,12 +33,14 @@ if (!defined('ABSPATH')) {
 class YasrLastRatingsWidget {
 
     private $log_query;
+
+    private $main_container_id;
+    private $span_total_pages;
+
     private $button_class;
-    private $span_loader_id;
 
     private $user_widget = false;
-    private $container_id;
-    private $span_total_pages;
+
 
     /**
      * This function will set the values for print the admin widget logs
@@ -68,10 +70,9 @@ class YasrLastRatingsWidget {
                            . YASR_LOG_TABLE .
                            " ORDER BY date DESC LIMIT %d, %d ";
 
-        $this->container_id     = 'yasr-log-container';
-        $this->span_total_pages = 'yasr-log-total-pages';
+        $this->main_container_id = 'yasr-log-container';
+        $this->span_total_pages  = 'yasr-log-total-pages';
         $this->button_class     = 'yasr-log-pagenum';
-        $this->span_loader_id   = 'yasr-loader-log-metabox';
 
         echo wp_kses_post($this->returnWidget($number_of_rows));
     }
@@ -116,10 +117,9 @@ class YasrLastRatingsWidget {
                             ORDER BY date 
                             DESC LIMIT %d, %d ";
 
-        $this->container_id     = 'yasr-user-log-container';
-        $this->span_total_pages = 'yasr-user-log-total-pages';
+        $this->main_container_id = 'yasr-user-log-container';
+        $this->span_total_pages  = 'yasr-user-log-total-pages';
         $this->button_class     = 'yasr-user-log-page-num';
-        $this->span_loader_id   = 'yasr-loader-user-log-metabox';
 
         return $this->returnWidget($number_of_rows);
     }
@@ -151,7 +151,7 @@ class YasrLastRatingsWidget {
             return __('No Recent votes yet', 'yet-another-stars-rating');
         }
 
-        $html_to_return  = "<div class='yasr-log-container' id='$this->container_id'>";
+        $html_to_return  = "<div class='yasr-log-container' id='$this->main_container_id'>";
 
         $html_to_return .= $this->loopResults($log_result);
 
@@ -291,9 +291,12 @@ class YasrLastRatingsWidget {
         $html_pagination .= '</div>';
 
         if($this->user_widget === true) {
-            $container_id = "yasr-user-log-page-navigation-buttons";
+            $container_id   = "yasr-user-log-page-navigation-buttons";
+            $span_loader_id = "yasr-loader-user-log-metabox";
+
         } else {
-            $container_id = "yasr-log-page-navigation-buttons";
+            $container_id   = "yasr-log-page-navigation-buttons";
+            $span_loader_id = "yasr-loader-log-metabox";
         }
 
         $html_pagination .= '<div id="'.esc_html($container_id).'" style="display: inline">';
@@ -315,8 +318,8 @@ class YasrLastRatingsWidget {
 
         if ($n_of_pages > 3) {
             $html_pagination .= "...&nbsp;&nbsp;
-                                <button class=$this->button_class 
-                                    value='$n_of_pages'>
+                                <button class='".esc_attr($this->button_class)."'
+                                    value='".esc_attr($n_of_pages)."'>
                                     Last &raquo;</button>
                                     &nbsp;&nbsp;";
         }
@@ -324,8 +327,8 @@ class YasrLastRatingsWidget {
         $html_pagination .= '</div>';
 
         //loader
-        $html_pagination .= "<span class='yasr-last-ratings-loader' id='".$this->span_loader_id."'>&nbsp;
-                                <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
+        $html_pagination .= "<span class='yasr-last-ratings-loader' id='".esc_attr($span_loader_id)."'>&nbsp;
+                                <img alt='loader' src='" . esc_url(YASR_IMG_DIR) . "/loader.gif' >
                             </span>";
 
         $html_pagination .= '</div>'; //End yasr-log-page-navigation
