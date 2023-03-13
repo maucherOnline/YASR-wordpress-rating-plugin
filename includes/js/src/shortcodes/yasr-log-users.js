@@ -3,14 +3,16 @@
     const paginationButtons = document.getElementById('yasr-user-log-page-navigation-buttons');
     const totalPages        = document.getElementById('yasr-user-log-total-pages').dataset.yasrLogTotalPages;
 
-    let spanVote = []
-    let rowTitle = []; //array containing all the DOM containers for the title
-    let rowDate  = []; //array containing all the DOM containers for the dates
+    let rowContainer = []; //array containing all the DOM containers of the rows
+    let spanVote     = [];
+    let rowTitle     = []; //array containing all the DOM containers for the title
+    let rowDate      = []; //array containing all the DOM containers for the dates
 
     for (let i=0; i < 8; i++) {
-        spanVote[i] = document.getElementById(`yasr-user-log-vote-${i}`);
-        rowTitle[i] = document.getElementById(`yasr-user-log-post-${i}`);
-        rowDate[i]  = document.getElementById(`yasr-user-log-date-${i}`);
+        rowContainer[i] = document.getElementById(`yasr-user-log-div-child-${i}`);
+        spanVote[i]     = document.getElementById(`yasr-user-log-vote-${i}`);
+        rowTitle[i]     = document.getElementById(`yasr-user-log-post-${i}`);
+        rowDate[i]      = document.getElementById(`yasr-user-log-date-${i}`);
     }
 
     //Log
@@ -102,6 +104,7 @@ function yasrUpdateLogUsersPagination (pagenum) {
             let title;
             for (let i=0; i < 8; i++) {
                 if (response.data[i]) {
+                    rowContainer[i].style.display = 'block';
                     spanVote[i].innerText = parseInt(response.data[i].vote);
 
                     title = `<a href="${response.data[i].permalink}">${response.data[i].post_title}</a>`
@@ -110,7 +113,7 @@ function yasrUpdateLogUsersPagination (pagenum) {
                     //update the date
                     rowDate[i].innerText = response.data[i].date
                 } else {
-                    rowTitle[i].innerText = '';
+                    rowContainer[i].style.display = 'none';
                 }
             }
             //hide the loader

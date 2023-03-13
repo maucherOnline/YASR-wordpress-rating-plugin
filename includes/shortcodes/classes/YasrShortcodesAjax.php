@@ -633,12 +633,16 @@ class YasrShortcodesAjax {
      * @return void
      */
     public function returnAjaxResponseUser() {
-        $user_id = get_current_user_id();
-
-        $page_num = (int) $_POST['pagenum'];
+        $user_id  = get_current_user_id();
         $limit    = 8;
-        $offset   = ($page_num - 1) * $limit;
 
+        if (isset($_POST['pagenum'])) {
+            $page_num = (int) $_POST['pagenum'];
+        } else {
+            $page_num = 1;
+        }
+
+        $offset   = ($page_num - 1) * $limit;
         global $wpdb;
 
         $log_query = $wpdb->get_results(

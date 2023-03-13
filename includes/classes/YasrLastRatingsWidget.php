@@ -32,20 +32,11 @@ if (!defined('ABSPATH')) {
  */
 class YasrLastRatingsWidget {
 
-    /**
-     * @var string
-     */
-
-    private $limit = 8;
-    private $offset = 0;
-    private $page_num;
     private $num_of_pages;
     private $n_rows;
     private $log_query;
     private $button_class;
     private $span_loader_id;
-
-    private $pagination_id;
 
     private $user_widget = false;
     private $container_id;
@@ -53,14 +44,12 @@ class YasrLastRatingsWidget {
 
     public function __construct() {
         //If $_POST isset it's in ajax response
-        if (isset($_POST['pagenum'])) {
+        /*if (isset($_POST['pagenum'])) {
             $this->page_num     = (int)$_POST['pagenum'];
             $this->num_of_pages = (int)$_POST['totalpages'];
-            $this->offset       = ($this->page_num - 1) * $this->limit;
         } else {
             $this->page_num = 1;
-        }
-
+        }*/
     }
 
     /**
@@ -95,7 +84,6 @@ class YasrLastRatingsWidget {
         $this->span_total_pages = 'yasr-log-total-pages';
         $this->button_class     = 'yasr-log-pagenum';
         $this->span_loader_id   = 'yasr-loader-log-metabox';
-        $this->pagination_id    = 'yasr-log-page-navigation-buttons';
 
         echo wp_kses_post($this->returnWidget());
 
@@ -132,17 +120,17 @@ class YasrLastRatingsWidget {
                 . YASR_LOG_TABLE . " WHERE user_id = %d ",
                 $user_id));
 
-        $this->log_query = "SELECT * FROM "
-                           . YASR_LOG_TABLE .
-                           " WHERE user_id = $user_id 
-                             ORDER BY date 
-                             DESC LIMIT %d, %d ";
+        $this->log_query = "SELECT * 
+                                FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
+                            WHERE user_id = $user_id 
+                               AND p.ID = l.post_id  
+                            ORDER BY date 
+                            DESC LIMIT %d, %d ";
 
         $this->container_id     = 'yasr-user-log-container';
         $this->span_total_pages = 'yasr-user-log-total-pages';
         $this->button_class     = 'yasr-user-log-page-num';
         $this->span_loader_id   = 'yasr-loader-user-log-metabox';
-        $this->pagination_id    = 'yasr-user-log-page-navigation-buttons';
 
         return $this->returnWidget();
     }
@@ -155,8 +143,10 @@ class YasrLastRatingsWidget {
     private function returnWidget() {
         global $wpdb;
 
+        $limit = 8;
+
         if($this->n_rows > 0) {
-            $this->num_of_pages = ceil($this->n_rows / $this->limit);
+            $this->num_of_pages = ceil($this->n_rows / $limit);
         } else {
             $this->num_of_pages = 1;
         }
@@ -165,7 +155,7 @@ class YasrLastRatingsWidget {
         $log_result = $wpdb->get_results(
             $wpdb->prepare(
                 $this->log_query,
-                $this->offset, $this->limit)
+                0, $limit)
         );
 
         if (!$log_result) {
@@ -257,16 +247,18 @@ class YasrLastRatingsWidget {
                 );
         }
         if($this->user_widget === true) {
-            $text_id  = "yasr-user-log-text-$i";
-            $title_id = "yasr-user-log-post-$i";
-            $date_id  = "yasr-user-log-date-$i";
+            $container_id = "yasr-user-log-div-child-$i";
+            $text_id      = "yasr-user-log-text-$i";
+            $title_id     = "yasr-user-log-post-$i";
+            $date_id      = "yasr-user-log-date-$i";
         } else {
-            $text_id  = "yasr-log-text-$i";
-            $title_id = "yasr-log-post-$i";
-            $date_id  = "yasr-log-date-$i";
+            $container_id = "yasr-log-div-child-$i";
+            $text_id      = "yasr-log-text-$i";
+            $title_id     = "yasr-log-post-$i";
+            $date_id      = "yasr-log-date-$i";
         }
 
-        return "<div class='yasr-log-div-child'>
+        return "<div class='yasr-log-div-child' id='".esc_attr($container_id)."'>
                     <div class='yasr-log-image'>
                         $avatar
                     </div>
@@ -298,32 +290,22 @@ class YasrLastRatingsWidget {
         }
         $html_to_return .= '<div id="'.esc_html($container_id).'" style="display: inline">';
 
-        if ($this->page_num >= 3 && $this->num_of_pages > 3) {
-            $html_to_return .= "<button class=$this->button_class value='1'>
-                                            &laquo; First </button>&nbsp;&nbsp;...&nbsp;&nbsp;";
-        }
-
-        $start_for = $this->page_num - 1;
-
-        if ($start_for <= 0) {
-            $start_for = 1;
-        }
-
-        $end_for = $this->page_num + 1;
+        //current page (always the first) plus one
+        $end_for = 2;
 
         if ($end_for >= $this->num_of_pages) {
             $end_for = $this->num_of_pages;
         }
 
-        for ($i = $start_for; $i <= $end_for; $i++) {
-            if ($i === $this->page_num) {
+        for ($i = 1; $i <= $end_for; $i++) {
+            if ($i === 1) {
                 $html_to_return .= "<button class='button-primary' value='$i'>$i</button>&nbsp;&nbsp;";
             } else {
                 $html_to_return .= "<button class=$this->button_class value='$i'>$i</button>&nbsp;&nbsp;";
             }
         }
 
-        if ($this->num_of_pages > 3 && $this->page_num < $this->num_of_pages) {
+        if ($this->num_of_pages > 3) {
             $html_to_return .= "...&nbsp;&nbsp;
                                 <button class=$this->button_class 
                                     value='$this->num_of_pages'>
