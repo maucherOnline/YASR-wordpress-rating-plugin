@@ -42,16 +42,6 @@ class YasrLastRatingsWidget {
     private $container_id;
     private $span_total_pages;
 
-    public function __construct() {
-        //If $_POST isset it's in ajax response
-        /*if (isset($_POST['pagenum'])) {
-            $this->page_num     = (int)$_POST['pagenum'];
-            $this->num_of_pages = (int)$_POST['totalpages'];
-        } else {
-            $this->page_num = 1;
-        }*/
-    }
-
     /**
      * This function will set the values for print the admin widget logs
      *
@@ -86,8 +76,6 @@ class YasrLastRatingsWidget {
         $this->span_loader_id   = 'yasr-loader-log-metabox';
 
         echo wp_kses_post($this->returnWidget());
-
-        $this->die_if_is_ajax();
     }
 
     /**
@@ -165,8 +153,8 @@ class YasrLastRatingsWidget {
         $html_to_return = "<div class='yasr-log-container' id='$this->container_id'>";
 
         $i = 0;
-        foreach ($log_result as $column) {
-            $user = get_user_by('id', $column->user_id); //Get info user from user id
+        foreach ($log_result as $result) {
+            $user = get_user_by('id', $result->user_id); //Get info user from user id
 
             //If user === false means that the vote are anonymous
             if ($user === false) {
@@ -174,11 +162,9 @@ class YasrLastRatingsWidget {
                 $user->user_login = __('anonymous', 'yet-another-stars-rating');
             }
 
-            $avatar     = get_avatar($column->user_id, '32'); //Get avatar from user id
-
-            $post_title = get_post_field( 'post_title', $column->post_id, 'raw' ); //Get post title from post id
-            $link       = get_permalink($column->post_id); //Get post link from post id
-
+            $avatar     = get_avatar($result->user_id, '32'); //Get avatar from user id
+            $post_title = get_post_field( 'post_title', $result->post_id, 'raw' ); //Get post title from post id
+            $link       = get_permalink($result->post_id); //Get post link from post id
 
             //Default values (for admin widget)
             $ip_span = ''; //default value
@@ -187,32 +173,17 @@ class YasrLastRatingsWidget {
             if ($this->user_widget !== true) {
                 if (YASR_ENABLE_IP === 'yes') {
                     $ip_span = '<span class="yasr-log-ip">' . __('Ip address', 'yet-another-stars-rating') . ': 
-                                    <span style="color:blue">' . $column->ip . '</span>
+                                    <span style="color:blue">' . $result->ip . '</span>
                                 </span>';
                 }
             }
 
-            $html_to_return .= $this->rowContent($avatar, $i, $user, $link, $post_title, $ip_span, $column);
+            $html_to_return .= $this->rowContent($avatar, $i, $user, $link, $post_title, $ip_span, $result);
 
             $i = $i +1;
         } //End foreach
 
-        $html_to_return .= "<div id='yasr-log-page-navigation'>";
-
-        //use data attribute instead of value of #yasr-log-total-pages, because, on ajaxresponse,
-        //the "last" button could not exist
-        $html_to_return .= "<div id='$this->span_total_pages' 
-                                 data-yasr-log-total-pages='$this->num_of_pages' 
-                                 style='display: inline'>";
-        $html_to_return .= __('Pages', 'yet-another-stars-rating') . ": ($this->num_of_pages) &nbsp;&nbsp;&nbsp;";
-        $html_to_return .= '</div>';
-
-        $html_to_return  = $this->pagination($html_to_return);
-
-        $html_to_return .= '</div>'; //End yasr-log-page-navigation
-        $html_to_return .= '</div>'; //End Yasr Log Container
-
-        return $html_to_return; // End else if !$log result
+        return $this->pagination($html_to_return);
 
     }
 
@@ -283,11 +254,20 @@ class YasrLastRatingsWidget {
      * This function will print the row with pagination
      */
     private function pagination($html_to_return) {
+        $html_to_return .= "<div id='yasr-log-page-navigation'>";
+
+        $html_to_return .= "<div id='$this->span_total_pages' 
+                                 data-yasr-log-total-pages='$this->num_of_pages' 
+                                 style='display: inline'>";
+        $html_to_return .= __('Pages', 'yet-another-stars-rating') . ": ($this->num_of_pages) &nbsp;&nbsp;&nbsp;";
+        $html_to_return .= '</div>';
+
         if($this->user_widget === true) {
             $container_id = "yasr-user-log-page-navigation-buttons";
         } else {
             $container_id = "yasr-log-page-navigation-buttons";
         }
+
         $html_to_return .= '<div id="'.esc_html($container_id).'" style="display: inline">';
 
         //current page (always the first) plus one
@@ -320,17 +300,9 @@ class YasrLastRatingsWidget {
                                 <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
                             </span>";
 
-        return $html_to_return;
-    }
+        $html_to_return .= '</div>'; //End yasr-log-page-navigation
+        $html_to_return .= '</div>'; //End Yasr Log Container
 
-    /**
-     * @author Dario Curvino <@dudo>
-     * @since 2.8.5
-     * If is_ajax === true, call die()
-     */
-    private function die_if_is_ajax() {
-        if (wp_doing_ajax()) {
-            die();
-        }
+        return $html_to_return;
     }
 }
