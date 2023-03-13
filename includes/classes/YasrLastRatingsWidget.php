@@ -34,8 +34,6 @@ class YasrLastRatingsWidget {
 
     private $log_query;
 
-    private $main_container_id;
-
     private $user_widget = false;
 
 
@@ -60,9 +58,7 @@ class YasrLastRatingsWidget {
                            . YASR_LOG_TABLE .
                            " ORDER BY date DESC LIMIT %d, %d ";
 
-        $this->main_container_id = 'yasr-log-container';
-
-        echo wp_kses_post($this->returnWidget($number_of_rows));
+        echo wp_kses_post($this->returnWidget($number_of_rows, 'yasr-log-container'));
     }
 
     /**
@@ -102,9 +98,7 @@ class YasrLastRatingsWidget {
                             ORDER BY date 
                             DESC LIMIT %d, %d ";
 
-        $this->main_container_id = 'yasr-user-log-container';
-
-        return $this->returnWidget($number_of_rows);
+        return $this->returnWidget($number_of_rows, 'yasr-user-log-container');
     }
 
     /**
@@ -112,7 +106,7 @@ class YasrLastRatingsWidget {
      *
      * @return string
      */
-    private function returnWidget($number_of_rows) {
+    private function returnWidget($number_of_rows, $container_id) {
         global $wpdb;
 
         $limit = 8;
@@ -134,7 +128,7 @@ class YasrLastRatingsWidget {
             return __('No Recent votes yet', 'yet-another-stars-rating');
         }
 
-        $html_to_return  = "<div class='yasr-log-container' id='$this->main_container_id'>";
+        $html_to_return  = "<div class='yasr-log-container' id='".esc_attr($container_id)."'>";
 
         $html_to_return .= $this->loopResults($log_result);
 
