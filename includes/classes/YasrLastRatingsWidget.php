@@ -54,10 +54,7 @@ class YasrLastRatingsWidget {
         global $wpdb;
 
         //query for admin widget
-        $number_of_rows = $wpdb->get_var(
-            "SELECT COUNT(*) FROM "
-            . YASR_LOG_TABLE
-        );
+        $number_of_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . YASR_LOG_TABLE);
 
         $this->log_query = "SELECT * FROM "
                            . YASR_LOG_TABLE .
@@ -281,7 +278,7 @@ class YasrLastRatingsWidget {
             $button_class     = 'yasr-log-page-num';
         }
 
-        $html_pagination = "<div id='yasr-log-page-navigation'>";
+        $html_pagination = "<div class='yasr-log-page-navigation'>";
 
         $html_pagination .= "<div id='".esc_attr($span_total_pages)."' 
                                  data-yasr-log-total-pages='$n_of_pages' 
