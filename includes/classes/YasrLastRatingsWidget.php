@@ -36,8 +36,6 @@ class YasrLastRatingsWidget {
 
     private $main_container_id;
 
-    private $button_class;
-
     private $user_widget = false;
 
 
@@ -47,7 +45,6 @@ class YasrLastRatingsWidget {
      * $this->user_widget
      * $this->log_query
      * $this->container_id
-     * $this->button_class
      *
      */
     public function adminWidget() {
@@ -67,7 +64,6 @@ class YasrLastRatingsWidget {
                            " ORDER BY date DESC LIMIT %d, %d ";
 
         $this->main_container_id = 'yasr-log-container';
-        $this->button_class      = 'yasr-log-pagenum';
 
         echo wp_kses_post($this->returnWidget($number_of_rows));
     }
@@ -110,7 +106,6 @@ class YasrLastRatingsWidget {
                             DESC LIMIT %d, %d ";
 
         $this->main_container_id = 'yasr-user-log-container';
-        $this->button_class      = 'yasr-user-log-page-num';
 
         return $this->returnWidget($number_of_rows);
     }
@@ -274,14 +269,16 @@ class YasrLastRatingsWidget {
      */
     private function pagination($n_of_pages) {
         if($this->user_widget === true) {
-            $container_id     = "yasr-user-log-page-navigation-buttons";
-            $span_loader_id   = "yasr-loader-user-log-metabox";
-            $span_total_pages = "yasr-user-log-total-pages";
+            $container_id     = 'yasr-user-log-page-navigation-buttons';
+            $span_loader_id   = 'yasr-loader-user-log-metabox';
+            $span_total_pages = 'yasr-user-log-total-pages';
+            $button_class     = 'yasr-user-log-page-num';
 
         } else {
-            $container_id     = "yasr-log-page-navigation-buttons";
-            $span_loader_id   = "yasr-loader-log-metabox";
+            $container_id     = 'yasr-log-page-navigation-buttons';
+            $span_loader_id   = 'yasr-loader-log-metabox';
             $span_total_pages = 'yasr-log-total-pages';
+            $button_class     = 'yasr-log-page-num';
         }
 
         $html_pagination = "<div id='yasr-log-page-navigation'>";
@@ -304,15 +301,17 @@ class YasrLastRatingsWidget {
 
         for ($i = 1; $i <= $end_for; $i++) {
             if ($i === 1) {
-                $html_pagination .= "<button class='button-primary' value='$i'>$i</button>&nbsp;&nbsp;";
+                $html_pagination .= "<button class='button-primary' 
+                                             value='".esc_attr($i)."'>$i</button>&nbsp;&nbsp;";
             } else {
-                $html_pagination .= "<button class=$this->button_class value='$i'>$i</button>&nbsp;&nbsp;";
+                $html_pagination .= "<button class='".esc_attr($button_class)."' 
+                                             value='".esc_attr($i)."'>$i</button>&nbsp;&nbsp;";
             }
         }
 
         if ($n_of_pages > 3) {
             $html_pagination .= "...&nbsp;&nbsp;
-                                <button class='".esc_attr($this->button_class)."'
+                                <button class='".esc_attr($button_class)."'
                                     value='".esc_attr($n_of_pages)."'>
                                     Last &raquo;</button>
                                     &nbsp;&nbsp;";
