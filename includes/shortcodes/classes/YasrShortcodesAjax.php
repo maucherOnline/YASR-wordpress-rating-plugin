@@ -628,8 +628,6 @@ class YasrShortcodesAjax {
      * @author Dario Curvino <@dudo>
      * @since  3.3.4
      *
-     * @param YasrLastRatingsWidget $instance
-     *
      * @return void
      */
     public function returnAjaxResponseUser() {
