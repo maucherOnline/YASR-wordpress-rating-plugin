@@ -239,16 +239,16 @@ class YasrLastRatingsWidget {
                         $avatar
                     </div>
                     <div class='yasr-log-child-head'>
-                        <span class='yasr-log-vote' id='".esc_html($text_id)."'>
+                        <span class='yasr-log-vote' id='".esc_attr($text_id)."'>
                             $yasr_log_vote_text
                         </span>
-                        <span class='yasr-log-post' id='".esc_html($title_id)."'>
-                            <a href='$link'>".esc_html($post_title)."</a>
+                        <span class='yasr-log-post' id='".esc_attr($title_id)."'>
+                            <a href='".esc_url($link)."'>".esc_html($post_title)."</a>
                         </span>
                     </div>
                     <div class='yasr-log-ip-date'>
                         $ip_span
-                        <span class='yasr-log-date' id='".esc_html($date_id)."'>
+                        <span class='yasr-log-date' id='".esc_attr($date_id)."'>
                             $column->date
                         </span>
                     </div>
