@@ -113,8 +113,15 @@ function yasrPostDataLogUsers (pagenum, rowContainer, spanVote, rowTitle, rowDat
     //show the loader
     loader.style.display = 'inline';
 
+    //default action
+    let action = 'yasr_change_user_log_page_front';
+
+    if(prefix === 'yasr-admin') {
+        action = 'yasr_change_admin_log_page';
+    }
+
     let data = {
-        action: 'yasr_change_user_log_page_front',
+        action: action,
         pagenum: pagenum,
         totalpages: totalPages
     };

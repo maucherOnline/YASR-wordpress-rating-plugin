@@ -1,5 +1,7 @@
 //Vote log
+/*
 jQuery(document).ready(function () {
+
 
     //Log
     jQuery('.yasr-log-pagenum').on('click', function () {
@@ -47,3 +49,4 @@ jQuery(document).ready(function () {
     });
 
 });
+*/

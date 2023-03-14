@@ -50,9 +50,9 @@ class YasrAdmin {
      * @return void
      */
     private function loadAjaxActions() {
-        add_action('wp_ajax_yasr_change_log_page',      array($this, 'loadDashboardWidgetAdmin'));
+        add_action('wp_ajax_yasr_change_admin_log_page', array($this, 'loadDashboardWidgetAdmin'));
 
-        add_action('wp_ajax_yasr_change_user_log_page', array($this, 'loadDashboardWidgetUser'));
+        add_action('wp_ajax_yasr_change_user_log_page',  array($this, 'loadDashboardWidgetUser'));
     }
 
     /**

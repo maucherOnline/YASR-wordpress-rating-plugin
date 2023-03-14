@@ -260,7 +260,7 @@ class YasrLastRatingsWidget {
             $container_id     = 'yasr-admin-log-page-navigation-buttons';
             $span_loader_id   = 'yasr-admin-log-loader-metabox';
             $span_total_pages = 'yasr-admin-log-total-pages';
-            $button_class     = 'yasr-admin-log-pagenum';
+            $button_class     = 'yasr-admin-log-page-num';
         }
 
         $html_pagination = "<div class='yasr-log-page-navigation'>";
