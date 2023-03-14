@@ -369,7 +369,7 @@ class YasrAdmin {
      */
     public function loadDashboardWidgetAdmin() {
         $log_widget = new YasrLastRatingsWidget();
-        $log_widget->adminWidget();
+        echo wp_kses_post($log_widget->adminWidget());
     } //End callback function
 
 

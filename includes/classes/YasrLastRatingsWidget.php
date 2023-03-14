@@ -38,12 +38,9 @@ class YasrLastRatingsWidget {
 
 
     /**
-     * This function will set the values for print the admin widget logs
+     * Return the log for the admin area, only user that can manage options can see this
      *
-     * $this->user_widget
-     * $this->log_query
-     * $this->container_id
-     *
+     * @return string | void
      */
     public function adminWidget() {
         if (!current_user_can('manage_options')) {
@@ -58,7 +55,7 @@ class YasrLastRatingsWidget {
                            . YASR_LOG_TABLE .
                            " ORDER BY date DESC LIMIT %d, %d ";
 
-        echo wp_kses_post($this->returnWidget($number_of_rows, 'yasr-log-container'));
+        return($this->returnWidget($number_of_rows, 'yasr-log-container'));
     }
 
     /**
@@ -269,7 +266,7 @@ class YasrLastRatingsWidget {
             $container_id     = 'yasr-log-page-navigation-buttons';
             $span_loader_id   = 'yasr-loader-log-metabox';
             $span_total_pages = 'yasr-log-total-pages';
-            $button_class     = 'yasr-log-page-num';
+            $button_class     = 'yasr-log-pagenum';
         }
 
         $html_pagination = "<div class='yasr-log-page-navigation'>";
