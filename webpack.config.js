@@ -14,7 +14,7 @@ var yasrAdmin    = Object.assign({}, config, {
     entry: {
         'admin/js/yasr-admin': [
             './admin/js/src/yasr-admin-functions.js',
-            './includes/js/src/shortcodes/yasr-log-users.js'
+            './includes/js/src/yasr-log-users.js'
         ],
         'admin/js/yasr-editor-screen': './admin/js/src/yasr-editor-screen.js',
 
@@ -91,7 +91,7 @@ var yasrFront    = Object.assign({}, config, {
         ],
         'includes/js/shortcodes/overall-multiset': './includes/js/src/shortcodes/overall-multiset.js',
         'includes/js/shortcodes/visitorVotes': './includes/js/src/shortcodes/visitorVotes.js',
-        'includes/js/shortcodes/yasr-log-users': './includes/js/src/shortcodes/yasr-log-users.js',
+        'includes/js/yasr-log-users': './includes/js/src/yasr-log-users.js',
 
         'yasr_pro/js/reviewsInComments': [
             './yasr_pro/js/src/reviewsInComments.js',

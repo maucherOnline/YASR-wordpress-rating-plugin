@@ -13,7 +13,7 @@ var yasrAdmin       = Object.assign({}, config, {
     entry: {
         'admin/js/yasr-admin': [
             './admin/js/src/yasr-admin-functions.js',
-            './includes/js/src/shortcodes/yasr-log-users.js'
+            './includes/js/src/yasr-log-users.js'
         ],
         'admin/js/yasr-editor-screen': './admin/js/src/yasr-editor-screen.js',
 
