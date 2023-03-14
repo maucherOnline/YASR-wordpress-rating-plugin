@@ -1,11 +1,15 @@
 const yasrPaginationButtonsUser = document.getElementById('yasr-user-log-page-navigation-buttons');
+const yasrPaginationButtonsAdmin = document.getElementById('yasr-admin-log-page-navigation-buttons');
 
 if(yasrPaginationButtonsUser) {
     yasrLogUsersWidget();
 }
+if(yasrPaginationButtonsAdmin) {
+    yasrLogUsersWidget('yasr-admin');
+}
 
-function yasrLogUsersWidget() {
-    const totalPages = document.getElementById('yasr-user-log-total-pages').dataset.yasrLogTotalPages;
+function yasrLogUsersWidget(prefix='yasr-user') {
+    const totalPages = document.getElementById(`${prefix}-log-total-pages`).dataset.yasrLogTotalPages;
 
     let rowContainer = []; //array containing all the DOM containers of the rows
     let spanVote     = [];
@@ -13,16 +17,16 @@ function yasrLogUsersWidget() {
     let rowDate      = []; //array containing all the DOM containers for the dates
 
     for (let i = 0; i < 8; i++) {
-        rowContainer[i] = document.getElementById(`yasr-user-log-div-child-${i}`);
-        spanVote[i] = document.getElementById(`yasr-user-log-vote-${i}`);
-        rowTitle[i] = document.getElementById(`yasr-user-log-post-${i}`);
-        rowDate[i] = document.getElementById(`yasr-user-log-date-${i}`);
+        rowContainer[i] = document.getElementById(`${prefix}-log-div-child-${i}`);
+        spanVote[i]     = document.getElementById(`${prefix}-log-vote-${i}`);
+        rowTitle[i]     = document.getElementById(`${prefix}-log-post-${i}`);
+        rowDate[i]      = document.getElementById(`${prefix}-log-date-${i}`);
     }
 
-    jQuery('.yasr-user-log-page-num').on('click', function () {
+    jQuery(`.${prefix}-log-page-num`).on('click', function () {
         const pagenum = parseInt(this.value);
-        yasrUpdateLogUsersPagination(pagenum, totalPages);
-        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages);
+        yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
+        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix);
     });
 
     jQuery(document).ajaxComplete(function (event, xhr, settings) {
@@ -36,10 +40,10 @@ function yasrLogUsersWidget() {
         isYasrAjaxCall = settings.data.search("action=yasr_change_user_log_page_front");
 
         if (isYasrAjaxCall !== -1) {
-            jQuery('.yasr-user-log-page-num').on('click', function () {
+            jQuery(`.${prefix}-log-page-num`).on('click', function () {
                 const pagenum = parseInt(this.value);
-                yasrUpdateLogUsersPagination(pagenum, totalPages);
-                yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages);
+                yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
+                yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix);
             });
 
         }
@@ -50,15 +54,16 @@ function yasrLogUsersWidget() {
  *  Update the pagination
  * @param pagenum
  * @param totalPages
+ * @param prefix
  * @returns {string}
  */
-function yasrUpdateLogUsersPagination (pagenum, totalPages) {
+function yasrUpdateLogUsersPagination (pagenum, totalPages, prefix) {
     //cast to int
     pagenum = parseInt(pagenum);
 
     let newPagination = '';
     if (pagenum >= 3 && totalPages > 3) {
-        newPagination += `<button class="yasr-user-log-page-num" value="1">
+        newPagination += `<button class="${prefix}-log-page-num" value="1">
             &laquo; First </button>&nbsp;&nbsp;...&nbsp;&nbsp;`
     }
 
@@ -78,13 +83,13 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages) {
         if (i === pagenum) {
             newPagination += `<button class="button-primary" value="${i}">${i}</button>&nbsp;&nbsp;`;
         } else {
-            newPagination += `<button class="yasr-user-log-page-num" value="${i}">${i}</button>&nbsp;&nbsp;`;
+            newPagination += `<button class="${prefix}-log-page-num" value="${i}">${i}</button>&nbsp;&nbsp;`;
         }
     }
 
     if (totalPages > 3 && pagenum < totalPages) {
         newPagination += `...&nbsp;&nbsp;
-            <button class="yasr-user-log-page-num" value="${totalPages}"> Last &raquo;</button>&nbsp;&nbsp;`;
+            <button class="${prefix}-log-page-num" value="${totalPages}"> Last &raquo;</button>&nbsp;&nbsp;`;
     }
 
     return yasrPaginationButtonsUser.innerHTML = newPagination;
@@ -100,9 +105,10 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages) {
  * @param rowTitle
  * @param rowDate
  * @param totalPages
+ * @param prefix
  */
-function yasrPostDataLogUsers (pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages) {
-    const loader = document.getElementById('yasr-user-log-loader-metabox');
+function yasrPostDataLogUsers (pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix) {
+    const loader = document.getElementById(`${prefix}-log-loader-metabox`);
 
     //show the loader
     loader.style.display = 'inline';
