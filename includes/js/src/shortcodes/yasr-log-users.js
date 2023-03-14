@@ -102,7 +102,7 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages) {
  * @param totalPages
  */
 function yasrPostDataLogUsers (pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages) {
-    const loader = document.getElementById('yasr-loader-user-log-metabox');
+    const loader = document.getElementById('yasr-user-log-loader-metabox');
 
     //show the loader
     loader.style.display = 'inline';

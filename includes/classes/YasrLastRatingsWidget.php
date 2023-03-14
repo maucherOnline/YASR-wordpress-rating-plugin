@@ -55,16 +55,10 @@ class YasrLastRatingsWidget {
                            . YASR_LOG_TABLE .
                            " ORDER BY date DESC LIMIT %d, %d ";
 
-        return($this->returnWidget($number_of_rows, 'yasr-log-container'));
+        return($this->returnWidget($number_of_rows, 'yasr-admin-log-container'));
     }
 
     /**
-     * This function will set the values for print the user widget logs
-     * $this->user_widget
-     * $this->log_query
-     * $this->container_id
-     * $this->button_class
-     *
      * @return string
      */
     public function userWidget() {
@@ -225,10 +219,10 @@ class YasrLastRatingsWidget {
             $title_id     = "yasr-user-log-post-$i";
             $date_id      = "yasr-user-log-date-$i";
         } else {
-            $container_id = "yasr-log-div-child-$i";
-            $text_id      = "yasr-log-text-$i";
-            $title_id     = "yasr-log-post-$i";
-            $date_id      = "yasr-log-date-$i";
+            $container_id = "yasr-admin-log-div-child-$i";
+            $text_id      = "yasr-admin-log-text-$i";
+            $title_id     = "yasr-admin-log-post-$i";
+            $date_id      = "yasr-admin-log-date-$i";
         }
 
         return "<div class='yasr-log-div-child' id='".esc_attr($container_id)."'>
@@ -258,15 +252,15 @@ class YasrLastRatingsWidget {
     private function pagination($n_of_pages) {
         if($this->user_widget === true) {
             $container_id     = 'yasr-user-log-page-navigation-buttons';
-            $span_loader_id   = 'yasr-loader-user-log-metabox';
+            $span_loader_id   = 'yasr-user-log-loader-metabox';
             $span_total_pages = 'yasr-user-log-total-pages';
             $button_class     = 'yasr-user-log-page-num';
 
         } else {
-            $container_id     = 'yasr-log-page-navigation-buttons';
-            $span_loader_id   = 'yasr-loader-log-metabox';
-            $span_total_pages = 'yasr-log-total-pages';
-            $button_class     = 'yasr-log-pagenum';
+            $container_id     = 'yasr-admin-log-page-navigation-buttons';
+            $span_loader_id   = 'yasr-admin-log-loader-metabox';
+            $span_total_pages = 'yasr-admin-log-total-pages';
+            $button_class     = 'yasr-admin-log-pagenum';
         }
 
         $html_pagination = "<div class='yasr-log-page-navigation'>";
