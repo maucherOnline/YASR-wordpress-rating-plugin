@@ -48,7 +48,7 @@ class YasrShortcodesAjax {
         add_action('wp_ajax_nopriv_yasr_visitor_multiset_field_vote', array($this, 'saveMV'));
 
         //yasr_user_rate_history action to change page
-        add_action('wp_ajax_yasr_change_user_log_page_front',      array($this, 'returnAjaxResponseUser'));
+        add_action('wp_ajax_yasr-user_change_log_page',      array($this, 'returnAjaxResponseUser'));
 
         //VV load stats
         if(YASR_VISITORS_STATS === 'yes') {

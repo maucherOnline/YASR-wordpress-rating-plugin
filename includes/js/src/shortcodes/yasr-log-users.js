@@ -11,6 +11,8 @@ if(yasrPaginationButtonsAdmin) {
 function yasrLogUsersWidget(prefix='yasr-user') {
     const totalPages = document.getElementById(`${prefix}-log-total-pages`).dataset.yasrLogTotalPages;
 
+    const ajaxAction = `${prefix}_change_log_page`;
+
     let rowContainer = []; //array containing all the DOM containers of the rows
     let spanVote     = [];
     let rowTitle     = []; //array containing all the DOM containers for the title
@@ -26,7 +28,7 @@ function yasrLogUsersWidget(prefix='yasr-user') {
     jQuery(`.${prefix}-log-page-num`).on('click', function () {
         const pagenum = parseInt(this.value);
         yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
-        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix);
+        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix, ajaxAction);
     });
 
     jQuery(document).ajaxComplete(function (event, xhr, settings) {
@@ -37,13 +39,13 @@ function yasrLogUsersWidget(prefix='yasr-user') {
         }
 
         //check if the ajax call is done by yasr with action yasr_change_log_page
-        isYasrAjaxCall = settings.data.search("action=yasr_change_user_log_page_front");
+        isYasrAjaxCall = settings.data.search(`action=${ajaxAction}`);
 
         if (isYasrAjaxCall !== -1) {
             jQuery(`.${prefix}-log-page-num`).on('click', function () {
                 const pagenum = parseInt(this.value);
                 yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
-                yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix);
+                yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix, ajaxAction);
             });
 
         }
@@ -97,7 +99,7 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages, prefix) {
 
 /**
  *
- * Show / hide the loader, and call the ajax action yasr_change_user_log_page_front
+ * Show / hide the loader, and call the ajax action
  *
  * @param pagenum
  * @param rowContainer
@@ -106,22 +108,16 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages, prefix) {
  * @param rowDate
  * @param totalPages
  * @param prefix
+ * @param ajaxAction
  */
-function yasrPostDataLogUsers (pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix) {
+function yasrPostDataLogUsers (pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix, ajaxAction) {
     const loader = document.getElementById(`${prefix}-log-loader-metabox`);
 
     //show the loader
     loader.style.display = 'inline';
 
-    //default action
-    let action = 'yasr_change_user_log_page_front';
-
-    if(prefix === 'yasr-admin') {
-        action = 'yasr_change_admin_log_page';
-    }
-
     let data = {
-        action: action,
+        action: ajaxAction,
         pagenum: pagenum,
         totalpages: totalPages
     };
