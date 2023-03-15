@@ -48,7 +48,7 @@ class YasrShortcodesAjax {
         add_action('wp_ajax_nopriv_yasr_visitor_multiset_field_vote', array($this, 'saveMV'));
 
         //yasr_user_rate_history action to change page
-        add_action('wp_ajax_yasr-user_change_log_page',      array($this, 'returnAjaxResponseUser'));
+        add_action('wp_ajax_yasr-user_change_log_page',      array('YasrLastRatingsWidget', 'returnAjaxResponseUser'));
 
         //VV load stats
         if(YASR_VISITORS_STATS === 'yes') {
@@ -620,58 +620,6 @@ class YasrShortcodesAjax {
 
         return $data_to_return;
 
-    }
-
-    /**
-     * Return the ajax response for the user widget
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  3.3.4
-     *
-     * @return void
-     */
-    public function returnAjaxResponseUser() {
-        $user_id  = get_current_user_id();
-        $limit    = 8;
-
-        if (isset($_POST['pagenum'])) {
-            $page_num = (int) $_POST['pagenum'];
-        } else {
-            $page_num = 1;
-        }
-
-        $offset   = ($page_num - 1) * $limit;
-        global $wpdb;
-
-        $log_query = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT p.post_title, l.vote, l.date, l.post_id 
-            FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
-            WHERE l.user_id = %d 
-                AND p.ID = l.post_id
-            ORDER BY date 
-             DESC LIMIT %d,  %d", $user_id, $offset, $limit
-            ), ARRAY_A
-        );
-
-        if ($log_query === null) {
-            $array_to_return['status'] = 'error';
-        }
-        else {
-            $array_to_return['status'] = 'success';
-
-            $i = 0;
-            //get the permalink and add it to log_query
-            foreach ($log_query as $result) {
-                $permalink                  = get_permalink($result['post_id']);
-                $log_query[$i]['permalink'] = $permalink;
-                $i++;
-            }
-
-            $array_to_return['data'] = $log_query;
-        }
-
-        wp_send_json($array_to_return);
     }
 
     /**

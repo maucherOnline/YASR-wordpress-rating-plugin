@@ -36,7 +36,6 @@ class YasrLastRatingsWidget {
 
     private $user_widget = false;
 
-
     /**
      * Return the log for the admin area, only user that can manage options can see this
      *
@@ -203,8 +202,8 @@ class YasrLastRatingsWidget {
 
         if ($this->user_widget !== true) {
             $yasr_log_vote_text = ' ' . sprintf(
-                    __('Vote %d from %s on', 'yet-another-stars-rating'),
-                    $vote,
+                    __('Vote %s from %s on', 'yet-another-stars-rating'),
+                    '<span id="yasr-admin-log-vote-'.$i.'" style="color: blue;">' . $vote . '</span>',
                     '<strong style="color: blue">' . $user->user_login . '</strong>'
                 );
         } else {
@@ -309,5 +308,72 @@ class YasrLastRatingsWidget {
         $html_pagination .= '</div>'; //End yasr-log-page-navigation
 
         return $html_pagination;
+    }
+
+    /**
+    * Return the ajax response for the user widget
+    *
+    * @author Dario Curvino <@dudo>
+    * @since  3.3.4
+    * @return void
+    */
+    public static function returnAjaxResponseUser($admin_widget = false) {
+        global $wpdb;
+
+        $limit   = 8;
+
+        if (isset($_POST['pagenum'])) {
+            $page_num = (int) $_POST['pagenum'];
+        }
+        else {
+            $page_num = 1;
+        }
+
+        $offset = ($page_num - 1) * $limit;
+
+        if($admin_widget === true) {
+            if (!current_user_can('manage_options')) {
+                return;
+            }
+            $query = $wpdb->prepare(
+                "SELECT p.post_title, l.vote, l.date, l.post_id
+                        FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
+                        WHERE  p.ID = l.post_id
+                        ORDER BY date 
+                         DESC LIMIT %d,  %d", $offset, $limit
+            );
+
+        } else {
+            $user_id = get_current_user_id();
+            $query = $wpdb->prepare(
+                "SELECT p.post_title, l.vote, l.date, l.post_id 
+                        FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
+                        WHERE l.user_id = %d 
+                            AND p.ID = l.post_id
+                        ORDER BY date 
+                         DESC LIMIT %d,  %d", $user_id, $offset, $limit
+            );
+        }
+
+        $log_query = $wpdb->get_results($query, ARRAY_A);
+
+        if ($log_query === null) {
+            $array_to_return['status'] = 'error';
+        }
+        else {
+            $array_to_return['status'] = 'success';
+
+            $i = 0;
+            //get the permalink and add it to log_query
+            foreach ($log_query as $result) {
+                $permalink                  = get_permalink($result['post_id']);
+                $log_query[$i]['permalink'] = $permalink;
+                $i++;
+            }
+
+            $array_to_return['data'] = $log_query;
+        }
+
+        wp_send_json($array_to_return);
     }
 }
