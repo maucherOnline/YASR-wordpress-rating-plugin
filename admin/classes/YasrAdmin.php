@@ -365,7 +365,6 @@ class YasrAdmin {
      * @return void
      */
     public function loadDashboardWidgetAdmin() {
-        var_dump('dio1');
         $log_widget = new YasrLastRatingsWidget();
         echo wp_kses_post($log_widget->adminWidget());
     } //End callback function
