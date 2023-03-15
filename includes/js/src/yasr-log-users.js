@@ -1,4 +1,4 @@
-const yasrPaginationButtonsUser = document.getElementById('yasr-user-log-page-navigation-buttons');
+const yasrPaginationButtonsUser  = document.getElementById('yasr-user-log-page-navigation-buttons');
 const yasrPaginationButtonsAdmin = document.getElementById('yasr-admin-log-page-navigation-buttons');
 
 if(yasrPaginationButtonsUser) {
@@ -92,6 +92,10 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages, prefix) {
     if (totalPages > 3 && pagenum < totalPages) {
         newPagination += `...&nbsp;&nbsp;
             <button class="${prefix}-log-page-num" value="${totalPages}"> Last &raquo;</button>&nbsp;&nbsp;`;
+    }
+
+    if(prefix === 'yasr-admin') {
+        return yasrPaginationButtonsAdmin.innerHTML = newPagination;
     }
 
     return yasrPaginationButtonsUser.innerHTML = newPagination;
