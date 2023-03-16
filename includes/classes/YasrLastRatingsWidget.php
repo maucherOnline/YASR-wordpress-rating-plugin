@@ -32,7 +32,7 @@ if (!defined('ABSPATH')) {
  */
 class YasrLastRatingsWidget {
 
-    private $log_query;
+    private $limit = 8;
 
     private $user_widget = false;
 
@@ -81,14 +81,18 @@ class YasrLastRatingsWidget {
                 $user_id)
         );
 
-        $this->log_query = "SELECT * 
-                                FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
-                            WHERE user_id = $user_id 
-                               AND p.ID = l.post_id  
-                            ORDER BY date 
-                            DESC LIMIT %d, %d ";
+        $query_results = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * 
+                       FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
+                       WHERE user_id = %d 
+                           AND p.ID = l.post_id  
+                       ORDER BY date 
+                       DESC LIMIT %d, %d",
+                        $user_id, 0, $this->limit)
+        );
 
-        return $this->returnWidget($number_of_rows, 'yasr-user-log-container');
+        return $this->returnWidget($number_of_rows, $query_results, 'yasr-user-log-container');
     }
 
     /**
@@ -96,31 +100,20 @@ class YasrLastRatingsWidget {
      *
      * @return string
      */
-    private function returnWidget($number_of_rows, $container_id) {
-        global $wpdb;
-
-        $limit = 8;
-
+    private function returnWidget($number_of_rows, $query_results, $container_id) {
         if($number_of_rows > 0) {
-            $n_of_pages = ceil($number_of_rows / $limit);
+            $n_of_pages = ceil($number_of_rows / $this->limit);
         } else {
             $n_of_pages = 1;
         }
 
-        //do the query
-        $log_result = $wpdb->get_results(
-            $wpdb->prepare(
-                $this->log_query,
-                0, $limit)
-        );
-
-        if (!$log_result) {
+        if (!$query_results) {
             return __('No Recent votes yet', 'yet-another-stars-rating');
         }
 
         $html_to_return  = "<div class='yasr-log-container' id='".esc_attr($container_id)."'>";
 
-        $html_to_return .= $this->loopResults($log_result);
+        $html_to_return .= $this->loopResults($query_results);
 
         $html_to_return .= $this->pagination($n_of_pages);
 
