@@ -329,7 +329,7 @@ class YasrLastRatingsWidget {
     * @since  3.3.4
     * @return void
     */
-    public static function returnAjaxResponse($admin_widget = false) {
+    public function returnAjaxResponse($admin_widget = false) {
         global $wpdb;
 
         $limit   = 8;

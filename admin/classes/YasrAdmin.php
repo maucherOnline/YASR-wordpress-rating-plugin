@@ -50,8 +50,10 @@ class YasrAdmin {
      * @return void
      */
     private function loadAjaxActions() {
+
         add_action('wp_ajax_yasr-admin_change_log_page', static function () {
-            YasrLastRatingsWidget::returnAjaxResponse(true);
+            $yasr_log_widget_admin = new YasrLastRatingsWidget();
+            $yasr_log_widget_admin->returnAjaxResponse(true);
         });
     }
 
