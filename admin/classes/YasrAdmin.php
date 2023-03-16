@@ -51,7 +51,7 @@ class YasrAdmin {
      */
     private function loadAjaxActions() {
         add_action('wp_ajax_yasr-admin_change_log_page', static function () {
-            YasrLastRatingsWidget::returnAjaxResponseUser(true);
+            YasrLastRatingsWidget::returnAjaxResponse(true);
         });
     }
 

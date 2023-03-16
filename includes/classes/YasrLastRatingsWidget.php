@@ -50,11 +50,14 @@ class YasrLastRatingsWidget {
         //query for admin widget
         $number_of_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . YASR_LOG_TABLE);
 
-        $this->log_query = "SELECT * FROM "
+        $query_results = $wpdb->get_results(
+            $wpdb->prepare("SELECT * FROM "
                            . YASR_LOG_TABLE .
-                           " ORDER BY date DESC LIMIT %d, %d ";
+                           " ORDER BY date DESC LIMIT 0, %d",
+            $this->limit)
+        );
 
-        return($this->returnWidget($number_of_rows, 'yasr-admin-log-container'));
+        return($this->returnWidget($number_of_rows, $query_results, 'yasr-admin-log-container'));
     }
 
     /**
@@ -77,7 +80,7 @@ class YasrLastRatingsWidget {
                 "SELECT COUNT(*) 
                           FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l  
                           WHERE user_id = %d
-                              AND p.ID = l.post_id ",
+                              AND p.ID = l.post_id",
                 $user_id)
         );
 
@@ -326,7 +329,7 @@ class YasrLastRatingsWidget {
     * @since  3.3.4
     * @return void
     */
-    public static function returnAjaxResponseUser($admin_widget = false) {
+    public static function returnAjaxResponse($admin_widget = false) {
         global $wpdb;
 
         $limit   = 8;
