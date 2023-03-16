@@ -85,14 +85,7 @@ class YasrLastRatingsWidget {
         );
 
         $query_results = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT * 
-                       FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
-                       WHERE user_id = %d 
-                           AND p.ID = l.post_id  
-                       ORDER BY date 
-                       DESC LIMIT %d, %d",
-                        $user_id, 0, $this->limit)
+            $this->returnQueryUser($user_id)
         );
 
         return $this->returnWidget($number_of_rows, $query_results, 'yasr-user-log-container');
@@ -357,14 +350,7 @@ class YasrLastRatingsWidget {
 
         } else {
             $user_id = get_current_user_id();
-            $query = $wpdb->prepare(
-                "SELECT p.post_title, l.vote, l.date, l.post_id 
-                        FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
-                        WHERE l.user_id = %d 
-                            AND p.ID = l.post_id
-                        ORDER BY date 
-                         DESC LIMIT %d,  %d", $user_id, $offset, $limit
-            );
+            $query = $this->returnQueryUser($user_id, $offset);
         }
 
         $log_query = $wpdb->get_results($query, ARRAY_A);
@@ -387,5 +373,37 @@ class YasrLastRatingsWidget {
         }
 
         wp_send_json($array_to_return);
+    }
+
+    /**
+     * Return the sanitized query string for user query
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.4
+     *
+     * @param $user_id
+     * @param $offset
+     *
+     * @return string|null
+     */
+    public function returnQueryUser($user_id, $offset=0) {
+        global $wpdb;
+
+        //Since there is no need to select the l.user_id on ajax, do this only if $offset = 0 (first page)
+        $select_user_id = '';
+        if($offset === 0) {
+            $select_user_id = ', l.user_id';
+        }
+
+        return $wpdb->prepare(
+            "SELECT p.post_title, l.vote, l.date, l.post_id $select_user_id
+                       FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
+                    WHERE l.user_id = %d 
+                        AND p.ID = l.post_id
+                    ORDER BY date 
+                    DESC LIMIT %d,  %d",
+            $user_id, $offset, $this->limit
+        );
     }
 }
