@@ -167,7 +167,7 @@ class YasrLastRatingsWidget {
                 $avatar     = get_avatar($result->user_id, '32'); //Get avatar from user id
             }
 
-            $post_title = get_post_field( 'post_title', $result->post_id, 'raw' ); //Get post title from post id
+            $post_title = $result->post_title;
             $link       = get_permalink($result->post_id); //Get post link from post id
 
             //Set value depending if we're on user or admin widget
@@ -325,7 +325,7 @@ class YasrLastRatingsWidget {
     public function returnAjaxResponse($admin_widget = false) {
         global $wpdb;
 
-        $limit   = 8;
+        $this->limit   = 8;
 
         if (isset($_POST['pagenum'])) {
             $page_num = (int) $_POST['pagenum'];
@@ -334,7 +334,7 @@ class YasrLastRatingsWidget {
             $page_num = 1;
         }
 
-        $offset = ($page_num - 1) * $limit;
+        $offset = ($page_num - 1) * $this->limit;
 
         if($admin_widget === true) {
             if (!current_user_can('manage_options')) {
@@ -345,7 +345,7 @@ class YasrLastRatingsWidget {
                         FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
                         WHERE  p.ID = l.post_id
                         ORDER BY date 
-                         DESC LIMIT %d,  %d", $offset, $limit
+                         DESC LIMIT %d,  %d", $offset, $this->limit
             );
 
         } else {
