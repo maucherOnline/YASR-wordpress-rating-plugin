@@ -147,23 +147,39 @@ class YasrLastRatingsWidget {
             return;
         }
 
-        $rows = '';
+        $rows   = ''; //avoid undefined
+        $avatar = ''; //avoid undefined
+        $user   = ''; //avoid undefined
+
+        //avoid undefined for admin widget
+        $ip_span = ''; //default value
+
+        //create an empty array of user IDS
+        $user_ids = array();
 
         foreach ($query_results as $result) {
-            $user = get_user_by('id', $result->user_id); //Get info user from user id
+            //cast to int
+            $result->user_id = (int)$result->user_id;
 
-            //If user === false means that the vote are anonymous
-            if ($user === false) {
-                $user             = new stdClass;
-                $user->user_login = __('anonymous', 'yet-another-stars-rating');
+            //get user info only if not already done,
+            //so check if $result->user_id already exists in array user_ids
+            if(!in_array($result->user_id, $user_ids)) {
+                //inset $result->user_id; into $user_ids
+                $user_ids[] = $result->user_id;
+
+                $user = get_user_by('id', $result->user_id); //Get info user from user id
+
+                //If user === false means that the vote are anonymous
+                if ($user === false) {
+                    $user             = new stdClass;
+                    $user->user_login = __('anonymous', 'yet-another-stars-rating');
+                }
+
+                $avatar     = get_avatar($result->user_id, '32'); //Get avatar from user id
             }
 
-            $avatar     = get_avatar($result->user_id, '32'); //Get avatar from user id
             $post_title = get_post_field( 'post_title', $result->post_id, 'raw' ); //Get post title from post id
             $link       = get_permalink($result->post_id); //Get post link from post id
-
-            //Default values (for admin widget)
-            $ip_span = ''; //default value
 
             //Set value depending if we're on user or admin widget
             if ($this->user_widget !== true) {
