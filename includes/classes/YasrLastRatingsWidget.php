@@ -39,6 +39,7 @@ class YasrLastRatingsWidget {
      */
     public $permalinks   = array();
 
+    public $avatar_urls  = array();
     private $user_widget = false;
 
     /**
@@ -142,29 +143,19 @@ class YasrLastRatingsWidget {
 
         //avoid undefined
         $rows       = '';
-        $avatar     = '';
         $ip_span    = '';
-
-        //create an empty array of user IDS
-        $user_ids = array();
-
 
         foreach ($query_results as $result) {
             //cast to int
             $result->user_id = (int)$result->user_id;
             $result->post_id = (int)$result->post_id;
 
-            $title = $result->post_title;
-            //get user info only if not already done,
-            //so check if $result->user_id already exists in array user_ids
-            if(!in_array($result->user_id, $user_ids)) {
-                //inset $result->user_id; into $user_ids
-                $user_ids[] = $result->user_id;
-
-                $avatar     = get_avatar_url($result->user_id, '32'); //Get avatar from user id
-            }
-
             $permalink = $this->returnPermalink($result->post_id);
+            $avatar    = $this->returnAvatarUrl($result->user_id);
+
+            $vote  = (int)$result->vote;
+            $title = $result->post_title;
+            $date  = $result->date;
 
             if ($this->user_widget !== true) {
                 $user = $result->user_nicename;
@@ -181,7 +172,7 @@ class YasrLastRatingsWidget {
                 }
             }
 
-            $rows .= $this->rowContent($avatar, $i, $user, $title, $permalink, $ip_span, $result);
+            $rows .= $this->rowContent($avatar, $i, $user, $permalink, $ip_span, $vote, $title, $date);
 
             $i = $i +1;
         } //End foreach
@@ -196,15 +187,15 @@ class YasrLastRatingsWidget {
      * @param $avatar_url
      * @param $i
      * @param $user
-     * @param $post_title
      * @param $permalink
      * @param $ip_span
-     * @param $column
+     * @param $vote
+     * @param $title
+     * @param $date
      *
      * @return string
      */
-    private function rowContent ($avatar_url, $i, $user, $post_title, $permalink, $ip_span, $column) {
-        $vote = (int)$column->vote;
+    private function rowContent ($avatar_url, $i, $user, $permalink, $ip_span, $vote, $title, $date) {
 
         if ($this->user_widget !== true) {
             $yasr_log_vote_text = ' ' . sprintf(
@@ -212,16 +203,17 @@ class YasrLastRatingsWidget {
                     '<span id="yasr-admin-log-vote-'.$i.'" style="color: blue;">' . $vote . '</span>',
                     '<span id="yasr-admin-log-user-'.$i.'" style="color: blue">' . $user . '</span>'
                 );
-
             $container_id = "yasr-admin-log-div-child-$i";
             $text_id      = "yasr-admin-log-text-$i";
             $title_id     = "yasr-admin-log-post-$i";
             $date_id      = "yasr-admin-log-date-$i";
-        } else {
+        }
+        else {
             $yasr_log_vote_text = ' ' . sprintf(
                     __('You rated %s on', 'yet-another-stars-rating'),
                     '<span id="yasr-user-log-vote-'.$i.'" style="color: blue;">' . $vote . '</span>'
-                );
+            );
+
             $container_id = "yasr-user-log-div-child-$i";
             $text_id      = "yasr-user-log-text-$i";
             $title_id     = "yasr-user-log-post-$i";
@@ -237,13 +229,13 @@ class YasrLastRatingsWidget {
                             $yasr_log_vote_text
                         </span>
                         <span class='yasr-log-post' id='$title_id'>
-                            <a href='$permalink'>$post_title</a>
+                            <a href='$permalink'>$title</a>
                         </span>
                     </div>
                     <div class='yasr-log-ip-date'>
                         $ip_span
                         <span class='yasr-log-date' id='$date_id'>
-                            $column->date
+                            $date
                         </span>
                     </div>
               </div>";
@@ -426,6 +418,34 @@ class YasrLastRatingsWidget {
                    LIMIT %d,  %d",
             $anonymous_string, $anonymous_string, $offset, $this->limit
         );
+    }
+
+    /**
+     * @todo add this method also in ajax response
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.4
+     *
+     * @param $user_id
+     *
+     * @return false|mixed|string
+     */
+    public function returnAvatarUrl ($user_id) {
+        //get user info only if not already done,
+        //so check if $result->user_id already exists in array user_ids
+        if(!array_key_exists($user_id, $this->avatar_urls)) {
+
+            //Get avatar from user id
+            $avatar = get_avatar_url($user_id, '32');
+
+            //inset $result->user_id; into $user_ids
+            $this->avatar_urls[$user_id] = $avatar;
+
+            return $avatar;
+        }
+
+        return $this->avatar_urls[$user_id];
     }
 
     /**
