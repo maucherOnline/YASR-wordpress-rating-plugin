@@ -106,7 +106,7 @@ class YasrLastRatingsWidget {
             return __('No Recent votes yet', 'yet-another-stars-rating');
         }
 
-        $html_to_return  = "<div class='yasr-log-container' id='".esc_attr($container_id)."'>";
+        $html_to_return  = "<div class='yasr-log-container' id='$container_id'>";
 
         $html_to_return .= $this->loopResults($query_results);
 
@@ -135,12 +135,10 @@ class YasrLastRatingsWidget {
             return;
         }
 
-        $rows       = ''; //avoid undefined
-        $avatar     = ''; //avoid undefined
-
-        //avoid undefined for admin widget
-        $ip_span    = ''; //default value
-
+        //avoid undefined
+        $rows       = '';
+        $avatar     = '';
+        $ip_span    = '';
         $post_title = '';
         $link       = '';
 
@@ -161,7 +159,7 @@ class YasrLastRatingsWidget {
                 //inset $result->user_id; into $user_ids
                 $user_ids[] = $result->user_id;
 
-                $avatar     = get_avatar($result->user_id, '32'); //Get avatar from user id
+                $avatar     = get_avatar_url($result->user_id, '32'); //Get avatar from user id
             }
 
             //get post info only if not already done,
@@ -199,10 +197,9 @@ class YasrLastRatingsWidget {
 
     /**
      * @author Dario Curvino <@dudo>
-     *
      * @since 3.3.4
      *
-     * @param $avatar
+     * @param $avatar_url
      * @param $i
      * @param $user
      * @param $link
@@ -212,7 +209,7 @@ class YasrLastRatingsWidget {
      *
      * @return string
      */
-    private function rowContent ($avatar, $i, $user, $link, $post_title, $ip_span, $column) {
+    private function rowContent ($avatar_url, $i, $user, $link, $post_title, $ip_span, $column) {
         $vote = (int)$column->vote;
 
         if ($this->user_widget !== true) {
@@ -221,39 +218,37 @@ class YasrLastRatingsWidget {
                     '<span id="yasr-admin-log-vote-'.$i.'" style="color: blue;">' . $vote . '</span>',
                     '<span id="yasr-admin-log-user-'.$i.'" style="color: blue">' . $user . '</span>'
                 );
+
+            $container_id = "yasr-admin-log-div-child-$i";
+            $text_id      = "yasr-admin-log-text-$i";
+            $title_id     = "yasr-admin-log-post-$i";
+            $date_id      = "yasr-admin-log-date-$i";
         } else {
             $yasr_log_vote_text = ' ' . sprintf(
                     __('You rated %s on', 'yet-another-stars-rating'),
                     '<span id="yasr-user-log-vote-'.$i.'" style="color: blue;">' . $vote . '</span>'
                 );
-        }
-        if($this->user_widget === true) {
             $container_id = "yasr-user-log-div-child-$i";
             $text_id      = "yasr-user-log-text-$i";
             $title_id     = "yasr-user-log-post-$i";
             $date_id      = "yasr-user-log-date-$i";
-        } else {
-            $container_id = "yasr-admin-log-div-child-$i";
-            $text_id      = "yasr-admin-log-text-$i";
-            $title_id     = "yasr-admin-log-post-$i";
-            $date_id      = "yasr-admin-log-date-$i";
         }
 
-        return "<div class='yasr-log-div-child' id='".esc_attr($container_id)."'>
+        return "<div class='yasr-log-div-child' id='$container_id'>
                     <div class='yasr-log-image'>
-                        $avatar
+                        <img alt='' src='$avatar_url' class='avatar avatar-32 photo' loading='lazy' width='32' height='32'>
                     </div>
                     <div class='yasr-log-child-head'>
-                        <span class='yasr-log-vote' id='".esc_attr($text_id)."'>
+                        <span class='yasr-log-vote' id='$text_id'>
                             $yasr_log_vote_text
                         </span>
-                        <span class='yasr-log-post' id='".esc_attr($title_id)."'>
-                            <a href='".esc_url($link)."'>".esc_html($post_title)."</a>
+                        <span class='yasr-log-post' id='$title_id'>
+                            <a href='$link'>$post_title</a>
                         </span>
                     </div>
                     <div class='yasr-log-ip-date'>
                         $ip_span
-                        <span class='yasr-log-date' id='".esc_attr($date_id)."'>
+                        <span class='yasr-log-date' id='$date_id'>
                             $column->date
                         </span>
                     </div>
@@ -279,14 +274,14 @@ class YasrLastRatingsWidget {
 
         $html_pagination = "<div class='yasr-log-page-navigation'>";
 
-        $html_pagination .= "<div id='".esc_attr($span_total_pages)."' 
+        $html_pagination .= "<div id='$span_total_pages' 
                                  data-yasr-log-total-pages='$n_of_pages' 
                                  style='display: inline'>";
         $html_pagination .= __('Pages', 'yet-another-stars-rating') . ": ($n_of_pages) &nbsp;&nbsp;&nbsp;";
         $html_pagination .= '</div>';
 
 
-        $html_pagination .= '<div id="'.esc_html($container_id).'" style="display: inline">';
+        $html_pagination .= '<div id="'.$container_id.'" style="display: inline">';
 
         //current page (always the first) plus one
         $end_for = 2;
@@ -298,17 +293,17 @@ class YasrLastRatingsWidget {
         for ($i = 1; $i <= $end_for; $i++) {
             if ($i === 1) {
                 $html_pagination .= "<button class='button-primary' 
-                                             value='".esc_attr($i)."'>$i</button>&nbsp;&nbsp;";
+                                             value='$i'>$i</button>&nbsp;&nbsp;";
             } else {
-                $html_pagination .= "<button class='".esc_attr($button_class)."' 
-                                             value='".esc_attr($i)."'>$i</button>&nbsp;&nbsp;";
+                $html_pagination .= "<button class='$button_class' 
+                                             value='$i'>$i</button>&nbsp;&nbsp;";
             }
         }
 
         if ($n_of_pages > 3) {
             $html_pagination .= "...&nbsp;&nbsp;
-                                <button class='".esc_attr($button_class)."'
-                                    value='".esc_attr($n_of_pages)."'>
+                                <button class='$button_class'
+                                    value='$n_of_pages'>
                                     Last &raquo;</button>
                                     &nbsp;&nbsp;";
         }
@@ -316,8 +311,8 @@ class YasrLastRatingsWidget {
         $html_pagination .= '</div>';
 
         //loader
-        $html_pagination .= "<span class='yasr-last-ratings-loader' id='".esc_attr($span_loader_id)."'>&nbsp;
-                                <img alt='loader' src='" . esc_url(YASR_IMG_DIR) . "/loader.gif' >
+        $html_pagination .= "<span class='yasr-last-ratings-loader' id='$span_loader_id'>&nbsp;
+                                <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
                             </span>";
 
         $html_pagination .= '</div>'; //End yasr-log-page-navigation
