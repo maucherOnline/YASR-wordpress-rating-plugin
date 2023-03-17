@@ -149,7 +149,6 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
                 rowContainer[i].style.display = 'block';
                 spanVote[i].innerText = parseInt(response.data[i].vote);
 
-                console.log(response.data[i].user_nicename)
                 if(Array.isArray(userNameSpan)) {
                     userNameSpan[i].innerText = response.data[i].user_nicename;
                 }
