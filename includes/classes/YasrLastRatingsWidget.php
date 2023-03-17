@@ -34,6 +34,11 @@ class YasrLastRatingsWidget {
 
     private $limit = 8;
 
+    /**
+     * This array will contain the permalinks, to avoid to get again and again the same data for the same post id
+     */
+    public $permalinks   = array();
+
     private $user_widget = false;
 
     /**
@@ -139,20 +144,17 @@ class YasrLastRatingsWidget {
         $rows       = '';
         $avatar     = '';
         $ip_span    = '';
-        $post_title = '';
-        $link       = '';
 
         //create an empty array of user IDS
         $user_ids = array();
 
-        //create an empty array of user IDS
-        $post_ids = array();
 
         foreach ($query_results as $result) {
             //cast to int
             $result->user_id = (int)$result->user_id;
             $result->post_id = (int)$result->post_id;
 
+            $title = $result->post_title;
             //get user info only if not already done,
             //so check if $result->user_id already exists in array user_ids
             if(!in_array($result->user_id, $user_ids)) {
@@ -162,15 +164,7 @@ class YasrLastRatingsWidget {
                 $avatar     = get_avatar_url($result->user_id, '32'); //Get avatar from user id
             }
 
-            //get post info only if not already done,
-            //so check if $result->post_id already exists in array post_ids
-            if(!in_array($result->post_id, $post_ids)) {
-                //inset $result->post_id; into $post_ids
-                $post_ids[] = $result->post_id;
-
-                $post_title = $result->post_title;
-                $link       = get_permalink($result->post_id); //Get post link from post id
-            }
+            $permalink = $this->returnPermalink($result->post_id);
 
             if ($this->user_widget !== true) {
                 $user = $result->user_nicename;
@@ -187,7 +181,7 @@ class YasrLastRatingsWidget {
                 }
             }
 
-            $rows .= $this->rowContent($avatar, $i, $user, $link, $post_title, $ip_span, $result);
+            $rows .= $this->rowContent($avatar, $i, $user, $title, $permalink, $ip_span, $result);
 
             $i = $i +1;
         } //End foreach
@@ -197,19 +191,19 @@ class YasrLastRatingsWidget {
 
     /**
      * @author Dario Curvino <@dudo>
-     * @since 3.3.4
+     * @since  3.3.4
      *
      * @param $avatar_url
      * @param $i
      * @param $user
-     * @param $link
      * @param $post_title
+     * @param $permalink
      * @param $ip_span
      * @param $column
      *
      * @return string
      */
-    private function rowContent ($avatar_url, $i, $user, $link, $post_title, $ip_span, $column) {
+    private function rowContent ($avatar_url, $i, $user, $post_title, $permalink, $ip_span, $column) {
         $vote = (int)$column->vote;
 
         if ($this->user_widget !== true) {
@@ -243,7 +237,7 @@ class YasrLastRatingsWidget {
                             $yasr_log_vote_text
                         </span>
                         <span class='yasr-log-post' id='$title_id'>
-                            <a href='$link'>$post_title</a>
+                            <a href='$permalink'>$post_title</a>
                         </span>
                     </div>
                     <div class='yasr-log-ip-date'>
@@ -349,7 +343,7 @@ class YasrLastRatingsWidget {
 
         } else {
             $user_id = get_current_user_id();
-            $query = $this->returnQueryUser($user_id, $offset);
+            $query   = $this->returnQueryUser($user_id, $offset);
         }
 
         $log_query = $wpdb->get_results($query, ARRAY_A);
@@ -363,8 +357,7 @@ class YasrLastRatingsWidget {
             $i = 0;
             //get the permalink and add it to log_query
             foreach ($log_query as $result) {
-                $permalink                  = get_permalink($result['post_id']);
-                $log_query[$i]['permalink'] = $permalink;
+                $log_query[$i]['permalink'] = $this->returnPermalink($result['post_id']);
                 $i++;
             }
 
@@ -434,4 +427,37 @@ class YasrLastRatingsWidget {
             $anonymous_string, $anonymous_string, $offset, $this->limit
         );
     }
+
+    /**
+     * Return the permalink of the post
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.4
+     *
+     * @param $post_id
+     *
+     * @return false|mixed|string
+     */
+    public function returnPermalink ($post_id) {
+        //cast to int
+        $post_id = (int)$post_id;
+
+        //get post permalink only if not already done,
+        //so check if $post_id already exists in array permalinks
+        if(!array_key_exists($post_id, $this->permalinks)) {
+
+            //Get post link from post id
+            $link  = get_permalink($post_id);
+
+            //first, save the link into $this->permalink
+            $this->permalinks[$post_id] = $link;
+
+            //return
+            return $link;
+        }
+        //here, means that we've already got the permalink for this post_id, so return it
+        return $this->permalinks[$post_id];
+    }
+
 }
