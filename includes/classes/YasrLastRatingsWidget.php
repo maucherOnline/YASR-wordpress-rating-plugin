@@ -48,7 +48,11 @@ class YasrLastRatingsWidget {
         global $wpdb;
 
         //query for admin widget
-        $number_of_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . YASR_LOG_TABLE);
+        $number_of_rows =
+            $wpdb->get_var("SELECT COUNT(*) 
+                                  FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l  
+                                  WHERE  p.ID = l.post_id"
+            );
 
         $query_results = $wpdb->get_results($this->returnQueryAdmin());
 
@@ -74,7 +78,7 @@ class YasrLastRatingsWidget {
             $wpdb->prepare(
                 "SELECT COUNT(*) 
                           FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l  
-                          WHERE user_id = %d
+                          WHERE l.user_id = %d
                               AND p.ID = l.post_id",
                 $user_id)
         );
