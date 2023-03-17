@@ -76,6 +76,18 @@ class YasrLastRatingsWidget {
         $user_id = get_current_user_id();
 
         if($user_id === 0) {
+
+            if($user_id === 0) {
+                $must_login_text = __('You must login to see this widget.', 'yet-another-stars-rating');
+
+                /**
+                 *  Hook here to customize the message "You must login to see this widget." when
+                 *  the shortcode yasr_user_rate_history is used
+                 */
+                $must_login_text = apply_filters('yasr_user_rate_history_must_login_text', $must_login_text);
+                return '<p>'.$must_login_text.'</p>';
+            }
+
             return '<p>'.__('You must login to see this widget.', 'yet-another-stars-rating').'</p>';
         }
 
