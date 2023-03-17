@@ -39,7 +39,11 @@ class YasrLastRatingsWidget {
      */
     public $permalinks   = array();
 
+    /**
+     * This array will contain the avatar urls, to avoid to get again and again the same data for the same user id
+     */
     public $avatar_urls  = array();
+
     private $user_widget = false;
 
     /**
@@ -349,6 +353,10 @@ class YasrLastRatingsWidget {
             $i = 0;
             //get the permalink and add it to log_query
             foreach ($log_query as $result) {
+                if($admin_widget === true) {
+                    $log_query[$i]['avatar_url'] = $this->returnAvatarUrl($result['user_id']);
+                }
+
                 $log_query[$i]['permalink'] = $this->returnPermalink($result['post_id']);
                 $i++;
             }
@@ -421,7 +429,7 @@ class YasrLastRatingsWidget {
     }
 
     /**
-     * @todo add this method also in ajax response
+     * Return the avatar url
      *
      * @author Dario Curvino <@dudo>
      *
