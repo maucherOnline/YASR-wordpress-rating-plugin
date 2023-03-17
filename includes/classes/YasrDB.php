@@ -217,7 +217,7 @@ class YasrDB {
     }
 
     /**
-     * Returns *ALL* visitor votes in YASR_LOG_TABLE
+     * Returns ALL visitor votes in YASR_LOG_TABLE
      * used in stats page
      *
      * @author Dario Curvino <@dudo>
@@ -453,7 +453,7 @@ class YasrDB {
         return false;
     }
 
-    /***
+    /**
      * @author Dario Curvino <@dudo>
      * @since 2.6.3
      *
@@ -552,7 +552,7 @@ class YasrDB {
         return false;
     }
 
-    /***
+    /**
      * @author Dario Curvino <@dudo>
      * @since 2.6.3
      *
@@ -902,7 +902,8 @@ class YasrDB {
         return round($multiset_vote_sum / $multiset_rows_number, 1);
     }
 
-    /** This functions returns an array with all the value to print the multiset
+    /**
+     * This functions returns an array with all the value to print the multiset
      * array (
      *     array (
      *         'id' => 0,
@@ -1281,7 +1282,7 @@ class YasrDB {
      * @param $order
      *
      * @return string
-     *@see returnQuerySelectPostsVV
+     * @see returnQuerySelectPostsVV
      */
     public static function returnQueryOrderByPostsVV ($order_by, $order='DESC') {
         $order = strtoupper($order);
