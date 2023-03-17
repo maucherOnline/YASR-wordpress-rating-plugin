@@ -226,7 +226,8 @@ class YasrLastRatingsWidget {
 
         return "<div class='yasr-log-div-child' id='$container_id'>
                     <div class='yasr-log-image'>
-                        <img alt='' src='$avatar_url' class='avatar avatar-32 photo' loading='lazy' width='32' height='32'>
+                        <img alt='avatar' src='$avatar_url' class='avatar avatar-32 photo' 
+                             loading='lazy' width='32' height='32' id='yasr-admin-log-avatar-".$i."'>
                     </div>
                     <div class='yasr-log-child-head'>
                         <span class='yasr-log-vote' id='$text_id'>
