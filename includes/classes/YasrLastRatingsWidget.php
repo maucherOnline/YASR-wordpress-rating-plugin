@@ -50,12 +50,7 @@ class YasrLastRatingsWidget {
         //query for admin widget
         $number_of_rows = $wpdb->get_var("SELECT COUNT(*) FROM " . YASR_LOG_TABLE);
 
-        $query_results = $wpdb->get_results(
-            $wpdb->prepare("SELECT * FROM "
-                           . YASR_LOG_TABLE .
-                           " ORDER BY date DESC LIMIT 0, %d",
-            $this->limit)
-        );
+        $query_results = $wpdb->get_results($this->returnQueryAdmin());
 
         return($this->returnWidget($number_of_rows, $query_results, 'yasr-admin-log-container'));
     }
@@ -209,7 +204,7 @@ class YasrLastRatingsWidget {
             $yasr_log_vote_text = ' ' . sprintf(
                     __('Vote %s from %s on', 'yet-another-stars-rating'),
                     '<span id="yasr-admin-log-vote-'.$i.'" style="color: blue;">' . $vote . '</span>',
-                    '<strong style="color: blue">' . $user->user_login . '</strong>'
+                    '<span id="yasr-admin-log-user-'.$i.'" style="color: blue">' . $user->user_login . '</span>'
                 );
         } else {
             $yasr_log_vote_text = ' ' . sprintf(
@@ -340,13 +335,7 @@ class YasrLastRatingsWidget {
             if (!current_user_can('manage_options')) {
                 return;
             }
-            $query = $wpdb->prepare(
-                "SELECT p.post_title, l.vote, l.date, l.post_id
-                        FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
-                        WHERE  p.ID = l.post_id
-                        ORDER BY date 
-                         DESC LIMIT %d,  %d", $offset, $this->limit
-            );
+            $query = $this->returnQueryAdmin($offset);
 
         } else {
             $user_id = get_current_user_id();
@@ -404,6 +393,35 @@ class YasrLastRatingsWidget {
                     ORDER BY date 
                     DESC LIMIT %d,  %d",
             $user_id, $offset, $this->limit
+        );
+    }
+
+    /**
+     * Return the recent ratings.
+     * If an user is not found in u.ID, return "anonymous"
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.4
+     *
+     * @param $offset
+     *
+     * @return string|null
+     */
+    public function returnQueryAdmin($offset=0) {
+        global $wpdb;
+
+        $anonymous_string = esc_html__('anonymous', 'yet-another-stars-rating');
+
+        return $wpdb->prepare(
+            "SELECT p.post_title, l.vote, l.date, l.post_id, l.user_id, 
+                           IF(l.user_id = 0, %s, IFNULL(u.user_nicename, %s)) AS user_nicename
+                   FROM birr_posts AS p, birr_yasr_log AS l 
+                   LEFT JOIN birr_users AS u ON l.user_id = u.ID 
+                   WHERE  p.ID = l.post_id
+                   ORDER BY date DESC
+                   LIMIT %d,  %d",
+            $anonymous_string, $anonymous_string, $offset, $this->limit
         );
     }
 }

@@ -9,6 +9,11 @@ if(yasrPaginationButtonsAdmin) {
 }
 
 function yasrLogUsersWidget(prefix='yasr-user') {
+    let isAdminWidget = false;
+    if (prefix === 'yasr-admin') {
+        isAdminWidget = true;
+    }
+
     const totalPages = document.getElementById(`${prefix}-log-total-pages`).dataset.yasrLogTotalPages;
 
     const ajaxAction = `${prefix}_change_log_page`;
@@ -18,17 +23,26 @@ function yasrLogUsersWidget(prefix='yasr-user') {
     let rowTitle     = []; //array containing all the DOM containers for the title
     let rowDate      = []; //array containing all the DOM containers for the dates
 
+    let userNameSpan = false;
+    if(isAdminWidget === true) {
+        userNameSpan = [];
+    }
+
     for (let i = 0; i < 8; i++) {
         rowContainer[i] = document.getElementById(`${prefix}-log-div-child-${i}`);
         spanVote[i]     = document.getElementById(`${prefix}-log-vote-${i}`);
         rowTitle[i]     = document.getElementById(`${prefix}-log-post-${i}`);
         rowDate[i]      = document.getElementById(`${prefix}-log-date-${i}`);
+
+        if(isAdminWidget === true) {
+            userNameSpan[i] = document.getElementById(`${prefix}-log-user-${i}`);
+        }
     }
 
     jQuery(`.${prefix}-log-page-num`).on('click', function () {
         const pagenum = parseInt(this.value);
         yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
-        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix, ajaxAction);
+        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan, prefix, ajaxAction);
     });
 
     jQuery(document).ajaxComplete(function (event, xhr, settings) {
@@ -45,7 +59,7 @@ function yasrLogUsersWidget(prefix='yasr-user') {
             jQuery(`.${prefix}-log-page-num`).on('click', function () {
                 const pagenum = parseInt(this.value);
                 yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
-                yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix, ajaxAction);
+                yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan, prefix, ajaxAction);
             });
 
         }
@@ -111,10 +125,12 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages, prefix) {
  * @param rowTitle
  * @param rowDate
  * @param totalPages
+ * @param userNameSpan
  * @param prefix
  * @param ajaxAction
  */
-function yasrPostDataLogUsers (pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, prefix, ajaxAction) {
+function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan, prefix, ajaxAction) {
+
     const loader = document.getElementById(`${prefix}-log-loader-metabox`);
 
     //show the loader
@@ -132,6 +148,11 @@ function yasrPostDataLogUsers (pagenum, rowContainer, spanVote, rowTitle, rowDat
             if (response.data[i]) {
                 rowContainer[i].style.display = 'block';
                 spanVote[i].innerText = parseInt(response.data[i].vote);
+
+                console.log(response.data[i].user_nicename)
+                if(Array.isArray(userNameSpan)) {
+                    userNameSpan[i].innerText = response.data[i].user_nicename;
+                }
 
                 title = `<a href="${response.data[i].permalink}">${response.data[i].post_title}</a>`
                 //update the title
