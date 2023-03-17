@@ -135,19 +135,25 @@ class YasrLastRatingsWidget {
             return;
         }
 
-        $rows   = ''; //avoid undefined
-        $avatar = ''; //avoid undefined
-        $user   = ''; //avoid undefined
+        $rows       = ''; //avoid undefined
+        $avatar     = ''; //avoid undefined
 
         //avoid undefined for admin widget
-        $ip_span = ''; //default value
+        $ip_span    = ''; //default value
+
+        $post_title = '';
+        $link       = '';
 
         //create an empty array of user IDS
         $user_ids = array();
 
+        //create an empty array of user IDS
+        $post_ids = array();
+
         foreach ($query_results as $result) {
             //cast to int
             $result->user_id = (int)$result->user_id;
+            $result->post_id = (int)$result->post_id;
 
             //get user info only if not already done,
             //so check if $result->user_id already exists in array user_ids
@@ -155,19 +161,24 @@ class YasrLastRatingsWidget {
                 //inset $result->user_id; into $user_ids
                 $user_ids[] = $result->user_id;
 
-                $user = get_user_by('id', $result->user_id); //Get info user from user id
-
-                //If user === false means that the vote are anonymous
-                if ($user === false) {
-                    $user             = new stdClass;
-                    $user->user_login = __('anonymous', 'yet-another-stars-rating');
-                }
-
                 $avatar     = get_avatar($result->user_id, '32'); //Get avatar from user id
             }
 
-            $post_title = $result->post_title;
-            $link       = get_permalink($result->post_id); //Get post link from post id
+            //get post info only if not already done,
+            //so check if $result->post_id already exists in array post_ids
+            if(!in_array($result->post_id, $post_ids)) {
+                //inset $result->post_id; into $post_ids
+                $post_ids[] = $result->post_id;
+
+                $post_title = $result->post_title;
+                $link       = get_permalink($result->post_id); //Get post link from post id
+            }
+
+            if ($this->user_widget !== true) {
+                $user = $result->user_nicename;
+            } else {
+                $user = false;
+            }
 
             //Set value depending if we're on user or admin widget
             if ($this->user_widget !== true) {
@@ -208,7 +219,7 @@ class YasrLastRatingsWidget {
             $yasr_log_vote_text = ' ' . sprintf(
                     __('Vote %s from %s on', 'yet-another-stars-rating'),
                     '<span id="yasr-admin-log-vote-'.$i.'" style="color: blue;">' . $vote . '</span>',
-                    '<span id="yasr-admin-log-user-'.$i.'" style="color: blue">' . $user->user_login . '</span>'
+                    '<span id="yasr-admin-log-user-'.$i.'" style="color: blue">' . $user . '</span>'
                 );
         } else {
             $yasr_log_vote_text = ' ' . sprintf(
