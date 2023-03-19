@@ -48,7 +48,8 @@ class YasrDB {
      * @var null | array
      * null in class declaration
      * later updated as array
-     * Here I will save data from yasr_visitor_votes
+     * Here I will save data from yasr_visitor_votes, with post_id as index
+     * e.g. $visitor_votes_data['XXX'] = array of data
      * @see visitorVotes
      */
     private static $visitor_votes_data          = null;
@@ -176,7 +177,7 @@ class YasrDB {
         //if self::$vv_fetched_post_id === ($post_id) means that this function has already run
         //for the current post, and data was saved in self::$visitor_votes_data;
         if(self::visitorVotesDataExists($post_id)) {
-            return self::$visitor_votes_data;
+            return self::$visitor_votes_data[$post_id];
         }
 
         global $wpdb;
@@ -210,8 +211,7 @@ class YasrDB {
             }
         }
 
-        self::$visitor_votes_data = $array_to_return;
-        self::$post_id            = $post_id;
+        self::$visitor_votes_data[$post_id] = $array_to_return;
 
         return $array_to_return;
     }
@@ -1198,7 +1198,7 @@ class YasrDB {
      * @return bool
      */
     public static function visitorVotesDataExists($post_id) {
-        if(is_array(self::$visitor_votes_data) && (self::$post_id === $post_id)) {
+        if(is_array(self::$visitor_votes_data) && array_key_exists($post_id, self::$visitor_votes_data)) {
             return true;
         }
         return false;
