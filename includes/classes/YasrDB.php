@@ -32,17 +32,7 @@ class YasrDB {
     /**
      * @var null | int
      */
-    private static $post_id                     = null;
-
-    /**
-     * @var null | int
-     */
     private static $set_id                      = null;
-
-    /**
-     * @var null | int
-     */
-    private static $user_id                     = null;
 
     /**
      * @var null | array
@@ -55,10 +45,11 @@ class YasrDB {
     private static $visitor_votes_data          = null;
 
     /**
-     * @var null | int
+     * @var null | array
      * null in class declaration
-     * later updated as int
-     * Here I will save the rating if a logged-in user has rated
+     * later updated as array
+     * Here I will save the rating if a logged-in user has rated, with post_id as index
+     * e.g. $current_user_rating_data['XXX'] = (int)rating
      * @see vvCurrentUserRating
      */
     private static $current_user_rating_data    = null;
@@ -109,7 +100,7 @@ class YasrDB {
     }
 
     /**
-     * Returns *ALL* Overall Ratings*
+     * Returns ALL Overall Ratings
      *
      * @author Dario Curvino <@dudo>
      * @since  2.5.2
@@ -174,8 +165,7 @@ class YasrDB {
             $post_id = get_the_ID();
         }
 
-        //if self::$vv_fetched_post_id === ($post_id) means that this function has already run
-        //for the current post, and data was saved in self::$visitor_votes_data;
+        //check if there is already data for this post id, and if so, return it
         if(self::visitorVotesDataExists($post_id)) {
             return self::$visitor_votes_data[$post_id];
         }
@@ -263,16 +253,22 @@ class YasrDB {
      * @return bool|int
      */
     public static function vvCurrentUserRating($post_id = false) {
+        //return 0 for anonymous user
+        $user_id = get_current_user_id();
+        if($user_id === 0) {
+            return false;
+        }
+
         //get current post id if not exists
         if (!is_int($post_id)) {
             $post_id = get_the_ID();
         }
 
         $post_id = (int)$post_id;
-        $user_id = get_current_user_id();
 
-        if(self::currentUserRatingDataExists($post_id, $user_id)) {
-           return self::$current_user_rating_data;
+        //check if there is already data for this user, and if so, return it
+        if(self::currentUserRatingDataExists($post_id)) {
+           return self::$current_user_rating_data[$post_id];
         }
 
         global $wpdb;
@@ -294,9 +290,8 @@ class YasrDB {
 
         $rating = (int)$rating;
 
-        self::$current_user_rating_data = $rating;
-        self::$post_id = $post_id;
-        self::$user_id = $user_id;
+        self::$current_user_rating_data[$post_id] = $rating;
+
         return $rating;
     }
 
@@ -1219,8 +1214,8 @@ class YasrDB {
      *
      * @return bool
      */
-    public static function currentUserRatingDataExists($post_id, $user_id) {
-        if(is_int(self::$current_user_rating_data) && (self::$post_id === $post_id) && (self::$user_id === $user_id)) {
+    public static function currentUserRatingDataExists($post_id) {
+        if(is_array(self::$current_user_rating_data) && array_key_exists($post_id, self::$current_user_rating_data)) {
             return true;
         }
         return false;
