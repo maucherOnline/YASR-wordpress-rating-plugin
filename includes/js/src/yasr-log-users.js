@@ -129,6 +129,7 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages, prefix) {
  * @param rowDate
  * @param totalPages
  * @param userNameSpan
+ * @param avatar
  * @param prefix
  * @param ajaxAction
  */
