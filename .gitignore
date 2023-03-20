@@ -19,3 +19,5 @@ package-lock.json
 /vendor/gamajo/template-loader/composer.json
 /vendor/gamajo/template-loader/LICENSE
 /vendor/gamajo/template-loader/README.md
+/vendor/doctrine/
+/vendor/phpstan/
