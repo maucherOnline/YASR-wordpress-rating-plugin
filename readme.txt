@@ -21,7 +21,7 @@ website posts, pages and CPT, without affecting its speed.
 == Reviewer Vote ==
 With the classic editor, when you create or update a page or a post, a box (metabox) will be available in the upper right corner where you'll
 be able to insert the overall rating.
-With the new Guteneberg editor, just click on the "+" icon to add a block and search for Yasr Overall Rating.
+With the new Gutenberg editor, just click on the "+" icon to add a block and search for Yasr Overall Rating.
 You can either place the overall rating automatically at the beginning or the end of a post (look in "Settings"
 -> "Yet Another Stars Rating: Settings"), or wherever you want in the page using the shortcode [yasr_overall_rating] (easily added through the visual editor).
 
