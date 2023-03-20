@@ -140,27 +140,59 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
     //show the loader
     loader.style.display = 'inline';
 
-    let data = {
+    const data = {
         action: ajaxAction,
         pagenum: pagenum,
         totalpages: totalPages
     };
 
-    jQuery.post(yasrWindowVar.ajaxurl, data, function (response) {
+    fetch(yasrWindowVar.ajaxurl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(data).toString(),
+    })
+    .then(response => {
+        if (response.ok === true) {
+            return response.json();
+        } else {
+            console.info('Ajax Call Failed.', 'yet-another-stars-rating');
+            return 'KO';
+        }
+    })
+    .catch((error) => {
+        console.info(error);
+    })
+    .then(response => {
+        if (response !== 'KO') {
+            updateTableUserRateHistory(response)
+        }
+    })
+    .then(response => {
+        //hide the loader
+        loader.style.display = 'none';
+    })
+
+    /**
+     * Update the table
+     *
+     * @param response
+     */
+    const updateTableUserRateHistory = (response) => {
         let title;
-        for (let i=0; i < 8; i++) {
+        for (let i = 0; i < 8; i++) {
             if (response.data[i]) {
                 rowContainer[i].style.display = 'block';
                 spanVote[i].innerText = parseInt(response.data[i].vote);
 
-                if(Array.isArray(userNameSpan)) {
+                if (Array.isArray(userNameSpan)) {
                     userNameSpan[i].innerText = response.data[i].user_nicename;
                 }
-                if(Array.isArray(avatar)) {
+                if (Array.isArray(avatar)) {
                     avatar[i].src = response.data[i].avatar_url;
                 }
 
                 title = `<a href="${response.data[i].permalink}">${response.data[i].post_title}</a>`
+
                 //update the title
                 rowTitle[i].innerHTML = title;
                 //update the date
@@ -169,7 +201,5 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
                 rowContainer[i].style.display = 'none';
             }
         }
-        //hide the loader
-        loader.style.display = 'none';
-    });
+    }
 }
