@@ -564,7 +564,7 @@ class YasrProCRIncludes {
      * @return mixed
      */
     public function filterRankingsRequest ($sql_params, $request) {
-        $new_sql_params = false;
+        $new_sql_params = array();
 
         if(isset($request['order_by'])) {
             $new_sql_params['order_by']       = $request['order_by'];
@@ -592,7 +592,7 @@ class YasrProCRIncludes {
             $new_sql_params['required_votes'] = $request['required_votes'];
         }
 
-        if($new_sql_params !== false) {
+        if(!empty($new_sql_params)) {
             return $new_sql_params;
         }
 
