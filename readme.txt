@@ -3,7 +3,7 @@ Donate link: https://www.paypal.com/donate/?hosted_button_id=SVTAVUF62QZ4W
 Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo
-Tested up to: 6.1.1
+Tested up to: 6.2
 Stable tag: 3.3.4
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -206,10 +206,14 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.3.4 =
+* TWEAKED: updated Freemius SDK to version 2.5.5
+* TWEAKED: minor changes
+
 = 3.3.3 =
 * TWEAKED: in Yet Another Stars Rating -> Manage Ratings, all the data is now fetched ~x3 time faster
 * TWEAKED: added support for WP-CLI
-* TWEAKED: updated freemius SDK to version 2.5.4
+* TWEAKED: updated Freemius SDK to version 2.5.4
 [//]: # fs_premium_only_begin
 PREMIUM ONLY:
 * NEW FEATURE: it is possible to export data in CSV format. Go to Yet Another Stars Rating -> Manage Ratings -> Export Data
