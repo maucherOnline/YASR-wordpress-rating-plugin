@@ -43,12 +43,8 @@ function yasrLogWidget(prefix='yasr-user') {
         }
     }
 
-    jQuery(`.${prefix}-log-page-num`).on('click', function () {
-        const pagenum = parseInt(this.value);
-        yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
-        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan,
-            avatar, prefix, ajaxAction, nonce);
-    });
+    yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
+        userNameSpan, avatar, prefix, ajaxAction, nonce);
 
     jQuery(document).ajaxComplete(function (event, xhr, settings) {
         let isYasrAjaxCall = true;
@@ -61,14 +57,35 @@ function yasrLogWidget(prefix='yasr-user') {
         isYasrAjaxCall = settings.data.search(`action=${ajaxAction}`);
 
         if (isYasrAjaxCall !== -1) {
-            jQuery(`.${prefix}-log-page-num`).on('click', function () {
-                const pagenum = parseInt(this.value);
-                yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
-                yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages,
-                    userNameSpan, avatar, prefix, ajaxAction, nonce);
-            });
+            yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
+                userNameSpan, avatar, prefix, ajaxAction, nonce);
 
         }
+    });
+}
+
+/**
+ *
+ * Action to do on click
+ *
+ * @param rowContainer
+ * @param spanVote
+ * @param rowTitle
+ * @param rowDate
+ * @param totalPages
+ * @param userNameSpan
+ * @param avatar
+ * @param prefix
+ * @param ajaxAction
+ * @param nonce
+ */
+function yasrLogWidgetOnClick (rowContainer, spanVote, rowTitle, rowDate, totalPages,
+                               userNameSpan, avatar, prefix, ajaxAction, nonce) {
+    jQuery(`.${prefix}-log-page-num`).on('click', function () {
+        const pagenum = parseInt(this.value);
+        yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
+        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages,
+            userNameSpan, avatar, prefix, ajaxAction, nonce);
     });
 }
 
