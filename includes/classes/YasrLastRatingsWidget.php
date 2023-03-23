@@ -123,7 +123,20 @@ class YasrLastRatingsWidget {
             return __('No Recent votes yet', 'yet-another-stars-rating');
         }
 
+        if($this -> user_widget === false) {
+            $nonce_id = 'yasr-admin-log-nonce-page';
+        } else {
+            $nonce_id = 'yasr-user-log-nonce-page';
+        }
+
+        $nonce = wp_create_nonce('yasr_user_log');
+
         $html_to_return  = "<div class='yasr-log-container' id='$container_id'>";
+
+        $html_to_return  .= '<input type="hidden"
+                           name="yasr_user_log_nonce"
+                           value="'.$nonce.'"
+                           id="'.$nonce_id.'">';
 
         $html_to_return .= $this->loopResults($query_results);
 
@@ -326,16 +339,25 @@ class YasrLastRatingsWidget {
     * @return void
     */
     public function returnAjaxResponse($admin_widget = false) {
-        global $wpdb;
-
-        $this->limit   = 8;
-
-        if (isset($_POST['pagenum'])) {
+        if (isset($_POST['pagenum']) && isset($_POST['yasr_user_log_nonce'])) {
             $page_num = (int) $_POST['pagenum'];
+            $nonce    = $_POST['yasr_user_log_nonce'];
         }
         else {
             $page_num = 1;
+            $nonce    = '';
         }
+
+        $error = "Wrong nonce, can't change page";
+        $nonce_response = YasrShortcodesAjax::validNonce($nonce, 'yasr_user_log', $error);
+
+        if($nonce_response !== true) {
+            die($nonce_response);
+        }
+
+        global $wpdb;
+
+        $this->limit   = 8;
 
         $offset = ($page_num - 1) * $this->limit;
 
