@@ -375,7 +375,8 @@ class YasrLastRatingsWidget {
         $log_query = $wpdb->get_results($query, ARRAY_A);
 
         if ($log_query === null) {
-            $array_to_return['status'] = 'error';
+            $array_to_return['status']  = 'error';
+            $array_to_return['message'] = 'Error with the query';
         }
         else {
             $array_to_return['status'] = 'success';

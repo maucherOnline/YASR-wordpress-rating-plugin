@@ -45,23 +45,6 @@ function yasrLogWidget(prefix='yasr-user') {
 
     yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
         userNameSpan, avatar, prefix, ajaxAction, nonce);
-
-    jQuery(document).ajaxComplete(function (event, xhr, settings) {
-        let isYasrAjaxCall = true;
-
-        if (typeof settings.data === 'undefined') {
-            return;
-        }
-
-        //check if the ajax call is done by yasr with action yasr_change_log_page
-        isYasrAjaxCall = settings.data.search(`action=${ajaxAction}`);
-
-        if (isYasrAjaxCall !== -1) {
-            yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
-                userNameSpan, avatar, prefix, ajaxAction, nonce);
-
-        }
-    });
 }
 
 /**
@@ -182,12 +165,14 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
             return 'KO';
         }
     })
-    .catch((error) => {
-        console.info(error);
-    })
     .then(response => {
         if (response !== 'KO') {
+            if(response.status !== 'success') {
+                throw new Error(response.message);
+            }
             updateTableUserRateHistory(response)
+            yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
+                userNameSpan, avatar, prefix, ajaxAction, nonce);
         }
     })
     .then(response => {
