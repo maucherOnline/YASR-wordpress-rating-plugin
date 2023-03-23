@@ -166,29 +166,27 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
         if (response.ok === true) {
             return response.json();
         } else {
-            console.error('Ajax Call Failed.', 'yet-another-stars-rating');
-            return 'KO';
+            throw new Error('Ajax Call Failed.');
         }
     })
     .then(response => {
-        // noinspection JSIncompatibleTypesComparison
-        if (response !== 'KO') {
-            // noinspection JSIncompatibleTypesComparison
-            if(response.status !== 'success') {
-                throw new Error(response.message);
-            }
-            updateTableUserRateHistory(response)
-            yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
-                userNameSpan, avatar, prefix, ajaxAction, nonce);
+        if(response.status !== 'success') {
+            throw new Error(response.message);
         }
+        updateTableUserRateHistory(response)
+        yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
+            userNameSpan, avatar, prefix, ajaxAction, nonce);
+
     })
-    .catch((error) => {
-        console.info(error);
+    .catch(networkError => {
+        console.error('Fetch network error', networkError);
     })
-    .then(response => {
-        //hide the loader
+    .catch(queryError => {
+        console.error('Error with the Query', queryError);
+    })
+    .finally(() => {
         loader.style.display = 'none';
-    })
+    });
 
     /**
      * Update the table
