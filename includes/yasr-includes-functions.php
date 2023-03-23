@@ -262,6 +262,8 @@ function yasr_is_catch_infinite_sroll_installed () {
 /**
  * Wrapper function for wp_kses that adds allowed HTML
  *
+ * it adds more fields to wp_kses_allowed_html('post')
+ *
  * @author Dario Curvino <@dudo>
  * @since  3.0.6
  * @param $string
@@ -269,15 +271,17 @@ function yasr_is_catch_infinite_sroll_installed () {
  * @return string
  */
 function yasr_kses($string) {
-    $allowed_html = array(
-        'div'   => array(
+    $allowed_html = array (
+        'input' => array(
+            'type'         => array(),
+            'name'         => array(),
+            'id'           => array(),
             'class'        => array(),
-        ),
-        'span' => array(
-            'class'        => array(),
-        ),
-        'label' => array (
-            'for'          => array(),
+            'value'        => array(),
+            'placeholder'  => array(),
+            'autocomplete' => array(),
+            'checked'      => array(),
+            'data-shortcode' => array()
         ),
         'select' => array(
             'name'         => array(),
@@ -288,36 +292,11 @@ function yasr_kses($string) {
             'value'    => array(),
             'selected' => array()
         ),
-        'textarea' => array(
-            'name'         => array(),
-            'id'           => array(),
-            'placeholder'  => array(),
-            'autocomplete' => array(),
-        ),
-        'input' => array(
-            'type'         => array(),
-            'name'         => array(),
-            'id'           => array(),
-            'class'        => array(),
-            'value'        => array(),
-            'placeholder'  => array(),
-            'autocomplete' => array(),
-            'checked'      => array(),
-            'data-shortcode' => array(),
-        ),
-        'img' => array (
-            'src'   => array(),
-            'title' => array(),
-            'height' => array(),
-            'width' => array(),
-            'alt'   => array(),
-            'class' => array(),
-        ),
-        'br'     => array(),
-        'strong' =>array()
     );
 
-    return wp_kses($string, $allowed_html);
+    $html = array_merge($allowed_html, wp_kses_allowed_html('post'));
+
+    return wp_kses($string, $html);
 }
 
 /**

@@ -17,6 +17,7 @@ function yasrLogWidget(prefix='yasr-user') {
     const totalPages = document.getElementById(`${prefix}-log-total-pages`).dataset.yasrLogTotalPages;
 
     const ajaxAction = `${prefix}_change_log_page`;
+    const nonce      = document.getElementById(`${prefix}-log-nonce-page`).value;
 
     let rowContainer = []; //array containing all the DOM containers of the rows
     let spanVote     = [];
@@ -45,7 +46,8 @@ function yasrLogWidget(prefix='yasr-user') {
     jQuery(`.${prefix}-log-page-num`).on('click', function () {
         const pagenum = parseInt(this.value);
         yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
-        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan, avatar, prefix, ajaxAction);
+        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan,
+            avatar, prefix, ajaxAction, nonce);
     });
 
     jQuery(document).ajaxComplete(function (event, xhr, settings) {
@@ -62,7 +64,8 @@ function yasrLogWidget(prefix='yasr-user') {
             jQuery(`.${prefix}-log-page-num`).on('click', function () {
                 const pagenum = parseInt(this.value);
                 yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
-                yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan, avatar, prefix, ajaxAction);
+                yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages,
+                    userNameSpan, avatar, prefix, ajaxAction, nonce);
             });
 
         }
@@ -132,8 +135,10 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages, prefix) {
  * @param avatar
  * @param prefix
  * @param ajaxAction
+ * @param nonce
  */
-function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan, avatar, prefix, ajaxAction) {
+function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan, avatar,
+                              prefix, ajaxAction, nonce) {
 
     const loader = document.getElementById(`${prefix}-log-loader-metabox`);
 
@@ -143,7 +148,8 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
     const data = {
         action: ajaxAction,
         pagenum: pagenum,
-        totalpages: totalPages
+        totalpages: totalPages,
+        yasr_user_log_nonce: nonce
     };
 
     fetch(yasrWindowVar.ajaxurl, {
