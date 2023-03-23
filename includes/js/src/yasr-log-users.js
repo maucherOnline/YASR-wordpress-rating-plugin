@@ -62,18 +62,22 @@ function yasrLogWidget(prefix='yasr-user') {
  * @param ajaxAction
  * @param nonce
  */
-function yasrLogWidgetOnClick (rowContainer, spanVote, rowTitle, rowDate, totalPages,
-                               userNameSpan, avatar, prefix, ajaxAction, nonce) {
-    jQuery(`.${prefix}-log-page-num`).on('click', function () {
-        const pagenum = parseInt(this.value);
-        yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
-        yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages,
-            userNameSpan, avatar, prefix, ajaxAction, nonce);
+function yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan,
+                              avatar, prefix, ajaxAction, nonce) {
+    const pageNumbers = document.querySelectorAll(`.${prefix}-log-page-num`);
+    pageNumbers.forEach(function(pageNumber) {
+        pageNumber.addEventListener('click', function() {
+            const pagenum = parseInt(this.value);
+            yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
+            yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages,
+                userNameSpan, avatar, prefix, ajaxAction, nonce);
+        });
     });
 }
 
+
 /**
- *  Update the pagination
+ * Update the pagination
  * @param pagenum
  * @param totalPages
  * @param prefix
