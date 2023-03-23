@@ -152,6 +152,7 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
         yasr_user_log_nonce: nonce
     };
 
+    // noinspection JSUnusedLocalSymbols
     fetch(yasrWindowVar.ajaxurl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -161,12 +162,14 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
         if (response.ok === true) {
             return response.json();
         } else {
-            console.info('Ajax Call Failed.', 'yet-another-stars-rating');
+            console.error('Ajax Call Failed.', 'yet-another-stars-rating');
             return 'KO';
         }
     })
     .then(response => {
+        // noinspection JSIncompatibleTypesComparison
         if (response !== 'KO') {
+            // noinspection JSIncompatibleTypesComparison
             if(response.status !== 'success') {
                 throw new Error(response.message);
             }
@@ -174,6 +177,9 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
             yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
                 userNameSpan, avatar, prefix, ajaxAction, nonce);
         }
+    })
+    .catch((error) => {
+        console.info(error);
     })
     .then(response => {
         //hide the loader
