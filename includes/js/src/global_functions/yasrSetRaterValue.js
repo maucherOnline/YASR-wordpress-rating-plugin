@@ -1,4 +1,15 @@
 //this is the function that print the overall rating shortcode, get overall rating and starsize
+
+/**
+ *
+ * @param {number} starSize
+ * @param {string} htmlId
+ * @param {boolean | HTMLElement} element
+ * @param {number} step
+ * @param {boolean} readonly
+ * @param {boolean | number} rating
+ * @param {boolean | callback} rateCallback
+ */
 window.yasrSetRaterValue = function (starSize,
                                    htmlId,
                                    element=false,
