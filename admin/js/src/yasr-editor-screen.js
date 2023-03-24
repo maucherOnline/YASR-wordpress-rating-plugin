@@ -45,15 +45,14 @@ function yasrPrintMetaBoxOverall() {
         }
     }
 
-    raterJs({
-        starSize: 32,
-        step: 0.1,
-        showToolTip: false,
-        rating: overallRating,
-        readOnly: false,
-        element: document.getElementById("yasr-rater-overall"),
-        rateCallback: function rateCallback(rating, done) {
-
+    yasrSetRaterValue (
+        32,
+        'yasr-rater-overall',
+        false,
+        0.1,
+        false,
+        overallRating,
+        function (rating, done) {
             rating = rating.toFixed(1);
             rating = parseFloat(rating);
 
@@ -68,7 +67,7 @@ function yasrPrintMetaBoxOverall() {
 
             done();
         }
-    });
+    );
 
 }
 

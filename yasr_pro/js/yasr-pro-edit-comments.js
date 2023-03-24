@@ -1,1 +1,1 @@
-!function(){let e=document.getElementsByClassName("yasr-rater-star-comment");for(let t=0;t<e.length;t++){let l=e.item(t).id;raterJs({starSize:16,step:.1,showToolTip:!1,readOnly:!0,element:document.getElementById(l)})}}();
+!function(){let e=document.getElementsByClassName("yasr-rater-star-comment");for(let t=0;t<e.length;t++){let a=e.item(t).id;yasrSetRaterValue(16,a,!1,.1,!0)}}();

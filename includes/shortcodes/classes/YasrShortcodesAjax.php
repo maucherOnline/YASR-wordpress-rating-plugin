@@ -29,7 +29,6 @@ if (!defined('ABSPATH')) {
  * Class YasrShortcodesAjax
  */
 class YasrShortcodesAjax {
-
     public function init() {
         if (YASR_ENABLE_AJAX === 'yes') {
             //load vv with ajax
@@ -47,6 +46,10 @@ class YasrShortcodesAjax {
         //MV save rating
         add_action('wp_ajax_yasr_visitor_multiset_field_vote',        array($this, 'saveMV'));
         add_action('wp_ajax_nopriv_yasr_visitor_multiset_field_vote', array($this, 'saveMV'));
+
+        $yasr_log_widget = new YasrLastRatingsWidget();
+        //yasr_user_rate_history action to change page
+        add_action('wp_ajax_yasr-user_change_log_page',      array($yasr_log_widget, 'returnAjaxResponse'));
 
         //VV load stats
         if(YASR_VISITORS_STATS === 'yes') {
@@ -215,8 +218,6 @@ class YasrShortcodesAjax {
 
         //default values
         $array_to_return = array(
-            'number_of_votes'  => 0,
-            'sum_votes'        => 0,
             'stars_attributes' => array(
                 'read_only'   => true,
                 'span_bottom' => false

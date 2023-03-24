@@ -50,9 +50,11 @@ class YasrAdmin {
      * @return void
      */
     private function loadAjaxActions() {
-        add_action('wp_ajax_yasr_change_log_page',      array($this, 'loadDashboardWidgetAdmin'));
 
-        add_action('wp_ajax_yasr_change_user_log_page', array($this, 'loadDashboardWidgetUser'));
+        add_action('wp_ajax_yasr-admin_change_log_page', static function () {
+            $yasr_log_widget_admin = new YasrLastRatingsWidget();
+            $yasr_log_widget_admin->returnAjaxResponse(true);
+        });
     }
 
     /**
@@ -361,28 +363,23 @@ class YasrAdmin {
     }
 
     /**
-     * This method is hooked both in loadAjaxActions and lastRatingsAdmin
-     *
      * @author Dario Curvino <@dudo>
      * @since  3.1.7
      * @return void
      */
     public function loadDashboardWidgetAdmin() {
         $log_widget = new YasrLastRatingsWidget();
-        $log_widget->adminWidget();
+        echo yasr_kses($log_widget->adminWidget());
     } //End callback function
 
-
     /**
-     * This method is hooked both in loadAjaxActions and lastRatingsUser
-     *
      * @author Dario Curvino <@dudo>
      * @since  3.1.7
      * @return void
      */
     function loadDashboardWidgetUser() {
         $log_widget = new YasrLastRatingsWidget();
-        $log_widget->userWidget();
+        echo yasr_kses($log_widget->userWidget());
     } //End callback function
 
     /**

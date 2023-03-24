@@ -31,41 +31,25 @@ if (!defined('ABSPATH')) {
  *
  */
 class YasrLastRatingsWidget {
+
     private $limit = 8;
-    private $offset = 0;
-    private $page_num;
-    private $num_of_pages;
-    private $n_rows;
-    private $log_query;
-    private $button_class;
-    private $span_loader_id;
-    private $user_widget = false;
-    private $container_id;
-    private $span_total_pages;
-
-    public function __construct() {
-        //If $_POST isset it's in ajax response
-        if (isset($_POST['pagenum'])) {
-            $this->page_num     = (int)$_POST['pagenum'];
-            $this->num_of_pages = (int)$_POST['totalpages'];
-            $this->offset       = (int)($this->page_num - 1) * $this->limit;
-        } else {
-            $this->page_num = 1;
-        }
-
-    }
 
     /**
-     * This function will set the values for print the admin widget logs
+     * This array will contain the permalinks, to avoid to get again and again the same data for the same post id
+     */
+    public $permalinks   = array();
+
+    /**
+     * This array will contain the avatar urls, to avoid to get again and again the same data for the same user id
+     */
+    public $avatar_urls  = array();
+
+    private $user_widget = false;
+
+    /**
+     * Return the log for the admin area, only user that can manage options can see this
      *
-     * $this->user_widget
-     * $this->n_rows
-     * $this->log_query
-     * $this->container_id
-     * $this->span_total_pages
-     * $this->button_class
-     * $this->span_loader_id
-     *
+     * @return string | void
      */
     public function adminWidget() {
         if (!current_user_can('manage_options')) {
@@ -74,44 +58,32 @@ class YasrLastRatingsWidget {
         global $wpdb;
 
         //query for admin widget
-        $this->n_rows = $wpdb->get_var(
-            "SELECT COUNT(*) FROM "
-            . YASR_LOG_TABLE
-        );
+        $number_of_rows =
+            $wpdb->get_var("SELECT COUNT(*) 
+                                  FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l  
+                                  WHERE  p.ID = l.post_id"
+            );
 
-        $this->log_query = "SELECT * FROM "
-                           . YASR_LOG_TABLE .
-                           " ORDER BY date DESC LIMIT %d, %d ";
+        $query_results = $wpdb->get_results($this->returnQueryAdmin());
 
-        $this->container_id     = 'yasr-log-container';
-        $this->span_total_pages = 'yasr-log-total-pages';
-        $this->button_class     = 'yasr-log-pagenum';
-        $this->span_loader_id   = 'yasr-loader-log-metabox';
-
-        echo $this->returnWidget();
-
-        $this->die_if_is_ajax();
+        return($this->returnWidget($number_of_rows, $query_results, 'yasr-admin-log-container'));
     }
 
     /**
-     * This function will set the values for print the user widget logs
-     *
-     * $this->user_widget
-     * $this->n_rows
-     * $this->log_query
-     * $this->container_id
-     * $this->span_total_pages
-     * $this->button_class
-     * $this->span_loader_id
-     *
-     * @param  $shortcode
-     * @return string|void
+     * @return string
      */
-    public function userWidget($shortcode=false) {
+    public function userWidget() {
         $user_id = get_current_user_id();
 
         if($user_id === 0) {
-            return '<p>'.__('You must login to see this widget.', 'yet-another-stars-rating').'</p>';
+            $must_login_text = __('You must login to see this widget.', 'yet-another-stars-rating');
+
+            /**
+             *  Hook here to customize the message "You must login to see this widget." when
+             *  the shortcode yasr_user_rate_history is used
+             */
+            $must_login_text = apply_filters('yasr_user_rate_history_must_login_text', $must_login_text);
+            return '<p>'.$must_login_text.'</p>';
         }
 
         //set true to user widget
@@ -119,222 +91,432 @@ class YasrLastRatingsWidget {
 
         global $wpdb;
 
-        $this->n_rows = $wpdb->get_var(
+        $number_of_rows = $wpdb->get_var(
             $wpdb->prepare(
-                "SELECT COUNT(*) FROM "
-                . YASR_LOG_TABLE . " WHERE user_id = %d ",
-                $user_id));
+                "SELECT COUNT(*) 
+                          FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l  
+                          WHERE l.user_id = %d
+                              AND p.ID = l.post_id",
+                $user_id)
+        );
 
-        $this->log_query = "SELECT * FROM "
-                           . YASR_LOG_TABLE .
-                           " WHERE user_id = $user_id 
-                             ORDER BY date 
-                             DESC LIMIT %d, %d ";
+        $query_results = $wpdb->get_results(
+            $this->returnQueryUser($user_id)
+        );
 
-        $this->container_id     = 'yasr-user-log-container';
-        $this->span_total_pages = 'yasr-user-log-total-pages';
-        $this->button_class     = 'yasr-user-log-page-num';
-        $this->span_loader_id   = 'yasr-loader-user-log-metabox';
-
-        if($shortcode === true) {
-            return $this->returnWidget();
-        }
-
-        echo $this->returnWidget();
-
-        $this->die_if_is_ajax();
-    }
-
-    /**
-     * Callback function to make user widget works as shortcode
-     * If it is not under ajax call, shortcode must be returned.
-     * Otherwise, printed
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  2.8.5
-     * @return string|void
-     */
-    public function userWidgetShortcode () {
-        YasrScriptsLoader::loadLogUsersFrontend();
-
-        if(wp_doing_ajax() === false) {
-            return $this->userWidget(true);
-        }
-        echo $this->userWidget(true);
-        $this->die_if_is_ajax();
+        return $this->returnWidget($number_of_rows, $query_results, 'yasr-user-log-container');
     }
 
     /**
      * Return the widget
-     * @return string|void
+     *
+     * @return string
      */
-    private function returnWidget() {
-        global $wpdb;
-
-        if($this->n_rows > 0) {
-            $this->num_of_pages = ceil($this->n_rows / $this->limit);
+    private function returnWidget($number_of_rows, $query_results, $container_id) {
+        if($number_of_rows > 0) {
+            $n_of_pages = ceil($number_of_rows / $this->limit);
         } else {
-            $this->num_of_pages = 1;
+            $n_of_pages = 1;
         }
 
-        //do the query
-        $log_result = $wpdb->get_results(
-            $wpdb->prepare(
-                $this->log_query,
-                $this->offset, $this->limit)
-        );
-
-        if (!$log_result) {
+        if (!$query_results) {
             return __('No Recent votes yet', 'yet-another-stars-rating');
         }
 
-        $html_to_return = "<div class='yasr-log-container' id='$this->container_id'>";
+        if($this -> user_widget === false) {
+            $nonce_id = 'yasr-admin-log-nonce-page';
+        } else {
+            $nonce_id = 'yasr-user-log-nonce-page';
+        }
 
-        foreach ($log_result as $column) {
-            $user = get_user_by('id', $column->user_id); //Get info user from user id
+        $nonce = wp_create_nonce('yasr_user_log');
 
-            //If user === false means that the vote are anonymous
-            if ($user === false) {
-                $user             = new stdClass;
-                $user->user_login = __('anonymous', 'yet-another-stars-rating');
-            }
+        $html_to_return  = "<div class='yasr-log-container' id='$container_id'>";
 
-            $avatar     = get_avatar($column->user_id, '32'); //Get avatar from user id
+        $html_to_return  .= '<input type="hidden"
+                           name="yasr_user_log_nonce"
+                           value="'.$nonce.'"
+                           id="'.$nonce_id.'">';
 
-            $post_title = get_post_field( 'post_title', $column->post_id, 'raw' ); //Get post title from post id
-            $link       = get_permalink($column->post_id); //Get post link from post id
+        $html_to_return .= $this->loopResults($query_results);
 
-            if ($this->user_widget !== true) {
-                $yasr_log_vote_text = ' ' . sprintf(
-                        __('Vote %d from %s on', 'yet-another-stars-rating'),
-                        $column->vote,
-                        '<strong style="color: blue">' . $user->user_login . '</strong>'
-                    );
-            } else {
-                $yasr_log_vote_text = ' ' . sprintf(
-                        __('You rated %s on', 'yet-another-stars-rating'),
-                        '<strong style="color: blue">' . $column->vote . '</strong>'
-                    );
-            }
+        $html_to_return .= $this->pagination($n_of_pages);
 
-            //Default values (for admin widget)
-            $ip_span = ''; //default value
-
-            //Set value depending if we're on user or admin widget
-            if ($this->user_widget !== true) {
-                if (YASR_ENABLE_IP === 'yes') {
-                    $ip_span = '<span class="yasr-log-ip">' . __("Ip address", 'yet-another-stars-rating') . ': 
-                               <span style="color:blue">' . $column->ip . '</span>
-                           </span>';
-                }
-            } else {
-                $ip_span = '';
-            }
-
-            $rows_content = '<div class="yasr-log-div-child">
-                                  <div class="yasr-log-image">'
-                            .$avatar.
-                            '</div>
-                                  <div class="yasr-log-child-head">
-                                      <span id="yasr-log-vote">'.$yasr_log_vote_text.'</span>
-                                      <span id="yasr-log-post"><a href="'. $link .'">'.esc_html($post_title).'</a></span>
-                                  </div>
-                                  <div class="yasr-log-ip-date">'
-                            .$ip_span.
-                            '<span class="yasr-log-date">'.$column->date.'</span>
-                                  </div>
-                            </div>';
-
-            $html_to_return .= $rows_content;
-
-        } //End foreach
-
-        $html_to_return .= "<div id='yasr-log-page-navigation'>";
-
-        //use data attribute instead of value of #yasr-log-total-pages, because, on ajaxresponse,
-        //the "last" button could not exist
-        $html_to_return .= "<span id='$this->span_total_pages' data-yasr-log-total-pages='$this->num_of_pages'>";
-        $html_to_return .= __("Pages", 'yet-another-stars-rating') . ": ($this->num_of_pages) &nbsp;&nbsp;&nbsp;";
-        $html_to_return .= '</span>';
-
-        $html_to_return  = $this->pagination($html_to_return);
-
-        $html_to_return .= '</div>'; //End yasr-log-page-navigation
         $html_to_return .= '</div>'; //End Yasr Log Container
-
-        return $html_to_return; // End else if !$log result
-
-    }
-
-    /**
-     * This function will print the row with pagination
-     */
-    private function pagination($html_to_return) {
-        if ($this->num_of_pages <= 3) {
-            for ($i = 1; $i <= $this->num_of_pages; $i++) {
-                if ($i === $this->page_num) {
-                    $html_to_return .= "<button class='button-primary' value='$i'>$i</button>&nbsp;&nbsp;";
-                } else {
-                    $html_to_return .= "<button class=$this->button_class value='$i'>$i</button>&nbsp;&nbsp;";
-                }
-            }
-            $html_to_return .= "<span id='yasr-loader-log-metabox' style='display:none;'>&nbsp;
-                                        <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
-                                    </span>";
-        }
-        else {
-            $start_for = $this->page_num - 1;
-
-            if ($start_for <= 0) {
-                $start_for = 1;
-            }
-
-            $end_for = $this->page_num + 1;
-
-            if ($end_for >= $this->num_of_pages) {
-                $end_for = $this->num_of_pages;
-            }
-
-            if ($this->page_num >= 3) {
-                $html_to_return .= "<button class=$this->button_class value='1'>
-                                            &laquo; First </button>&nbsp;&nbsp;...&nbsp;&nbsp;";
-            }
-
-            for ($i = $start_for; $i <= $end_for; $i++) {
-                if ($i === $this->page_num) {
-                    $html_to_return .= "<button class='button-primary' value='$i'>$i</button>&nbsp;&nbsp;";
-                } else {
-                    $html_to_return .= "<button class=$this->button_class value='$i'>$i</button>&nbsp;&nbsp;";
-                }
-            }
-
-            $num_of_page_less_one = $this->num_of_pages - 1;
-
-            if ($this->page_num != $this->num_of_pages && $this->page_num != $num_of_page_less_one) {
-                $html_to_return .= "...&nbsp;&nbsp;
-                                        <button class=$this->button_class 
-                                            value='$this->num_of_pages'>
-                                            Last &raquo;</button>
-                                            &nbsp;&nbsp;";
-            }
-
-            $html_to_return .= "<span id='$this->span_loader_id' style='display:none;' >&nbsp;
-                                        <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
-                                    </span>";
-
-        }
 
         return $html_to_return;
     }
 
     /**
+     * Loop the query results and return the html with content
+     *
      * @author Dario Curvino <@dudo>
-     * @since 2.8.5
-     * If is_ajax === true, call die()
+     *
+     * @since 3.3.4
+     *
+     * @param $query_results
+     *
+     * @return string|void
      */
-    private function die_if_is_ajax() {
-        if (wp_doing_ajax()) {
-            die();
+    public function loopResults ($query_results) {
+        $i = 0;
+
+        if(!is_array($query_results)) {
+            return;
         }
+
+        //avoid undefined
+        $rows       = '';
+        $ip_span    = '';
+
+        foreach ($query_results as $result) {
+            //cast to int
+            $result->user_id = (int)$result->user_id;
+            $result->post_id = (int)$result->post_id;
+
+            $permalink = $this->returnPermalink($result->post_id);
+            $avatar    = $this->returnAvatarUrl($result->user_id);
+
+            $vote  = (int)$result->vote;
+            $title = $result->post_title;
+            $date  = $result->date;
+
+            if ($this->user_widget !== true) {
+                $user = $result->user_nicename;
+            } else {
+                $user = false;
+            }
+
+            //Set value depending if we're on user or admin widget
+            if ($this->user_widget !== true) {
+                if (YASR_ENABLE_IP === 'yes') {
+                    $ip_span = '<span class="yasr-log-ip">' . __('Ip address', 'yet-another-stars-rating') . ': 
+                                    <span style="color:blue">' . $result->ip . '</span>
+                                </span>';
+                }
+            }
+
+            $rows .= $this->rowContent($avatar, $i, $user, $permalink, $ip_span, $vote, $title, $date);
+
+            $i = $i +1;
+        } //End foreach
+
+        return $rows;
     }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     * @since  3.3.4
+     *
+     * @param $avatar_url
+     * @param $i
+     * @param $user
+     * @param $permalink
+     * @param $ip_span
+     * @param $vote
+     * @param $title
+     * @param $date
+     *
+     * @return string
+     */
+    private function rowContent ($avatar_url, $i, $user, $permalink, $ip_span, $vote, $title, $date) {
+
+        if ($this->user_widget !== true) {
+            $yasr_log_vote_text = ' ' . sprintf(
+                    __('Vote %s from %s on', 'yet-another-stars-rating'),
+                    '<span id="yasr-admin-log-vote-'.$i.'" style="color: blue;">' . $vote . '</span>',
+                    '<span id="yasr-admin-log-user-'.$i.'" style="color: blue">' . $user . '</span>'
+                );
+            $container_id = "yasr-admin-log-div-child-$i";
+            $text_id      = "yasr-admin-log-text-$i";
+            $title_id     = "yasr-admin-log-post-$i";
+            $date_id      = "yasr-admin-log-date-$i";
+        }
+        else {
+            $yasr_log_vote_text = ' ' . sprintf(
+                    __('You rated %s on', 'yet-another-stars-rating'),
+                    '<span id="yasr-user-log-vote-'.$i.'" style="color: blue;">' . $vote . '</span>'
+            );
+
+            $container_id = "yasr-user-log-div-child-$i";
+            $text_id      = "yasr-user-log-text-$i";
+            $title_id     = "yasr-user-log-post-$i";
+            $date_id      = "yasr-user-log-date-$i";
+        }
+
+        return "<div class='yasr-log-div-child' id='$container_id'>
+                    <div class='yasr-log-image'>
+                        <img alt='avatar' src='$avatar_url' class='avatar avatar-32 photo' 
+                             loading='lazy' width='32' height='32' id='yasr-admin-log-avatar-".$i."'>
+                    </div>
+                    <div class='yasr-log-child-head'>
+                        <span class='yasr-log-vote' id='$text_id'>
+                            $yasr_log_vote_text
+                        </span>
+                        <span class='yasr-log-post' id='$title_id'>
+                            <a href='$permalink'>$title</a>
+                        </span>
+                    </div>
+                    <div class='yasr-log-ip-date'>
+                        $ip_span
+                        <span class='yasr-log-date' id='$date_id'>
+                            $date
+                        </span>
+                    </div>
+              </div>";
+    }
+
+    /**
+     * This function will print the row with pagination
+     */
+    private function pagination($n_of_pages) {
+        if($this->user_widget === true) {
+            $container_id     = 'yasr-user-log-page-navigation-buttons';
+            $span_loader_id   = 'yasr-user-log-loader-metabox';
+            $span_total_pages = 'yasr-user-log-total-pages';
+            $button_class     = 'yasr-user-log-page-num';
+
+        } else {
+            $container_id     = 'yasr-admin-log-page-navigation-buttons';
+            $span_loader_id   = 'yasr-admin-log-loader-metabox';
+            $span_total_pages = 'yasr-admin-log-total-pages';
+            $button_class     = 'yasr-admin-log-page-num';
+        }
+
+        $html_pagination = "<div class='yasr-log-page-navigation'>";
+
+        $html_pagination .= "<div id='$span_total_pages' 
+                                 data-yasr-log-total-pages='$n_of_pages' 
+                                 style='display: inline'>";
+        $html_pagination .= __('Pages', 'yet-another-stars-rating') . ": ($n_of_pages) &nbsp;&nbsp;&nbsp;";
+        $html_pagination .= '</div>';
+
+
+        $html_pagination .= '<div id="'.$container_id.'" style="display: inline">';
+
+        //current page (always the first) plus one
+        $end_for = 2;
+
+        if ($end_for >= $n_of_pages) {
+            $end_for = $n_of_pages;
+        }
+
+        for ($i = 1; $i <= $end_for; $i++) {
+            if ($i === 1) {
+                $html_pagination .= "<button class='button-primary' 
+                                             value='$i'>$i</button>&nbsp;&nbsp;";
+            } else {
+                $html_pagination .= "<button class='$button_class' 
+                                             value='$i'>$i</button>&nbsp;&nbsp;";
+            }
+        }
+
+        if ($n_of_pages > 3) {
+            $html_pagination .= "...&nbsp;&nbsp;
+                                <button class='$button_class'
+                                    value='$n_of_pages'>
+                                    Last &raquo;</button>
+                                    &nbsp;&nbsp;";
+        }
+
+        $html_pagination .= '</div>';
+
+        //loader
+        $html_pagination .= "<span class='yasr-last-ratings-loader' id='$span_loader_id'>&nbsp;
+                                <img alt='loader' src='" . YASR_IMG_DIR . "/loader.gif' >
+                            </span>";
+
+        $html_pagination .= '</div>'; //End yasr-log-page-navigation
+
+        return $html_pagination;
+    }
+
+    /**
+    * Return the ajax response for the user widget
+    *
+    * @author Dario Curvino <@dudo>
+    * @since  3.3.4
+    * @return void
+    */
+    public function returnAjaxResponse($admin_widget = false) {
+        if (isset($_POST['pagenum']) && isset($_POST['yasr_user_log_nonce'])) {
+            $page_num = (int) $_POST['pagenum'];
+            $nonce    = $_POST['yasr_user_log_nonce'];
+        }
+        else {
+            $page_num = 1;
+            $nonce    = '';
+        }
+
+        $error = "Wrong nonce, can't change page";
+        $nonce_response = YasrShortcodesAjax::validNonce($nonce, 'yasr_user_log', $error);
+
+        if($nonce_response !== true) {
+            die($nonce_response);
+        }
+
+        global $wpdb;
+
+        $this->limit   = 8;
+
+        $offset = ($page_num - 1) * $this->limit;
+
+        if($admin_widget === true) {
+            if (!current_user_can('manage_options')) {
+                return;
+            }
+            $query = $this->returnQueryAdmin($offset);
+
+        } else {
+            $user_id = get_current_user_id();
+            $query   = $this->returnQueryUser($user_id, $offset);
+        }
+
+        $log_query = $wpdb->get_results($query, ARRAY_A);
+
+        if ($log_query === null) {
+            $array_to_return['status']  = 'error';
+            $array_to_return['message'] = 'Error with the query';
+        }
+        else {
+            $array_to_return['status'] = 'success';
+
+            $i = 0;
+            //get the permalink and add it to log_query
+            foreach ($log_query as $result) {
+                if($admin_widget === true) {
+                    $log_query[$i]['avatar_url'] = $this->returnAvatarUrl($result['user_id']);
+                }
+
+                $log_query[$i]['permalink'] = $this->returnPermalink($result['post_id']);
+                $i++;
+            }
+
+            $array_to_return['data'] = $log_query;
+        }
+
+        wp_send_json($array_to_return);
+    }
+
+    /**
+     * Return the sanitized query string for user query
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.4
+     *
+     * @param $user_id
+     * @param $offset
+     *
+     * @return string|null
+     */
+    public function returnQueryUser($user_id, $offset=0) {
+        global $wpdb;
+
+        //Since there is no need to select the l.user_id on ajax, do this only if $offset = 0 (first page)
+        $select_user_id = '';
+        if($offset === 0) {
+            $select_user_id = ', l.user_id';
+        }
+
+        return $wpdb->prepare(
+            "SELECT p.post_title, l.vote, l.date, l.post_id $select_user_id
+                       FROM $wpdb->posts AS p, " . YASR_LOG_TABLE . " AS l 
+                    WHERE l.user_id = %d 
+                        AND p.ID = l.post_id
+                    ORDER BY date 
+                    DESC LIMIT %d,  %d",
+            $user_id, $offset, $this->limit
+        );
+    }
+
+    /**
+     * Return the recent ratings.
+     * If an user is not found in u.ID, return "anonymous"
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.4
+     *
+     * @param $offset
+     *
+     * @return string|null
+     */
+    public function returnQueryAdmin($offset=0) {
+        global $wpdb;
+
+        $anonymous_string = esc_html__('anonymous', 'yet-another-stars-rating');
+
+        return $wpdb->prepare(
+            "SELECT p.post_title, l.vote, l.date, l.post_id, l.user_id, 
+                           IF(l.user_id = 0, %s, IFNULL(u.user_nicename, %s)) AS user_nicename
+                   FROM birr_posts AS p, birr_yasr_log AS l 
+                   LEFT JOIN birr_users AS u ON l.user_id = u.ID 
+                   WHERE  p.ID = l.post_id
+                   ORDER BY date DESC
+                   LIMIT %d,  %d",
+            $anonymous_string, $anonymous_string, $offset, $this->limit
+        );
+    }
+
+    /**
+     * Return the avatar url
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.4
+     *
+     * @param $user_id
+     *
+     * @return false|mixed|string
+     */
+    public function returnAvatarUrl ($user_id) {
+        //get user info only if not already done,
+        //so check if $result->user_id already exists in array user_ids
+        if(!array_key_exists($user_id, $this->avatar_urls)) {
+
+            //Get avatar from user id
+            $avatar = get_avatar_url($user_id, '32');
+
+            //inset $result->user_id; into $user_ids
+            $this->avatar_urls[$user_id] = $avatar;
+
+            return $avatar;
+        }
+
+        return $this->avatar_urls[$user_id];
+    }
+
+    /**
+     * Return the permalink of the post
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.4
+     *
+     * @param $post_id
+     *
+     * @return false|mixed|string
+     */
+    public function returnPermalink ($post_id) {
+        //cast to int
+        $post_id = (int)$post_id;
+
+        //get post permalink only if not already done,
+        //so check if $post_id already exists in array permalinks
+        if(!array_key_exists($post_id, $this->permalinks)) {
+
+            //Get post link from post id
+            $link  = get_permalink($post_id);
+
+            //first, save the link into $this->permalink
+            $this->permalinks[$post_id] = $link;
+
+            //return
+            return $link;
+        }
+        //here, means that we've already got the permalink for this post_id, so return it
+        return $this->permalinks[$post_id];
+    }
+
 }

@@ -307,7 +307,7 @@ class YasrScriptsLoader {
     public static function loadLogUsersFrontend() {
         wp_enqueue_script(
             'yasr-log-users-frontend',
-            YASR_JS_DIR_INCLUDES . 'shortcodes/yasr-log-users-frontend.js',
+            YASR_JS_DIR_INCLUDES . 'yasr-log-users.js',
             array('jquery'),
             YASR_VERSION_NUM,
             true
