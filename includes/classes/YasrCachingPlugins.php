@@ -275,8 +275,17 @@ class YasrCachingPlugins {
         }
 
         //cache enabler support
-        if (class_exists('Cache_Enabler') && method_exists('Cache_Enabler', 'clear_page_cache_by_post_id')) {
-            Cache_Enabler::clear_page_cache_by_post_id($post_id);
+        if (defined('CACHE_ENABLER_VERSION')) {
+            if (class_exists('Cache_Enabler')) {
+                //since Cache Enabler version 1.8.0
+                if(method_exists('Cache_Enabler', 'clear_page_cache_by_post')){
+                    Cache_Enabler::clear_page_cache_by_post($post_id);
+                }
+                //deprecated since Cache Enabler version 1.8.0
+                else if(method_exists('Cache_Enabler', 'clear_page_cache_by_post_id')){
+                    Cache_Enabler::clear_page_cache_by_post_id($post_id);
+                }
+            }
         }
 
     }
