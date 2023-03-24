@@ -170,13 +170,21 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
         }
     })
     .then(response => {
-        if(response.status !== 'success') {
-            throw new Error(response.message);
-        }
-        updateTableUserRateHistory(response)
-        yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
-            userNameSpan, avatar, prefix, ajaxAction, nonce);
+        //check if response is an object
+        if (typeof response === 'object' && !Array.isArray(response) && response !== null) {
+            //check if has property "status"
+            if(Object.hasOwn(response, 'status')) {
+                if(response.status !== 'success') {
+                    throw new Error(response.message);
+                }
+                updateTableUserRateHistory(response)
+                yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
+                    userNameSpan, avatar, prefix, ajaxAction, nonce);
 
+            }
+        } else {
+            throw new Error(`The response is not an object, response is: ${response}`);
+        }
     })
     .catch(networkError => {
         console.error('Fetch network error', networkError);
