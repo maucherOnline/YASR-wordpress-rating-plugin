@@ -206,6 +206,10 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.3.5 =
+* TWEAKED: [yasr_user_rate_history] ajax response now returns json instead of HTML
+* TWEAKED: recent ratings widget in Admin Dashboard now returns json instead of HTML
+
 = 3.3.4 =
 * TWEAKED: updated Freemius SDK to version 2.5.5
 * TWEAKED: minor changes
