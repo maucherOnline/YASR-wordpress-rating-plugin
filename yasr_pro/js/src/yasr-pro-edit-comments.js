@@ -1,7 +1,7 @@
 yasrPrintStarsEditComment();
 
 /**
- * Print the stars for the comment edit list
+ * Print the stars for the comment edit list (wp-admin/edit-comments.php)
  *
  * @return void;
  */
@@ -15,12 +15,12 @@ function yasrPrintStarsEditComment() {
     for (let i = 0; i < yasrCommentRatinginDom.length; i++) {
         let htmlId = yasrCommentRatinginDom.item(i).id;
 
-        raterJs({
-            starSize: 16,
-            step: 0.1,
-            showToolTip: false,
-            readOnly: true,
-            element: document.getElementById(htmlId),
-        });
+        yasrSetRaterValue(
+            16,
+            htmlId,
+            false,
+            0.1,
+            true
+        )
     }
 }
