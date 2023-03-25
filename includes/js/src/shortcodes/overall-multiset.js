@@ -48,10 +48,10 @@ function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
     const visitorMultiSubmitButtons = document.getElementsByClassName('yasr-send-visitor-multiset');
 
     //will have field id and vote
-    var ratingObject = "";
+    let ratingObject = "";
 
     //an array with all the ratings objects
-    var ratingArray = [];
+    let ratingArray = [];
 
     const hiddenFieldMultiReview = document.getElementById('yasr-pro-multiset-review-rating');
 
@@ -123,34 +123,70 @@ function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
             submitButton.style.display = 'none';
             loader.style.display       = 'block';
 
-            const isUserLoggedIn = JSON.parse(yasrWindowVar.isUserLoggedIn);
-
             const data = {
                 action: 'yasr_visitor_multiset_field_vote',
                 post_id: multiSetPostId,
-                rating: ratingArray,
+                rating: JSON.stringify(ratingArray),
                 set_id: multiSetId
             };
 
+            const isUserLoggedIn = JSON.parse(yasrWindowVar.isUserLoggedIn);
+
             if (isUserLoggedIn === true) {
-                Object.assign(data, {nonce: nonce});
+                Object.assign(data, {
+                    nonce: nonce
+                });
             }
 
-            //Send value to the Server
-            jQuery.post(yasrWindowVar.ajaxurl, data).done(
-                function (response) {
-                    let responseText;
-                    response = JSON.parse(response);
-                    responseText = response.text
+            const body = new URLSearchParams(data).toString();
 
-                    loader.innerText=responseText;
-                }).fail(
-                function (e, x, settings, exception) {
-                    console.error('YASR ajax call failed. Can\'t save data');
-                    console.log(e);
-                });
-
+            yasrPostVisitorsMultiset (body, loader);
         })
     }
     
 } //End function
+
+/**
+ * Do the post and save data
+ *
+ * @param body
+ * @param loader
+ */
+function yasrPostVisitorsMultiset (body, loader) {
+    fetch(yasrWindowVar.ajaxurl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body
+    })
+    .then(response => {
+        if (response.ok === true) {
+            return response.json();
+        } else {
+            throw new Error('Ajax Call Failed.');
+        }
+    })
+    .then(response => {
+        //check if response is an object
+        if (typeof response === 'object' && !Array.isArray(response) && response !== null) {
+            //check if has property "status"
+            if(Object.hasOwn(response, 'status')) {
+                if(response.status !== 'success') {
+                    throw new Error(response.text);
+                }
+                loader.innerText = response.text;
+            }
+        } else {
+            throw new Error(`The response is not an object, response is: ${response}`);
+        }
+    })
+    .catch(networkError => {
+        loader.innerText = 'Ajax Call Failed'
+        console.error('Fetch network error', networkError);
+    })
+    .catch(queryError => {
+        loader.innerText = queryError;
+        console.error('Error with the Query', queryError);
+    })
+}

@@ -266,7 +266,10 @@ class YasrShortcodesAjax {
             $set_id   = (int) $_POST['set_id'];
             $nonce    = $_POST['nonce'];
 
-            if (!is_array($rating)) {
+            $rating_without_backslash = str_replace('\\', '', $rating);
+            $rating_array_decoded     = json_decode($rating_without_backslash, true);
+
+            if (!is_array($rating_array_decoded)) {
                 die($this->returnErrorResponse(__('Error with rating', 'yet-another-stars-rating')));
             }
         } else {
@@ -288,8 +291,8 @@ class YasrShortcodesAjax {
         $array_error = array();
         $error_found = false;
 
-        //clean array, so if an user rate same field twice, take only the last rating
-        $cleaned_array = yasr_unique_multidim_array($rating, 'field');
+        //clean array, so if a user rate same field twice, take only the last rating
+        $cleaned_array = yasr_unique_multidim_array($rating_array_decoded, 'field');
 
         //this is a counter: if at the end of the foreach it still 0, means that an user rated in a set
         //and then submit another one
@@ -351,7 +354,7 @@ class YasrShortcodesAjax {
         }
 
         if($error_found === true) {
-            die($this->returnErrorResponse(__('Error in Ajax Call, rating can\'t be saved.', 'yet-another-stars-rating')));
+            die($this->returnErrorResponse(esc_html__("Error in Ajax Call, rating can't be saved.", 'yet-another-stars-rating')));
         }
 
         //echo response
