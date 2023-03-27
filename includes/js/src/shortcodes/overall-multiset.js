@@ -19,17 +19,16 @@ export function yasrSearchStarsDom (starsClass) {
     if (yasrRaterInDom.length > 0) {
         //stars class for most shortcodes
         if(starsClass === 'yasr-rater-stars') {
-            yasrSetRating(yasrRaterInDom);
+            yasrSetRatingOverall(yasrRaterInDom);
         }
 
         if (starsClass === 'yasr-multiset-visitors-rater') {
-            yasrRaterVisitorsMultiSet(yasrRaterInDom)
+            yasrSetRatingVisitorMulti(yasrRaterInDom)
         }
     }
 }
 
-function yasrSetRating (yasrRatingsInDom) {
-
+function yasrSetRatingOverall (yasrRatingsInDom) {
     //Check in the object
     for (let i = 0; i < yasrRatingsInDom.length; i++) {
         //yasr-star-rating is the class set by rater.js : so, if already exists,
@@ -41,12 +40,14 @@ function yasrSetRating (yasrRatingsInDom) {
             yasrSetRaterValue(starSize, htmlId, element);
         }
     }
-
 }
 
-function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
-    const visitorMultiSubmitButtons = document.getElementsByClassName('yasr-send-visitor-multiset');
-
+/**
+ * Call rater if multisetVisitor in dom is found
+ *
+ * @param yasrMultiSetVisitorInDom
+ */
+function yasrSetRatingVisitorMulti (yasrMultiSetVisitorInDom) {
     //will have field id and vote
     let ratingObject = "";
 
@@ -101,14 +102,22 @@ function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
                 }
 
                 done();
-
             }
-
             yasrSetRaterValue (starSize, htmlId, elem, 1, readonly, false, rateCallback);
-
         })(i);
-
     }
+
+    //add event listener when submit button is clicked
+    yasrVisitorMultiSubmitOnClick(ratingArray)
+} //End function
+
+/**
+ * Add an event listener for each submit button
+ *
+ * @param ratingArray
+ */
+function yasrVisitorMultiSubmitOnClick (ratingArray) {
+    const visitorMultiSubmitButtons = document.getElementsByClassName('yasr-send-visitor-multiset');
 
     //add an event listener for each submit button
     for (let i=0; i< visitorMultiSubmitButtons.length; i++) {
@@ -143,8 +152,7 @@ function yasrRaterVisitorsMultiSet (yasrMultiSetVisitorInDom) {
             yasrPostVisitorsMultiset (body, loader);
         })
     }
-    
-} //End function
+}
 
 /**
  * Do the post and save data
