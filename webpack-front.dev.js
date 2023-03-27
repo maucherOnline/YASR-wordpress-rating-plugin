@@ -12,10 +12,8 @@ var yasrFront    = Object.assign({}, config, {
     mode: 'development',
     entry: {
         'includes/js/yasr-globals': [
-            './includes/js/src/global_functions/yasrTrueFalseStringConvertion.js',
-            './includes/js/src/global_functions/yasrValidJson.js',
+            './includes/js/src/global_functions/yasrWindowFunctions.js',
             './includes/js/src/global_functions/rater-js-src.js',
-            './includes/js/src/global_functions/yasrSetRaterValue.js'
         ],
         'includes/js/shortcodes/overall-multiset': './includes/js/src/shortcodes/overall-multiset.js',
         'includes/js/shortcodes/visitorVotes': './includes/js/src/shortcodes/visitorVotes.js',
