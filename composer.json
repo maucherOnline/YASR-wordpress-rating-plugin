@@ -16,7 +16,8 @@
     "license": "GPL2",
     "scripts": {
         "generate-doc": [
-            "vendor/bin/wp-doc-gen.php . docs/yasr_hooks.md -e vendor,node_modules -p yasr_"
+            "vendor/bin/wp-doc-gen.php . docs/yasr_hooks.md -e vendor,node_modules -p yasr_",
+            "php docs/fix_yasr_hooks_path.php"
         ]
     },
     "authors": [
