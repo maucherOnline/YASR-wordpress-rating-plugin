@@ -212,7 +212,6 @@ class YasrEditorHooks {
         <div id="yasr-tinypopup-form" style="display: none;">
             <h2 class="nav-tab-wrapper yasr-underline">
                 <?php
-
                     /**
                      * Use this action to add tabs inside shortcode creator for tinymce
                      */
