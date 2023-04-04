@@ -146,7 +146,7 @@ class YasrAdmin {
             /**
              * Add custom script in one of the page used by YASR, at the beginning
              *
-             * @param $hook string
+             * @param string $hook
              */
             do_action('yasr_add_admin_scripts_begin', $hook);
 
@@ -163,7 +163,7 @@ class YasrAdmin {
             /**
              * Add custom script in one of the page used by YASR, at the end
              *
-             * @param $hook string
+             * @param string $hook
              */
             do_action('yasr_add_admin_scripts_end', $hook);
         }

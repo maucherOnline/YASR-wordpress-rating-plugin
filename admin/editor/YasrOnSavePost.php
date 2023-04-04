@@ -56,7 +56,7 @@ class YasrOnSavePost {
         /**
          * Hook here to add actions when YASR save data on save_post
          *
-         * @param $post_id int
+         * @param int $post_id
          */
         do_action('yasr_on_save_post', $this->post_id);
     }
@@ -100,8 +100,8 @@ class YasrOnSavePost {
         /**
          * Do action before overall rating is saved, works only in classic editor
          *
-         * @param $post_id int
-         * @param $rating  float
+         * @param int $post_id
+         * @param float $rating
          */
         do_action('yasr_action_on_overall_rating', $this->post_id, $rating);
 

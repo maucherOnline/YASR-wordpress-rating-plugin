@@ -228,8 +228,8 @@ class YasrEditorHooks {
                 /**
                  * Use this action to add content inside shortcode creator
                  *
-                 * @param $n_multi_set int
-                 * @param $multi_set   string the multiset name
+                 * @param int $n_multi_set
+                 * @param string $multi_set the multiset name
                  */
                 do_action('yasr_add_content_on_tinypopupform', $n_multi_set, $multi_set);
             ?>

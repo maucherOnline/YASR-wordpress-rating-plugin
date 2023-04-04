@@ -199,8 +199,8 @@ class YasrMetaboxBelowEditor {
                     /**
                      * Hook here to add new content at the beginning of the div
                      *
-                     * @param $post_id int
-                     * @param $set_id  int
+                     * @param int $post_id
+                     * @param int $set_id
                      */
                     do_action('yasr_add_content_multiset_tab_top', $post_id, $set_id);
                 ?>
@@ -282,8 +282,8 @@ class YasrMetaboxBelowEditor {
                             /**
                              * Hook here to add new content
                              *
-                             * @param $post_id int
-                             * @param $set_id  int
+                             * @param int $post_id
+                             * @param int $set_id
                              */
                             do_action('yasr_add_content_multiset_tab_pro', $post_id, $set_id);
                         ?>

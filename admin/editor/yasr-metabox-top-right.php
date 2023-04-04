@@ -116,7 +116,7 @@ wp_nonce_field('yasr_pro_nonce_fake_ratings_action', 'yasr_pro_nonce_fake_rating
     /**
      * Hook here to add content at the bottom of the metabox
      *
-     * @param $post_id int
+     * @param int $post_id
      */
     do_action( 'yasr_add_content_bottom_topright_metabox', $post_id ); ?>
 

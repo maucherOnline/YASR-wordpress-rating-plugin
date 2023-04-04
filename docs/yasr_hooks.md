@@ -7,7 +7,7 @@
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| $hook |  |  string |
+| $hook | string |  |
 ___
  ### `do_action('yasr_add_admin_scripts_end')` 
 
@@ -17,7 +17,7 @@ ___
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| $hook |  |  string |
+| $hook | string |  |
 ___
 
  ### `do_action('yasr_add_tabs_on_tinypopupform')` 
@@ -35,8 +35,8 @@ ___
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| $n_multi_set |  |  int |
-| $multi_set |  |  string the multiset name |
+| $n_multi_set | int |  |
+| $multi_set | string |  the multiset name |
 ___
 
  ### `do_action('yasr_metabox_below_editor_add_tab')` 
@@ -58,8 +58,8 @@ ___
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| $post_id |  |  int |
-| $set_id |  |  int |
+| $post_id | int |  |
+| $set_id | int |  |
 ___
  ### `do_action('yasr_add_content_multiset_tab_pro')` 
 
@@ -69,8 +69,8 @@ ___
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| $post_id |  |  int |
-| $set_id |  |  int |
+| $post_id | int |  |
+| $set_id | int |  |
 ___
 
  ### `do_action('yasr_on_save_post')` 
@@ -81,7 +81,7 @@ ___
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| $post_id |  |  int |
+| $post_id | int |  |
 ___
  ### `do_action('yasr_action_on_overall_rating')` 
 
@@ -91,8 +91,8 @@ ___
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| $post_id |  |  int |
-| $rating |  |  float |
+| $post_id | int |  |
+| $rating | float |  |
 ___
 
  ### `do_action('yasr_add_content_bottom_topright_metabox')` 
@@ -103,7 +103,7 @@ ___
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| $post_id |  |  int |
+| $post_id | int |  |
 ___
 
  ### `do_action('yasr_add_settings_tab')` 
