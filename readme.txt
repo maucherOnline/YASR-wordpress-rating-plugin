@@ -209,6 +209,7 @@ The full changelog can be found in the plugin's directory. Recent entries:
 = 3.3.5 =
 * TWEAKED: [yasr_user_rate_history] ajax response now returns json instead of HTML
 * TWEAKED: recent ratings widget in Admin Dashboard now returns json instead of HTML
+* TWEAKED: updated freemius sdk to version 2.5.6
 
 = 3.3.4 =
 * TWEAKED: updated Freemius SDK to version 2.5.5
