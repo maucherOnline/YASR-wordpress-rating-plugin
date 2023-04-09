@@ -450,8 +450,8 @@ class YasrLastRatingsWidget {
         return $wpdb->prepare(
             "SELECT p.post_title, l.vote, l.date, l.post_id, l.user_id, 
                            IF(l.user_id = 0, %s, IFNULL(u.user_nicename, %s)) AS user_nicename
-                   FROM birr_posts AS p, birr_yasr_log AS l 
-                   LEFT JOIN birr_users AS u ON l.user_id = u.ID 
+                   FROM " .$wpdb->posts." AS p, " . YASR_LOG_TABLE . " AS l 
+                   LEFT JOIN " .$wpdb->users. " AS u ON l.user_id = u.ID 
                    WHERE  p.ID = l.post_id
                    ORDER BY date DESC
                    LIMIT %d,  %d",

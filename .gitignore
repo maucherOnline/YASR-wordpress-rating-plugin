@@ -6,12 +6,6 @@ package-lock.json
 /vendor/composer
 /vendor/autoload.php
 /vendor/bin/
-/vendor/nikic/
-/vendor/phpdocumentor/
-/vendor/pronamic/
-/vendor/psr/
-/vendor/symfony/
-/vendor/webmozart/
 /vendor/gamajo/template-loader/.editoconfig
 /vendor/gamajo/template-loader/.gitignore
 /vendor/gamajo/template-loader/.phpcs.xml.dist
@@ -19,6 +13,4 @@ package-lock.json
 /vendor/gamajo/template-loader/composer.json
 /vendor/gamajo/template-loader/LICENSE
 /vendor/gamajo/template-loader/README.md
-/vendor/doctrine/
-/vendor/phpstan/
 /vendor/dudo1985/
