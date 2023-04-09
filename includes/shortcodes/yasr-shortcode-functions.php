@@ -47,10 +47,8 @@ function yasr_autoload_shortcodes($class) {
 spl_autoload_register('yasr_autoload_shortcodes');
 
 /**
- *
- * ## Yasr Overall Rating
- *
- * ### What is?
+ **
+ * ###What is?
  * `[yasr_overall_rating]` shortcode is read only and is used by the reviewer.
  * It comes in three sizes: "Small", "Medium", and "Large".
  * The text displayed before or after the rating can be customized in the settings.
@@ -61,10 +59,6 @@ spl_autoload_register('yasr_autoload_shortcodes');
  *        screen while you're writing a new post or page.
  *    - If you're using the new Gutenberg editor, click on the "+" icon to add a block, search for YASR, and select
  *        YASR: Overall Rating. A new panel will appear to the right, where you can add your rating.
- *
- * @param $atts
- * @param $content
- * @param $shortcode_tag
  *
  * @return string|void|null
  */
@@ -88,7 +82,21 @@ function shortcode_overall_rating_callback ($atts, $content=false, $shortcode_ta
 
 
 /**
- * Yasr Visitor Votes
+ *
+ * ### What is?
+ * With `[yasr_visitor_votes]` visitors can rate a post or page.
+ * With it, you can:
+ * - Choose to allow anonymous or logged in only users.
+ * - Logged-in users can update their vote anytime.
+ * - Size can be “Small”, “Medium” or “Large”.
+ * - Customize the text shown before or after.
+ * - Hover on the chart bar icon to see the stats.
+ * ### How to use it?
+ * To insert the rating in this widget, there are two ways:
+ * - You can paste the shortcode [yasr_visitor_votes] where you need to show the widget, or you can use the auto insert
+ * feature as explained in [this tutorial](https://yetanotherstarsrating.com/tutorials/).
+ * - If you're using the new Gutenberg editor, click on the "+" icon to add a block, search for YASR and select YASR: Visitor Votes.
+ *
  */
  add_shortcode('yasr_visitor_votes', 'shortcode_visitor_votes_callback');
 
@@ -110,7 +118,9 @@ function shortcode_visitor_votes_callback($atts, $content=false, $shortcode_tag=
 
 
 /**
- * Yasr multiset
+ * `[yasr_multiset]` allows you to insert a rating for each aspect of your review (up to nine rows).
+ *
+ * The setid is a number that identifies the multiset.
  *
  * This shortcode return author multi set
  */

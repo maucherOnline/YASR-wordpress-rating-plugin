@@ -11,12 +11,13 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
-        "dudo1985/wpdocgen": "^1.0"
+        "dudo1985/wpdocgen": "^2.0"
     },
     "license": "GPL2",
     "scripts": {
         "generate-doc": [
-            "vendor/bin/wp-doc-gen.php . docs/yasr_hooks.md -e vendor,node_modules -p yasr_",
+            "vendor/bin/wp-doc-gen.php . docs/yasr_hooks.md -e vendor node_modules -p yasr_",
+            "vendor/bin/wp-doc-gen.php . docs/yasr_shortcodes.md -e vendor node_modules -p yasr_ -s",
             "php docs/fix_yasr_hooks_path.php"
         ]
     },
