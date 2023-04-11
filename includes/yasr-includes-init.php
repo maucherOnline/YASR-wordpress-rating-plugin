@@ -86,6 +86,5 @@ $yasr_caching_plugin_support->cachingPluginSupport();
 $init_ajax = new YasrShortcodesAjax();
 $init_ajax->init();
 
-
 //Load rest API
 require YASR_ABSOLUTE_PATH_INCLUDES . '/rest/yasr-rest.php';
