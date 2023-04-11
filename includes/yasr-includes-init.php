@@ -86,37 +86,6 @@ $yasr_caching_plugin_support->cachingPluginSupport();
 $init_ajax = new YasrShortcodesAjax();
 $init_ajax->init();
 
-$schema_types = array (
-    'BlogPosting',
-    'Book',
-    'Course',
-    'CreativeWorkSeason',
-    'CreativeWorkSeries',
-    'Episode',
-    'Event',
-    'Game',
-    'LocalBusiness',
-    'MediaObject',
-    'Movie',
-    'MusicPlaylist',
-    'MusicRecording',
-    'Organization',
-    'Product',
-    'Recipe',
-    'SoftwareApplication'
-);
-
-/**
- * Use this hook to add (or eventually remove) supported itemTypes
- *
- * @param array $schema_types an array containing all the default supported itemTypes
- */
-$schema_types = apply_filters('yasr_filter_itemtypes', $schema_types);
-
-//To better support php version < 7, I can't use an array into define
-//so, I will use json_encode
-define('YASR_SUPPORTED_SCHEMA_TYPES', json_encode($schema_types));
-
 
 //here the array member must contain main itemtype name
 //e.g. yasr_softwareapplication contain 'SoftwareApplication'

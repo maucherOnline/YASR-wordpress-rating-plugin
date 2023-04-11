@@ -48,7 +48,7 @@ function yasr_select_itemtype($html_id=false, $name=false, $default_option=false
         $name = 'yasr-review-type';
     }
 
-    $itemtypes_array = yasr_return_schema_types();
+    $itemtypes_array = YasrRichSnippetsItemTypes::yasr_return_schema_types();
     sort($itemtypes_array);
 
     if($default_option === false) {
@@ -229,18 +229,6 @@ function yasr_check_valid_url($url) {
 }
 
 /**
- * By default, YASR_SUPPORTED_SCHEMA_TYPES is json_encoded to better support PHP <7
- * This function just return an array of the itemTypes
- *
- * @author Dario Curvino <@dudo>
- * @since  3.3.7
- * @return array
- */
-function yasr_return_schema_types () {
-    return json_decode(YASR_SUPPORTED_SCHEMA_TYPES);
-}
-
-/**
  * Check if the given string is a supported itemType
  *
  * @param string $item_type
@@ -249,7 +237,7 @@ function yasr_return_schema_types () {
  * @since 2.1.5
  */
 function yasr_is_supported_schema ($item_type) {
-    $supported_schema_array = yasr_return_schema_types();
+    $supported_schema_array = YasrRichSnippetsItemTypes::yasr_return_schema_types();
 
     if (in_array($item_type, $supported_schema_array)) {
         return true;
