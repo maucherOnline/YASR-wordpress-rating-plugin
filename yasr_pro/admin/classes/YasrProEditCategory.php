@@ -45,7 +45,7 @@ class YasrProEditCategory {
             return;
         }
 
-        $supported_itemTypes = YASR_SUPPORTED_SCHEMA_TYPES;
+        $supported_itemTypes = yasr_return_schema_types();
         $selected_itemType = $_POST['yasr-review-type'];
 
         //if the value of yasr-review-type is not in $supported_itemTypes, return

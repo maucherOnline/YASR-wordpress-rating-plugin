@@ -96,7 +96,7 @@ class YasrCustomFields extends WP_REST_Controller {
             'yasr_all_itemtypes',
             array(
                 'get_callback'    => static function() {
-                    return YASR_SUPPORTED_SCHEMA_TYPES;
+                    return yasr_return_schema_types();
                 },
                 'update_callback' => null,
                 'schema'          => $yasr_itemtype_schema,

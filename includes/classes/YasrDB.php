@@ -1134,7 +1134,7 @@ class YasrDB {
      * @return bool|string
      */
     public static function getItemType($term_id = false) {
-        $review_types = YASR_SUPPORTED_SCHEMA_TYPES;
+        $review_types = yasr_return_schema_types();
 
         //if term_id is not an int, use get_post_meta
         if (!is_int($term_id)) {
