@@ -2,8 +2,7 @@
 
 /**
  * @author Dario Curvino <@dudo>
- * @since
- * @return
+ * @since  3.3.7
  */
 class YasrRichSnippetsItemTypes {
 
@@ -112,6 +111,24 @@ class YasrRichSnippetsItemTypes {
          */
         return apply_filters('yasr_filter_itemtypes_fields', self::$additionalFields);
     }
+
+    /**
+     * Check if the given string is a supported itemType
+     *
+     * @param string $item_type
+     *
+     * @since 2.1.5
+     * @return bool
+     */
+    public static function isSupported($item_type) {
+    $supported_schema_array = self::returnItemTypes();
+
+    if (in_array($item_type, $supported_schema_array)) {
+        return true;
+    }
+
+    return false;
+}
 
 
 }

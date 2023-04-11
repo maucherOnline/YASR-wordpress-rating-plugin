@@ -229,24 +229,6 @@ function yasr_check_valid_url($url) {
 }
 
 /**
- * Check if the given string is a supported itemType
- *
- * @param string $item_type
- * @return bool
- *
- * @since 2.1.5
- */
-function yasr_is_supported_schema ($item_type) {
-    $supported_schema_array = YasrRichSnippetsItemTypes::returnItemTypes();
-
-    if (in_array($item_type, $supported_schema_array)) {
-        return true;
-    }
-
-    return false;
-}
-
-/**
  * @author Dario Curvino <@dudo>
  * @since 2.9.3
  * @return bool

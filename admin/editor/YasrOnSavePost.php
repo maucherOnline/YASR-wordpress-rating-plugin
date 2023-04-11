@@ -155,7 +155,7 @@ class YasrOnSavePost {
             $snippet_type = $_POST['yasr-review-type'];
 
             //check if $snippet_type is a supported itemType
-            if (yasr_is_supported_schema($snippet_type)===true) {
+            if (YasrRichSnippetsItemTypes::isSupported($snippet_type) ===true) {
                 //if the selected item type, is the same of the default one, delete the saved postmeta
                 if ($snippet_type === YASR_ITEMTYPE) {
                     delete_post_meta($this->post_id, 'yasr_review_type');
