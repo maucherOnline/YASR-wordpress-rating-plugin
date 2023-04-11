@@ -40,7 +40,7 @@ if(empty($saved_data)) {
     $saved_data = array();
 }
 
-$array_item_type_info = YASR_SUPPORTED_SCHEMA_TYPES_ADDITIONAL_FIELDS;
+$array_item_type_info = YasrRichSnippetsItemTypes::returnAdditionalFields();
 
 //foreach every supported element, create a nonce field
 //and set single element to false if not present in db to avoid undefined

@@ -176,7 +176,7 @@ class YasrOnSavePost {
      */
     private function saveItemTypesFields($snippet_type) {
         $snippet_type         = strtolower($snippet_type);
-        $array_item_type_info = YASR_SUPPORTED_SCHEMA_TYPES_ADDITIONAL_FIELDS;
+        $array_item_type_info = YasrRichSnippetsItemTypes::returnAdditionalFields();
         $array_to_save        = array();
 
         foreach ($array_item_type_info as $item_type_name) {

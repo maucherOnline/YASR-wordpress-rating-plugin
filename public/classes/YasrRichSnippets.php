@@ -593,7 +593,7 @@ class YasrRichSnippets {
             $post_meta = array();
         }
 
-        $array_item_type_info = YASR_SUPPORTED_SCHEMA_TYPES_ADDITIONAL_FIELDS;
+        $array_item_type_info = YasrRichSnippetsItemTypes::returnAdditionalFields();
 
         foreach ($array_item_type_info as $item_type) {
             //avoid undefined

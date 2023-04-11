@@ -48,7 +48,7 @@ function yasr_select_itemtype($html_id=false, $name=false, $default_option=false
         $name = 'yasr-review-type';
     }
 
-    $itemtypes_array = YasrRichSnippetsItemTypes::yasr_return_schema_types();
+    $itemtypes_array = YasrRichSnippetsItemTypes::returnItemTypes();
     sort($itemtypes_array);
 
     if($default_option === false) {
@@ -237,7 +237,7 @@ function yasr_check_valid_url($url) {
  * @since 2.1.5
  */
 function yasr_is_supported_schema ($item_type) {
-    $supported_schema_array = YasrRichSnippetsItemTypes::yasr_return_schema_types();
+    $supported_schema_array = YasrRichSnippetsItemTypes::returnItemTypes();
 
     if (in_array($item_type, $supported_schema_array)) {
         return true;

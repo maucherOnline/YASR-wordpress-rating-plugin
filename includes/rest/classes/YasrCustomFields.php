@@ -96,7 +96,7 @@ class YasrCustomFields extends WP_REST_Controller {
             'yasr_all_itemtypes',
             array(
                 'get_callback'    => static function() {
-                    return YasrRichSnippetsItemTypes::yasr_return_schema_types();
+                    return YasrRichSnippetsItemTypes::returnItemTypes();
                 },
                 'update_callback' => null,
                 'schema'          => $yasr_itemtype_schema,
@@ -123,7 +123,7 @@ class YasrCustomFields extends WP_REST_Controller {
             $post_types,
             'yasr_all_itemtypes_addition_info',
             array(
-                'get_callback'    => static function() {return YASR_SUPPORTED_SCHEMA_TYPES_ADDITIONAL_FIELDS; },
+                'get_callback'    => static function() {return YasrRichSnippetsItemTypes::returnAdditionalFields(); },
                 'update_callback' => null,
                 'schema'          => $yasr_additional_itemtype_schema,
                 'auth_callback' => static function() {
