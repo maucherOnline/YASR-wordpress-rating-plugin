@@ -107,7 +107,7 @@ class YasrRichSnippetsItemTypes {
          * E.g. if you want to add the filed 'price' to 'SoftwareApplication, you need to add
          * yasr_softwareapplication_price
          *
-         * @param array $itemTypes an array containing all the default supported additional fields
+         * @param array $additionalFields an array containing all the default supported additional fields
          */
         return apply_filters('yasr_filter_itemtypes_fields', self::$additionalFields);
     }
@@ -121,14 +121,13 @@ class YasrRichSnippetsItemTypes {
      * @return bool
      */
     public static function isSupported($item_type) {
-    $supported_schema_array = self::returnItemTypes();
+        $supported_schema_array = self::returnItemTypes();
 
-    if (in_array($item_type, $supported_schema_array)) {
-        return true;
+        if (in_array($item_type, $supported_schema_array)) {
+            return true;
+        }
+
+        return false;
     }
 
-    return false;
-}
-
-
-}
+} //End class

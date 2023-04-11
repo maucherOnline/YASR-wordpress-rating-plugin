@@ -227,6 +227,33 @@ ___
 
 ___
 
+ ### `apply_filters('yasr_filter_itemtypes')` 
+
+ Source: [../includes/classes/YasrRichSnippetsItemTypes.php, line 91](.././includes/classes/YasrRichSnippetsItemTypes.php:91)
+
+*Use this hook to add (or eventually remove) supported itemTypes*
+
+| Argument | Type | Description |
+| --- | --- | --- |
+| $itemTypes | array |  an array containing all the default supported itemTypes |
+___
+ ### `apply_filters('yasr_filter_itemtypes_fields')` 
+
+ Source: [../includes/classes/YasrRichSnippetsItemTypes.php, line 112](.././includes/classes/YasrRichSnippetsItemTypes.php:112)
+
+*Use this hook to add optional fields for an itemType*
+
+*Here the array member must contain main itemType name*
+
+*E.g. if you want to add the filed 'price' to 'SoftwareApplication, you need to add*
+
+*yasr_softwareapplication_price*
+
+| Argument | Type | Description |
+| --- | --- | --- |
+| $itemTypes | array |  an array containing all the default supported additional fields |
+___
+
  ### `apply_filters('yasr_custom_loader')` 
 
  Source: [../includes/classes/YasrScriptsLoader.php, line 59](.././includes/classes/YasrScriptsLoader.php:59)
