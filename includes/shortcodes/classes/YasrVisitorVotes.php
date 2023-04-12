@@ -105,7 +105,14 @@ class YasrVisitorVotes extends YasrShortcode {
 
         YasrScriptsLoader::loadOVMultiJs();
 
-        //Use this filter to customize yasr_visitor_votes readonly
+        /**
+         * Use this filter to customize yasr visitor votes readonly.
+         * @param string $shortcode_html html for the shortcode
+         * @param array  $stored_votes array with average rating data for the post id.
+         * @param int    $this->post_id the post id
+         *
+         * @see YasrDB::visitorVotes() for the $stored_votes array
+         */
         return apply_filters('yasr_vv_ro_shortcode', $shortcode_html, $stored_votes, $this->post_id);
     }
 
@@ -116,6 +123,10 @@ class YasrVisitorVotes extends YasrShortcode {
      * @return int|bool
      */
     public static function checkCookie ($post_id = false) {
+        /**
+         * Use this filter to customize the visitor votes cookie name
+         * @name string yasr_visitor_votes_cookie is the default name
+         */
         $yasr_cookiename = apply_filters('yasr_vv_cookie', 'yasr_visitor_vote_cookie');
 
         $cookie_value = false;
@@ -154,8 +165,8 @@ class YasrVisitorVotes extends YasrShortcode {
             return $cookie_value;
         }
 
-        //if cookie is not set (return false)
-        return $cookie_value;
+        //if cookie is not set return false
+        return false;
     }
 
     /**
@@ -190,6 +201,11 @@ class YasrVisitorVotes extends YasrShortcode {
 
             //if rating is not false, show the text after the stars
             if($rating) {
+                /**
+                 * Use this filter to customize the text "You have already voted for this article with rating %rating%"
+                 * Unless you're using a multi-language site, there is no need to use this hook; you can customize this in
+                 * "General Settings" -> "Custom text to display when an user has already rated"
+                 */
                 $custom_text  = wp_kses_post(apply_filters('yasr_cstm_text_already_voted', $rating));
             } else {
                 $custom_text  = '';
@@ -202,6 +218,11 @@ class YasrVisitorVotes extends YasrShortcode {
         //If only logged in users can vote
         elseif ($stars_enabled === 'false_not_logged') {
             $span_bottom_line_content  = "<span class='yasr-visitor-votes-must-sign-in'>";
+            /**
+             * Use this filter to customize the text "you must sign in"
+             * Unless you're using a multi-language site, there is no need to use this hook; you can customize this in
+             * "General Settings" -> "Custom text to display when login is required to vote"
+             */
             $span_bottom_line_content .= wp_kses_post(htmlspecialchars_decode(apply_filters('yasr_must_sign_in', '')));
             //if custom text is defined
             $span_bottom_line_content .= '</span>';
@@ -228,6 +249,15 @@ class YasrVisitorVotes extends YasrShortcode {
      * @return void|string
      */
     protected function textBeforeStars($number_of_votes, $average_rating) {
+        /**
+         * Use this filter to customize text before visitor rating.
+         * Unless you're using a multi-language site, there is no need to use this hook; you can customize this in
+         * "General Settings" -> "Custom text to display BEFORE Visitor Rating"
+         *
+         * @param int    $number_of_votes the total number of votes
+         * @param float  $average_rating the average rating
+         * @param string $this->unique_id the dom ID
+         */
         $custom_text_before_star = apply_filters('yasr_cstm_text_before_vv', $number_of_votes, $average_rating, $this->unique_id);
         $class_text_before       = 'yasr-custom-text-vv-before yasr-custom-text-vv-before-'.$this->post_id;
 
@@ -272,18 +302,30 @@ class YasrVisitorVotes extends YasrShortcode {
      * @param $number_of_votes
      * @param $average_rating
      *
-     * @return string
+     * @return void|string
      */
     protected function textAfterStars($number_of_votes, $average_rating) {
+        /**
+         * Use this filter to customize text after visitor rating.
+         * Unless you're using a multi-language site, there is no need to use this hook; you can customize this in
+         * "General Settings" -> "Custom text to display AFTER Visitor Rating"
+         *
+         * @param int    $number_of_votes the total number of votes
+         * @param float  $average_rating the average rating
+         * @param string $this->unique_id the dom ID
+         */
         $custom_text  = apply_filters('yasr_cstm_text_after_vv', $number_of_votes, $average_rating, $this->unique_id);
+
+        if(!$custom_text) {
+            return;
+        }
+
         return wp_kses_post(htmlspecialchars_decode($custom_text));
     }
 
 
     /**
      * This function will return the html code for the stat icon
-     *
-     * @param void
      *
      * @return string
      */
@@ -378,6 +420,16 @@ class YasrVisitorVotes extends YasrShortcode {
         //close yasr-vv-second-row-container-$this->unique_id'
         $shortcode_html .= '</div>';
 
+        /**
+         * Use this filter to customize the yasr_visitor_votes shortcode
+         *
+         * @param string $shortcode_html   html for the shortcode
+         * @param int    $this->post_id    the post id
+         * @param string $this->starSize() the star size
+         * @param string $this->readonly   is the stars are readonly or not
+         * @param string $this->ajax_nonce_visitor the WordPress nonce
+         * @param string $this->is_singular if the current page is_singular or not
+         */
         $shortcode_html  = apply_filters(
             'yasr_vv_shortcode',
             $shortcode_html,

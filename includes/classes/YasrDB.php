@@ -109,18 +109,18 @@ class YasrDB {
     public static function allOverallRatings($limit=25, $offset=0) {
         global $wpdb;
 
-        $query = "SELECT pm.post_id,      
-                         pm.meta_value   as vote, 
+        $query = "SELECT pm.post_id,
+                         pm.meta_value   as vote,
                          pm.meta_id      as id,
                          p.post_author   as user_id,
-                         p.post_date     as date 
+                         p.post_date     as date
                   FROM $wpdb->postmeta   as pm,
-                       $wpdb->posts      as p 
+                       $wpdb->posts      as p
                   WHERE pm.meta_key = 'yasr_overall_rating'
                       AND p.ID = pm.post_id
                       AND pm.meta_value > 0
                   ORDER BY p.post_date DESC
-                  LIMIT %d 
+                  LIMIT %d
                   OFFSET %d";
 
         return $wpdb->get_results(
@@ -140,8 +140,8 @@ class YasrDB {
     public static function ovNumberOfRows() {
         global $wpdb;
         return (int)$wpdb->get_var(
-            'SELECT COUNT(*) 
-                   FROM ' . $wpdb->postmeta .' 
+            'SELECT COUNT(*)
+                   FROM ' . $wpdb->postmeta .'
                    WHERE meta_key = "yasr_overall_rating"
                        AND meta_value > 0'
         );
@@ -174,8 +174,8 @@ class YasrDB {
 
         $result = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT SUM(vote) as sum_votes, 
-                            COUNT(vote)  as number_of_votes 
+                "SELECT SUM(vote) as sum_votes,
+                            COUNT(vote)  as number_of_votes
                         FROM " . YASR_LOG_TABLE .
                         "  WHERE post_id=%d
                            AND   vote > 0
@@ -276,8 +276,8 @@ class YasrDB {
             $wpdb->prepare(
                 "SELECT vote FROM "
                 . YASR_LOG_TABLE .
-                " WHERE post_id=%d 
-                    AND user_id=%d 
+                " WHERE post_id=%d
+                    AND user_id=%d
                     LIMIT 1 ",
                 $post_id, $user_id
             )
@@ -372,16 +372,16 @@ class YasrDB {
         //if query_results === $sql_params means that filters doesn't exists
         if ($query === $atts) {
             //default query_results
-            $query = "SELECT pm.meta_value AS rating, 
+            $query = "SELECT pm.meta_value AS rating,
                          pm.post_id AS post_id
-                  FROM $wpdb->postmeta AS pm, 
+                  FROM $wpdb->postmeta AS pm,
                        $wpdb->posts AS p
                   WHERE  pm.post_id = p.ID
                       AND p.post_status = 'publish'
                       AND pm.meta_key = 'yasr_overall_rating'
                       AND pm.meta_value > 0
                   ORDER BY pm.meta_value DESC,
-                           pm.post_id 
+                           pm.post_id
                   LIMIT 10";
 
             $query_results = $wpdb->get_results($query);
@@ -415,7 +415,7 @@ class YasrDB {
 
         //if no custom query is hooked
         if ($query === $atts) {
-            $common_query = "SELECT post_id, 
+            $common_query = "SELECT post_id,
                 COUNT(post_id) AS number_of_votes,
                 ROUND(SUM(vote) / COUNT(post_id),1) AS rating
             FROM " . YASR_LOG_TABLE . ",
@@ -465,9 +465,9 @@ class YasrDB {
 
         //if query === $sql_params (both are false) means that filters doesn't exist
         if ($query === $atts) {
-            $query = 'SELECT COUNT(user_id) as total_count, 
+            $query = 'SELECT COUNT(user_id) as total_count,
                         user_id as user
-                    FROM ' . YASR_LOG_TABLE . ", 
+                    FROM ' . YASR_LOG_TABLE . ",
                         $wpdb->posts AS p
                     WHERE  post_id = p.ID
                         AND p.post_status = 'publish'
@@ -524,7 +524,7 @@ class YasrDB {
             $array_post_id
                 = $wpdb->get_results(
                 "SELECT pm.post_id AS id
-                FROM $wpdb->postmeta AS pm, 
+                FROM $wpdb->postmeta AS pm,
                      $wpdb->posts    AS p
                 WHERE  pm.post_id = p.ID
                     AND p.post_status = 'publish'
@@ -567,7 +567,7 @@ class YasrDB {
             $query = "SELECT COUNT( pm.post_id ) AS total_count,
                           p.post_author    AS user,
                           u.user_login     AS name
-                      FROM $wpdb->posts    AS p, 
+                      FROM $wpdb->posts    AS p,
                            $wpdb->postmeta AS pm,
                            $wpdb->users    AS u
                       WHERE pm.post_id = p.ID
@@ -616,8 +616,8 @@ class YasrDB {
         //if no custom query is hooked
         if ($query === $sql_atts) {
             $query = $wpdb->prepare(
-                "SELECT CAST((SUM(l.vote)/COUNT(l.vote)) AS DECIMAL(2,1)) AS rating, 
-                           COUNT(l.vote) AS number_of_votes, 
+                "SELECT CAST((SUM(l.vote)/COUNT(l.vote)) AS DECIMAL(2,1)) AS rating,
+                           COUNT(l.vote) AS number_of_votes,
                            l.post_id
                        FROM " . YASR_LOG_MULTI_SET . " AS l,
                            $wpdb->posts AS p
@@ -663,8 +663,8 @@ class YasrDB {
         $set_id = false;
 
         $result = $wpdb->get_results(
-            "SELECT set_id 
-                        FROM " . YASR_MULTI_SET_NAME_TABLE . " 
+            "SELECT set_id
+                        FROM " . YASR_MULTI_SET_NAME_TABLE . "
                     ORDER BY set_id
                     LIMIT 1"
         );
@@ -800,8 +800,8 @@ class YasrDB {
     public static function returnLogMulti($limit, $offset) {
         global $wpdb;
 
-        $query = 'SELECT * FROM ' . YASR_LOG_MULTI_SET . ' 
-                    ORDER BY date DESC, set_type ASC, post_id DESC 
+        $query = 'SELECT * FROM ' . YASR_LOG_MULTI_SET . '
+                    ORDER BY date DESC, set_type ASC, post_id DESC
                     LIMIT %d
                     OFFSET %d';
 
@@ -947,7 +947,7 @@ class YasrDB {
                                 COUNT(l.vote) AS number_of_votes,
                                 field_id AS field
                             FROM " . YASR_LOG_MULTI_SET . " AS l
-                            WHERE l.set_type=%d 
+                            WHERE l.set_type=%d
                                 AND l.comment_id=%d " . esc_sql($and_post_id) . "
                             GROUP BY l.field_id
                             ORDER BY l.field_id", $set_id, $comment_id
@@ -1011,7 +1011,7 @@ class YasrDB {
 
         $result = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT f.field_id AS id, 
+                "SELECT f.field_id AS id,
                         f.field_name AS name
                         FROM " . YASR_MULTI_SET_FIELDS_TABLE . " AS f
                         WHERE f.parent_set_id=%d
@@ -1048,7 +1048,7 @@ class YasrDB {
 
         return (int)$wpdb->get_var(
             $wpdb->prepare(
-                'SELECT COUNT(*) 
+                'SELECT COUNT(*)
                        FROM ' . YASR_MULTI_SET_FIELDS_TABLE .
                        ' WHERE parent_set_id=%d',
             $set_id)
@@ -1258,7 +1258,7 @@ class YasrDB {
         return "LEFT JOIN
             (
                 SELECT post_id, COUNT(post_id) AS number_of_votes, ROUND(SUM(vote) / COUNT(post_id), 1) AS rating
-                FROM " . YASR_LOG_TABLE . ", ". $wpdb->posts ." AS p 
+                FROM " . YASR_LOG_TABLE . ", ". $wpdb->posts ." AS p
                 WHERE post_id = p.ID
                 AND p.post_status = 'publish'
                 GROUP BY post_id
