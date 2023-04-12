@@ -56,7 +56,7 @@ class YasrVisitorVotes extends YasrShortcode {
 
         self::defineVvAttributes($stored_votes);
 
-        //if this come from yasr_visitor_votes_readonly...
+        //if this comes from yasr_visitor_votes_readonly...
         if ($this->readonly === 'true' || $this->readonly === "yes") {
             return $this->readonlyShortcode($average_rating, $stored_votes);
         }
@@ -65,7 +65,7 @@ class YasrVisitorVotes extends YasrShortcode {
         $stars_enabled = YasrShortcode::starsEnalbed($cookie_value);
 
         if($stars_enabled === 'true_logged' || $stars_enabled === 'true_not_logged') {
-            $this->readonly = 'false'; //Always false if user is logged in
+            $this->readonly = 'false'; //Always false if a user is logged in
         } else {
             $this->readonly = 'true';
         }
@@ -93,9 +93,9 @@ class YasrVisitorVotes extends YasrShortcode {
                       id='$htmlid'
                       data-rating='$average_rating'
                       data-rater-starsize='".$this->starSize()."'
-                      data-rater-postid='$this->post_id' 
+                      data-rater-postid='$this->post_id'
                       data-rater-readonly='true'
-                      data-readonly-attribute='true' 
+                      data-readonly-attribute='true'
                       data-rater-nonce='$this->ajax_nonce_visitor'
                   ></div>";
 
@@ -161,7 +161,7 @@ class YasrVisitorVotes extends YasrShortcode {
     /**
      * This function show default (or custom) text depending on if rating is allowed or not
      *
-     * @param void
+     * @param $cookie_value
      * @param int|bool $post_id
      *
      * @return int|bool|void
@@ -225,11 +225,15 @@ class YasrVisitorVotes extends YasrShortcode {
      * @param $number_of_votes
      * @param $average_rating
      *
-     * @return string
+     * @return void|string
      */
     protected function textBeforeStars($number_of_votes, $average_rating) {
         $custom_text_before_star = apply_filters('yasr_cstm_text_before_vv', $number_of_votes, $average_rating, $this->unique_id);
         $class_text_before       = 'yasr-custom-text-vv-before yasr-custom-text-vv-before-'.$this->post_id;
+
+        if(!$custom_text_before_star) {
+            return;
+        }
 
         return '<div class="'.$class_text_before.'">'
                    . wp_kses_post(htmlspecialchars_decode($custom_text_before_star)) .
@@ -288,9 +292,9 @@ class YasrVisitorVotes extends YasrShortcode {
             $stat_icon = '';
         }
         else {
-            $stat_icon = '<svg xmlns="https://www.w3.org/2000/svg" width="20" height="20" 
+            $stat_icon = '<svg xmlns="https://www.w3.org/2000/svg" width="20" height="20"
                                    class="yasr-dashicons-visitor-stats"
-                                   data-postid="'.$this->post_id.'" 
+                                   data-postid="'.$this->post_id.'"
                                    id="yasr-stats-dashicon-'.$this->unique_id.'">
                                    <path d="M18 18v-16h-4v16h4zM12 18v-11h-4v11h4zM6 18v-8h-4v8h4z"></path>
                                </svg>';
@@ -351,18 +355,18 @@ class YasrVisitorVotes extends YasrShortcode {
 
         $shortcode_html  = '<!--Yasr Visitor Votes Shortcode-->';
         $shortcode_html  .= "<div id='yasr_visitor_votes_$this->unique_id' class='yasr-visitor-votes'>";
-        
+
         $shortcode_html  .= $this->textBeforeStars($number_of_votes, $average_rating);
-        $shortcode_html  .= "<div id='yasr-vv-second-row-container-$this->unique_id' 
+        $shortcode_html  .= "<div id='yasr-vv-second-row-container-$this->unique_id'
                                         class='yasr-vv-second-row-container'>";
 
         $shortcode_html .= "<div id='$stars_htmlid'
                                       class='yasr-rater-stars-vv'
-                                      data-rater-postid='$this->post_id' 
+                                      data-rater-postid='$this->post_id'
                                       data-rating='$average_rating'
                                       data-rater-starsize='".$this->starSize()."'
                                       data-rater-readonly='$this->readonly'
-                                      data-rater-nonce='$this->ajax_nonce_visitor' 
+                                      data-rater-nonce='$this->ajax_nonce_visitor'
                                       data-issingular='$this->is_singular'
                                     ></div>";
 
@@ -405,7 +409,7 @@ class YasrVisitorVotes extends YasrShortcode {
      */
     protected function bottomContainer ($cookie_value, $post_id) {
         if(YASR_ENABLE_AJAX === 'yes') {
-            $container = "<div id='yasr-vv-bottom-container-$this->unique_id' 
+            $container = "<div id='yasr-vv-bottom-container-$this->unique_id'
                               class='yasr-vv-bottom-container'
                               style='display:none'>";
         } else {
