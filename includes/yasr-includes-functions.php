@@ -320,19 +320,15 @@ function yasr_getimagesize($url) {
  */
 function yasr_check_svg_image($url) {
     if ($url !== '') {
-
         //check if url is valid
         if (yasr_check_valid_url($url) === true) {
-
             //if url is valid, check if is a svg image
             $type  = wp_check_filetype(($url));
 
             if ($type['type'] === 'image/svg+xml') {
                 return true;
             }
-            return false;
         }
-        return false;
     }
     return false;
 }
