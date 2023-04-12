@@ -325,10 +325,9 @@ function yasr_check_svg_image($url) {
         if (yasr_check_valid_url($url) === true) {
 
             //if url is valid, check if is a svg image
-            $finfo = new finfo(FILEINFO_MIME_TYPE);
-            $type  = $finfo->buffer(file_get_contents($url));
+            $type  = wp_check_filetype(($url));
 
-            if ($type === 'image/svg+xml') {
+            if ($type['type'] === 'image/svg+xml') {
                 return true;
             }
             return false;
