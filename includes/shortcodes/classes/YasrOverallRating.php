@@ -114,8 +114,7 @@ class YasrOverallRating extends YasrShortcode {
      * If enabled in the settings, this function will show the custom text
      * before yasr_overall_rating
      *
-     * @param  void
-     * @return string
+     * @return void|string
      *
      */
     protected function customTextBefore() {
@@ -123,11 +122,13 @@ class YasrOverallRating extends YasrShortcode {
         $this->overall_rating  = YasrDB::overallRating();
         $text_before_star      = apply_filters('yasr_cstm_text_before_overall', $this->overall_rating);
 
-        return "<div class='yasr-container-custom-text-and-overall'>
-                   <span id='yasr-custom-text-before-overall'>".
-                        wp_kses_post(htmlspecialchars_decode($text_before_star)).
-                   "</span>
-                </div>";
+        if(!$text_before_star) {
+            return;
+        }
+
+        return "<div class='yasr-custom-text-before-overall' id='yasr-custom-text-before-overall'>"
+                    .wp_kses_post(htmlspecialchars_decode($text_before_star)).
+                "</div>";
     }
 
     /**
