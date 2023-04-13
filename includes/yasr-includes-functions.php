@@ -318,6 +318,7 @@ function yasr_getimagesize($url) {
  *
  * @return bool
  */
+
 function yasr_check_svg_image($url) {
     if ($url !== '') {
         //check if url is valid
