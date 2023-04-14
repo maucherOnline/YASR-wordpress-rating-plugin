@@ -310,28 +310,32 @@ function yasr_getimagesize($url) {
 
 /**
  * Check if the given url is a SVG image
+ * Return true if everything was fine, a string with message error otherwise
  *
  * @author Dario Curvino <@dudo>
  * @since  2.6.8
  *
  * @param $url
  *
- * @return bool
+ * @return true|string
  */
 
 function yasr_check_svg_image($url) {
     if ($url !== '') {
+        $url_response = yasr_check_valid_url($url);
         //check if url is valid
-        if (yasr_check_valid_url($url) === true) {
+        if ($url_response === true) {
             //if url is valid, check if is a svg image
             $type  = wp_check_filetype(($url));
 
             if ($type['type'] === 'image/svg+xml') {
                 return true;
             }
+            return ('Image provided is not svg');
         }
+        return $url_response;
     }
-    return false;
+    return 'Url can\'t be empty';
 }
 
 /**
