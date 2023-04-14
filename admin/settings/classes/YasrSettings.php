@@ -1360,7 +1360,7 @@ class YasrSettings {
      * @return string
      */
     public function descriptionStructuredData() {
-        $name = esc_html__('Stuctured data options', 'yet-another-stars-rating');
+        $name = esc_html__('Structured data options', 'yet-another-stars-rating');
 
         $div_desc    = '<div class="yasr-settings-description">';
         $description = esc_html__(
