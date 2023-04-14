@@ -58,7 +58,7 @@ class YasrCommentReviewsEnabled extends React.Component {
         }
     }
 
-    render () {
+    yasrPanelEnableReviews() {
         return (
             <div>
                 <hr/>
@@ -85,6 +85,14 @@ class YasrCommentReviewsEnabled extends React.Component {
                         {__('Help', 'yet-another-stars-rating')}
                     </a>
                 </div>
+            </div>
+        );
+    }
+
+    render () {
+        return (
+            <div>
+                {this.yasrPanelEnableReviews}
             </div>
         );
     }
