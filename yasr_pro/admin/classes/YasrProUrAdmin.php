@@ -30,7 +30,7 @@ class YasrProUrAdmin {
         add_action('yasr_add_content_bottom_topright_metabox', array($this, 'urMetaboxClassicEditor'));
 
         //Add content in the metabox below the editor, multiset tab
-        add_action('yasr_add_content_multiset_tab_pro',        array($this, 'urMetaboxMultiset'));
+        add_action('yasr_add_content_multiset_tab_pro',        array($this, 'urMetaboxMultiset'), 10, 2);
 
         //When post is saved, check if enable or disable reviews in comments
         add_action('yasr_on_save_post',                        array($this, 'urSavePostMeta'));
@@ -110,13 +110,18 @@ class YasrProUrAdmin {
      * value attribute is the set that will be saved
      * data-enabled-multi is the set saved for the current page. This value is not updated in js, only read
      *
+     * @param $post_id
+     * @param $first_set_id
      * @author Dario Curvino <@dudo>
      * @since 3.0.5
-     * @param $post_id
-     *
      */
-    public function urMetaboxMultiset($post_id) {
+    public function urMetaboxMultiset($post_id, $first_set_id) {
         $enabled_multiset = yasr_pro_multiset_reviews_enabled($post_id);
+
+        //if there is no set enabled, set value to the first set id
+        if($enabled_multiset === false) {
+            $enabled_multiset = $first_set_id;
+        }
         ?>
             <input type="hidden" name="yasr_pro_review_setid" id="yasr-pro-review-setid"
                    value="<?php echo esc_attr($enabled_multiset) ?>"

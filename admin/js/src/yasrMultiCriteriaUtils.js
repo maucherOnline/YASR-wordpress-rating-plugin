@@ -263,6 +263,19 @@ export const yasrMultiCriteriaEditPage = () => {
     const multiSetinReview         = document.getElementById('yasr-pro-multiset-review-switcher');
     const nonceSetId               = document.getElementById('yasr-send-id-nameset-nonce').value;
 
+    if(yasrProReviewSetid !== null && yasrProReviewSetid !== '') {
+        const enabledSetInReviewForPost = yasrProReviewSetid.dataset.enabledMulti;
+
+        //when page loads, if the current selected set is the same for the current post, enable the switcher
+        //Insert this Multi Set in the comment form?
+        //keep == instead of ===
+        if (setId == enabledSetInReviewForPost) {
+            multiSetinReview.checked = true;
+        } else {
+            multiSetinReview.checked = false;
+        }
+    }
+
     yasrManageMultiSelectEditPage(setId, postId, nMultiSet, null, null, nonceSetId);
 
     copyRoMultiset.onclick = function (event) {
@@ -450,10 +463,12 @@ const yasrManageMultiSelectEditPage = (
         yasrProReviewSetid.value = setId;
 
         //this is the multiset enabled in review for the current post
-        const enabledSetInReviewForPost = parseInt(yasrProReviewSetid.dataset.enabledMulti);
+        const enabledSetInReviewForPost = yasrProReviewSetid.dataset.enabledMulti;
+        console.log(yasrProReviewSetid.value);
+        console.log(enabledSetInReviewForPost)
 
-        //if the hidde
-        if(yasrProReviewSetid.value === enabledSetInReviewForPost) {
+        //if the current selected set is the same for the current post, enable the switcher
+        if(setId === enabledSetInReviewForPost) {
             multiSetinReview.checked = true;
         } else {
             multiSetinReview.checked = false;

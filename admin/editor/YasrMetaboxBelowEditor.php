@@ -153,8 +153,7 @@ class YasrMetaboxBelowEditor {
         wp_nonce_field('yasr_nonce_multiset_review_enabled_action','yasr_nonce_multiset_review_enabled');
 
         //this is always the first set id
-        $set_id = $multi_set[0]->set_id;
-        $set_id = (int)$set_id;
+        $set_id = (int)$multi_set[0]->set_id;
 
         ?>
         <div id="yasr-metabox-below-editor-multiset" class="yasr-metabox-below-editor-content" style="display:none">
@@ -265,7 +264,6 @@ class YasrMetaboxBelowEditor {
      * @param $set_id
      */
     private function printMultisetProFeatures($post_id, $set_id) {
-        global $post;
         ?>
         <div style="width: 98%">
             <div class="yasr-metabox-editor-pro-only-box-padding">
@@ -300,11 +298,7 @@ class YasrMetaboxBelowEditor {
                                    value='yes'
                                    id="yasr-pro-multiset-review-switcher"
                                 <?php
-                                //required to check !== otherwise setid=0 is checked even if not enabled
-                                if ($post->yasr_pro_review_setid !== '' && (int)$post->yasr_pro_review_setid === $set_id) {
-                                    echo " checked='checked' ";
-                                }
-                                echo YASR_LOCKED_FEATURE_HTML_ATTRIBUTE;
+                                    echo YASR_LOCKED_FEATURE_HTML_ATTRIBUTE;
                                 ?>
                             >
                             <label class="yasr-onoffswitch-label" for="yasr-pro-multiset-review-switcher">
