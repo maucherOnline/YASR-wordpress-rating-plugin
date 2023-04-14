@@ -1,5 +1,6 @@
 const { __ } = wp.i18n; // Import __() from wp.i18n
 
+
 function YasrBlockSettingsLink() {
     return (
         <div>
@@ -58,41 +59,58 @@ class YasrCommentReviewsEnabled extends React.Component {
         }
     }
 
+    /**
+     * Enable or disable comment in page
+     * @returns {JSX.Element}
+     */
     yasrPanelEnableReviews() {
-        return (
+        return(
             <div>
-                <hr/>
-                <label><span>{this.yasrProLabelReviewsEnabled}</span></label>
-                <div className="yasr-onoffswitch-big yasr-onoffswitch-big-center" id="yasr-switcher-disable-comment-reviews">
-                    <input type="checkbox"
-                           name="yasr_comment_reviews_disabled"
-                           className="yasr-onoffswitch-checkbox"
-                           value="1"
-                           id="yasr-comment-reviews-disabled-switch"
-                           defaultChecked={this.state.reviewEnabled}
-                           onChange={this.yasrUpdatePostMetaReviewsEnabled}
-                    />
+                <div>
+                    <hr/>
+                    <label><span>{this.yasrProLabelReviewsEnabled}</span></label>
+                    <div className="yasr-onoffswitch-big yasr-onoffswitch-big-center" id="yasr-switcher-disable-comment-reviews">
+                        <input type="checkbox"
+                               name="yasr_comment_reviews_disabled"
+                               className="yasr-onoffswitch-checkbox"
+                               value="1"
+                               id="yasr-comment-reviews-disabled-switch"
+                               defaultChecked={this.state.reviewEnabled}
+                               onChange={this.yasrUpdatePostMetaReviewsEnabled}
+                        />
 
-                    <label className="yasr-onoffswitch-label" htmlFor="yasr-comment-reviews-disabled-switch">
-                        <span className="yasr-onoffswitch-inner yasr-onoffswitch-onoff-inner" />
-                        <span className="yasr-onoffswitch-switch" />
-                    </label>
-                </div>
-                <div className="yasr-metabox-doc-link">
-                    <a href="https://yetanotherstarsrating.com/yasr-pro/reviews-in-comments/?utm_source=wp-plugin&utm_medium=tinymce-popup&utm_campaign=yasr_top_right"
-                       target="_blank"
-                    >
-                        {__('Help', 'yet-another-stars-rating')}
-                    </a>
+                        <label className="yasr-onoffswitch-label" htmlFor="yasr-comment-reviews-disabled-switch">
+                            <span className="yasr-onoffswitch-inner yasr-onoffswitch-onoff-inner" />
+                            <span className="yasr-onoffswitch-switch" />
+                        </label>
+                    </div>
+                    <div className="yasr-metabox-doc-link">
+                        <a href="https://yetanotherstarsrating.com/yasr-pro/reviews-in-comments/?utm_source=wp-plugin&utm_medium=tinymce-popup&utm_campaign=yasr_top_right"
+                           target="_blank"
+                        >
+                            {__('Help', 'yet-another-stars-rating')}
+                        </a>
+                    </div>
                 </div>
             </div>
-        );
+        )
+    }
+
+    selectMultiset () {
+        return (
+            <div>
+                Insert multiset here
+            </div>
+        )
     }
 
     render () {
+        //cast to bool
+        let reviewEnabled = yasrTrueFalseStringConvertion(this.state.reviewEnabled);
         return (
             <div>
-                {this.yasrPanelEnableReviews}
+                {this.yasrPanelEnableReviews()}
+                {reviewEnabled === true && this.selectMultiset()}
             </div>
         );
     }

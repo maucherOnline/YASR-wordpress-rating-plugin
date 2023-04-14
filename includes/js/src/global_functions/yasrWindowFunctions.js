@@ -4,10 +4,10 @@ window.yasrTrueFalseStringConvertion = function (string) {
     }
 
     //Convert string to boolean
-    if (string === 'true' || string === '1') {
+    if (string === 'true' || string === '1' || string === 1) {
         string = true;
     }
-    if (string === 'false' || string === '0') {
+    if (string === 'false' || string === '0' || string === 0) {
         string = false;
     }
 
