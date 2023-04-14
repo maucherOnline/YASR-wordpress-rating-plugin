@@ -87,7 +87,7 @@ define('YASR_PUBLISHER_TYPE',             $yasr_general_settings['publisher']);
 define('YASR_PUBLISHER_NAME',             $yasr_general_settings['publisher_name']);
 
 if (isset($yasr_general_settings['publisher_logo'])
-    && (yasr_check_valid_url($yasr_general_settings['publisher_logo']) !== false)) {
+    && (yasr_check_valid_url($yasr_general_settings['publisher_logo']) === true)) {
     define('YASR_PUBLISHER_LOGO', $yasr_general_settings['publisher_logo']);
 } else {
     define('YASR_PUBLISHER_LOGO', get_site_icon_url());

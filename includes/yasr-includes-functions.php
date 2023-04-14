@@ -202,30 +202,31 @@ function yasr_unique_multidim_array($array, $key) {
 }
 
 /**
- * Return true if the requested url return 200
+ * Return true if the requested url return 200, string with error otherwise
  *
  * @author Dario Curvino <@dudo>
  * @since refactor in 3.0.8
  * @param $url
  *
- * @return bool
+ * @return true|string
  */
 function yasr_check_valid_url($url) {
     if (wp_http_validate_url($url) === false) {
-        return false;
+        return __FUNCTION__ . '(): Given url is not valid';
     }
 
     $response = wp_remote_get($url);
 
     if(is_wp_error($response)) {
-        return false;
+        return __FUNCTION__ . '(): error in wp_remote_get';
     }
 
-    if(wp_remote_retrieve_response_code($response) === 200) {
+    $status_code = wp_remote_retrieve_response_code($response);
+    if($status_code === 200) {
         return true;
     }
 
-    return false;
+    return __FUNCTION__ . '(): wrong status code: ' . $status_code;
 }
 
 /**
@@ -331,11 +332,11 @@ function yasr_check_svg_image($url) {
             if ($type['type'] === 'image/svg+xml') {
                 return true;
             }
-            return ('Image provided is not svg');
+            return __FUNCTION__ .  '(): Image provided is not svg';
         }
         return $url_response;
     }
-    return 'Url can\'t be empty';
+    return __FUNCTION__ . '(): Url can\'t be empty';
 }
 
 /**
