@@ -106,7 +106,9 @@ class YasrProUrAdmin {
     }
 
     /**
-     * Add hidden field with the value of enabled multiset
+     * Add hidden field
+     * value attribute is the set that will be saved
+     * data-enabled-multi is the set saved for the current page. This value is not updated in js, only read
      *
      * @author Dario Curvino <@dudo>
      * @since 3.0.5
@@ -117,7 +119,8 @@ class YasrProUrAdmin {
         $enabled_multiset = yasr_pro_multiset_reviews_enabled($post_id);
         ?>
             <input type="hidden" name="yasr_pro_review_setid" id="yasr-pro-review-setid"
-                   value="<?php echo esc_attr($enabled_multiset) ?>">
+                   value="<?php echo esc_attr($enabled_multiset) ?>"
+                   data-enabled-multi="<?php echo esc_attr($enabled_multiset)?>">
         <?php
     }
 
@@ -468,8 +471,8 @@ class YasrProUrAdmin {
 
         if ($rating) {
 
-            $rating = '<div class="yasr-rater-star-comment" 
-                        id="'.$comment_rating_html_id.'" 
+            $rating = '<div class="yasr-rater-star-comment"
+                        id="'.$comment_rating_html_id.'"
                         data-rating="'.$rating.'">
                    </div>';
 

@@ -193,12 +193,12 @@ const createNewCriteria = (newRowNumber, secClass, containerId, inputName, input
         </label> `;
 
     if(removable !== false) {
-        newCriteria.innerHTML += ` <span 
-            class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete" 
+        newCriteria.innerHTML += ` <span
+            class="dashicons dashicons-remove yasr-multiset-info-delete criteria-delete"
             id="${removeButtonId}"
             data-id-criteria="${newCriteria.id}"
             onclick="document.getElementById('${newCriteria.id}').remove();"
-            >            
+            >
         </span>`;
     }
 
@@ -291,7 +291,7 @@ export const yasrMultiCriteriaEditPage = () => {
     }
 
     //add event listener to synchronize switchers
-    sincronizeEditorSwitchers (multiSetinReview, reviewsEnabled, yasrProReviewSetid, setId);
+    sincronizeEditorSwitchers (multiSetinReview, reviewsEnabled, yasrProReviewSetid, setId, nMultiSet);
 
     //show a select if more than 1 multiset is used
     selectMultiset(nMultiSet, postId, yasrProReviewSetid, multiSetinReview);
@@ -303,10 +303,11 @@ export const yasrMultiCriteriaEditPage = () => {
  *
  * @param multiSetinReview     | Switcher for question  Insert this Multi Set in the comment form?
  * @param reviewsEnabled       | Switcher to enable or disable reviews in comments
- * @param yasrProReviewSetid   | the set id to use into the comment form
- * @param setId
+ * @param yasrProReviewSetid   | dom element of hidden field with id yasrProReviewSetid
+ * @param setId                | the set id at page load, to be used only if one multiset is used
+ * @param nMultiSet            | total nuber of set ids
  */
-const sincronizeEditorSwitchers = (multiSetinReview, reviewsEnabled, yasrProReviewSetid, setId) => {
+const sincronizeEditorSwitchers = (multiSetinReview, reviewsEnabled, yasrProReviewSetid, setId, nMultiSet) => {
     //add event listener to synchronize switchers
     if(multiSetinReview !== null) {
 
@@ -320,23 +321,25 @@ const sincronizeEditorSwitchers = (multiSetinReview, reviewsEnabled, yasrProRevi
             })
         }
 
+        //click on "Insert this Multi Set in the comment form?"
         multiSetinReview.addEventListener('change', (event) => {
+            //when switcher is enabled
             if (event.currentTarget.checked === true) {
                 //if it is classic editor, check reviewsEnabled on true
                 if (reviewsEnabled !== null) {
                     reviewsEnabled.checked = true;
                 } else {
                     //if this is gutenberg, use document.getElementById on change to get the current state and check it
-                    document.getElementById('yasr-comment-reviews-disabled-switch').checked = true;
+                    //document.getElementById('yasr-comment-reviews-disabled-switch').checked = true;
                 }
 
                 //update the hidden field, if only one multiset is used
-                if (yasrProReviewSetid !== null) {
+                if (yasrProReviewSetid !== null && nMultiSet === 1) {
                     yasrProReviewSetid.value = setId;
                 }
             } else {
                 //update the hidden field, if only one multiset is used
-                if (yasrProReviewSetid !== null) {
+                if (yasrProReviewSetid !== null && nMultiSet === 1) {
                     yasrProReviewSetid.value = '';
                 }
             }
@@ -443,13 +446,20 @@ const yasrManageMultiSelectEditPage = (
     document.getElementById('yasr-multiset-id').value = setId;
 
     if(yasrProReviewSetid !== null && yasrProReviewSetid !== '' && multiSetinReview !== null) {
-        if(yasrProReviewSetid.value === setId) {
-            //update hidden field
+        //update hidden field
+        yasrProReviewSetid.value = setId;
+
+        //this is the multiset enabled in review for the current post
+        const enabledSetInReviewForPost = parseInt(yasrProReviewSetid.dataset.enabledMulti);
+
+        //if the hidde
+        if(yasrProReviewSetid.value === enabledSetInReviewForPost) {
             multiSetinReview.checked = true;
         } else {
             multiSetinReview.checked = false;
         }
     }
+
     return false; // prevent default click action from happening!
 }
 
@@ -498,7 +508,7 @@ const yasrReturnTableMultiset = (yasrMultiSetValue, table, authorMultiset=true) 
 
         content += '<tr>';
         content += `<td>${valueName}</td>`;
-        content += `<td><div class="${divClass}" id="yasr-multiset-admin-${uuidv4()}" data-rating="${valueRating}" 
+        content += `<td><div class="${divClass}" id="yasr-multiset-admin-${uuidv4()}" data-rating="${valueRating}"
                         data-multi-idfield="${valueID}" data-readonly="${readonly}"></div>`;
         content += '</td>';
         content += '</tr>';
