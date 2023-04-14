@@ -885,7 +885,7 @@ class YasrSettings {
 
                 if ($key === 'publisher_logo') {
                     //if is not a valid url get_site_icon_url instead
-                    if (yasr_check_valid_url($option) === true) {
+                    if (yasr_check_valid_url($option) !== true) {
                         $output[$key] = get_site_icon_url();
                     }
                 }
