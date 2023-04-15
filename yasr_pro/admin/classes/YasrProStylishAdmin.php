@@ -238,7 +238,7 @@ class YasrProStylishAdmin {
                     $is_svg_and_url = yasr_check_svg_image($value);
 
                     if ($is_svg_and_url !== true) {
-                        wp_die('Custom Icon is not a valid svg image');
+                        wp_die($is_svg_and_url);
                     }
                 }
             }

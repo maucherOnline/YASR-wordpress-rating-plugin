@@ -438,7 +438,7 @@ class YasrSettings {
                     </span>
                 </div>
             </div>
-        
+
             <div>
                 <div>
                     <span>
@@ -639,7 +639,7 @@ class YasrSettings {
                 <div class="yasr-help-box-settings" style="display:block">
                     <?php
                         echo wp_kses_post(sprintf(
-                            __('Please keep in mind that since September, 16, 2019 blogPosting itemType will 
+                            __('Please keep in mind that since September, 16, 2019 blogPosting itemType will
                                         no show stars in SERP anymore. %sHere%s the announcement by Google.',
                                 'yet-another-stars-rating'),
                             '<br /><br /><a href="https://webmasters.googleblog.com/2019/09/making-review-rich-results-more-helpful.html">',
@@ -787,7 +787,7 @@ class YasrSettings {
                 </div>
                 <br/>
                 <?php
-                    esc_html_e('This should be enabled if you\'re using caching plugins. 
+                    esc_html_e('This should be enabled if you\'re using caching plugins.
                         Not required for yasr_overall_rating and yasr_multiset.',
                         'yet-another-stars-rating'
                     );
@@ -885,7 +885,7 @@ class YasrSettings {
 
                 if ($key === 'publisher_logo') {
                     //if is not a valid url get_site_icon_url instead
-                    if (yasr_check_valid_url($option)) {
+                    if (yasr_check_valid_url($option) !== true) {
                         $output[$key] = get_site_icon_url();
                     }
                 }
@@ -1290,7 +1290,7 @@ class YasrSettings {
 
         $div_desc = '<div class="yasr-settings-description">';
         $description = esc_html__(
-            'Here you can order your posts by ratings (please note that this may not work with all themes) 
+            'Here you can order your posts by ratings (please note that this may not work with all themes)
             and enable/disable ratings in your archive pages (homepage, categories, tags, etc.)',
             'yet-another-stars-rating'
         );
@@ -1360,7 +1360,7 @@ class YasrSettings {
      * @return string
      */
     public function descriptionStructuredData() {
-        $name = esc_html__('Stuctured data options', 'yet-another-stars-rating');
+        $name = esc_html__('Structured data options', 'yet-another-stars-rating');
 
         $div_desc    = '<div class="yasr-settings-description">';
         $description = esc_html__(
@@ -1585,8 +1585,8 @@ class YasrSettings {
         $text .= '<div style="margin-top: 15px;">';
         $text .= $movie_helper_description;
         $text .= '</div>';
-        $text .= '<div style="margin-top: 15px;"> 
-                <a href="'. esc_url( $url ).'" 
+        $text .= '<div style="margin-top: 15px;">
+                <a href="'. esc_url( $url ).'"
                    class="install-now button thickbox open-plugin-details-modal"
                    target="_blank">'. __( 'Install', 'yet-another-stars-rating' ).'</a>';
         $text .= '</div>';
@@ -1616,8 +1616,8 @@ class YasrSettings {
         $text .= esc_html__('"Comments Not Replied To" introduces a new area in the administrative dashboard that allows you to
         see what comments to which you - as the site author - have not yet replied.', 'yet-another-stars-rating');
         $text .= '</div>';
-        $text .= '<div style="margin-top: 15px;"> 
-                <a href="'. esc_url( $url ).'" 
+        $text .= '<div style="margin-top: 15px;">
+                <a href="'. esc_url( $url ).'"
                    class="install-now button thickbox open-plugin-details-modal"
                    target="_blank">'. __( 'Install', 'yet-another-stars-rating' ).'</a>';
         $text .= '</div>';
