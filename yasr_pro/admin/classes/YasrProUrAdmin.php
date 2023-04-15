@@ -184,6 +184,13 @@ class YasrProUrAdmin {
 
         if (isset($_POST['yasr_pro_multiset_review_enabled']) && isset($_POST['yasr_pro_review_setid'])) {
             $set_id    = (int)$_POST['yasr_pro_review_setid'];
+
+            //set_id column in multi set table is auto increment, so the first set_id is always 1.
+            //if it is < 1, return
+            if($set_id < 1) {
+                return;
+            }
+
             //insert post meta
             update_post_meta($post_id, 'yasr_pro_review_setid', $set_id);
 
