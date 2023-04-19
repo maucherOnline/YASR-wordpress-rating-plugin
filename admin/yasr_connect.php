@@ -261,22 +261,14 @@ if ( $is_optin_dialog ) { ?>
                                 }
                             }
 
-                            $message = $fs->apply_filters(
-                                $filter,
+                            $message =
                                 sprintf(
                                     $default_optin_message,
                                     '<b>' . esc_html( $fs->get_plugin_name() ) . '</b>',
                                     '<b>' . $current_user->user_login . '</b>',
                                     '<a href="' . $site_url . '" target="_blank" rel="noopener noreferrer">' . $site_url . '</a>',
                                     $freemius_link
-                                ),
-                                $first_name,
-                                $fs->get_plugin_name(),
-                                $current_user->user_login,
-                                '<a href="' . $site_url . '" target="_blank" rel="noopener noreferrer">' . $site_url . '</a>',
-                                $freemius_link,
-                                true
-                            );
+                                );
                         }
 
                         if ( $is_network_upgrade_mode ) {
