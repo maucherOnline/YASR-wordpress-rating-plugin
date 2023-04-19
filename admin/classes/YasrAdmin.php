@@ -65,10 +65,15 @@ class YasrAdmin {
      * @return void
      */
     private function freemiusHooks() {
+        yasr_fs()->add_filter('templates/connect.php', static function ($vars) {
+            //echo($vars);
+            include YASR_ABSOLUTE_PATH_ADMIN . '/yasr_connect.php';
+        });
+
         /**
          * Customize Freemius opt-in screen TO NOT ALLOW TRANSLATIONS
          */
-        yasr_fs()->add_filter('connect-header_on-update', static function () {
+        /*yasr_fs()->add_filter('connect-header_on-update', static function () {
             return (
                 sprintf(
                 '<h2>%s</h2>',
@@ -109,6 +114,10 @@ class YasrAdmin {
 
             return $permissions;
         });
+
+        yasr_fs()->add_filter('connect/after_actions', static function () {
+            var_dump('stocazzo');
+        });*/
 
         /**
          * https://freemius.com/help/documentation/selling-with-freemius/free-trials/
