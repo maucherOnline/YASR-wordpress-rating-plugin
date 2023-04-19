@@ -147,13 +147,7 @@ if ( $is_optin_dialog ) { ?>
         <?php
         }
 
-        /**
-         * Allows developers to include custom HTML before the opt-in content.
-         *
-         * @author Vova Feldman
-         * @since 2.3.2
-         */
-        $fs->do_action( 'connect/before', $activation_state );
+
         ?>
         <div id="fs_connect"
              class="wrap<?php if ( ! fs_is_network_admin() && ( ! $fs->is_enable_anonymous() || $is_pending_activation || $require_license_key ) ) {
@@ -294,11 +288,17 @@ if ( $is_optin_dialog ) { ?>
                         ?></p>
                     <?php if ( $require_license_key ) : ?>
                         <div class="fs-license-key-container">
-                            <input id="fs_license_key" name="fs_key" type="text" required maxlength="<?php echo $fs->apply_filters('license_key_maxlength', 32) ?>"
-                                   placeholder="<?php fs_esc_attr_echo_inline( 'License key', 'license-key', $slug ) ?>" tabindex="1"/>
+                            <label for="fs_license_key"></label>
+                            <input id="fs_license_key" name="fs_key" type="text" required
+                                   maxlength="<?php echo $fs->apply_filters('license_key_maxlength', 32) ?>"
+                                   placeholder="<?php fs_esc_attr_echo_inline( 'License key', 'license-key', $slug ) ?>"
+                                   tabindex="1"
+                            />
                             <i class="dashicons dashicons-admin-network"></i>
                             <a class="show-license-resend-modal show-license-resend-modal-<?php echo $fs->get_unique_affix() ?>"
-                               href="#"><?php fs_esc_html_echo_inline( "Can't find your license key?", 'cant-find-license-key', $slug ); ?></a>
+                               href="#">
+                                Can't find your license key?
+                            </a>
                         </div>
 
                         <?php
@@ -314,8 +314,8 @@ if ( $is_optin_dialog ) { ?>
                         <?php
                         $send_updates_text = sprintf(
                             '%s<span class="action-description"> - %s</span>',
-                            $fs->get_text_inline( 'Yes', 'yes' ),
-                            $fs->get_text_inline( 'send me security & feature updates, educational content and offers.', 'send-updates' )
+                            'Yes',
+                            'send me security & feature updates, educational content and offers.'
                         );
 
                         $do_not_send_updates_text = sprintf(
@@ -354,17 +354,23 @@ if ( $is_optin_dialog ) { ?>
                         ?>
                     <?php endif ?>
 
-                    <?php $fs->do_action( 'connect/after_message', $activation_state ) ?>
                 </div>
                 <div class="fs-actions">
-                    <?php $fs->do_action( 'connect/before_actions', $activation_state ) ?>
 
                     <?php if ( $fs->is_enable_anonymous() && ! $is_pending_activation && ( ! $require_license_key || $is_network_upgrade_mode ) ) : ?>
                         <a id="skip_activation" href="<?php echo fs_nonce_url( $fs->_get_admin_page_url( '', array( 'fs_action' => $fs->get_unique_affix() . '_skip_activation' ), $is_network_level_activation ), $fs->get_unique_affix() . '_skip_activation' ) ?>"
                            class="button button-secondary" tabindex="2"><?php fs_esc_html_echo_x_inline( 'Skip', 'verb', 'skip', $slug ) ?></a>
                     <?php endif ?>
                     <?php if ( $is_network_level_activation && $fs->apply_filters( 'show_delegation_option', true ) ) : ?>
-                        <a id="delegate_to_site_admins" class="fs-tooltip-trigger <?php echo is_rtl() ? ' rtl' : '' ?>" href="<?php echo fs_nonce_url( $fs->_get_admin_page_url( '', array( 'fs_action' => $fs->get_unique_affix() . '_delegate_activation' ) ), $fs->get_unique_affix() . '_delegate_activation' ) ?>"><?php fs_esc_html_echo_inline( 'Delegate to Site Admins', 'delegate-to-site-admins', $slug ) ?><span class="fs-tooltip"><?php fs_esc_html_echo_inline( 'If you click it, this decision will be delegated to the sites administrators.', 'delegate-sites-tooltip', $slug ) ?></span></a>
+                        <a id="delegate_to_site_admins"
+                           class="fs-tooltip-trigger
+                           <?php echo is_rtl() ? ' rtl' : '' ?>"
+                           href="<?php echo fs_nonce_url( $fs->_get_admin_page_url( '', array( 'fs_action' => $fs->get_unique_affix() . '_delegate_activation' ) ), $fs->get_unique_affix() . '_delegate_activation' ) ?>">
+                            <?php fs_esc_html_echo_inline( 'Delegate to Site Admins', 'delegate-to-site-admins', $slug ) ?>
+                            <span class="fs-tooltip">
+                                <?php fs_esc_html_echo_inline( 'If you click it, this decision will be delegated to the sites administrators.', 'delegate-sites-tooltip', $slug ) ?>
+                            </span>
+                        </a>
                     <?php endif ?>
                     <?php if ( $activate_with_current_user ) : ?>
                         <form action="" method="POST">
@@ -390,11 +396,15 @@ if ( $is_optin_dialog ) { ?>
                             } ?>><?php echo esc_html( $button_label ) ?></button>
                         </form>
                     <?php endif ?>
+
                     <?php if ( $require_license_key ) : ?>
-                        <a id="license_issues_link" href="<?php echo $fs->apply_filters( 'known_license_issues_url', 'https://freemius.com/help/documentation/wordpress-sdk/license-activation-issues/' ) ?>" target="_blank"><?php fs_esc_html_echo_inline( 'License issues?', 'license-issues', $slug ) ?></a>
+                        <a id="license_issues_link"
+                           href="https://freemius.com/help/documentation/wordpress-sdk/license-activation-issues/"
+                           target="_blank">
+                           License issues?
+                        </a>
                     <?php endif ?>
 
-                    <?php $fs->do_action( 'connect/after_actions', $activation_state ) ?>
                 </div><?php
                 $permission_manager = FS_Permission_Manager::instance( $fs );
 
@@ -414,54 +424,86 @@ if ( $is_optin_dialog ) { ?>
                 if ( ! empty( $permissions ) ) : ?>
                     <div class="fs-permissions">
                         <?php if ( $require_license_key ) : ?>
-                            <a class="fs-trigger wp-core-ui" href="#" tabindex="1" style="color: inherit;"><?php echo sprintf(
-                                    fs_esc_html_inline( 'For delivery of security & feature updates, and license management, %s needs to', 'license-sync-disclaimer', $slug ) . '<b class="fs-arrow"></b>',
-                                    sprintf( '<nobr class="button-link" style="color: inherit;">%s</nobr>', $fs->get_plugin_title() )
-                                ) ?></a>
+                            <a class="fs-trigger wp-core-ui" href="#" tabindex="1" style="color: inherit;">
+                                <?php
+                                    echo
+                                        sprintf(
+                                         'For delivery of security & feature updates, and license 
+                                        management, %s needs to <b class="fs-arrow"></b>',
+                                        sprintf(
+                                            '<nobr class="button-link" style="color: inherit;">%s</nobr>',
+                                            $fs->get_plugin_title()
+                                        )
+                                    )
+                                ?>
+                            </a>
                         <?php else : ?>
-                            <a class="fs-trigger wp-core-ui" href="#" tabindex="1" style="color: inherit;"><?php printf(
-                                    fs_esc_html_inline( 'This will allow %s to', 'this-will-allow-x', $slug ) . '<b class="fs-arrow"></b>',
-                                    sprintf( '<nobr class="button-link" style="color: inherit;">%s</nobr>', $fs->get_plugin_title() )
-                                ) ?></a>
+                            <a class="fs-trigger wp-core-ui" href="#" tabindex="1" style="color: inherit;">
+                                <?php printf(
+                                    'This will allow %s to' . '<b class="fs-arrow"></b>',
+                                    sprintf(
+                                        '<nobr class="button-link" style="color: inherit;">%s</nobr>',
+                                        $fs->get_plugin_title()
+                                    )
+                                ) ?>
+                            </a>
                         <?php endif ?>
-                        <ul><?php
-                            foreach ( $permissions as $permission ) {
-                                $permission_manager->render_permission( $permission );
-                            }
-                            ?></ul>
+                        <ul>
+                            <?php
+                                foreach ( $permissions as $permission ) {
+                                    $permission_manager->render_permission( $permission );
+                                }
+                            ?>
+                        </ul>
                     </div>
                 <?php endif ?>
+
                 <?php if ( $is_premium_code && $is_freemium ) : ?>
                     <div class="fs-freemium-licensing">
                         <p>
                             <?php if ( $require_license_key ) : ?>
-                                <?php fs_esc_html_echo_inline( 'Don\'t have a license key?', 'dont-have-license-key', $slug ) ?>
-                                <a data-require-license="false" tabindex="1"><?php fs_esc_html_echo_inline( 'Activate Free Version', 'activate-free-version', $slug ) ?></a>
+                                Don't have a license key?
+                                <a data-require-license="false" tabindex="1">
+                                    Activate Free Version
+                                </a>
                             <?php else : ?>
-                                <?php fs_echo_inline( 'Have a license key?', 'have-license-key', $slug ) ?>
-                                <a data-require-license="true" tabindex="1"><?php fs_esc_html_echo_inline( 'Activate License', 'activate-license', $slug ) ?></a>
+                                Have a license key?
+                                <a data-require-license="true" tabindex="1">
+                                    Activate License
+                                </a>
                             <?php endif ?>
                         </p>
                     </div>
                 <?php endif ?>
+
             </div>
             <div class="fs-terms">
-                <a class="fs-tooltip-trigger<?php echo is_rtl() ? ' rtl' : '' ?>" href="<?php echo $freemius_site_url ?>" target="_blank" rel="noopener" tabindex="1">Powered by Freemius<?php if ( $require_license_key ) : ?> <span class="fs-tooltip" style="width: 170px"><?php echo $fs->get_text_inline( 'Freemius is our licensing and software updates engine', 'permissions-extensions_desc' ) ?></span><?php endif ?></a>
+                <a class="fs-tooltip-trigger<?php echo is_rtl() ? ' rtl' : '' ?>"
+                   href="<?php echo esc_url($freemius_site_url) ?>"
+                   target="_blank"
+                   rel="noopener"
+                   tabindex="1">
+                    Powered by Freemius
+                    <?php if ( $require_license_key ) : ?>
+                        <span class="fs-tooltip" style="width: 170px">
+                            Freemius is our licensing and software updates engine
+                        </span>
+                    <?php endif ?>
+                </a>
                 &nbsp;&nbsp;-&nbsp;&nbsp;
                 <a href="https://freemius.com/privacy/" target="_blank" rel="noopener"
-                   tabindex="1"><?php fs_esc_html_echo_inline( 'Privacy Policy', 'privacy-policy', $slug ) ?></a>
+                   tabindex="1">Privacy Policy
+                </a>
                 &nbsp;&nbsp;-&nbsp;&nbsp;
-                <a href="<?php echo $require_license_key ? $freemius_plugin_terms_url : $freemius_usage_tracking_url ?>" target="_blank" rel="noopener" tabindex="1"><?php $require_license_key ? fs_echo_inline( 'License Agreement', 'license-agreement', $slug ) : fs_echo_inline( 'Terms of Service', 'tos', $slug ) ?></a>
+                <a href="<?php echo esc_url($require_license_key ? $freemius_plugin_terms_url : $freemius_usage_tracking_url) ?>"
+                   target="_blank"
+                   rel="noopener"
+                   tabindex="1">
+                    <?php echo $require_license_key ? 'License Agreement' : 'Terms of Service' ?>
+                </a>
             </div>
         </div>
         <?php
-        /**
-         * Allows developers to include custom HTML after the opt-in content.
-         *
-         * @author Vova Feldman
-         * @since 2.3.2
-         */
-        $fs->do_action( 'connect/after', $activation_state );
 
         if ( $is_optin_dialog ) { ?>
     </div>
