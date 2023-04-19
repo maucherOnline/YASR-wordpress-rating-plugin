@@ -191,22 +191,21 @@ if ( $is_optin_dialog ) { ?>
                         }
                     }
                     ?>
-                    <p><?php
+                    <p>
+                        <?php
                         $button_label = 'Allow & Continue';
                         $message = '';
 
                         if ( $is_pending_activation ) {
                             $button_label = 'Re-send activation email';
 
-                            $message = $fs->apply_filters( 'pending_activation_message', sprintf(
-                            /* translators: %s: name (e.g. Thanks John!) */
-                                fs_text_inline( 'Thanks %s!', 'thanks-x', $slug ) . '<br>' .
-                                fs_text_inline( 'You should receive a confirmation email for %s to your mailbox at %s. Please make sure you click the button in that email to %s.', 'pending-activation-message', $slug ),
-                                $first_name,
+                            $message = sprintf(
+                                    '<strong>Thanks!</strong> <br /> 
+                                You should receive a confirmation email for %s to your mailbox at %s. 
+                                Please make sure you click the button in that email to complete the opt-in.',
                                 '<b>' . $fs->get_plugin_name() . '</b>',
-                                '<b>' . $current_user->user_email . '</b>',
-                                fs_text_inline( 'complete the opt-in', 'complete-the-opt-in', $slug )
-                            ) );
+                                '<b>' . $current_user->user_email . '</b>'
+                            );
                         } else if ( $require_license_key ) {
                             $button_label = 'Activate License';
 
@@ -219,30 +218,30 @@ if ( $is_optin_dialog ) { ?>
                                 $fs->get_plugin_name()
                             );
                         } else {
-                            $filter = 'connect_message';
-
                             if ( ! $fs->is_plugin_update() ) {
-                                $default_optin_message = esc_html(
-                                    sprintf(
-                                    /* translators: %s: module type (plugin, theme, or add-on) */
-                                        'Opt in to get email notifications for security & feature updates, 
-                                        educational content, and occasional offers, and to share some basic WordPress 
-                                        environment info. This will help us make the %s more compatible with your site 
-                                        and better at doing what you need it to.',
-                                        $fs->get_module_label( true )
-                                    )
-                                );
+                                $default_optin_message =
+                                    esc_html(
+                                        sprintf(
+                                        /* translators: %s: module type (plugin, theme, or add-on) */
+                                            'Opt in to get email notifications for security & feature updates, 
+                                            educational content, and occasional offers, and to share some basic WordPress 
+                                            environment info. This will help us make the %s more compatible with your site 
+                                            and better at doing what you need it to.',
+                                            $fs->get_module_label( true )
+                                        )
+                                 );
                             } else {
                                 // If Freemius was added on a plugin update, set different
                                 // opt-in message.
 
                                 /* translators: %s: module type (plugin, theme, or add-on) */
-                                $default_optin_message = esc_html(
-                                    sprintf('We have introduced this opt-in so you never miss an important update and 
-                                            help us make the %s more compatible with your site and better at doing what 
-                                            you need it to.',
-                                        $fs->get_module_label( true )
-                                    )
+                                $default_optin_message =
+                                    esc_html(
+                                        sprintf('We have introduced this opt-in so you never miss an important update and 
+                                                help us make the %s more compatible with your site and better at doing what 
+                                                you need it to.',
+                                            $fs->get_module_label( true )
+                                        )
                                 );
 
                                 $default_optin_message .= '<br><br>
@@ -266,26 +265,47 @@ if ( $is_optin_dialog ) { ?>
                         }
 
                         if ( $is_network_upgrade_mode ) {
-                            $network_integration_text = esc_html( fs_text_inline( 'We\'re excited to introduce the Freemius network-level integration.', 'connect_message_network_upgrade', $slug ) );
+                            $network_integration_text =  'We\'re excited to introduce the  Freemius network-level integration.';
 
                             if ($is_premium_code){
-                                $message = $network_integration_text . ' ' . sprintf( fs_text_inline( 'During the update process we detected %d site(s) that are still pending license activation.', 'connect_message_network_upgrade-premium', $slug ), count( $sites ) );
+                                $message = $network_integration_text . ' ' .
+                                    sprintf(
+                                        'During the update process we detected %d site(s) that are still pending license activation.',
+                                        count( $sites )
+                                    );
 
-                                $message .= '<br><br>' . sprintf( fs_text_inline( 'If you\'d like to use the %s on those sites, please enter your license key below and click the activation button.', 'connect_message_network_upgrade-premium-activate-license', $slug ), $is_premium_only ? $fs->get_module_label( true ) : sprintf(
-                                    /* translators: %s: module type (plugin, theme, or add-on) */
-                                        fs_text_inline( "%s's paid features", 'x-paid-features', $slug ),
-                                        $fs->get_module_label( true )
-                                    ) );
+                                $message .= '<br><br>' .
+                                    sprintf(
+                                        'If you\'d like to use the %s on those sites, please enter your license 
+                                        key below and click the activation button.',
+                                        $is_premium_only ? $fs->get_module_label( true ) :
+                                            sprintf(
+                                                /* translators: %s: module type (plugin, theme, or add-on) */
+                                            "%s's paid features",
+                                                $fs->get_module_label( true )
+                                            )
+                                    );
 
                                 /* translators: %s: module type (plugin, theme, or add-on) */
-                                $message .= ' ' . sprintf( fs_text_inline( 'Alternatively, you can skip it for now and activate the license later, in your %s\'s network-level Account page.', 'connect_message_network_upgrade-premium-skip-license', $slug ), $fs->get_module_label( true ) );
-                            }else {
-                                $message = $network_integration_text . ' ' . sprintf( fs_text_inline( 'During the update process we detected %s site(s) in the network that are still pending your attention.', 'connect_message_network_upgrade-free', $slug ), count( $sites ) ) . '<br><br>' . ( fs_starts_with( $message, $hey_x_text . '<br>' ) ? substr( $message, strlen( $hey_x_text . '<br>' ) ) : $message );
+                                $message .= ' ' .
+                                    sprintf('Alternatively, you can skip it for now and activate the license 
+                                        later, in your %s\'s network-level Account page.',
+                                        $fs->get_module_label( true )
+                                    );
+                            } else {
+                                $message = $network_integration_text . ' ' .
+                                    sprintf( 'During the update process we detected %s site(s) in the  network that 
+                                    are still pending your attention.',
+                                        count( $sites )
+                                    )
+                                    . '<br><br>' .
+                                    ( fs_starts_with( $message, $hey_x_text . '<br>' ) ? substr( $message, strlen( $hey_x_text . '<br>' ) ) : $message );
                             }
                         }
 
                         echo $message;
-                        ?></p>
+                        ?>
+                    </p>
                     <?php if ( $require_license_key ) : ?>
                         <div class="fs-license-key-container">
                             <label for="fs_license_key"></label>
@@ -302,16 +322,6 @@ if ( $is_optin_dialog ) { ?>
                         </div>
 
                         <?php
-                        /**
-                         * Allows developers to include custom HTML after the license input container.
-                         *
-                         * @author Vova Feldman
-                         * @since 2.1.2
-                         */
-                        $fs->do_action( 'connect/after_license_input', $activation_state );
-                        ?>
-
-                        <?php
                         $send_updates_text = sprintf(
                             '%s<span class="action-description"> - %s</span>',
                             'Yes',
@@ -320,16 +330,16 @@ if ( $is_optin_dialog ) { ?>
 
                         $do_not_send_updates_text = sprintf(
                             '%s<span class="action-description"> - %s</span>',
-                            $fs->get_text_inline( 'No', 'no' ),
-                            sprintf(
-                                $fs->get_text_inline( 'do %sNOT%s send me security & feature updates, educational content and offers.', 'do-not-send-updates' ),
-                                '<span class="underlined">',
-                                '</span>'
-                            )
+                            'No',
+                            'do <span class="underlined">NOT</span> send me security & feature updates, educational content and offers.'
                         );
                         ?>
+
                         <div id="fs_marketing_optin">
-                            <span class="fs-message"><?php fs_echo_inline( "Please let us know if you'd like us to contact you for security & feature updates, educational content, and occasional offers:", 'contact-for-updates' ) ?></span>
+                            <span class="fs-message">
+                                Please let us know if you'd like us to contact you for security &
+                                feature updates, educational content, and occasional offers:
+                            </span>
                             <div class="fs-input-container">
                                 <label>
                                     <input type="radio" name="allow-marketing" value="true" tabindex="1" />
@@ -341,6 +351,7 @@ if ( $is_optin_dialog ) { ?>
                                 </label>
                             </div>
                         </div>
+
                     <?php endif ?>
                     <?php if ( $is_network_level_activation ) : ?>
                         <?php
