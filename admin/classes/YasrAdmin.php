@@ -66,6 +66,51 @@ class YasrAdmin {
      */
     private function freemiusHooks() {
         /**
+         * Customize Freemius opt-in screen TO NOT ALLOW TRANSLATIONS
+         */
+        yasr_fs()->add_filter('connect-header_on-update', static function () {
+            return (
+                sprintf(
+                '<h2>%s</h2>',
+                    sprintf(
+                        'Thank you for updating to %s v%s!',
+                        'Yet Another Stars Rating',
+                        YASR_VERSION_NUM
+                    )
+                )
+            );
+        });
+
+        yasr_fs()->add_filter('connect_message_on_update',
+            static function ($message, $user_first_name, $product_title, $user_login, $site_link, $freemius_link) {
+                return sprintf(
+                    ( 'Please help us improve %2$s! If you opt-in, some data about your usage of %2$s will be sent to %5$s. If you skip this, that\'s okay! %2$s will still work just fine.'),
+                    $user_first_name,
+                    '<b>' . $product_title . '</b>',
+                    '<b>' . $user_login . '</b>',
+                    $site_link,
+                    $freemius_link
+                );
+            },
+        10, 6);
+
+        yasr_fs()->add_filter('permission_list', static function ($permissions) {
+            $permissions[0]['label'] = 'View Basic Profile Info';
+            $permissions[0]['desc']  = 'Your WordPress user\'s: first & last name, and email address';
+
+            $permissions[1]['label'] = 'View Basic Website Info';
+            $permissions[1]['desc']  = 'Homepage URL & title, WP & PHP versions, and site language';
+
+            $permissions[2]['label'] = 'View Basic Plugin Info';
+            $permissions[2]['desc']  = 'Current plugin & SDK versions, and if active or uninstalled';
+
+            $permissions[3]['label'] = 'View Plugins & Themes List';
+            $permissions[3]['desc']  = 'Names, slugs, versions, and if active or not';
+
+            return $permissions;
+        });
+
+        /**
          * https://freemius.com/help/documentation/selling-with-freemius/free-trials/
          *
          * With this hook I change the default Freemius behavior to show trial message after 1 week instead of 1 day
