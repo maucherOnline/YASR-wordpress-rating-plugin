@@ -68,7 +68,7 @@ class YasrAdmin {
         //customize optin page to force to be in English
         yasr_fs()->add_filter('templates/connect.php', static function ($vars) {
             //echo($vars);
-            include YASR_ABSOLUTE_PATH_ADMIN . '/yasr_optin_page.php';
+            include YASR_ABSOLUTE_PATH_ADMIN . '/yasr-optin-page.php';
         });
 
         yasr_fs()->add_filter('permission_list', static function ($permissions) {
