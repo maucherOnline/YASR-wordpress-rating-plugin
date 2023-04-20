@@ -133,18 +133,17 @@ $activation_state = array(
     'is_network_level_activation' => $is_network_level_activation,
     'is_dialog'                   => $is_optin_dialog,
 );
-?>
-<?php
+
+
 if ( $is_optin_dialog ) { ?>
     <div id="fs_theme_connect_wrapper">
         <?php
-        if ( $show_close_button ) { ?>
-            <button class="close dashicons dashicons-no"><span class="screen-reader-text">Close connect dialog</span>
-            </button>
-            <?php
-        }
-        ?>
-        <?php
+            if ( $show_close_button ) { ?>
+                <button class="close dashicons dashicons-no"><span class="screen-reader-text">Close connect dialog</span>
+                </button>
+                <?php
+            }
+
         }
 
 
@@ -160,7 +159,7 @@ if ( $is_optin_dialog ) { ?>
                 $image_url = YASR_IMG_DIR . '/yet-another-stars-rating.png';
                 ?>
                 <div class="fs-plugin-icon">
-                    <img src="<?php echo $image_url ?>"
+                    <img src="<?php echo esc_url($image_url) ?>"
                          width="<?php echo esc_attr($size) ?>"
                          height="<?php echo esc_attr($size) ?>"
                          alt="logo"
@@ -178,7 +177,9 @@ if ( $is_optin_dialog ) { ?>
                     <?php
                     if ( ! $is_pending_activation && ! $require_license_key ) {
                         if ( ! $fs->is_plugin_update() ) {
-                            echo 'Never miss an important update';
+                            echo '<h2 style="text-align: center">
+                                      Never miss an important update
+                                  </h2>';
                         } else {
                             echo sprintf(
                                 '<h2>%s</h2>',
@@ -311,7 +312,7 @@ if ( $is_optin_dialog ) { ?>
                             <label for="fs_license_key"></label>
                             <input id="fs_license_key" name="fs_key" type="text" required
                                    maxlength="<?php echo $fs->apply_filters('license_key_maxlength', 32) ?>"
-                                   placeholder="<?php fs_esc_attr_echo_inline( 'License key', 'license-key', $slug ) ?>"
+                                   placeholder="License key"
                                    tabindex="1"
                             />
                             <i class="dashicons dashicons-admin-network"></i>
@@ -343,11 +344,15 @@ if ( $is_optin_dialog ) { ?>
                             <div class="fs-input-container">
                                 <label>
                                     <input type="radio" name="allow-marketing" value="true" tabindex="1" />
-                                    <span class="fs-input-label"><?php echo $send_updates_text ?></span>
+                                    <span class="fs-input-label">
+                                        <?php echo wp_kses_post($send_updates_text) ?>
+                                    </span>
                                 </label>
                                 <label>
                                     <input type="radio" name="allow-marketing" value="false" tabindex="1" />
-                                    <span class="fs-input-label"><?php echo $do_not_send_updates_text ?></span>
+                                    <span class="fs-input-label">
+                                        <?php echo wp_kses_post($send_updates_text) ?>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -369,20 +374,25 @@ if ( $is_optin_dialog ) { ?>
                 <div class="fs-actions">
 
                     <?php if ( $fs->is_enable_anonymous() && ! $is_pending_activation && ( ! $require_license_key || $is_network_upgrade_mode ) ) : ?>
-                        <a id="skip_activation" href="<?php echo fs_nonce_url( $fs->_get_admin_page_url( '', array( 'fs_action' => $fs->get_unique_affix() . '_skip_activation' ), $is_network_level_activation ), $fs->get_unique_affix() . '_skip_activation' ) ?>"
-                           class="button button-secondary" tabindex="2"><?php fs_esc_html_echo_x_inline( 'Skip', 'verb', 'skip', $slug ) ?></a>
+                        <a id="skip_activation"
+                           href="<?php echo fs_nonce_url( $fs->_get_admin_page_url( '', array( 'fs_action' => $fs->get_unique_affix() . '_skip_activation' ), $is_network_level_activation ), $fs->get_unique_affix() . '_skip_activation' ) ?>"
+                           class="button button-secondary"
+                           tabindex="2" >
+                           Skip
+                        </a>
                     <?php endif ?>
+
                     <?php if ( $is_network_level_activation && $fs->apply_filters( 'show_delegation_option', true ) ) : ?>
                         <a id="delegate_to_site_admins"
-                           class="fs-tooltip-trigger
-                           <?php echo is_rtl() ? ' rtl' : '' ?>"
+                           class="fs-tooltip-trigger <?php echo is_rtl() ? ' rtl' : '' ?>"
                            href="<?php echo fs_nonce_url( $fs->_get_admin_page_url( '', array( 'fs_action' => $fs->get_unique_affix() . '_delegate_activation' ) ), $fs->get_unique_affix() . '_delegate_activation' ) ?>">
-                            <?php fs_esc_html_echo_inline( 'Delegate to Site Admins', 'delegate-to-site-admins', $slug ) ?>
+                            Delegate to Site Admins
                             <span class="fs-tooltip">
-                                <?php fs_esc_html_echo_inline( 'If you click it, this decision will be delegated to the sites administrators.', 'delegate-sites-tooltip', $slug ) ?>
+                                If you click it, this decision will be delegated to the sites administrators.
                             </span>
                         </a>
                     <?php endif ?>
+
                     <?php if ( $activate_with_current_user ) : ?>
                         <form action="" method="POST">
                             <input type="hidden" name="fs_action"
@@ -397,7 +407,7 @@ if ( $is_optin_dialog ) { ?>
                         <form method="post" action="<?php echo WP_FS__ADDRESS ?>/action/service/user/install/">
                             <?php unset( $optin_params['sites']); ?>
                             <?php foreach ( $optin_params as $name => $value ) : ?>
-                                <input type="hidden" name="<?php echo $name ?>" value="<?php echo esc_attr( $value ) ?>">
+                                <input type="hidden" name="<?php echo esc_attr($name) ?>" value="<?php echo esc_attr( $value ) ?>">
                             <?php endforeach ?>
                             <input type="hidden" name="is_extensions_tracking_allowed" value="1">
                             <input type="hidden" name="is_diagnostic_tracking_allowed" value="1">
@@ -416,76 +426,79 @@ if ( $is_optin_dialog ) { ?>
                         </a>
                     <?php endif ?>
 
-                </div><?php
-                $permission_manager = FS_Permission_Manager::instance( $fs );
+                </div>
 
-                // Set core permission list items.
-                $permissions = array();
+                <?php
+                    $permission_manager = FS_Permission_Manager::instance( $fs );
 
-                // Add newsletter permissions if enabled.
-                if ( $fs->is_permission_requested( 'newsletter' ) ) {
-                    $permissions[] = $permission_manager->get_newsletter_permission();
-                }
+                    // Set core permission list items.
+                    $permissions = array();
 
-                $permissions = $permission_manager->get_permissions(
-                    $require_license_key,
-                    $permissions
-                );
+                    // Add newsletter permissions if enabled.
+                    if ( $fs->is_permission_requested( 'newsletter' ) ) {
+                        $permissions[] = $permission_manager->get_newsletter_permission();
+                    }
 
-                if ( ! empty( $permissions ) ) : ?>
-                    <div class="fs-permissions">
-                        <?php if ( $require_license_key ) : ?>
-                            <a class="fs-trigger wp-core-ui" href="#" tabindex="1" style="color: inherit;">
-                                <?php
-                                    echo
-                                        sprintf(
-                                         'For delivery of security & feature updates, and license 
-                                        management, %s needs to <b class="fs-arrow"></b>',
+                    $permissions = $permission_manager->get_permissions(
+                        $require_license_key,
+                        $permissions
+                    );
+
+                    if ( ! empty( $permissions ) ) : ?>
+                        <div class="fs-permissions">
+                            <?php if ( $require_license_key ) : ?>
+                                <a class="fs-trigger wp-core-ui" href="#" tabindex="1" style="color: inherit;">
+                                    <?php
+                                        echo
+                                            sprintf(
+                                             'For delivery of security & feature updates, and license 
+                                            management, %s needs to <b class="fs-arrow"></b>',
+                                            sprintf(
+                                                '<nobr class="button-link" style="color: inherit;">%s</nobr>',
+                                                $fs->get_plugin_title()
+                                            )
+                                        )
+                                    ?>
+                                </a>
+                            <?php else : ?>
+                                <a class="fs-trigger wp-core-ui" href="#" tabindex="1" style="color: inherit;">
+                                    <?php printf(
+                                        'This will allow %s to' . '<b class="fs-arrow"></b>',
                                         sprintf(
                                             '<nobr class="button-link" style="color: inherit;">%s</nobr>',
                                             $fs->get_plugin_title()
                                         )
-                                    )
-                                ?>
-                            </a>
-                        <?php else : ?>
-                            <a class="fs-trigger wp-core-ui" href="#" tabindex="1" style="color: inherit;">
-                                <?php printf(
-                                    'This will allow %s to' . '<b class="fs-arrow"></b>',
-                                    sprintf(
-                                        '<nobr class="button-link" style="color: inherit;">%s</nobr>',
-                                        $fs->get_plugin_title()
-                                    )
-                                ) ?>
-                            </a>
-                        <?php endif ?>
-                        <ul>
-                            <?php
-                                foreach ( $permissions as $permission ) {
-                                    $permission_manager->render_permission( $permission );
-                                }
-                            ?>
-                        </ul>
-                    </div>
-                <?php endif ?>
-
-                <?php if ( $is_premium_code && $is_freemium ) : ?>
-                    <div class="fs-freemium-licensing">
-                        <p>
-                            <?php if ( $require_license_key ) : ?>
-                                Don't have a license key?
-                                <a data-require-license="false" tabindex="1">
-                                    Activate Free Version
-                                </a>
-                            <?php else : ?>
-                                Have a license key?
-                                <a data-require-license="true" tabindex="1">
-                                    Activate License
+                                    ) ?>
                                 </a>
                             <?php endif ?>
-                        </p>
-                    </div>
-                <?php endif ?>
+                            <ul>
+                                <?php
+                                    foreach ( $permissions as $permission ) {
+                                        $permission_manager->render_permission( $permission );
+                                    }
+                                ?>
+                            </ul>
+                        </div>
+                    <?php endif ?>
+
+                    <?php if ( $is_premium_code && $is_freemium ) : ?>
+                        <div class="fs-freemium-licensing">
+                            <p>
+                                <?php if ( $require_license_key ) : ?>
+                                    Don't have a license key?
+                                    <a data-require-license="false" tabindex="1">
+                                        Activate Free Version
+                                    </a>
+                                <?php else : ?>
+                                    Have a license key?
+                                    <a data-require-license="true" tabindex="1">
+                                        Activate License
+                                    </a>
+                                <?php endif ?>
+                            </p>
+                        </div>
+                    <?php endif
+                ?>
 
             </div>
             <div class="fs-terms">
@@ -670,7 +683,7 @@ if ( $is_optin_dialog ) { ?>
                     $skipActivationButton.click(function(){
                         $delegateToSiteAdminsButton.hide();
 
-                        $skipActivationButton.html('<?php fs_esc_js_echo_inline( 'Skipping, please wait', 'skipping-wait', $slug ) ?>...');
+                        $skipActivationButton.html('Skipping, please wait...');
 
                         pauseCtaLabelUpdate = true;
 
@@ -685,7 +698,7 @@ if ( $is_optin_dialog ) { ?>
                     });
 
                     $delegateToSiteAdminsButton.click(function(){
-                        $delegateToSiteAdminsButton.html('<?php fs_esc_js_echo_inline( 'Delegating, please wait', 'delegating-wait', $slug ) ?>...');
+                        $delegateToSiteAdminsButton.html('Delegating, please wait...');
 
                         pauseCtaLabelUpdate = true;
 
@@ -728,17 +741,17 @@ if ( $is_optin_dialog ) { ?>
                 if (pauseCtaLabelUpdate)
                     return;
 
-                var text = '<?php fs_esc_js_echo_inline( 'Continue', 'continue', $slug ) ?>';
+                var text = 'Continue';
 
                 switch ( actionType ) {
                     case 'allow':
-                        text = '<?php fs_esc_js_echo_inline( 'Allow & Continue', 'opt-in-connect', $slug ) ?>';
+                        text = 'Allow & Continue';
                         break;
                     case 'delegate':
-                        text = '<?php fs_esc_js_echo_inline( 'Delegate to Site Admins & Continue', 'delegate-to-site-admins-and-continue', $slug ) ?>';
+                        text = 'Delegate to Site Admins & Continue';
                         break;
                     case 'skip':
-                        text = '<?php fs_esc_js_echo_x_inline( 'Skip', 'verb', 'skip', $slug ) ?>';
+                        text = 'Skip';
                         break;
                 }
 
@@ -1057,7 +1070,7 @@ if ( $is_optin_dialog ) { ?>
 
                         $primaryCta.addClass('fs-loading');
                         $primaryCta.attr('disabled', 'disabled');
-                        $primaryCta.html('<?php fs_esc_js_echo_inline( 'Please wait', 'please-wait', $slug ) ?>...');
+                        $primaryCta.html('Please wait...');
 
                         $.ajax({
                             url    : <?php echo Freemius::ajax_url() ?>,
