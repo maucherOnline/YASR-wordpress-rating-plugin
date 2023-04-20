@@ -1,4 +1,18 @@
 <?php
+
+/**
+ * This file is based on https://github.com/Freemius/wordpress-sdk/blob/095fc9ced29efef5b18f9b7242bb80b0b4ac6aff/templates/connect.php
+ *
+ * In version 2.5.6 of the Freemius sdk, translations get broken.
+ * This was fixed in version 2.5.6.1, but this could happen again.
+ *
+ * Further this, translation get old, and the optin page is a LEGAL page.
+ * To be sure that the plugin is ALWAYS 100% compliant, I've copied the original connect.php file and remove all the translation
+ * function.
+ *
+ * For over a decade, GPL was in English only. I'm just doing the same thing here.
+ */
+
 /**
  * @since       1.0.7
  * @copyright   Copyright (c) 2015, Freemius, Inc.
