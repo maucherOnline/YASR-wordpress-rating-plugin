@@ -67,7 +67,7 @@ class YasrAdmin {
     private function freemiusHooks() {
         yasr_fs()->add_filter('templates/connect.php', static function ($vars) {
             //echo($vars);
-            include YASR_ABSOLUTE_PATH_ADMIN . '/yasr_connect.php';
+            include YASR_ABSOLUTE_PATH_ADMIN . '/yasr_optin_page.php';
         });
 
         yasr_fs()->add_filter('permission_list', static function ($permissions) {
