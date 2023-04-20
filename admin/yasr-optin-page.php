@@ -11,6 +11,9 @@
  * function.
  *
  * For over a decade, GPL was in English only. I'm just doing the same thing here.
+ *
+ * To see the changes, see this
+ * https://github.com/Dudo1985/freemius-custom-optin-page/commit/a7f974618b2f2ab324892716d4e091302dc82faa?diff=split&w=1
  */
 
 /**
