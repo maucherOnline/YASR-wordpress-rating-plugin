@@ -106,7 +106,7 @@ class YasrShortcodesAjax {
         }
 
         $current_user_id = get_current_user_id();
-        $ip_address      = yasr_return_ip_to_save();
+        $ip_address      = yasr_ip_to_save();
 
         $result_update_log = false; //avoid undefined
         $result_insert_log = false; //avoid undefined
@@ -282,7 +282,7 @@ class YasrShortcodesAjax {
         }
 
         $current_user_id = get_current_user_id();
-        $ip_address      = yasr_return_ip_to_save();
+        $ip_address      = yasr_ip_to_save();
 
         $array_action_visitor_multiset_vote = array('post_id' => $post_id);
 
