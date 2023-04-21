@@ -637,7 +637,7 @@ class YasrProCommentForm {
                         'vote'       => $rating,
                         'user_id'    => get_current_user_id(),
                         'date'       => date('Y-m-d H:i:s'),
-                        'ip'         => yasr_get_ip()
+                        'ip'         => yasr_return_ip_to_save()
                     ),
                     array("%d", "%d", "%d", "%d", "%d", "%s", "%s", "%s")
                 );

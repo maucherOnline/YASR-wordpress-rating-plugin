@@ -137,40 +137,61 @@ function yasr_setcookie($cookiename, $data_to_save) {
 
 }
 
-/*** Function to get ip, since version 0.8.8
+/** Function to get ip, since version 0.8.8
+ *
+ **/
+
+/**
+ * Get the user Ip
+ *
  * This code can be found on http://codex.wordpress.org/Plugin_API/Filter_Reference/pre_comment_user_ip
- ***/
-
+ *
+ * @author Dario Curvino <@dudo>
+ *
+ * @since  0.8.8
+ * @return array|mixed|string|string[]|null
+ */
 function yasr_get_ip() {
+    $ip = null;
+    $ip = apply_filters('yasr_filter_ip', $ip);
 
-    if (YASR_ENABLE_IP === 'yes') {
-        $ip = null;
-        $ip = apply_filters('yasr_filter_ip', $ip);
-
-        if (isset($ip)) {
-            return $ip;
-        }
-        $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
-
-        if (!empty($_SERVER['X_FORWARDED_FOR'])) {
-            $X_FORWARDED_FOR = explode(',', $_SERVER['X_FORWARDED_FOR']);
-            if (!empty($X_FORWARDED_FOR)) {
-                $REMOTE_ADDR = trim($X_FORWARDED_FOR[0]);
-            }
-        }
-        /*
-        * Some php environments will use the $_SERVER['HTTP_X_FORWARDED_FOR']
-        * variable to capture visitor address information.
-        */
-
-        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $HTTP_X_FORWARDED_FOR = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-            if (!empty($HTTP_X_FORWARDED_FOR)) {
-                $REMOTE_ADDR = trim($HTTP_X_FORWARDED_FOR[0]);
-            }
-        }
-        return preg_replace('/[^0-9a-f:., ]/si', '', $REMOTE_ADDR);
+    if (isset($ip)) {
+        return $ip;
     }
+    $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
+
+    if (!empty($_SERVER['X_FORWARDED_FOR'])) {
+        $X_FORWARDED_FOR = explode(',', $_SERVER['X_FORWARDED_FOR']);
+        if (!empty($X_FORWARDED_FOR)) {
+            $REMOTE_ADDR = trim($X_FORWARDED_FOR[0]);
+        }
+    }
+    /*
+    * Some php environments will use the $_SERVER['HTTP_X_FORWARDED_FOR']
+    * variable to capture visitor address information.
+    */
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $HTTP_X_FORWARDED_FOR = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        if (!empty($HTTP_X_FORWARDED_FOR)) {
+            $REMOTE_ADDR = trim($HTTP_X_FORWARDED_FOR[0]);
+        }
+    }
+    return preg_replace('/[^0-9a-f:., ]/i', '', $REMOTE_ADDR);
+}
+
+/**
+ * Return ip if enabled on YASR settings
+ *
+ * @author Dario Curvino <@dudo>
+ *
+ * @since  3.3.7
+ * @return array|mixed|string|string[]|null
+ */
+function yasr_ip_to_save () {
+    if (YASR_ENABLE_IP === 'yes') {
+        return yasr_get_ip();
+    }
+
     return ('X.X.X.X');
 }
 
