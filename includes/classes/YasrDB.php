@@ -339,7 +339,11 @@ class YasrDB {
      *
      * @return bool|int
      */
-    public static function vvUpdateRating($post_id, $user_id, $rating, $ip_address) {
+    public static function vvUpdateRating($post_id, $user_id, $rating, $ip_address=false) {
+        if($ip_address === false) {
+            $ip_address = yasr_ip_to_save();
+        }
+
         global $wpdb;
 
         return $wpdb->update(

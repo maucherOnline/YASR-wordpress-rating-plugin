@@ -113,7 +113,7 @@ class YasrShortcodesAjax {
 
         if (is_user_logged_in()) {
             //try to update first, if fails the do the insert
-            $result_update_log = YasrDB::vvUpdateRating($post_id, $current_user_id, $rating, $ip_address);
+            $result_update_log = YasrDB::vvUpdateRating($post_id, $current_user_id, $rating);
 
             //insert the new row
             //use ! instead of === FALSE
