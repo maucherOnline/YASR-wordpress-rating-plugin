@@ -67,10 +67,13 @@ class YasrAdmin {
     private function freemiusHooks() {
         //customize optin page to force to be in English
         yasr_fs()->add_filter('templates/connect.php', static function ($vars) {
-            //echo($vars);
             include YASR_ABSOLUTE_PATH_ADMIN . '/yasr-optin-page.php';
         });
 
+        /**
+         * Customize Freemius permission list TO NOT ALLOW TRANSLATIONS
+         * @see yasr-optin-page.php
+         */
         yasr_fs()->add_filter('permission_list', static function ($permissions) {
             $permissions[0]['label'] = 'View Basic Profile Info';
             $permissions[0]['desc']  = 'Your WordPress user\'s: first & last name, and email address';

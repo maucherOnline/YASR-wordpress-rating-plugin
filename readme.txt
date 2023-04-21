@@ -209,6 +209,7 @@ The full changelog can be found in the plugin's directory. Recent entries:
 = 3.3.7 =
 * FIXED: Structured data options -> image url didn't get saved
 * TWEAKED: added filters yasr_filter_itemtypes and yasr_filter_itemtypes_fields to add new rich snippet itemTypes
+* FIXED: freemius translation didn't work.
 [//]: # fs_premium_only_begin
 PREMIUM ONLY:
 * FIXED: Multi Set didn't appear in comment reviews when enabled
