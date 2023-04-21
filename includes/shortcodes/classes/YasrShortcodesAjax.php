@@ -118,12 +118,12 @@ class YasrShortcodesAjax {
             //insert the new row
             //use ! instead of === FALSE
             if (!$result_update_log) {
-                $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
+                $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating);
             }
 
         } //if user is not logged in insert
         else {
-            $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
+            $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating);
         }
 
         if ($result_update_log || $result_insert_log) {
