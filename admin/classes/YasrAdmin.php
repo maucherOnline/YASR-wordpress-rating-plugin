@@ -320,6 +320,9 @@ class YasrAdmin {
         //do only in admin
         if (is_admin() && current_user_can('activate_plugins')) {
             global $wpdb;
+
+            $yasr_stored_options = get_option('yasr_general_options');
+
             if (YASR_VERSION_INSTALLED !== false) {
                 //In version 2.9.7 the column comment_id is added
                 //Remove Dec 2023
@@ -327,6 +330,13 @@ class YasrAdmin {
                     $wpdb->query("ALTER TABLE " . YASR_LOG_MULTI_SET . " ADD comment_id bigint(20) NOT NULL AFTER post_id");
                 }
 
+                //Since version 3.3.8 IP is enabled by default
+                //Remove Gen 2024
+                if (version_compare(YASR_VERSION_INSTALLED, '3.3.8') === -1) {
+                    $yasr_stored_options['enable_ip'] = 'yes';
+                }
+
+                update_option('yasr_general_options', $yasr_stored_options);
             } //Endif yasr_version_installed !== false
             /****** End backward compatibility functions ******/
 
