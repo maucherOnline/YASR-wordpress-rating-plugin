@@ -206,6 +206,9 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.3.8 =
+* FIXED: in admin dashboard, a warning is returned in "Recent Ratings" widget in some circumstances
+
 = 3.3.7 =
 * FIXED: Structured data options -> image url didn't get saved
 * TWEAKED: added filters yasr_filter_itemtypes and yasr_filter_itemtypes_fields to add new rich snippet itemTypes
