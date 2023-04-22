@@ -151,11 +151,6 @@ if ( ! function_exists( 'yasr_fs' ) ) {
         require YASR_ABSOLUTE_PATH_PUBLIC . '/yasr-public-init.php';
     }
 
-    //role to save overall_rating and multi set
-    if(!defined('YASR_USER_CAPABILITY_EDIT_POST')) {
-        define('YASR_USER_CAPABILITY_EDIT_POST', 'edit_posts');
-    }
-
     define('YASR_VERSION_INSTALLED', get_option('yasr-version'));
 
     define('YASR_PLUGIN_IMPORTED',   get_option('yasr_plugin_imported'));
