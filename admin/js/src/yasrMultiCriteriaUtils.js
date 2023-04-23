@@ -254,7 +254,12 @@ export const yasrMultiCriteriaEditPage = () => {
     let postId                     = parseInt(divContainer.getAttribute('data-postid'));
     //do not use parseInt here, or an empty value will be converted to 0
     const yasrProReviewSetid         = document.getElementById('yasr-pro-review-setid');
-    const yasrProReviewSetidPostMeta = document.getElementById('yasr-pro-review-setid-postmeta-value').value;
+
+    let yasrProReviewSetidPostMeta = null;
+    if(!!document.getElementById('yasr-pro-review-setid-postmeta-value') === true) {
+        yasrProReviewSetidPostMeta = document.getElementById('yasr-pro-review-setid-postmeta-value').value;
+    }
+
     const copyRoMultiset             = document.getElementById('yasr-editor-copy-readonly-multiset');
     const copyVisitorMultiset        = document.getElementById('yasr-editor-copy-visitor-multiset');
     const copyAverageMultiSet        = document.getElementById('yasr-editor-copy-average-multiset');
@@ -465,7 +470,10 @@ const yasrManageMultiSelectEditPage = (
         //update hidden field
         yasrProReviewSetid.value = setId;
 
-        const yasrProReviewSetidPostMeta = document.getElementById('yasr-pro-review-setid-postmeta-value').value;
+        let yasrProReviewSetidPostMeta = null;
+        if(!!document.getElementById('yasr-pro-review-setid-postmeta-value') === true) {
+            yasrProReviewSetidPostMeta = document.getElementById('yasr-pro-review-setid-postmeta-value').value;
+        }
 
         if(yasrProReviewSetidPostMeta !== null && yasrProReviewSetidPostMeta !== '') {
 
