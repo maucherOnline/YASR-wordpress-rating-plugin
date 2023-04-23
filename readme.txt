@@ -4,7 +4,7 @@ Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo
 Tested up to: 6.2
-Stable tag: 3.3.8
+Stable tag: 3.3.9
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
@@ -206,8 +206,11 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
-= 3.3.8 =
+= 3.3.9 =
 * FIXED: in admin dashboard, a warning is returned in "Recent Ratings" widget in some circumstances
+
+= 3.3.8 =
+* FIXED: Impossible to rate in a multi set in the editor screen
 
 = 3.3.7 =
 * FIXED: Structured data options -> image url didn't get saved
