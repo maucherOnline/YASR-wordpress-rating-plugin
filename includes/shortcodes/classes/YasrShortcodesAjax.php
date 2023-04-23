@@ -108,35 +108,54 @@ class YasrShortcodesAjax {
         $current_user_id = get_current_user_id();
         $ip_address      = yasr_ip_to_save();
 
-        $result_update_log = false; //avoid undefined
-        $result_insert_log = false; //avoid undefined
 
         if (is_user_logged_in()) {
-            //try to update first, if fails the do the insert
-            $result_update_log = YasrDB::vvUpdateRating($post_id, $current_user_id, $rating);
-
-            //insert the new row
-            //use ! instead of === FALSE
-            if (!$result_update_log) {
-                $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating);
-            }
+            $result_insert_log = $this->saveVVLoggedIn($post_id, $current_user_id, $rating);
 
         } //if user is not logged in insert
         else {
             $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating);
         }
 
-        if ($result_update_log || $result_insert_log) {
-            echo ($this->vvReturnResponse($post_id, $rating, $result_update_log));
-        }
-
-        //use === false here
-        if($result_insert_log === false && $result_update_log === false) {
-            echo ($this->returnErrorResponse(__('Error in Ajax Call, rating can\'t be saved', 'yet-another-stars-rating')));
+        if ($result_insert_log !== false) {
+            echo $this->vvReturnResponse($post_id, $rating, $result_insert_log);
+        } else {
+            echo $this->returnErrorResponse(__('Error in Ajax Call, rating can\'t be saved',
+                'yet-another-stars-rating'));
         }
 
         die(); // this is required to return a proper result
 
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.8
+     *
+     * @param $post_id
+     * @param $current_user_id
+     * @param $rating
+     *
+     * @return false|string
+     */
+    private function saveVVLoggedIn($post_id, $current_user_id, $rating) {
+        //try to update first, if fails the do the insert
+        $update = YasrDB::vvUpdateRating($post_id, $current_user_id, $rating);
+
+        //use ! instead of === FALSE
+        if($update) {
+            return 'updated';
+        }
+
+        //insert the new row
+        $insert = YasrDB::vvSaveRating($post_id, $current_user_id, $rating);
+
+        if($insert) {
+            return 'inserted';
+        }
+
+        return false;
     }
 
     /**
@@ -168,7 +187,7 @@ class YasrShortcodesAjax {
         $rating_saved_text = '';
 
         //Default text when rating is saved
-        if ($result_update_log) {
+        if ($result_update_log === 'updated') {
             $rating_saved_text = apply_filters('yasr_vv_updated_text', $rating_saved_text);
         }
         else {

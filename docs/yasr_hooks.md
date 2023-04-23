@@ -1,9 +1,9 @@
 
  ### `do_action('yasr_add_admin_scripts_begin')` 
 
- Source: [../admin/classes/YasrAdmin.php, line 176](.././admin/classes/YasrAdmin.php:176)
+ Source: [../admin/classes/YasrAdmin.php, line 175](.././admin/classes/YasrAdmin.php:175)
 
-*Add custom script in one of the page used by YASR, at the beginning*
+_Add custom script in one of the page used by YASR, at the beginning_
 
 | Argument | Type | Description |
 | --- | --- | --- |
@@ -11,9 +11,9 @@
 ___
  ### `do_action('yasr_add_admin_scripts_end')` 
 
- Source: [../admin/classes/YasrAdmin.php, line 193](.././admin/classes/YasrAdmin.php:193)
+ Source: [../admin/classes/YasrAdmin.php, line 192](.././admin/classes/YasrAdmin.php:192)
 
-*Add custom script in one of the page used by YASR, at the end*
+_Add custom script in one of the page used by YASR, at the end_
 
 | Argument | Type | Description |
 | --- | --- | --- |
@@ -24,14 +24,14 @@ ___
 
  Source: [../admin/editor/YasrEditorHooks.php, line 218](.././admin/editor/YasrEditorHooks.php:218)
 
-*Use this action to add tabs inside shortcode creator for tinymce*
+_Use this action to add tabs inside shortcode creator for tinymce_
 
 ___
  ### `do_action('yasr_add_content_on_tinypopupform')` 
 
  Source: [../admin/editor/YasrEditorHooks.php, line 234](.././admin/editor/YasrEditorHooks.php:234)
 
-*Use this action to add content inside shortcode creator*
+_Use this action to add content inside shortcode creator_
 
 | Argument | Type | Description |
 | --- | --- | --- |
@@ -43,7 +43,7 @@ ___
 
  Source: [../admin/editor/YasrMetaboxBelowEditor.php, line 60](.././admin/editor/YasrMetaboxBelowEditor.php:60)
 
-*Use this hook to add new tabs into the metabox below the editor*
+_Use this hook to add new tabs into the metabox below the editor_
 
 ___
  ### `do_action('yasr_metabox_below_editor_content')` 
@@ -54,7 +54,7 @@ ___
 
  Source: [../admin/editor/YasrMetaboxBelowEditor.php, line 204](.././admin/editor/YasrMetaboxBelowEditor.php:204)
 
-*Hook here to add new content at the beginning of the div*
+_Hook here to add new content at the beginning of the div_
 
 | Argument | Type | Description |
 | --- | --- | --- |
@@ -65,7 +65,7 @@ ___
 
  Source: [../admin/editor/YasrMetaboxBelowEditor.php, line 286](.././admin/editor/YasrMetaboxBelowEditor.php:286)
 
-*Hook here to add new content*
+_Hook here to add new content_
 
 | Argument | Type | Description |
 | --- | --- | --- |
@@ -77,7 +77,7 @@ ___
 
  Source: [../admin/editor/YasrOnSavePost.php, line 61](.././admin/editor/YasrOnSavePost.php:61)
 
-*Hook here to add actions when YASR save data on save_post*
+_Hook here to add actions when YASR save data on save_post_
 
 | Argument | Type | Description |
 | --- | --- | --- |
@@ -87,7 +87,7 @@ ___
 
  Source: [../admin/editor/YasrOnSavePost.php, line 106](.././admin/editor/YasrOnSavePost.php:106)
 
-*Do action before overall rating is saved, works only in classic editor*
+_Do action before overall rating is saved, works only in classic editor_
 
 | Argument | Type | Description |
 | --- | --- | --- |
@@ -99,7 +99,7 @@ ___
 
  Source: [../admin/editor/yasr-metabox-top-right.php, line 121](.././admin/editor/yasr-metabox-top-right.php:121)
 
-*Hook here to add content at the bottom of the metabox*
+_Hook here to add content at the bottom of the metabox_
 
 | Argument | Type | Description |
 | --- | --- | --- |
@@ -108,21 +108,21 @@ ___
 
  ### `do_action('yasr_add_settings_tab')` 
 
- Source: [../admin/settings/classes/YasrSettings.php, line 1166](.././admin/settings/classes/YasrSettings.php:1166)
+ Source: [../admin/settings/classes/YasrSettings.php, line 1172](.././admin/settings/classes/YasrSettings.php:1172)
 
-*Hook here to add new settings tab*
+_Hook here to add new settings tab_
 
 ___
  ### `do_action('yasr_settings_tab_content')` 
 
- Source: [../admin/settings/classes/YasrSettings.php, line 1241](.././admin/settings/classes/YasrSettings.php:1241)
+ Source: [../admin/settings/classes/YasrSettings.php, line 1247](.././admin/settings/classes/YasrSettings.php:1247)
 
-*Hook here to add new settings tab content*
+_Hook here to add new settings tab content_
 
 ___
  ### `do_action('yasr_right_settings_panel_box')` 
 
- Source: [../admin/settings/classes/YasrSettings.php, line 1388](.././admin/settings/classes/YasrSettings.php:1388)
+ Source: [../admin/settings/classes/YasrSettings.php, line 1394](.././admin/settings/classes/YasrSettings.php:1394)
 ___
 
  ### `apply_filters('yasr_settings_select_ranking')` 
@@ -147,7 +147,7 @@ ___
 
  Source: [../admin/settings/classes/YasrStats.php, line 56](.././admin/settings/classes/YasrStats.php:56)
 
-*Use this hook to add a tab into yasr_stats_page*
+_Use this hook to add a tab into yasr_stats_page_
 
 ___
 
@@ -155,14 +155,14 @@ ___
 
  Source: [../admin/settings/classes/YasrStatsExport.php, line 144](.././admin/settings/classes/YasrStatsExport.php:144)
 
-*Use this hook to customize the button*
+_Use this hook to customize the button_
 
 ___
  ### `do_action('yasr_export_box_end')` 
 
  Source: [../admin/settings/classes/YasrStatsExport.php, line 160](.././admin/settings/classes/YasrStatsExport.php:160)
 
-*Hook here to do an action at the end of the box*
+_Hook here to do an action at the end of the box_
 
 ___
 
@@ -175,7 +175,7 @@ ___
 
  Source: [../admin/settings/yasr-stats-page.php, line 54](.././admin/settings/yasr-stats-page.php:54)
 
-*Hook here to add new stats tab content*
+_Hook here to add new stats tab content_
 
 ___
 
@@ -194,36 +194,36 @@ ___
 
  ### `apply_filters('yasr_rankings_query_ov')` 
 
- Source: [../includes/classes/YasrDB.php, line 370](.././includes/classes/YasrDB.php:370)
+ Source: [../includes/classes/YasrDB.php, line 378](.././includes/classes/YasrDB.php:378)
 ___
  ### `apply_filters('yasr_rankings_query_vv')` 
 
- Source: [../includes/classes/YasrDB.php, line 414](.././includes/classes/YasrDB.php:414)
+ Source: [../includes/classes/YasrDB.php, line 422](.././includes/classes/YasrDB.php:422)
 ___
  ### `apply_filters('yasr_rankings_query_tu')` 
 
- Source: [../includes/classes/YasrDB.php, line 464](.././includes/classes/YasrDB.php:464)
+ Source: [../includes/classes/YasrDB.php, line 472](.././includes/classes/YasrDB.php:472)
 ___
  ### `apply_filters('yasr_rankings_multi_query')` 
 
- Source: [../includes/classes/YasrDB.php, line 509](.././includes/classes/YasrDB.php:509)
+ Source: [../includes/classes/YasrDB.php, line 517](.././includes/classes/YasrDB.php:517)
 ___
  ### `apply_filters('yasr_rankings_query_tr')` 
 
- Source: [../includes/classes/YasrDB.php, line 563](.././includes/classes/YasrDB.php:563)
+ Source: [../includes/classes/YasrDB.php, line 571](.././includes/classes/YasrDB.php:571)
 ___
  ### `apply_filters('yasr_rankings_multivv_query')` 
 
- Source: [../includes/classes/YasrDB.php, line 614](.././includes/classes/YasrDB.php:614)
+ Source: [../includes/classes/YasrDB.php, line 622](.././includes/classes/YasrDB.php:622)
 ___
 
  ### `apply_filters('yasr_user_rate_history_must_login_text')` 
 
  Source: [../includes/classes/YasrLastRatingsWidget.php, line 85](.././includes/classes/YasrLastRatingsWidget.php:85)
 
-*Hook here to customize the message "You must login to see this widget." when*
+_Hook here to customize the message "You must login to see this widget." when_
 
-*the shortcode yasr_user_rate_history is used*
+_the shortcode yasr_user_rate_history is used_
 
 ___
 
@@ -231,7 +231,7 @@ ___
 
  Source: [../includes/classes/YasrRichSnippetsItemTypes.php, line 91](.././includes/classes/YasrRichSnippetsItemTypes.php:91)
 
-*Use this hook to add (or eventually remove) supported itemTypes*
+_Use this hook to add (or eventually remove) supported itemTypes_
 
 | Argument | Type | Description |
 | --- | --- | --- |
@@ -241,13 +241,13 @@ ___
 
  Source: [../includes/classes/YasrRichSnippetsItemTypes.php, line 112](.././includes/classes/YasrRichSnippetsItemTypes.php:112)
 
-*Use this hook to add optional fields for an itemType*
+_Use this hook to add optional fields for an itemType_
 
-*Here the array member must contain main itemType name*
+_Here the array member must contain main itemType name_
 
-*E.g. if you want to add the filed 'price' to 'SoftwareApplication, you need to add*
+_E.g. if you want to add the filed 'price' to 'SoftwareApplication, you need to add_
 
-*yasr_softwareapplication_price*
+_yasr_softwareapplication_price_
 
 | Argument | Type | Description |
 | --- | --- | --- |
@@ -314,13 +314,13 @@ ___
 
  Source: [../includes/shortcodes/classes/YasrRankings.php, line 84](.././includes/shortcodes/classes/YasrRankings.php:84)
 
-*Hook here to use shortcode atts.*
+_Hook here to use shortcode atts._
 
-*If not used, will work with no support for atts*
+_If not used, will work with no support for atts_
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| $this | string | ->shortcode_name Name of shortcode caller |
+| $this->shortcode_name | string |  Name of shortcode caller |
 | $atts | string|array |  Shortcode atts |
 ___
  ### `apply_filters('yasr_multi_set_ranking_atts')` 
@@ -331,13 +331,13 @@ ___
 
  Source: [../includes/shortcodes/classes/YasrRankings.php, line 144](.././includes/shortcodes/classes/YasrRankings.php:144)
 
-*Hook here to use shortcode atts.*
+_Hook here to use shortcode atts._
 
-*If not used, shortcode will works only with setId param*
+_If not used, shortcode will works only with setId param_
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| $this | string | ->shortcode_name Name of shortcode caller |
+| $this->shortcode_name | string |  Name of shortcode caller |
 | $atts | string|array |  Shortcode atts |
 ___
 
@@ -404,98 +404,103 @@ ___
 
  Source: [../includes/shortcodes/classes/YasrVisitorVotes.php, line 116](.././includes/shortcodes/classes/YasrVisitorVotes.php:116)
 
-*Use this filter to customize yasr visitor votes readonly.*
+_Use this filter to customize yasr visitor votes readonly._
 
 | Argument | Type | Description |
 | --- | --- | --- |
 | $shortcode_html | string |  html for the shortcode |
 | $stored_votes | array |  array with average rating data for the post id. |
-| $this | int | ->post_id the post id |
+| $this->post_id | int |  the post id |
 | $stored_votes | YasrDB::visitorVotes() |  array |
 ___
  ### `apply_filters('yasr_vv_cookie')` 
 
  Source: [../includes/shortcodes/classes/YasrVisitorVotes.php, line 130](.././includes/shortcodes/classes/YasrVisitorVotes.php:130)
 
-*Use this filter to customize the visitor votes cookie name*
+_Use this filter to customize the visitor votes cookie name_
 
 | Argument | Type | Description |
 | --- | --- | --- |
-|  | string |  |
+|  | string |  yasr_visitor_votes_cookie is the default name |
 ___
  ### `apply_filters('yasr_cstm_text_already_voted')` 
 
  Source: [../includes/shortcodes/classes/YasrVisitorVotes.php, line 209](.././includes/shortcodes/classes/YasrVisitorVotes.php:209)
 
-*Use this filter to customize the text "You have already voted for this article with rating %rating%"*
+_Use this filter to customize the text "You have already voted for this article with rating %rating%"_
 
-*Unless you're using a multi-language site, there is no need to use this hook; you can customize this in*
+_Unless you're using a multi-language site, there is no need to use this hook; you can customize this in_
 
-*"General Settings" -> "Custom text to display when an user has already rated"*
+_"General Settings" -> "Custom text to display when an user has already rated"_
 
 ___
  ### `apply_filters('yasr_must_sign_in')` 
 
  Source: [../includes/shortcodes/classes/YasrVisitorVotes.php, line 226](.././includes/shortcodes/classes/YasrVisitorVotes.php:226)
 
-*Use this filter to customize the text "you must sign in"*
+_Use this filter to customize the text "you must sign in"_
 
-*Unless you're using a multi-language site, there is no need to use this hook; you can customize this in*
+_Unless you're using a multi-language site, there is no need to use this hook; you can customize this in_
 
-*"General Settings" -> "Custom text to display when login is required to vote"*
+_"General Settings" -> "Custom text to display when login is required to vote"_
 
 ___
  ### `apply_filters('yasr_cstm_text_before_vv')` 
 
  Source: [../includes/shortcodes/classes/YasrVisitorVotes.php, line 261](.././includes/shortcodes/classes/YasrVisitorVotes.php:261)
 
-*Use this filter to customize text before visitor rating.*
+_Use this filter to customize text before visitor rating._
 
-*Unless you're using a multi-language site, there is no need to use this hook; you can customize this in*
+_Unless you're using a multi-language site, there is no need to use this hook; you can customize this in_
 
-*"General Settings" -> "Custom text to display BEFORE Visitor Rating"*
+_"General Settings" -> "Custom text to display BEFORE Visitor Rating"_
 
 | Argument | Type | Description |
 | --- | --- | --- |
 | $number_of_votes | int |  the total number of votes |
 | $average_rating | float |  the average rating |
-| $this | string | ->unique_id the dom ID |
+| $this->unique_id | string |  the dom ID |
 ___
  ### `apply_filters('yasr_cstm_text_after_vv')` 
 
  Source: [../includes/shortcodes/classes/YasrVisitorVotes.php, line 317](.././includes/shortcodes/classes/YasrVisitorVotes.php:317)
 
-*Use this filter to customize text after visitor rating.*
+_Use this filter to customize text after visitor rating._
 
-*Unless you're using a multi-language site, there is no need to use this hook; you can customize this in*
+_Unless you're using a multi-language site, there is no need to use this hook; you can customize this in_
 
-*"General Settings" -> "Custom text to display AFTER Visitor Rating"*
+_"General Settings" -> "Custom text to display AFTER Visitor Rating"_
 
 | Argument | Type | Description |
 | --- | --- | --- |
 | $number_of_votes | int |  the total number of votes |
 | $average_rating | float |  the average rating |
-| $this | string | ->unique_id the dom ID |
+| $this->unique_id | string |  the dom ID |
 ___
  ### `apply_filters('yasr_vv_shortcode')` 
 
  Source: [../includes/shortcodes/classes/YasrVisitorVotes.php, line 433](.././includes/shortcodes/classes/YasrVisitorVotes.php:433)
 
-*Use this filter to customize the yasr_visitor_votes shortcode*
+_Use this filter to customize the yasr_visitor_votes shortcode_
 
 | Argument | Type | Description |
 | --- | --- | --- |
 | $shortcode_html | string |  html for the shortcode |
-| $this | int | ->post_id the post id |
-| $this | string | ->starSize() the star size |
-| $this | string | ->readonly is the stars are readonly or not |
-| $this | string | ->ajax_nonce_visitor the WordPress nonce |
-| $this | string | ->is_singular if the current page is_singular or not |
+| $this->post_id | int |  the post id |
+| $this->starSize | string | () the star size |
+| $this->readonly | string |  is the stars are readonly or not |
+| $this->ajax_nonce_visitor | string |  the WordPress nonce |
+| $this->is_singular | string |  if the current page is_singular or not |
+___
+
+ ### `apply_filters('yasr_seconds_between_ratings')` 
+
+ Source: [../includes/yasr-includes-defines.php, line 34](.././includes/yasr-includes-defines.php:34)
 ___
 
  ### `apply_filters('yasr_filter_ip')` 
 
- Source: [../includes/yasr-includes-functions.php, line 148](.././includes/yasr-includes-functions.php:148)
+ Source: [../includes/yasr-includes-functions.php, line 156](.././includes/yasr-includes-functions.php:156)
 ___
 
  ### `apply_filters('yasr_auto_insert_disable')` 
@@ -532,14 +537,14 @@ ___
 
  Source: [../templates/content.php, line 28](.././templates/content.php:28)
 
-*hook here to add content at the beginning of yasr_display_posts*
+_hook here to add content at the beginning of yasr_display_posts_
 
 ___
  ### `do_action('yasr_display_posts_bottom')` 
 
  Source: [../templates/content.php, line 61](.././templates/content.php:61)
 
-*hook here to add content at the end of yasr_display_posts*
+_hook here to add content at the end of yasr_display_posts_
 
 ___
 
