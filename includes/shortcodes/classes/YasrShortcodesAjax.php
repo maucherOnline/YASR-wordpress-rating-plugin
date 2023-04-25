@@ -106,15 +106,13 @@ class YasrShortcodesAjax {
         }
 
         $current_user_id = get_current_user_id();
-        $ip_address      = yasr_ip_to_save();
-
 
         if (is_user_logged_in()) {
             $result_insert_log = $this->saveVVLoggedIn($post_id, $current_user_id, $rating);
 
         } //if user is not logged in insert
         else {
-            $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating);
+            $result_insert_log = $this->saveVVAnonymous($post_id, $rating);
         }
 
         if ($result_insert_log !== false) {
@@ -131,7 +129,7 @@ class YasrShortcodesAjax {
     /**
      * @author Dario Curvino <@dudo>
      *
-     * @since 3.3.8
+     * @since 3.3.9
      *
      * @param $post_id
      * @param $current_user_id
@@ -143,7 +141,7 @@ class YasrShortcodesAjax {
         //try to update first, if fails the do the insert
         $update = YasrDB::vvUpdateRating($post_id, $current_user_id, $rating);
 
-        //use ! instead of === FALSE
+        //do not use identical operator here
         if($update) {
             return 'updated';
         }
@@ -152,6 +150,26 @@ class YasrShortcodesAjax {
         $insert = YasrDB::vvSaveRating($post_id, $current_user_id, $rating);
 
         if($insert) {
+            return 'inserted';
+        }
+
+        return false;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.9
+     *
+     * @param $post_id
+     * @param $rating
+     *
+     * @return false|string
+     */
+    private function saveVVAnonymous($post_id, $rating) {
+        $result_insert_log = YasrDB::vvSaveRating($post_id, 0, $rating);
+
+        if($result_insert_log) {
             return 'inserted';
         }
 

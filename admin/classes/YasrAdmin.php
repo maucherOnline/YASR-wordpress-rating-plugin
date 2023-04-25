@@ -329,9 +329,9 @@ class YasrAdmin {
                     $wpdb->query("ALTER TABLE " . YASR_LOG_MULTI_SET . " ADD comment_id bigint(20) NOT NULL AFTER post_id");
                 }
 
-                //Since version 3.3.8 IP is enabled by default
+                //Since version 3.3.9 IP is enabled by default
                 //Remove Gen 2024
-                if (version_compare(YASR_VERSION_INSTALLED, '3.3.8') === -1) {
+                if (version_compare(YASR_VERSION_INSTALLED, '3.3.9') === -1) {
                     $yasr_stored_options['enable_ip'] = 'yes';
                 }
 
