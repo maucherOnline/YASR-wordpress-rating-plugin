@@ -207,6 +207,49 @@ class YasrDB {
     }
 
     /**
+     * This function return true if an IP has already voted for a certain post
+     * within a given date range.
+     * Only for anonymous users
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.9
+     *
+     * @param $post_id
+     * @param $start_date
+     * @param $end_date
+     *
+     * @return bool
+     */
+    public static function vvBetweenDates($post_id, $start_date, $end_date) {
+        //if values it's not passed get the post id, most of the cases and default one
+        if (!is_int($post_id)) {
+            $post_id = get_the_ID();
+        }
+
+        global $wpdb;
+
+        $result = $wpdb->get_var(
+            $wpdb->prepare(
+                'SELECT id FROM ' . YASR_LOG_TABLE . ' 
+                WHERE post_id = %d
+                AND ip = %s
+                AND user_id = 0 /* check for anonymous users */
+                AND date BETWEEN %s AND %s',
+                $post_id,
+                yasr_get_ip(),
+                $start_date,
+                $end_date
+            )
+        );
+
+        if(is_numeric($result) && $result > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Returns ALL visitor votes in YASR_LOG_TABLE
      * used in stats page
      *
