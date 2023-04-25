@@ -123,7 +123,6 @@ class YasrShortcodesAjax {
         }
 
         die(); // this is required to return a proper result
-
     }
 
     /**
@@ -167,6 +166,8 @@ class YasrShortcodesAjax {
      * @return false|string
      */
     private function saveVVAnonymous($post_id, $rating) {
+        $this->dieIfIpBlocked($post_id);
+
         $result_insert_log = YasrDB::vvSaveRating($post_id, 0, $rating);
 
         if($result_insert_log) {
@@ -177,6 +178,36 @@ class YasrShortcodesAjax {
     }
 
     /**
+     * This function checks if the post has been rated within the time frame between the starting date and current time.
+     * If the post has been rated within that timeframe, it returns an error message
+     * indicating that the user cannot rate the post again.
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.9
+     *
+     * @param $post_id
+     *
+     * @return void
+     */
+    public function dieIfIpBlocked($post_id) {
+        $time_now = date('Y-m-d H:i:s');
+
+        //create di strtotime string, in secondonds
+        $strtotime_string = '-' . YASR_SECONDS_BETWEEN_RATINGS . ' seconds';
+        $starting_date    = date('Y-m-d H:i:s', strtotime($strtotime_string));
+
+        $blocked = YasrDB::vvBetweenDates($post_id, $starting_date, $time_now);
+
+        if ($blocked === true) {
+            echo $this->returnErrorResponse(
+                esc_html__("You can't rate again for this post", 'yet-another-stars-rating')
+            );
+            die();
+        }
+    }
+
+
+        /**
      * @author Dario Curvino <@dudo>
      * @since  2.7.7
      *
