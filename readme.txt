@@ -207,6 +207,8 @@ Yes, YASR is 100% fully compatible with PHP 8
 The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.3.9 =
+* TWEAKED: to prevent spam rating, now IP is saved by default. This is ok for the GDPR law, you can find more info into
+General Settings -> Advanced Settings
 * FIXED: in admin dashboard, a warning is returned in "Recent Ratings" widget in some circumstances
 
 = 3.3.8 =
