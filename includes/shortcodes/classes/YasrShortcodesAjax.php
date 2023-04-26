@@ -325,9 +325,6 @@ class YasrShortcodesAjax {
 
         do_action('yasr_action_on_visitor_multiset_vote', $array_action_visitor_multiset_vote);
 
-        $array_error = array();
-        $error_found = false;
-
         //clean array, so if a user rate same field twice, take only the last rating
         $cleaned_array = yasr_unique_multidim_array($rating_array_decoded, 'field');
 
@@ -353,30 +350,16 @@ class YasrShortcodesAjax {
                 }
                 //else try to insert vote
                 else {
-                    $replace_query_success = YasrDB::mvSaveRating(
-                        $id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address
-                    );
-                    //if rating is not saved, it is an error
-                    if (!$replace_query_success) {
-                        $array_error[] = 1;
-                    }
+                    $this->saveMVAnonymous($id_field, $set_id, $post_id, $rating, $current_user_id);
                 }
             } //End if $rating_values['postid'] == $post_id
 
         } //End foreach ($rating as $rating_values)
 
         if ($counter_matched_fields === 0) {
-            $array_error[] = 1;
-        }
-
-        foreach ($array_error as $error) {
-            if ($error === 1) {
-                $error_found = true;
-            }
-        }
-
-        if($error_found === true) {
-            die($this->returnErrorResponse(esc_html__("Error in Ajax Call, rating can't be saved.", 'yet-another-stars-rating')));
+            die($this->returnErrorResponse(
+                esc_html__('Error, most probably you submitted the wrong set', 'yet-another-stars-rating'))
+            );
         }
 
         //echo response
@@ -407,8 +390,29 @@ class YasrShortcodesAjax {
             $insert_query_success = YasrDB::mvSaveRating($id_field, $set_id, $post_id, $rating, $current_user_id);
             //if rating is not saved, it is an error
             if (!$insert_query_success) {
-                $array_error[] = 1;
+                die($this->returnErrorResponse(esc_html__("Error in Ajax Call, rating can't be saved.", 'yet-another-stars-rating')));
             }
+        }
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.9
+     *
+     * @param $id_field
+     * @param $set_id
+     * @param $post_id
+     * @param $rating
+     * @param $current_user_id
+     *
+     * @return void
+     */
+    private function saveMVAnonymous($id_field, $set_id, $post_id, $rating, $current_user_id) {
+        $replace_query_success = YasrDB::mvSaveRating($id_field, $set_id, $post_id, $rating, $current_user_id);
+        //if rating is not saved, it is an error
+        if (!$replace_query_success) {
+            die($this->returnErrorResponse(esc_html__("Error in Ajax Call, rating can't be saved.", 'yet-another-stars-rating')));
         }
     }
 

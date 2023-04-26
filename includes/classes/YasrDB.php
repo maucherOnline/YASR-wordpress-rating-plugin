@@ -1137,17 +1137,20 @@ class YasrDB {
         }
 
         //no need to insert 'comment_id', it is 0 by default
-        return $wpdb->replace(
-            YASR_LOG_MULTI_SET, array(
-            'field_id' => $id_field,
-            'set_type' => $set_id,
-            'post_id'  => $post_id,
-            'vote'     => $rating,
-            'user_id'  => $user_id,
-            'date'     => date('Y-m-d H:i:s'),
-            'ip'       => $ip_address
-        ), array("%d", "%d", "%d", "%d", "%d", "%s", "%s")
-        );
+        return
+            $wpdb->replace(
+                YASR_LOG_MULTI_SET,
+                array(
+                    'field_id' => $id_field,
+                    'set_type' => $set_id,
+                    'post_id'  => $post_id,
+                    'vote'     => $rating,
+                    'user_id'  => $user_id,
+                    'date'     => date('Y-m-d H:i:s'),
+                    'ip'       => $ip_address
+                ),
+                array("%d", "%d", "%d", "%d", "%d", "%s", "%s")
+            );
     }
 
 
