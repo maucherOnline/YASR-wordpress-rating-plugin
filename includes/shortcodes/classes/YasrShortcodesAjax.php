@@ -709,7 +709,7 @@ class YasrShortcodesAjax {
         $strtotime_string = '-' . YASR_SECONDS_BETWEEN_RATINGS . ' seconds';
         $starting_date    = date('Y-m-d H:i:s', strtotime($strtotime_string));
 
-        $blocked = YasrDB::ratingBetweenDates($post_id, $starting_date, $time_now);
+        $blocked = YasrDB::vvBetweenDates($post_id, $starting_date, $time_now);
 
         if ($blocked === true) {
             echo $this->returnErrorResponse(

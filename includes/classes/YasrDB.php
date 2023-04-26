@@ -217,32 +217,24 @@ class YasrDB {
      * @param        $post_id
      * @param        $start_date
      * @param        $end_date
-     * @param string $shortcode default is yasr_visitor_votes
      *
      * @return bool
      */
-    public static function ratingBetweenDates($post_id, $start_date, $end_date, $shortcode='vv') {
+    public static function vvBetweenDates($post_id, $start_date, $end_date) {
         //if values it's not passed get the post id, most of the cases and default one
         if (!is_int($post_id)) {
             $post_id = get_the_ID();
-        }
-
-        if ($shortcode === 'mv') {
-            $table = YASR_LOG_MULTI_SET;
-        } else {
-            $table = YASR_LOG_TABLE;
         }
 
         global $wpdb;
 
         $result = $wpdb->get_var(
             $wpdb->prepare(
-                'SELECT id FROM "%s"
+                'SELECT id FROM ' . YASR_LOG_TABLE . ' 
                 WHERE post_id = %d
                 AND ip = %s
                 AND user_id = 0 /* check for anonymous users */
                 AND date BETWEEN %s AND %s',
-                $table,
                 $post_id,
                 yasr_get_ip(),
                 $start_date,
