@@ -19,7 +19,13 @@ class YasrRichSnippets {
     public function addFilters() {
         //Low priority to be sure that shortcodes has run
         add_filter('the_content',                 array($this, 'addSchema'), 99);
-        add_action('wp_footer',                   array($this, 'addSchemaFooter'), 99);
+
+        //There are some cases where the_content doesn't run.
+        //So, try to also add schema into the footer
+        //https://wordpress.org/support/topic/please-add-json-structured-data-output-to-wp_head/
+        //https://wordpress.org/support/topic/structured-data-not-showing/
+        add_action('wp_footer',                   array($this, 'addSchema'));
+
         add_filter('yasr_filter_schema_title',    array($this, 'filter_title'));
         add_filter('yasr_filter_existing_schema', array($this, 'additional_schema'), 10, 2);
     }
@@ -30,23 +36,15 @@ class YasrRichSnippets {
      * @return string
      */
     public function addSchema($content) {
-        if(defined('YASR_SCHEMA_RETURNED')) {
-            return $content;
+        $caller = current_filter();
+
+        //assure the $content is empty
+        if($caller === 'wp_footer') {
+            $content = '';
         }
 
-        //if both shortcodes ov_rating and visitor votes didn't run, return $content
-        if (!defined('YASR_OV_ATTRIBUTES') && !defined('YASR_VV_ATTRIBUTES')
-            && !defined('YASR_PRO_UR_COMMENT_RICH_SNIPPET')) {
-            return $content;
-        }
-
-        //Add buddypress compatibility
-        //If this is a page, return $content without adding schema.
-        if (function_exists('bp_is_active') && is_page()) {
-            return $content;
-        }
-
-        if (is_404() || did_action('get_footer') || (!is_singular() && is_main_query())) {
+        //do the checks
+        if($this->mustReturnContent($caller) === true) {
             return $content;
         }
 
@@ -70,104 +68,79 @@ class YasrRichSnippets {
         $script_type     = '<script type="application/ld+json" class="yasr-schema-graph">';
         $end_script_type = '</script>';
 
-        $review_choosen = YasrDB::getItemType();
+        $item_type_for_post = YasrDB::getItemType();
 
-        //Use this hook to write your custom microdata from scratch
-        //if doesn't exists a filter for yasr_filter_schema_jsonld
-        //$review_chosen value is assigned to $filtered_schema.
-        $filtered_schema = apply_filters('yasr_filter_schema_jsonld', $review_choosen);
+        /**
+         * Use this hook to write your custom microdata from scratch
+         * @param string $item_type_for_post the itemType selected for the post
+         */
+        $filtered_schema = apply_filters('yasr_filter_schema_jsonld', $item_type_for_post);
 
-        //So check here if $schema != $review_choosen
-        if ($filtered_schema !== $review_choosen) {
-            return $content . $script_type . $filtered_schema . $end_script_type;
-        }
-
-        //YASR adds microdata only if is_singular() && is_main_query()
-        if (is_singular() && is_main_query()) {
-            $rich_snippet = $this->returnRichSnippets($post_id, $review_choosen, $content, $overall_rating, $visitor_votes);
-
-            //If $rich snippet here is not false return microdata
-            if($rich_snippet !== false) {
-                return $content . $script_type . json_encode($rich_snippet) . $end_script_type;
-            }
-        }
-
-        define('YASR_SCHEMA_RETURNED', true);
-
-        return $content;
-
-    } //End function
-
-    /**
-     * @author Dario Curvino <@dudo>
-     *
-     * @since
-     * @return string|void
-     */
-    public function addSchemaFooter() {
-        if(defined('YASR_SCHEMA_RETURNED')) {
-            return;
-        }
-
-        //if both shortcodes ov_rating and visitor votes didn't run, return $content
-        if (!defined('YASR_OV_ATTRIBUTES') && !defined('YASR_VV_ATTRIBUTES')
-            && !defined('YASR_PRO_UR_COMMENT_RICH_SNIPPET')) {
-            return;
-        }
-
-        //Add buddypress compatibility
-        //If this is a page, return $content without adding schema.
-        if (function_exists('bp_is_active') && is_page()) {
-            return;
-        }
-
-        if (is_404() || (!is_singular() && is_main_query())) {
-            return;
-        }
-
-        $post_id = get_the_ID();
-
-        $overall_rating = false;
-        $visitor_votes  = false;
-
-        //check if ov_rating shortcode has run
-        if (defined('YASR_OV_ATTRIBUTES')) {
-            $ov_attributes  = json_decode(YASR_OV_ATTRIBUTES, true);
-            $overall_rating = $ov_attributes;
-        }
-
-        //check if vv has run
-        if(defined('YASR_VV_ATTRIBUTES')) {
-            $vv_attributes = json_decode(YASR_VV_ATTRIBUTES, true);
-            $visitor_votes  = $vv_attributes;
-        }
-
-        $script_type     = '<script type="application/ld+json" class="yasr-schema-graph">';
-        $end_script_type = '</script>';
-
-        $review_choosen = YasrDB::getItemType();
-
-        //Use this hook to write your custom microdata from scratch
-        //if doesn't exists a filter for yasr_filter_schema_jsonld
-        //$review_chosen value is assigned to $filtered_schema.
-        $filtered_schema = apply_filters('yasr_filter_schema_jsonld', $review_choosen);
-
-        //So check here if $schema != $review_choosen
-        if ($filtered_schema !== $review_choosen) {
+        //check here if filter has run and return the new schema
+        if ($filtered_schema !== $item_type_for_post) {
             return $script_type . $filtered_schema . $end_script_type;
         }
 
         //YASR adds microdata only if is_singular() && is_main_query()
         if (is_singular() && is_main_query()) {
-            $rich_snippet = $this->returnRichSnippets($post_id, $review_choosen, '', $overall_rating, $visitor_votes);
+            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, '', $overall_rating, $visitor_votes);
 
             //If $rich snippet here is not false return microdata
             if($rich_snippet !== false) {
-                echo  $script_type . json_encode($rich_snippet) . $end_script_type;
+                //declare YASR_SCHEMA_RETURNED here
+                if(!defined('YASR_SCHEMA_RETURNED')) {
+                    define('YASR_SCHEMA_RETURNED', true);
+                }
+
+                if($caller === 'wp_footer') {
+                    echo $content . $script_type . json_encode($rich_snippet) . $end_script_type;
+                }
+                return $content . $script_type . json_encode($rich_snippet) . $end_script_type;
             }
         }
 
-        define('YASR_SCHEMA_RETURNED', true);
+        return $content;
+    } //End function
+
+    /**
+     * Return true if $content must be returned
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.9
+     *
+     * @param $caller
+     *
+     * @return bool
+     */
+    public function mustReturnContent($caller) {
+        if(defined('YASR_SCHEMA_RETURNED')) {
+            return true;
+        }
+
+        //if both shortcodes ov_rating and visitor votes didn't run, return $content
+        if (!defined('YASR_OV_ATTRIBUTES') && !defined('YASR_VV_ATTRIBUTES')
+            && !defined('YASR_PRO_UR_COMMENT_RICH_SNIPPET')) {
+            return true;
+        }
+
+        //Add buddypress compatibility
+        //If this is a page, return $content without adding schema.
+        if (function_exists('bp_is_active') && is_page()) {
+            return true;
+        }
+
+        if($caller === 'wp_footer') {
+            if (is_404() || (!is_singular() && is_main_query())) {
+                return true;
+            }
+        } else {
+            if (is_404() || did_action('get_footer') || (!is_singular() && is_main_query())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
