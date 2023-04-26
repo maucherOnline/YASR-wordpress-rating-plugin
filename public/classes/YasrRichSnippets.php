@@ -33,7 +33,7 @@ class YasrRichSnippets {
     /**
      * @param $content
      *
-     * @return string
+     * @return string|void
      */
     public function addSchema($content) {
         $caller = current_filter();
@@ -92,10 +92,16 @@ class YasrRichSnippets {
                     define('YASR_SCHEMA_RETURNED', true);
                 }
 
-                if($caller === 'wp_footer') {
-                    echo $content . $script_type . json_encode($rich_snippet) . $end_script_type;
+                $ld_json = $content . $script_type . json_encode($rich_snippet) . $end_script_type;
+
+                //just do the echo and return if this is called from footer
+                if ($caller === 'wp_footer') {
+                    echo $ld_json;
+                    return;
                 }
-                return $content . $script_type . json_encode($rich_snippet) . $end_script_type;
+                //return if this is called from the_content
+                return $ld_json;
+
             }
         }
 
