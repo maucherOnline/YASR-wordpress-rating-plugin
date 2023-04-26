@@ -19,6 +19,7 @@ class YasrRichSnippets {
     public function addFilters() {
         //Low priority to be sure that shortcodes has run
         add_filter('the_content',                 array($this, 'addSchema'), 99);
+        add_action('wp_footer',                   array($this, 'addSchemaFooter'), 99);
         add_filter('yasr_filter_schema_title',    array($this, 'filter_title'));
         add_filter('yasr_filter_existing_schema', array($this, 'additional_schema'), 10, 2);
     }
@@ -29,6 +30,10 @@ class YasrRichSnippets {
      * @return string
      */
     public function addSchema($content) {
+        if(defined('YASR_SCHEMA_RETURNED')) {
+            return $content;
+        }
+
         //if both shortcodes ov_rating and visitor votes didn't run, return $content
         if (!defined('YASR_OV_ATTRIBUTES') && !defined('YASR_VV_ATTRIBUTES')
             && !defined('YASR_PRO_UR_COMMENT_RICH_SNIPPET')) {
@@ -87,9 +92,83 @@ class YasrRichSnippets {
             }
         }
 
+        define('YASR_SCHEMA_RETURNED', true);
+
         return $content;
 
     } //End function
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since
+     * @return string|void
+     */
+    public function addSchemaFooter() {
+        if(defined('YASR_SCHEMA_RETURNED')) {
+            return;
+        }
+
+        //if both shortcodes ov_rating and visitor votes didn't run, return $content
+        if (!defined('YASR_OV_ATTRIBUTES') && !defined('YASR_VV_ATTRIBUTES')
+            && !defined('YASR_PRO_UR_COMMENT_RICH_SNIPPET')) {
+            return;
+        }
+
+        //Add buddypress compatibility
+        //If this is a page, return $content without adding schema.
+        if (function_exists('bp_is_active') && is_page()) {
+            return;
+        }
+
+        if (is_404() || (!is_singular() && is_main_query())) {
+            return;
+        }
+
+        $post_id = get_the_ID();
+
+        $overall_rating = false;
+        $visitor_votes  = false;
+
+        //check if ov_rating shortcode has run
+        if (defined('YASR_OV_ATTRIBUTES')) {
+            $ov_attributes  = json_decode(YASR_OV_ATTRIBUTES, true);
+            $overall_rating = $ov_attributes;
+        }
+
+        //check if vv has run
+        if(defined('YASR_VV_ATTRIBUTES')) {
+            $vv_attributes = json_decode(YASR_VV_ATTRIBUTES, true);
+            $visitor_votes  = $vv_attributes;
+        }
+
+        $script_type     = '<script type="application/ld+json" class="yasr-schema-graph">';
+        $end_script_type = '</script>';
+
+        $review_choosen = YasrDB::getItemType();
+
+        //Use this hook to write your custom microdata from scratch
+        //if doesn't exists a filter for yasr_filter_schema_jsonld
+        //$review_chosen value is assigned to $filtered_schema.
+        $filtered_schema = apply_filters('yasr_filter_schema_jsonld', $review_choosen);
+
+        //So check here if $schema != $review_choosen
+        if ($filtered_schema !== $review_choosen) {
+            return $script_type . $filtered_schema . $end_script_type;
+        }
+
+        //YASR adds microdata only if is_singular() && is_main_query()
+        if (is_singular() && is_main_query()) {
+            $rich_snippet = $this->returnRichSnippets($post_id, $review_choosen, '', $overall_rating, $visitor_votes);
+
+            //If $rich snippet here is not false return microdata
+            if($rich_snippet !== false) {
+                echo  $script_type . json_encode($rich_snippet) . $end_script_type;
+            }
+        }
+
+        define('YASR_SCHEMA_RETURNED', true);
+    }
 
     /**
      * Return rich snippets, or false if both aggregateRating and Review are empty after the last filter
