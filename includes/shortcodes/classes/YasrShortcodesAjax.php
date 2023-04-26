@@ -178,36 +178,6 @@ class YasrShortcodesAjax {
     }
 
     /**
-     * This function checks if the post has been rated within the time frame between the starting date and current time.
-     * If the post has been rated within that timeframe, it returns an error message
-     * indicating that the user cannot rate the post again.
-     *
-     * @author Dario Curvino <@dudo>
-     * @since 3.3.9
-     *
-     * @param $post_id
-     *
-     * @return void
-     */
-    public function dieIfIpBlocked($post_id) {
-        $time_now = date('Y-m-d H:i:s');
-
-        //create di strtotime string, in secondonds
-        $strtotime_string = '-' . YASR_SECONDS_BETWEEN_RATINGS . ' seconds';
-        $starting_date    = date('Y-m-d H:i:s', strtotime($strtotime_string));
-
-        $blocked = YasrDB::vvBetweenDates($post_id, $starting_date, $time_now);
-
-        if ($blocked === true) {
-            echo $this->returnErrorResponse(
-                esc_html__("You can't rate again for this post", 'yet-another-stars-rating')
-            );
-            die();
-        }
-    }
-
-
-        /**
      * @author Dario Curvino <@dudo>
      * @since  2.7.7
      *
@@ -350,7 +320,6 @@ class YasrShortcodesAjax {
         }
 
         $current_user_id = get_current_user_id();
-        $ip_address      = yasr_ip_to_save();
 
         $array_action_visitor_multiset_vote = array('post_id' => $post_id);
 
@@ -380,22 +349,7 @@ class YasrShortcodesAjax {
 
                 //if the user is logged
                 if(is_user_logged_in()) {
-                    //first try to update the vote
-                    $update_query_success = YasrDB::mvUpdateRating(
-                        $id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address
-                    );
-
-                    //use ! instead of === FALSE
-                    if (!$update_query_success) {
-                        //insert as new rating
-                        $insert_query_success = YasrDB::mvSaveRating(
-                            $id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address
-                        );
-                        //if rating is not saved, it is an error
-                        if (!$insert_query_success) {
-                            $array_error[] = 1;
-                        }
-                    }
+                    $this->saveMVLoggedIn($id_field, $set_id, $post_id, $rating, $current_user_id);
                 }
                 //else try to insert vote
                 else {
@@ -429,6 +383,34 @@ class YasrShortcodesAjax {
         die($this->mvReturnResponse($post_id, $set_id));
 
     } //End callback function
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.9
+     *
+     * @param $id_field
+     * @param $set_id
+     * @param $post_id
+     * @param $rating
+     * @param $current_user_id
+     *
+     * @return void
+     */
+    private function saveMVLoggedIn ($id_field, $set_id, $post_id, $rating, $current_user_id) {
+        //first try to update the vote
+        $update_query_success = YasrDB::mvUpdateRating($id_field, $set_id, $post_id, $rating, $current_user_id);
+
+        //use ! instead of === FALSE
+        if (!$update_query_success) {
+            //insert as new rating
+            $insert_query_success = YasrDB::mvSaveRating($id_field, $set_id, $post_id, $rating, $current_user_id);
+            //if rating is not saved, it is an error
+            if (!$insert_query_success) {
+                $array_error[] = 1;
+            }
+        }
+    }
 
     /**
      * @author Dario Curvino <@dudo>
@@ -703,4 +685,34 @@ class YasrShortcodesAjax {
             die(esc_html__('Not in Ajax Contest', 'yet-anothter-stars-rating'));
         }
     }
+
+    /**
+     * This function checks if the post has been rated within the time frame between the starting date and current time.
+     * If the post has been rated within that timeframe, it returns an error message
+     * indicating that the user cannot rate the post again.
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.9
+     *
+     * @param $post_id
+     *
+     * @return void
+     */
+    public function dieIfIpBlocked($post_id) {
+        $time_now = date('Y-m-d H:i:s');
+
+        //create di strtotime string, in seconds
+        $strtotime_string = '-' . YASR_SECONDS_BETWEEN_RATINGS . ' seconds';
+        $starting_date    = date('Y-m-d H:i:s', strtotime($strtotime_string));
+
+        $blocked = YasrDB::ratingBetweenDates($post_id, $starting_date, $time_now);
+
+        if ($blocked === true) {
+            echo $this->returnErrorResponse(
+                esc_html__("You can't rate again for this post", 'yet-another-stars-rating')
+            );
+            die();
+        }
+    }
+
 }

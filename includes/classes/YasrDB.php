@@ -1129,8 +1129,12 @@ class YasrDB {
      *
      * @return bool|int
      */
-    public static function mvSaveRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address) {
+    public static function mvSaveRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address=false) {
         global $wpdb;
+
+        if($ip_address === false) {
+            $ip_address = yasr_ip_to_save();
+        }
 
         //no need to insert 'comment_id', it is 0 by default
         return $wpdb->replace(
@@ -1162,8 +1166,12 @@ class YasrDB {
      *
      * @return bool|int
      */
-    public static function mvUpdateRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address) {
+    public static function mvUpdateRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address=false) {
         global $wpdb;
+
+        if($ip_address === false) {
+            $ip_address = yasr_ip_to_save();
+        }
 
         //no need to insert 'comment_id', it is 0 by default
         return $wpdb->update(
