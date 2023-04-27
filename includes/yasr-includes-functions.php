@@ -297,7 +297,10 @@ function yasr_kses($string) {
         ),
     );
 
-    $html = array_merge($allowed_html, wp_kses_allowed_html('post'));
+    //put $allowed_html to the right, so if the input arrays have the same string keys,
+    //the later value for that key will overwrite the previous one
+    //this will avoid conflict with plugin that filter the result of wp_kses_allowed_html
+    $html = array_merge(wp_kses_allowed_html('post'), $allowed_html);
 
     return wp_kses($string, $html);
 }
