@@ -24,7 +24,7 @@ class YasrRichSnippets {
         //So, try to also add schema into the footer
         //https://wordpress.org/support/topic/please-add-json-structured-data-output-to-wp_head/
         //https://wordpress.org/support/topic/structured-data-not-showing/
-        //add_action('wp_footer',                   array($this, 'addSchema'));
+        add_action('wp_footer',                   array($this, 'addSchema'));
 
         add_filter('yasr_filter_schema_title',    array($this, 'filter_title'));
         add_filter('yasr_filter_existing_schema', array($this, 'additional_schema'), 10, 2);
