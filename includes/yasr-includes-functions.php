@@ -274,6 +274,10 @@ function yasr_is_catch_infinite_sroll_installed () {
  * @return string
  */
 function yasr_kses($string) {
+    //use this instead of wp_kses_allowed_html('post'), to avoid conflict with plugin that may filter the result of
+    //wp_kses_allowed_html('post')
+    global $allowedposttags;
+
     $allowed_html = array (
         'input' => array(
             'type'         => array(),
@@ -300,7 +304,7 @@ function yasr_kses($string) {
     //put $allowed_html to the right, so if the input arrays have the same string keys,
     //the later value for that key will overwrite the previous one
     //this will avoid conflict with plugin that filter the result of wp_kses_allowed_html
-    $html = array_merge(wp_kses_allowed_html('post'), $allowed_html);
+    $html = array_merge($allowedposttags, $allowed_html);
 
     return wp_kses($string, $html);
 }
