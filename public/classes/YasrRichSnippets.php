@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
  */
 class YasrRichSnippets {
 
-    public function addFilters() {
+    public function addHooks() {
         //Low priority to be sure that shortcodes has run
         add_filter('the_content',                 array($this, 'addSchema'), 99);
 
