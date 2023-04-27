@@ -274,7 +274,7 @@ function yasr_is_catch_infinite_sroll_installed () {
  * @return string
  */
 function yasr_kses($string) {
-    //use this instead of wp_kses_allowed_html('post'), to avoid conflict with plugin that may filter the result of
+    //use this instead of wp_kses_allowed_html('post'), to avoid conflict with plugins that may filter the result of
     //wp_kses_allowed_html('post')
     global $allowedposttags;
 
