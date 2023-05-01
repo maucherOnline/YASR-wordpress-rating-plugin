@@ -136,7 +136,10 @@ class YasrStatsListTable extends WP_List_Table {
         }
 
         if (YASR_ENABLE_IP === 'yes') {
-            $columns['ip'] = 'IP';
+            //do not show column IP if it is overall rating
+            if ($this->active_tab !== 'overall') {
+                $columns['ip'] = 'IP';
+            }
         }
         return $columns;
     }
