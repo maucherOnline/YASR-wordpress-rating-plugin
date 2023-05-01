@@ -206,7 +206,7 @@ class YasrOnSavePost {
                     && $_POST[$item_type_name] !== ''
                     && $_POST[$item_type_name] !== 'Select...'
                 ) {
-                    $item_to_save = $this->sanitizeItemTypeValue($item_type_name);
+                    $item_to_save = $this->sanitizeItemTypeValue($item_type_name, $_POST[$item_type_name]);
                     $array_to_save[$item_type_name] = $item_to_save;
                 }
             }
@@ -235,18 +235,18 @@ class YasrOnSavePost {
      *
      * @return string
      */
-    private function sanitizeItemTypeValue($item_type_name) {
+    private function sanitizeItemTypeValue($item_type_name, $value) {
         //if come from textarea, use sanitize_textarea_field, that preservers newlines
         if ($item_type_name === 'yasr_recipe_recipeingredient'
             || $item_type_name === 'yasr_recipe_recipeinstructions'
             || $item_type_name === 'yasr_movie_actor'
             || $item_type_name === 'yasr_movie_director'
         ) {
-            return sanitize_textarea_field($_POST[$item_type_name]);
+            return sanitize_textarea_field($value);
         }
         else {
             //use sanitize_text_field
-            return sanitize_text_field($_POST[$item_type_name]);
+            return sanitize_text_field($value);
         }
     }
 
