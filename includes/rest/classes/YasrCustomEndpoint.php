@@ -274,9 +274,7 @@ class YasrCustomEndpoint extends WP_REST_Controller {
             return 'most';
         }
 
-        $param = apply_filters('yasr_rest_sanitize', $key, $param);
-
-        return $param;
+        return apply_filters('yasr_rest_sanitize', $key, $param);
 
     }
 

@@ -224,18 +224,16 @@ class YasrMultiSet extends YasrShortcode {
         //Show average row
         $unique_id_identifier = yasr_return_dom_id('yasr-multiset-');
 
-        $html_average = "<tr>
-                            <td colspan='2' class='yasr-multiset-average'>
-                                <div class='yasr-multiset-average'>
-                                    <span class='yasr-multiset-average-text'>$average_txt</span>
-                                    <div class='yasr-rater-stars' id='$unique_id_identifier'
-                                    data-rating='$multiset_average' data-rater-readonly='true'
-                                    data-rater-starsize='24'></div>
-                                </div>
-                            </td>
-                        </tr>";
-
-        return $html_average;
+        return "<tr>
+                    <td colspan='2' class='yasr-multiset-average'>
+                        <div class='yasr-multiset-average'>
+                            <span class='yasr-multiset-average-text'>$average_txt</span>
+                            <div class='yasr-rater-stars' id='$unique_id_identifier'
+                            data-rating='$multiset_average' data-rater-readonly='true'
+                            data-rater-starsize='24'></div>
+                        </div>
+                    </td>
+                </tr>";
     }
 
     /**
