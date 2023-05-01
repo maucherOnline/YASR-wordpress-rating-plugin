@@ -310,9 +310,7 @@ class YasrStatsListTable extends WP_List_Table {
     }
 
     protected function column_cb($item) {
-        return sprintf(
-            "<input type='checkbox' name='yasr_logs_votes_to_delete[]' id='{$item['id']}' value='{$item['id']}' />"
-        );
+        return "<input type='checkbox' name='yasr_logs_votes_to_delete[]' id='{$item['id']}' value='{$item['id']}' />";
     }
 
     //process bulk action
