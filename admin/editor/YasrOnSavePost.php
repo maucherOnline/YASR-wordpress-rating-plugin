@@ -248,7 +248,7 @@ class YasrOnSavePost {
             $set_id               = (int)$_POST['yasr_multiset_id'];
             $nonce                = $_POST['yasr_nonce_save_multi_values'];
 
-            if (!is_int($set_id) || $field_and_vote_array == '') {
+            if ($field_and_vote_array == '') {
                 return;
             }
 
