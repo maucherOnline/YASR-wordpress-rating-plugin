@@ -4,7 +4,7 @@ Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo
 Tested up to: 6.2
-Stable tag: 3.3.7
+Stable tag: 3.3.9
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
@@ -206,9 +206,26 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.3.9 =
+* TWEAKED: to prevent spam rating, now IP is saved by default. This is ok for the GDPR law, you can find more info into
+General Settings -> Advanced Settings
+* TWEAKED: if for some reason the rich snippets are not returned into the post content, YASR will insert it into the footer.
+More info https://wordpress.org/support/topic/please-add-json-structured-data-output-to-wp_head/ and
+https://wordpress.org/support/topic/structured-data-not-showing/
+* FIXED: conflict with the plugin Optimize Press
+* FIXED: in admin dashboard, a warning is returned in "Recent Ratings" widget in some circumstances
+
+= 3.3.8 =
+* FIXED: Impossible to rate in a multi set in the editor screen
+
 = 3.3.7 =
 * FIXED: Structured data options -> image url didn't get saved
 * TWEAKED: added filters yasr_filter_itemtypes and yasr_filter_itemtypes_fields to add new rich snippet itemTypes
+* FIXED: freemius translation didn't work.
+[//]: # fs_premium_only_begin
+PREMIUM ONLY:
+* FIXED: Multi Set didn't appear in comment reviews when enabled
+[//]: # fs_premium_only_end
 
 = 3.3.6 =
 * FIXED: Dashboard -> recent ratings widget didn't work on version 3.3.5
@@ -244,27 +261,6 @@ PREMIUM ONLY:
 See[#6]https://github.com/Dudo1985/Yet-Another-Stars-Rating/issues/6)
 [//]: # fs_premium_only_end
 
-= 3.3.0 =
-* NEW SHORTCODE: yasr_display_posts : you can use this shortcode in a page to show posts ordered by ratings.
-[More info here](https://yetanotherstarsrating.com/yasr-shortcodes/yasr-display-posts/)
-* NEW FEATURE: is now possible order posts by ratings. To enable it in home page or in an archive page,
-go to "Settings -> Archive Pages ->  Do you want to order posts by rating? "
-[More info here](https://yetanotherstarsrating.com/yasr-order-posts-by-ratings/)
-* FIXED: wrong image size returned in rich snippets
-* FIXED: In settings->structured data options, image url didn't get saved
-* FIXED: ranking yasr_most_or_highest_rated_posts didn't work as expected is "load results with ajax" is enabled
-* FIXED: minor bug fixes
-* TWEAKED: if a shortcode is used more than once in the same page, the query is executed only once
-* TWEAKED: removed useless query
-* TWEAKED: setting page has now 3 columns layout
-* TWEAKED: removed deprecated classes YasrDatabaseRatings, YasrMultiSetData and YasrRankingData
-
-= 3.2.0 =
-* FIXED: /wp-admin dashboard was crashing if php 7.1 or 7.2 were used
-
-= 3.1.9 =
-* FIXED: missing file in "Aspect and style tab"
-* TWEAKED: under the hood changes
 
 = Additional Info =
 See credits.txt file

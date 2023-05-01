@@ -92,7 +92,6 @@ class YasrProReviewBars extends YasrShortcode{
     /**
      * Returns an array with all ratings grouped, e.g.
      * A post has 2 reviews with rating 4, and a review with rating 2, the returning array will be:
-     *
      * array {
      *      array {
      *          "vote"       => 4
@@ -108,6 +107,8 @@ class YasrProReviewBars extends YasrShortcode{
      * @since  2.9.8
      *
      * @param  $existing_votes
+     *
+     * @return array
      */
     protected function countSameVotes ($existing_votes) {
         //Counting the rating with same vote, the resulting array will be

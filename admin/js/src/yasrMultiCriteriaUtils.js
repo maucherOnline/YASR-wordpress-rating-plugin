@@ -248,28 +248,32 @@ const insertNewCriteria = (missingNumber, newRowNumber, parentDiv, newDiv) => {
 
 export const yasrMultiCriteriaEditPage = () => {
 
-    let divContainer               = document.getElementById('yasr-editor-multiset-container');
+    let divContainer                 = document.getElementById('yasr-editor-multiset-container');
     let nMultiSet                  = parseInt(divContainer.getAttribute('data-nmultiset'));
     let setId                      = parseInt(divContainer.getAttribute('data-setid'));
     let postId                     = parseInt(divContainer.getAttribute('data-postid'));
     //do not use parseInt here, or an empty value will be converted to 0
-    const yasrProReviewSetid       = document.getElementById('yasr-pro-review-setid');
-    const copyRoMultiset           = document.getElementById('yasr-editor-copy-readonly-multiset');
-    const copyVisitorMultiset      = document.getElementById('yasr-editor-copy-visitor-multiset');
-    const copyAverageMultiSet      = document.getElementById('yasr-editor-copy-average-multiset');
-    const copyAverageVVMultiSet    = document.getElementById('yasr-editor-copy-average-vvmultiset');
-    const copyAverageCommentsMulti = document.getElementById('yasr-editor-copy-comments-multiset');
-    const reviewsEnabled           = document.getElementById('yasr-pro-comments-enabled-yes');
-    const multiSetinReview         = document.getElementById('yasr-pro-multiset-review-switcher');
-    const nonceSetId               = document.getElementById('yasr-send-id-nameset-nonce').value;
+    const yasrProReviewSetid         = document.getElementById('yasr-pro-review-setid');
 
-    if(yasrProReviewSetid !== null && yasrProReviewSetid !== '') {
-        const enabledSetInReviewForPost = yasrProReviewSetid.dataset.enabledMulti;
+    let yasrProReviewSetidPostMeta = null;
+    if(!!document.getElementById('yasr-pro-review-setid-postmeta-value') === true) {
+        yasrProReviewSetidPostMeta = document.getElementById('yasr-pro-review-setid-postmeta-value').value;
+    }
 
+    const copyRoMultiset             = document.getElementById('yasr-editor-copy-readonly-multiset');
+    const copyVisitorMultiset        = document.getElementById('yasr-editor-copy-visitor-multiset');
+    const copyAverageMultiSet        = document.getElementById('yasr-editor-copy-average-multiset');
+    const copyAverageVVMultiSet      = document.getElementById('yasr-editor-copy-average-vvmultiset');
+    const copyAverageCommentsMulti   = document.getElementById('yasr-editor-copy-comments-multiset');
+    const reviewsEnabled             = document.getElementById('yasr-pro-comments-enabled-yes');
+    const multiSetinReview           = document.getElementById('yasr-pro-multiset-review-switcher');
+    const nonceSetId                 = document.getElementById('yasr-send-id-nameset-nonce').value;
+
+    if(yasrProReviewSetidPostMeta !== null && yasrProReviewSetidPostMeta !== '') {
         //when page loads, if the current selected set is the same for the current post, enable the switcher
         //Insert this Multi Set in the comment form?
         //keep == instead of ===
-        if (setId == enabledSetInReviewForPost) {
+        if (setId == yasrProReviewSetidPostMeta) {
             multiSetinReview.checked = true;
         } else {
             multiSetinReview.checked = false;
@@ -349,10 +353,14 @@ const sincronizeEditorSwitchers = (multiSetinReview, reviewsEnabled, yasrProRevi
                 //update the hidden field, if only one multiset is used
                 if (yasrProReviewSetid !== null && nMultiSet === 1) {
                     yasrProReviewSetid.value = setId;
+                } else {
+                    //get the selected set
+                    const selectMulti = document.getElementById("yasr_select_set");
+                    yasrProReviewSetid.value = selectMulti.value;
                 }
             } else {
-                //update the hidden field, if only one multiset is used
-                if (yasrProReviewSetid !== null && nMultiSet === 1) {
+                //update the hidden field
+                if (yasrProReviewSetid !== null) {
                     yasrProReviewSetid.value = '';
                 }
             }
@@ -462,16 +470,19 @@ const yasrManageMultiSelectEditPage = (
         //update hidden field
         yasrProReviewSetid.value = setId;
 
-        //this is the multiset enabled in review for the current post
-        const enabledSetInReviewForPost = yasrProReviewSetid.dataset.enabledMulti;
-        console.log(yasrProReviewSetid.value);
-        console.log(enabledSetInReviewForPost)
+        let yasrProReviewSetidPostMeta = null;
+        if(!!document.getElementById('yasr-pro-review-setid-postmeta-value') === true) {
+            yasrProReviewSetidPostMeta = document.getElementById('yasr-pro-review-setid-postmeta-value').value;
+        }
 
-        //if the current selected set is the same for the current post, enable the switcher
-        if(setId === enabledSetInReviewForPost) {
-            multiSetinReview.checked = true;
-        } else {
-            multiSetinReview.checked = false;
+        if(yasrProReviewSetidPostMeta !== null && yasrProReviewSetidPostMeta !== '') {
+
+            //if the current seleced set is the same for the current post, enable the switcher
+            if (setId === yasrProReviewSetidPostMeta) {
+                multiSetinReview.checked = true;
+            } else {
+                multiSetinReview.checked = false;
+            }
         }
     }
 

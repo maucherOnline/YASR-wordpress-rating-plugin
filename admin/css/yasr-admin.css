@@ -526,6 +526,14 @@
 
 }
 
+/**
+ * Do not keep everything in one line
+ */
+div.yasr-upgrade-to-pro a button.button.button-primary span {
+    white-space: normal !important;
+}
+
+
 .yasr-donate-title{
     margin-top: 0px;
     margin-bottom: 20px;

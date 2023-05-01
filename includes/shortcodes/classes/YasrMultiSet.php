@@ -51,7 +51,7 @@ class YasrMultiSet extends YasrShortcode {
     }
 
     /**
-     * @return string | bool
+     * @return string
      */
     public function printMultiset ($post_id = null, $set_id = null) {
         if($post_id === null) {
@@ -188,8 +188,10 @@ class YasrMultiSet extends YasrShortcode {
      * Check if the average is enabled, get the data and return it
      *
      * @author Dario Curvino <@dudo>
-     * @since 2.9.8
+     * @since  2.9.8
+     *
      * @param $visitor_multiset
+     * @param $multiset_content
      *
      * @return false|string
      */
@@ -219,23 +221,19 @@ class YasrMultiSet extends YasrShortcode {
      */
     protected function returnAverageRowMultiSet($multiset_average) {
         $average_txt = esc_html__('Average', 'yet-another-stars-rating');
-        $html_average = null;
-
         //Show average row
         $unique_id_identifier = yasr_return_dom_id('yasr-multiset-');
 
-        $html_average = "<tr>
-                            <td colspan='2' class='yasr-multiset-average'>
-                                <div class='yasr-multiset-average'>
-                                    <span class='yasr-multiset-average-text'>$average_txt</span>
-                                    <div class='yasr-rater-stars' id='$unique_id_identifier'
-                                    data-rating='$multiset_average' data-rater-readonly='true'
-                                    data-rater-starsize='24'></div>
-                                </div>
-                            </td>
-                        </tr>";
-
-        return $html_average;
+        return "<tr>
+                    <td colspan='2' class='yasr-multiset-average'>
+                        <div class='yasr-multiset-average'>
+                            <span class='yasr-multiset-average-text'>$average_txt</span>
+                            <div class='yasr-rater-stars' id='$unique_id_identifier'
+                            data-rating='$multiset_average' data-rater-readonly='true'
+                            data-rater-starsize='24'></div>
+                        </div>
+                    </td>
+                </tr>";
     }
 
     /**

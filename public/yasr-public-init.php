@@ -51,4 +51,4 @@ $yasr_public_filters->addFilters();
 
 //filter yasr rich snippet
 $yasr_additional_rich_fields = new YasrRichSnippets;
-$yasr_additional_rich_fields->addFilters();
+$yasr_additional_rich_fields->addHooks();

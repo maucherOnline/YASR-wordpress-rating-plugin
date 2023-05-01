@@ -326,8 +326,7 @@ class YasrPublicFilters {
      */
     public function removeWidgetTitleFromExcerptMore ($content_to_remove) {
         add_filter('excerpt_more', function ($more_link_element) use ($content_to_remove) {
-            $more_link_element = str_replace($content_to_remove, '', $more_link_element);
-            return $more_link_element;
+            return str_replace($content_to_remove, '', $more_link_element);
         },9999,1);
     }
 

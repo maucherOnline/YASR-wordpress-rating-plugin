@@ -50,7 +50,6 @@ class YasrAdmin {
      * @return void
      */
     private function loadAjaxActions() {
-
         add_action('wp_ajax_yasr-admin_change_log_page', static function () {
             $yasr_log_widget_admin = new YasrLastRatingsWidget();
             $yasr_log_widget_admin->returnAjaxResponse(true);
@@ -65,6 +64,31 @@ class YasrAdmin {
      * @return void
      */
     private function freemiusHooks() {
+        //customize optin page to force to be in English
+        yasr_fs()->add_filter('templates/connect.php', static function ($vars) {
+            include YASR_ABSOLUTE_PATH_ADMIN . '/yasr-optin-page.php';
+        });
+
+        /**
+         * Customize Freemius permission list TO NOT ALLOW TRANSLATIONS
+         * @see yasr-optin-page.php
+         */
+        yasr_fs()->add_filter('permission_list', static function ($permissions) {
+            $permissions[0]['label'] = 'View Basic Profile Info';
+            $permissions[0]['desc']  = 'Your WordPress user\'s: first & last name, and email address';
+
+            $permissions[1]['label'] = 'View Basic Website Info';
+            $permissions[1]['desc']  = 'Homepage URL & title, WP & PHP versions, and site language';
+
+            $permissions[2]['label'] = 'View Basic Plugin Info';
+            $permissions[2]['desc']  = 'Current plugin & SDK versions, and if active or uninstalled';
+
+            $permissions[3]['label'] = 'View Plugins & Themes List';
+            $permissions[3]['desc']  = 'Names, slugs, versions, and if active or not';
+
+            return $permissions;
+        });
+
         /**
          * https://freemius.com/help/documentation/selling-with-freemius/free-trials/
          *
@@ -295,6 +319,9 @@ class YasrAdmin {
         //do only in admin
         if (is_admin() && current_user_can('activate_plugins')) {
             global $wpdb;
+
+            $yasr_stored_options = get_option('yasr_general_options');
+
             if (YASR_VERSION_INSTALLED !== false) {
                 //In version 2.9.7 the column comment_id is added
                 //Remove Dec 2023
@@ -302,6 +329,13 @@ class YasrAdmin {
                     $wpdb->query("ALTER TABLE " . YASR_LOG_MULTI_SET . " ADD comment_id bigint(20) NOT NULL AFTER post_id");
                 }
 
+                //Since version 3.3.9 IP is enabled by default
+                //Remove Gen 2024
+                if (version_compare(YASR_VERSION_INSTALLED, '3.3.9') === -1) {
+                    $yasr_stored_options['enable_ip'] = 'yes';
+                }
+
+                update_option('yasr_general_options', $yasr_stored_options);
             } //Endif yasr_version_installed !== false
             /****** End backward compatibility functions ******/
 

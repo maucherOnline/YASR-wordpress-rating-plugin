@@ -116,9 +116,7 @@ function yasr_pro_add_rankings_args($args){
         ),
     );
 
-    $args = array_merge($args, $more_args);
-
-    return $args;
+    return array_merge($args, $more_args);
 }
 
 add_filter('yasr_rest_sanitize', 'yasr_pro_rest_sanitize', 10, 2);

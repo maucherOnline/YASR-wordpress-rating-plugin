@@ -107,7 +107,7 @@ class YasrProUrAdmin {
 
     /**
      * Add hidden field
-     * value attribute is the set that will be saved
+     * value attribute is the value that will be saved
      * data-enabled-multi is the set saved for the current page. This value is not updated in js, only read
      *
      * @param $post_id
@@ -116,16 +116,33 @@ class YasrProUrAdmin {
      * @since 3.0.5
      */
     public function urMetaboxMultiset($post_id, $first_set_id) {
+        //this value must not be overwritten
         $enabled_multiset = yasr_pro_multiset_reviews_enabled($post_id);
 
-        //if there is no set enabled, set value to the first set id
-        if($enabled_multiset === false) {
-            $enabled_multiset = $first_set_id;
+        //default value is the set enabled for comments
+        $value_to_save    = $enabled_multiset;
+
+        //and if there is no set enabled, set value to the first set id
+        if($value_to_save === false) {
+            $value_to_save = $first_set_id;
         }
         ?>
-            <input type="hidden" name="yasr_pro_review_setid" id="yasr-pro-review-setid"
-                   value="<?php echo esc_attr($enabled_multiset) ?>"
-                   data-enabled-multi="<?php echo esc_attr($enabled_multiset)?>">
+
+        <?php
+            /**
+             * This field contains the enabled multiset if for the post if exists, or the first set id if doesn't
+             */
+        ?>
+        <input type="hidden" name="yasr_pro_review_setid" id="yasr-pro-review-setid"
+               value="<?php echo esc_attr($value_to_save) ?>">
+
+        <?php
+            /**
+            * This field contains the enabled multiset if for the post, or empty if doens't
+            */
+        ?>
+        <input type="hidden" name="yasr_pro_review_setid_postmeta_value" id="yasr-pro-review-setid-postmeta-value"
+               value="<?php echo esc_attr($enabled_multiset) ?>">
         <?php
     }
 
@@ -182,8 +199,42 @@ class YasrProUrAdmin {
             return;
         }
 
-        if (isset($_POST['yasr_pro_multiset_review_enabled']) && isset($_POST['yasr_pro_review_setid'])) {
+        $checkbox_enabled            = false;
+        $set_id                      = false;
+        $set_id_post_meta_value      = false;
+        $save_with_checkbox_disabled = false;
+
+        if (isset($_POST['yasr_pro_multiset_review_enabled'])) {
+            $checkbox_enabled = $_POST['yasr_pro_multiset_review_enabled'];
+        }
+
+        if (isset($_POST['yasr_pro_review_setid'])) {
+            $set_id = $_POST['yasr_pro_review_setid'];
+        }
+
+        if (isset($_POST['yasr_pro_review_setid_postmeta_value'])) {
+            $set_id_post_meta_value = $_POST['yasr_pro_review_setid_postmeta_value'];
+        }
+
+        //IF more than one multiset are used, and if for example the second set is selected, on page load the checkbox is disabled
+        // (first multiset is used, not the first). So if the $set_id_post_meta_value is the same of the set_id, save it
+        //even if checkbox is not selected
+        //keep is_numeric and not use is_int
+        //keep == instead of ===
+        if(is_numeric($set_id) && is_numeric($set_id_post_meta_value) && $set_id == $set_id_post_meta_value) {
+            $save_with_checkbox_disabled = true;
+        }
+
+        if ( $checkbox_enabled !== false && $set_id !== false
+            || $save_with_checkbox_disabled === true) {
             $set_id    = (int)$_POST['yasr_pro_review_setid'];
+
+            //set_id column in multi set table is auto increment, so the first set_id is always 1.
+            //if it is < 1, return
+            if($set_id < 1) {
+                return;
+            }
+
             //insert post meta
             update_post_meta($post_id, 'yasr_pro_review_setid', $set_id);
 
@@ -498,6 +549,8 @@ class YasrProUrAdmin {
      * @since  2.6.8 refactored as method
      *
      * @param $comment_id
+     *
+     * @return bool|int|\mysqli_result|resource|null
      */
     public function deleteReviewsCommentMeta($comment_id) {
         delete_comment_meta($comment_id, 'yasr_pro_visitor_review_title');

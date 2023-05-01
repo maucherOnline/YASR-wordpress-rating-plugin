@@ -106,37 +106,75 @@ class YasrShortcodesAjax {
         }
 
         $current_user_id = get_current_user_id();
-        $ip_address      = yasr_get_ip();
-
-        $result_update_log = false; //avoid undefined
-        $result_insert_log = false; //avoid undefined
 
         if (is_user_logged_in()) {
-            //try to update first, if fails the do the insert
-            $result_update_log = YasrDB::vvUpdateRating($post_id, $current_user_id, $rating, $ip_address);
-
-            //insert the new row
-            //use ! instead of === FALSE
-            if (!$result_update_log) {
-                $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
-            }
+            $result_insert_log = $this->saveVVLoggedIn($post_id, $current_user_id, $rating);
 
         } //if user is not logged in insert
         else {
-            $result_insert_log = YasrDB::vvSaveRating($post_id, $current_user_id, $rating, $ip_address);
+            $result_insert_log = $this->saveVVAnonymous($post_id, $rating);
         }
 
-        if ($result_update_log || $result_insert_log) {
-            echo ($this->vvReturnResponse($post_id, $rating, $result_update_log));
-        }
-
-        //use === false here
-        if($result_insert_log === false && $result_update_log === false) {
-            echo ($this->returnErrorResponse(__('Error in Ajax Call, rating can\'t be saved', 'yet-another-stars-rating')));
+        if ($result_insert_log !== false) {
+            echo $this->vvReturnResponse($post_id, $rating, $result_insert_log);
+        } else {
+            echo $this->returnErrorResponse(__('Error in Ajax Call, rating can\'t be saved',
+                'yet-another-stars-rating'));
         }
 
         die(); // this is required to return a proper result
+    }
 
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.9
+     *
+     * @param $post_id
+     * @param $current_user_id
+     * @param $rating
+     *
+     * @return false|string
+     */
+    private function saveVVLoggedIn($post_id, $current_user_id, $rating) {
+        //try to update first, if fails the do the insert
+        $update = YasrDB::vvUpdateRating($post_id, $current_user_id, $rating);
+
+        //do not use identical operator here
+        if($update) {
+            return 'updated';
+        }
+
+        //insert the new row
+        $insert = YasrDB::vvSaveRating($post_id, $current_user_id, $rating);
+
+        if($insert) {
+            return 'inserted';
+        }
+
+        return false;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.9
+     *
+     * @param $post_id
+     * @param $rating
+     *
+     * @return false|string
+     */
+    private function saveVVAnonymous($post_id, $rating) {
+        $this->dieIfIpBlocked($post_id);
+
+        $result_insert_log = YasrDB::vvSaveRating($post_id, 0, $rating);
+
+        if($result_insert_log) {
+            return 'inserted';
+        }
+
+        return false;
     }
 
     /**
@@ -168,7 +206,7 @@ class YasrShortcodesAjax {
         $rating_saved_text = '';
 
         //Default text when rating is saved
-        if ($result_update_log) {
+        if ($result_update_log === 'updated') {
             $rating_saved_text = apply_filters('yasr_vv_updated_text', $rating_saved_text);
         }
         else {
@@ -282,14 +320,10 @@ class YasrShortcodesAjax {
         }
 
         $current_user_id = get_current_user_id();
-        $ip_address      = yasr_get_ip();
 
         $array_action_visitor_multiset_vote = array('post_id' => $post_id);
 
         do_action('yasr_action_on_visitor_multiset_vote', $array_action_visitor_multiset_vote);
-
-        $array_error = array();
-        $error_found = false;
 
         //clean array, so if a user rate same field twice, take only the last rating
         $cleaned_array = yasr_unique_multidim_array($rating_array_decoded, 'field');
@@ -312,55 +346,75 @@ class YasrShortcodesAjax {
 
                 //if the user is logged
                 if(is_user_logged_in()) {
-                    //first try to update the vote
-                    $update_query_success = YasrDB::mvUpdateRating(
-                        $id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address
-                    );
-
-                    //use ! instead of === FALSE
-                    if (!$update_query_success) {
-                        //insert as new rating
-                        $insert_query_success = YasrDB::mvSaveRating(
-                            $id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address
-                        );
-                        //if rating is not saved, it is an error
-                        if (!$insert_query_success) {
-                            $array_error[] = 1;
-                        }
-                    }
+                    $this->saveMVLoggedIn($id_field, $set_id, $post_id, $rating, $current_user_id);
                 }
                 //else try to insert vote
                 else {
-                    $replace_query_success = YasrDB::mvSaveRating(
-                        $id_field, $set_id, $post_id, $rating, $current_user_id, $ip_address
-                    );
-                    //if rating is not saved, it is an error
-                    if (!$replace_query_success) {
-                        $array_error[] = 1;
-                    }
+                    $this->saveMVAnonymous($id_field, $set_id, $post_id, $rating, $current_user_id);
                 }
             } //End if $rating_values['postid'] == $post_id
 
         } //End foreach ($rating as $rating_values)
 
         if ($counter_matched_fields === 0) {
-            $array_error[] = 1;
-        }
-
-        foreach ($array_error as $error) {
-            if ($error === 1) {
-                $error_found = true;
-            }
-        }
-
-        if($error_found === true) {
-            die($this->returnErrorResponse(esc_html__("Error in Ajax Call, rating can't be saved.", 'yet-another-stars-rating')));
+            die($this->returnErrorResponse(
+                esc_html__('Error, most probably you submitted the wrong set', 'yet-another-stars-rating'))
+            );
         }
 
         //echo response
         die($this->mvReturnResponse($post_id, $set_id));
 
     } //End callback function
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.9
+     *
+     * @param $id_field
+     * @param $set_id
+     * @param $post_id
+     * @param $rating
+     * @param $current_user_id
+     *
+     * @return void
+     */
+    private function saveMVLoggedIn ($id_field, $set_id, $post_id, $rating, $current_user_id) {
+        //first try to update the vote
+        $update_query_success = YasrDB::mvUpdateRating($id_field, $set_id, $post_id, $rating, $current_user_id);
+
+        //use ! instead of === FALSE
+        if (!$update_query_success) {
+            //insert as new rating
+            $insert_query_success = YasrDB::mvSaveRating($id_field, $set_id, $post_id, $rating, $current_user_id);
+            //if rating is not saved, it is an error
+            if (!$insert_query_success) {
+                die($this->returnErrorResponse(esc_html__("Error in Ajax Call, rating can't be saved.", 'yet-another-stars-rating')));
+            }
+        }
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.9
+     *
+     * @param $id_field
+     * @param $set_id
+     * @param $post_id
+     * @param $rating
+     * @param $current_user_id
+     *
+     * @return void
+     */
+    private function saveMVAnonymous($id_field, $set_id, $post_id, $rating, $current_user_id) {
+        $replace_query_success = YasrDB::mvSaveRating($id_field, $set_id, $post_id, $rating, $current_user_id);
+        //if rating is not saved, it is an error
+        if (!$replace_query_success) {
+            die($this->returnErrorResponse(esc_html__("Error in Ajax Call, rating can't be saved.", 'yet-another-stars-rating')));
+        }
+    }
 
     /**
      * @author Dario Curvino <@dudo>
@@ -635,4 +689,34 @@ class YasrShortcodesAjax {
             die(esc_html__('Not in Ajax Contest', 'yet-anothter-stars-rating'));
         }
     }
+
+    /**
+     * This function checks if the post has been rated within the time frame between the starting date and current time.
+     * If the post has been rated within that timeframe, it returns an error message
+     * indicating that the user cannot rate the post again.
+     *
+     * @author Dario Curvino <@dudo>
+     * @since 3.3.9
+     *
+     * @param $post_id
+     *
+     * @return void
+     */
+    public function dieIfIpBlocked($post_id) {
+        $time_now = date('Y-m-d H:i:s');
+
+        //create di strtotime string, in seconds
+        $strtotime_string = '-' . YASR_SECONDS_BETWEEN_RATINGS . ' seconds';
+        $starting_date    = date('Y-m-d H:i:s', strtotime($strtotime_string));
+
+        $blocked = YasrDB::vvBetweenDates($post_id, $starting_date, $time_now);
+
+        if ($blocked === true) {
+            echo $this->returnErrorResponse(
+                esc_html__("You can't rate again for this post", 'yet-another-stars-rating')
+            );
+            die();
+        }
+    }
+
 }
