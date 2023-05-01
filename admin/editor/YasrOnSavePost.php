@@ -201,25 +201,12 @@ class YasrOnSavePost {
             //the selected snippet is BOOK)
             //$_POST item_type_name isset
             //$_POST item_type_name is not empty string
-
             if(strpos($item_type_name, $snippet_type) !== false) {
                 if (isset($_POST[$item_type_name])
                     && $_POST[$item_type_name] !== ''
                     && $_POST[$item_type_name] !== 'Select...'
                 ) {
-                    //if come from textarea, use sanitize_textarea_field, that preservers newlines
-                    if ($item_type_name === 'yasr_recipe_recipeingredient'
-                        || $item_type_name === 'yasr_recipe_recipeinstructions'
-                        || $item_type_name === 'yasr_movie_actor'
-                        || $item_type_name === 'yasr_movie_director'
-                    ) {
-                        $item_to_save = sanitize_textarea_field($_POST[$item_type_name]);
-                    }
-                    else {
-                        //use sanitize_text_field
-                        $item_to_save = sanitize_text_field($_POST[$item_type_name]);
-                    }
-
+                    $item_to_save = $this->sanitizeItemTypeValue($item_type_name);
                     $array_to_save[$item_type_name] = $item_to_save;
                 }
             }
@@ -235,6 +222,32 @@ class YasrOnSavePost {
             delete_post_meta($this->post_id, 'yasr_schema_additional_fields');
         }
 
+    }
+
+    /**
+     * Use sanitize_text_field or sanitize_textarea_field according to the itemType
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.3.9
+     *
+     * @param $item_type_name
+     *
+     * @return string
+     */
+    private function sanitizeItemTypeValue($item_type_name) {
+        //if come from textarea, use sanitize_textarea_field, that preservers newlines
+        if ($item_type_name === 'yasr_recipe_recipeingredient'
+            || $item_type_name === 'yasr_recipe_recipeinstructions'
+            || $item_type_name === 'yasr_movie_actor'
+            || $item_type_name === 'yasr_movie_director'
+        ) {
+            return sanitize_textarea_field($_POST[$item_type_name]);
+        }
+        else {
+            //use sanitize_text_field
+            return sanitize_text_field($_POST[$item_type_name]);
+        }
     }
 
     /**
