@@ -228,10 +228,10 @@ class YasrOnSavePost {
      * Use sanitize_text_field or sanitize_textarea_field according to the itemType
      *
      * @author Dario Curvino <@dudo>
-     *
-     * @since 3.3.9
+     * @since  3.3.9
      *
      * @param $item_type_name
+     * @param $value
      *
      * @return string
      */
