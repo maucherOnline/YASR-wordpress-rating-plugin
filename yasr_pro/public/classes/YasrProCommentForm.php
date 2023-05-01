@@ -301,6 +301,7 @@ class YasrProCommentForm {
      * Return an editable 5 stars review
      *
      * @param $comment_id
+     * @param $post_id
      * @param $rating
      * @param $review_title
      *

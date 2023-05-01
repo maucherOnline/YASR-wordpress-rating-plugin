@@ -1273,7 +1273,6 @@ class YasrDB {
      * @since 3.3.0
      *
      * @param $post_id
-     * @param $user_id
      *
      * @return bool
      */

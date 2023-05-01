@@ -51,7 +51,7 @@ class YasrMultiSet extends YasrShortcode {
     }
 
     /**
-     * @return string | bool
+     * @return string
      */
     public function printMultiset ($post_id = null, $set_id = null) {
         if($post_id === null) {
@@ -188,8 +188,10 @@ class YasrMultiSet extends YasrShortcode {
      * Check if the average is enabled, get the data and return it
      *
      * @author Dario Curvino <@dudo>
-     * @since 2.9.8
+     * @since  2.9.8
+     *
      * @param $visitor_multiset
+     * @param $multiset_content
      *
      * @return false|string
      */

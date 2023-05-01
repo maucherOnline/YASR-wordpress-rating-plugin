@@ -549,6 +549,8 @@ class YasrProUrAdmin {
      * @since  2.6.8 refactored as method
      *
      * @param $comment_id
+     *
+     * @return bool|int|\mysqli_result|resource|null
      */
     public function deleteReviewsCommentMeta($comment_id) {
         delete_comment_meta($comment_id, 'yasr_pro_visitor_review_title');

@@ -357,7 +357,7 @@ class YasrCustomEndpoint extends WP_REST_Controller {
      * @author Dario Curvino <@dudo>
      * @since  2.9.8
      *
-     * @return bool|\WP_Error
+     * @return \WP_Error
      */
     protected function returnErrorPostId() {
         return new WP_Error(
