@@ -65,8 +65,6 @@ class YasrStatsListTable extends WP_List_Table {
         $hidden   = $this->get_hidden_columns();
         $sortable = $this->get_sortable_columns();
 
-        $totalItems = false; //default value
-
         //print bulk_Actions
         $this->get_bulk_actions();
         $this->process_bulk_action();
@@ -87,7 +85,7 @@ class YasrStatsListTable extends WP_List_Table {
             //The number of total rows on postmeta where metakey = yasr_overall_rating
             $totalItems = YasrDB::ovNumberOfRows();
         }
-        //Visito votes logs is the default tab
+        //Visitor votes logs is the default tab
         else {
             $data = YasrDB::allVisitorVotes($perPage, $offset);
 
@@ -96,10 +94,6 @@ class YasrStatsListTable extends WP_List_Table {
         }
 
         usort($data, array($this, 'sort_data'));
-
-        if ($totalItems === false) {
-            $totalItems = count($data);
-        }
 
         $this->set_pagination_args(
             array(

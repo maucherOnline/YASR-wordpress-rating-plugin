@@ -221,8 +221,6 @@ class YasrMultiSet extends YasrShortcode {
      */
     protected function returnAverageRowMultiSet($multiset_average) {
         $average_txt = esc_html__('Average', 'yet-another-stars-rating');
-        $html_average = null;
-
         //Show average row
         $unique_id_identifier = yasr_return_dom_id('yasr-multiset-');
 
