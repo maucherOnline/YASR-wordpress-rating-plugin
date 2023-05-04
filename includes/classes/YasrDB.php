@@ -207,6 +207,49 @@ class YasrDB {
     }
 
     /**
+     * This function return true if an IP has already voted for a certain post
+     * within a given date range.
+     * Only for anonymous users
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.3.9
+     *
+     * @param        $post_id
+     * @param        $start_date
+     * @param        $end_date
+     *
+     * @return bool
+     */
+    public static function vvBetweenDates($post_id, $start_date, $end_date) {
+        //if values it's not passed get the post id, most of the cases and default one
+        if (!is_int($post_id)) {
+            $post_id = get_the_ID();
+        }
+
+        global $wpdb;
+
+        $result = $wpdb->get_var(
+            $wpdb->prepare(
+                'SELECT id FROM ' . YASR_LOG_TABLE . ' 
+                WHERE post_id = %d
+                AND ip = %s
+                AND user_id = 0 /* check for anonymous users */
+                AND date BETWEEN %s AND %s',
+                $post_id,
+                yasr_get_ip(),
+                $start_date,
+                $end_date
+            )
+        );
+
+        if(is_numeric($result) && $result > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Returns ALL visitor votes in YASR_LOG_TABLE
      * used in stats page
      *
@@ -310,7 +353,11 @@ class YasrDB {
      *
      * @return bool|int
      */
-    public static function vvSaveRating($post_id, $user_id, $rating, $ip_address) {
+    public static function vvSaveRating($post_id, $user_id, $rating, $ip_address=false) {
+        if($ip_address === false) {
+            $ip_address = yasr_ip_to_save();
+        }
+
         global $wpdb;
         return $wpdb->replace(
             YASR_LOG_TABLE, array(
@@ -335,7 +382,11 @@ class YasrDB {
      *
      * @return bool|int
      */
-    public static function vvUpdateRating($post_id, $user_id, $rating, $ip_address) {
+    public static function vvUpdateRating($post_id, $user_id, $rating, $ip_address=false) {
+        if($ip_address === false) {
+            $ip_address = yasr_ip_to_save();
+        }
+
         global $wpdb;
 
         return $wpdb->update(
@@ -1070,21 +1121,28 @@ class YasrDB {
      *
      * @return bool|int
      */
-    public static function mvSaveRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address) {
+    public static function mvSaveRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address=false) {
         global $wpdb;
 
+        if($ip_address === false) {
+            $ip_address = yasr_ip_to_save();
+        }
+
         //no need to insert 'comment_id', it is 0 by default
-        return $wpdb->replace(
-            YASR_LOG_MULTI_SET, array(
-            'field_id' => $id_field,
-            'set_type' => $set_id,
-            'post_id'  => $post_id,
-            'vote'     => $rating,
-            'user_id'  => $user_id,
-            'date'     => date('Y-m-d H:i:s'),
-            'ip'       => $ip_address
-        ), array("%d", "%d", "%d", "%d", "%d", "%s", "%s")
-        );
+        return
+            $wpdb->replace(
+                YASR_LOG_MULTI_SET,
+                array(
+                    'field_id' => $id_field,
+                    'set_type' => $set_id,
+                    'post_id'  => $post_id,
+                    'vote'     => $rating,
+                    'user_id'  => $user_id,
+                    'date'     => date('Y-m-d H:i:s'),
+                    'ip'       => $ip_address
+                ),
+                array("%d", "%d", "%d", "%d", "%d", "%s", "%s")
+            );
     }
 
 
@@ -1103,8 +1161,12 @@ class YasrDB {
      *
      * @return bool|int
      */
-    public static function mvUpdateRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address) {
+    public static function mvUpdateRating($id_field, $set_id, $post_id, $rating, $user_id, $ip_address=false) {
         global $wpdb;
+
+        if($ip_address === false) {
+            $ip_address = yasr_ip_to_save();
+        }
 
         //no need to insert 'comment_id', it is 0 by default
         return $wpdb->update(
@@ -1211,7 +1273,6 @@ class YasrDB {
      * @since 3.3.0
      *
      * @param $post_id
-     * @param $user_id
      *
      * @return bool
      */

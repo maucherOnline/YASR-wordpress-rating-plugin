@@ -821,12 +821,18 @@ class YasrSettings {
                 <br/>
                 <?php
                     $string = sprintf(
-                        __('Please note that to comply with the %s EU law, you %s MUST %s warn your users that you\'re storing their ip. %s
-                                        If in doubt, leave no.',
+                        __("In order to prevent a lot of voting fraud and attempts at automated voting, the user's IP is recorded.
+                        %s
+                        Please note that, to comply with %s EU law, you must inform your users that you are storing their 
+                        IP only if you also use their IP for statistical reasons. %s 
+                        If you only use the user's IP to prevent spam, there is no need to include this notification. %s 
+                        For further information, click %s here. %s",
                             'yet-another-stars-rating'
                         ),
+                        '<br />',
                         '<a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation">GDPR</a>',
-                        '<strong>', '</strong>', '<br />'
+                        '<br />','<br />',
+                        '<a href="https://law.stackexchange.com/a/28609">', '</a>'
                     );
                     echo wp_kses_post($string);
                     ?>

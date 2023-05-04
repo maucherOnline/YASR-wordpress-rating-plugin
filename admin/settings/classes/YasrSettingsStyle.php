@@ -99,7 +99,6 @@ class YasrSettingsStyle {
 
                 <?php esc_html_e("Dark theme", 'yet-another-stars-rating'); ?>
                 <br /><br /><img src="<?php echo esc_url(YASR_IMG_DIR . 'dark-multi-set.png')?>" alt="dark-multiset">
-                ?>
             </div>
 
         </div>

@@ -1,7 +1,7 @@
 
  ### `do_action('yasr_add_admin_scripts_begin')` 
 
- Source: [../admin/classes/YasrAdmin.php, line 176](.././admin/classes/YasrAdmin.php:176)
+ Source: [../admin/classes/YasrAdmin.php, line 175](.././admin/classes/YasrAdmin.php:175)
 
 _Add custom script in one of the page used by YASR, at the beginning_
 
@@ -11,7 +11,7 @@ _Add custom script in one of the page used by YASR, at the beginning_
 ___
  ### `do_action('yasr_add_admin_scripts_end')` 
 
- Source: [../admin/classes/YasrAdmin.php, line 193](.././admin/classes/YasrAdmin.php:193)
+ Source: [../admin/classes/YasrAdmin.php, line 192](.././admin/classes/YasrAdmin.php:192)
 
 _Add custom script in one of the page used by YASR, at the end_
 
@@ -108,21 +108,21 @@ ___
 
  ### `do_action('yasr_add_settings_tab')` 
 
- Source: [../admin/settings/classes/YasrSettings.php, line 1166](.././admin/settings/classes/YasrSettings.php:1166)
+ Source: [../admin/settings/classes/YasrSettings.php, line 1172](.././admin/settings/classes/YasrSettings.php:1172)
 
 _Hook here to add new settings tab_
 
 ___
  ### `do_action('yasr_settings_tab_content')` 
 
- Source: [../admin/settings/classes/YasrSettings.php, line 1241](.././admin/settings/classes/YasrSettings.php:1241)
+ Source: [../admin/settings/classes/YasrSettings.php, line 1247](.././admin/settings/classes/YasrSettings.php:1247)
 
 _Hook here to add new settings tab content_
 
 ___
  ### `do_action('yasr_right_settings_panel_box')` 
 
- Source: [../admin/settings/classes/YasrSettings.php, line 1388](.././admin/settings/classes/YasrSettings.php:1388)
+ Source: [../admin/settings/classes/YasrSettings.php, line 1394](.././admin/settings/classes/YasrSettings.php:1394)
 ___
 
  ### `apply_filters('yasr_settings_select_ranking')` 
@@ -140,7 +140,7 @@ ___
 ___
  ### `apply_filters('yasr_sanitize_style_options')` 
 
- Source: [../admin/settings/classes/YasrSettingsStyle.php, line 265](.././admin/settings/classes/YasrSettingsStyle.php:265)
+ Source: [../admin/settings/classes/YasrSettingsStyle.php, line 264](.././admin/settings/classes/YasrSettingsStyle.php:264)
 ___
 
  ### `do_action('yasr_add_stats_tab')` 
@@ -194,27 +194,27 @@ ___
 
  ### `apply_filters('yasr_rankings_query_ov')` 
 
- Source: [../includes/classes/YasrDB.php, line 370](.././includes/classes/YasrDB.php:370)
+ Source: [../includes/classes/YasrDB.php, line 421](.././includes/classes/YasrDB.php:421)
 ___
  ### `apply_filters('yasr_rankings_query_vv')` 
 
- Source: [../includes/classes/YasrDB.php, line 414](.././includes/classes/YasrDB.php:414)
+ Source: [../includes/classes/YasrDB.php, line 465](.././includes/classes/YasrDB.php:465)
 ___
  ### `apply_filters('yasr_rankings_query_tu')` 
 
- Source: [../includes/classes/YasrDB.php, line 464](.././includes/classes/YasrDB.php:464)
+ Source: [../includes/classes/YasrDB.php, line 515](.././includes/classes/YasrDB.php:515)
 ___
  ### `apply_filters('yasr_rankings_multi_query')` 
 
- Source: [../includes/classes/YasrDB.php, line 509](.././includes/classes/YasrDB.php:509)
+ Source: [../includes/classes/YasrDB.php, line 560](.././includes/classes/YasrDB.php:560)
 ___
  ### `apply_filters('yasr_rankings_query_tr')` 
 
- Source: [../includes/classes/YasrDB.php, line 563](.././includes/classes/YasrDB.php:563)
+ Source: [../includes/classes/YasrDB.php, line 614](.././includes/classes/YasrDB.php:614)
 ___
  ### `apply_filters('yasr_rankings_multivv_query')` 
 
- Source: [../includes/classes/YasrDB.php, line 614](.././includes/classes/YasrDB.php:614)
+ Source: [../includes/classes/YasrDB.php, line 665](.././includes/classes/YasrDB.php:665)
 ___
 
  ### `apply_filters('yasr_user_rate_history_must_login_text')` 
@@ -356,39 +356,39 @@ ___
 ___
  ### `apply_filters('yasr_vv_cookie')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 159](.././includes/shortcodes/classes/YasrShortcodesAjax.php:159)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 197](.././includes/shortcodes/classes/YasrShortcodesAjax.php:197)
 ___
  ### `apply_filters('yasr_vv_updated_text')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 172](.././includes/shortcodes/classes/YasrShortcodesAjax.php:172)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 210](.././includes/shortcodes/classes/YasrShortcodesAjax.php:210)
 ___
  ### `apply_filters('yasr_vv_saved_text')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 175](.././includes/shortcodes/classes/YasrShortcodesAjax.php:175)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 213](.././includes/shortcodes/classes/YasrShortcodesAjax.php:213)
 ___
  ### `apply_filters('yasr_vv_rating_error_text')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 198](.././includes/shortcodes/classes/YasrShortcodesAjax.php:198)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 236](.././includes/shortcodes/classes/YasrShortcodesAjax.php:236)
 ___
  ### `do_action('yasr_action_on_visitor_multiset_vote')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 289](.././includes/shortcodes/classes/YasrShortcodesAjax.php:289)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 326](.././includes/shortcodes/classes/YasrShortcodesAjax.php:326)
 ___
  ### `apply_filters('yasr_mv_cookie')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 375](.././includes/shortcodes/classes/YasrShortcodesAjax.php:375)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 429](.././includes/shortcodes/classes/YasrShortcodesAjax.php:429)
 ___
  ### `apply_filters('yasr_mv_saved_text')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 384](.././includes/shortcodes/classes/YasrShortcodesAjax.php:384)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 438](.././includes/shortcodes/classes/YasrShortcodesAjax.php:438)
 ___
  ### `apply_filters('yasr_filter_ranking_request')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 567](.././includes/shortcodes/classes/YasrShortcodesAjax.php:567)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 621](.././includes/shortcodes/classes/YasrShortcodesAjax.php:621)
 ___
  ### `apply_filters('yasr_add_sources_ranking_request')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 618](.././includes/shortcodes/classes/YasrShortcodesAjax.php:618)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 672](.././includes/shortcodes/classes/YasrShortcodesAjax.php:672)
 ___
 
  ### `apply_filters('yasr_mv_cookie')` 
@@ -493,9 +493,14 @@ _Use this filter to customize the yasr_visitor_votes shortcode_
 | $this->is_singular | string |  if the current page is_singular or not |
 ___
 
+ ### `apply_filters('yasr_seconds_between_ratings')` 
+
+ Source: [../includes/yasr-includes-defines.php, line 34](.././includes/yasr-includes-defines.php:34)
+___
+
  ### `apply_filters('yasr_filter_ip')` 
 
- Source: [../includes/yasr-includes-functions.php, line 148](.././includes/yasr-includes-functions.php:148)
+ Source: [../includes/yasr-includes-functions.php, line 156](.././includes/yasr-includes-functions.php:156)
 ___
 
  ### `apply_filters('yasr_auto_insert_disable')` 
@@ -517,15 +522,21 @@ ___
 
  ### `apply_filters('yasr_filter_schema_jsonld')` 
 
- Source: [../public/classes/YasrRichSnippets.php, line 73](.././public/classes/YasrRichSnippets.php:73)
+ Source: [../public/classes/YasrRichSnippets.php, line 77](.././public/classes/YasrRichSnippets.php:77)
+
+_Use this hook to write your custom microdata from scratch_
+
+| Argument | Type | Description |
+| --- | --- | --- |
+| $item_type_for_post | string |  the itemType selected for the post |
 ___
  ### `apply_filters('yasr_filter_existing_schema')` 
 
- Source: [../public/classes/YasrRichSnippets.php, line 132](.././public/classes/YasrRichSnippets.php:132)
+ Source: [../public/classes/YasrRichSnippets.php, line 190](.././public/classes/YasrRichSnippets.php:190)
 ___
  ### `apply_filters('yasr_filter_schema_title')` 
 
- Source: [../public/classes/YasrRichSnippets.php, line 164](.././public/classes/YasrRichSnippets.php:164)
+ Source: [../public/classes/YasrRichSnippets.php, line 222](.././public/classes/YasrRichSnippets.php:222)
 ___
 
  ### `do_action('yasr_display_posts_top')` 
@@ -553,11 +564,11 @@ ___
 ___
  ### `do_action('yasr_ur_save_custom_form_fields')` 
 
- Source: [../yasr_pro/public/classes/YasrProCommentForm.php, line 495](.././yasr_pro/public/classes/YasrProCommentForm.php:495)
+ Source: [../yasr_pro/public/classes/YasrProCommentForm.php, line 496](.././yasr_pro/public/classes/YasrProCommentForm.php:496)
 ___
  ### `do_action('yasr_ur_do_content_after_save_commentmeta')` 
 
- Source: [../yasr_pro/public/classes/YasrProCommentForm.php, line 504](.././yasr_pro/public/classes/YasrProCommentForm.php:504)
+ Source: [../yasr_pro/public/classes/YasrProCommentForm.php, line 505](.././yasr_pro/public/classes/YasrProCommentForm.php:505)
 ___
 
  ### `do_action('yasr_fs_loaded')` 

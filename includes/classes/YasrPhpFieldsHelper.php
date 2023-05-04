@@ -342,9 +342,11 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
          *
          * @author Dario Curvino <@dudo>
          *
-         * @param $multi_set
+         * @param             $multi_set
          * @param bool|string $select_text
          * @param bool|string $select_id
+         * @param string      $select_on_newline
+         * @param bool        $nonce_name
          *
          * @since  3.0.6
          */

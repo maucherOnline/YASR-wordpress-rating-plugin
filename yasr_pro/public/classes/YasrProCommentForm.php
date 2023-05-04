@@ -301,6 +301,7 @@ class YasrProCommentForm {
      * Return an editable 5 stars review
      *
      * @param $comment_id
+     * @param $post_id
      * @param $rating
      * @param $review_title
      *
@@ -579,7 +580,6 @@ class YasrProCommentForm {
                 $this->commentReviewDie($comment_id, $error_message);
             } else {
                 $this->setReviewCookie($post_id, $five_star_comment_meta);
-                return;
             }
         } else {
             $this->setReviewCookie($post_id, $five_star_comment_meta);
@@ -637,7 +637,7 @@ class YasrProCommentForm {
                         'vote'       => $rating,
                         'user_id'    => get_current_user_id(),
                         'date'       => date('Y-m-d H:i:s'),
-                        'ip'         => yasr_get_ip()
+                        'ip'         => yasr_ip_to_save()
                     ),
                     array("%d", "%d", "%d", "%d", "%d", "%s", "%s", "%s")
                 );
@@ -660,7 +660,6 @@ class YasrProCommentForm {
         if(is_int($five_star_comment_meta)) {
             $cookie_name = 'yasr_rated_comment_' . $post_id;
             yasr_setcookie($cookie_name, $post_id);
-            return; //everything is ok, return
         }
     }
 

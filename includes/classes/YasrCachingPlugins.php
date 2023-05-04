@@ -41,8 +41,7 @@ class YasrCachingPlugins {
 
         foreach($methods as $method) {
             if((substr( $method, 0, 4 ) === "find") && $this->{$method}()) {
-                $plugin_name = str_replace('find', '', $method);
-                return $plugin_name;
+                return str_replace('find', '', $method);
             }
         }
         return false;

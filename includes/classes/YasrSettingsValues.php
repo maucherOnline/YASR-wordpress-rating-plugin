@@ -96,7 +96,7 @@ class YasrSettingsValues {
         $options['publisher']                    = 'Organization';
         $options['publisher_name']               = get_bloginfo('name');
         $options['publisher_logo']               = get_site_icon_url();
-        $options['enable_ip']                    = 'no';
+        $options['enable_ip']                    = 'yes';
 
         if($caching_plugin_found !== false) {
             $options['enable_ajax'] = 'yes';

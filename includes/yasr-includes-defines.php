@@ -22,9 +22,21 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
+//This defines doesn't come from a setting page
+//role to save overall_rating and multi set
+if(!defined('YASR_USER_CAPABILITY_EDIT_POST')) {
+    define('YASR_USER_CAPABILITY_EDIT_POST', 'edit_posts');
+}
+
+//This defines doesn't come from a setting page
+//role to save overall_rating and multi set
+if(!defined('YASR_SECONDS_BETWEEN_RATINGS')) {
+    $time = (int)apply_filters('yasr_seconds_between_ratings', MINUTE_IN_SECONDS);
+    define('YASR_SECONDS_BETWEEN_RATINGS', $time);
+}
+
 //Since version 3.3.0 the defines are inside a file, instead of a class, for better support PHPStorm auto-completion
 //https://youtrack.jetbrains.com/issue/WI-11390/Make-define-Constants-from-inside-methods-available-for-completion-everywhere.
-
 $settings              = new YasrSettingsValues();
 $yasr_general_settings = $settings->getGeneralSettings();
 $style_options         = $settings->getStyleSettings();
