@@ -529,7 +529,7 @@ class YasrScriptsLoader {
 
             if(is_array($constants_array) && !empty($constants_array)) {
                 wp_localize_script(
-                    'yasradmin', //Where to attacch the object
+                    'yasradmin', //Where to attach the object
                     'yasrConstantGutenberg',
                     $constants_array
                 );
