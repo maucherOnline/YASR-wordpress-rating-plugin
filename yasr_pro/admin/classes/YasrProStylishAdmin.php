@@ -161,7 +161,7 @@ class YasrProStylishAdmin {
         $folder_img = YASR_PRO_ABSOLUTE_PATH_INCLUDES . '/img/stars/thumb/'; //must use absolute path, not plugin_url
         $filetype   = '*.png';
 
-        //create an array with the  folder content
+        //create an array with the folder content
         $array_file = glob($folder_img . $filetype);
 
         //Sorting array in "natural order"
@@ -171,37 +171,7 @@ class YasrProStylishAdmin {
             $style_options['stars_set'] = '0yasr';
         }
 
-        echo '<div class="yasr-select-img-container">';
-        foreach ($array_file as $single_file) {
-            $filename_ext = basename($single_file); //File name with extension
-            $img_url      = YASR_PRO_ST_IMG_DIR . 'thumb/' . $filename_ext; //File name absolute path
-            $filename     = pathinfo($filename_ext, PATHINFO_FILENAME); //Filename without ext
-            ?>
-            <div>
-                <input type='radio'
-                       name='yasr_style_options[stars_set]'
-                       value='<?php echo $filename; ?>'
-                       id='yasr_pro_choosen_stars_<?php echo $filename ?>'
-                    <?php if ($style_options['stars_set'] === $filename) {
-                        echo " checked='checked' ";
-                    } ?>
-                />
-                <label for='yasr_pro_choosen_stars_<?php echo $filename ?>'>
-                    <span>
-                        <img src='<?php echo $img_url; ?> '
-                             width="32"
-                             height="64"
-                             alt='yasr_pro_choosen_stars_<?php echo $filename ?>'
-                        >
-                    </span>
-                </label>
-            </div>
-
-            <?php
-
-        }
-
-        echo '</div>';
+        $this->printStarsRadios($array_file, $style_options);
 
         ?>
 
@@ -218,6 +188,51 @@ class YasrProStylishAdmin {
         <?php
 
     } //End function yasr_pro_choose_stars_radio_callback
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.0
+     *
+     * @param $array_file
+     * @param $style_options
+     *
+     * @return void
+     */
+    public function printStarsRadios($array_file, $style_options) {
+        echo '<div class="yasr-select-img-container">';
+
+        foreach ($array_file as $single_file) {
+            $filename_ext = basename($single_file); //File name with extension
+            $img_url      = YASR_PRO_ST_IMG_DIR . 'thumb/' . $filename_ext; //File name absolute path
+            $filename     = pathinfo($filename_ext, PATHINFO_FILENAME); //Filename without ext
+            $id           = 'yasr_pro_choosen_stars_'.$filename;
+            ?>
+            <div>
+                <input type='radio'
+                       name='yasr_style_options[stars_set]'
+                       value='<?php echo esc_attr($filename); ?>'
+                       id='<?php echo esc_attr($id) ?>'
+                    <?php if ($style_options['stars_set'] === $filename) {
+                        echo " checked='checked' ";
+                    } ?>
+                />
+                <label for='<?php echo esc_attr($id) ?>'>
+                    <span>
+                        <img src='<?php echo esc_url($img_url); ?> '
+                             width="32"
+                             height="64"
+                             alt='<?php echo esc_attr($id) ?>'
+                        >
+                    </span>
+                </label>
+            </div>
+
+            <?php
+        }
+
+        echo '</div>';
+    }
 
     /**
      * Sanitize the stylish options
