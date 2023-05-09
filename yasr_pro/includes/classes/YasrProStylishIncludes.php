@@ -24,10 +24,10 @@ if (!defined('ABSPATH')) {
 class YasrProStylishIncludes {
 
     public function init() {
+        global $yasr_load_script;
 
-
-        remove_action('yasr_add_front_script_css', 'yasr_css_stars_set');
-        remove_action('yasr_add_admin_scripts_end', 'yasr_css_stars_set');
+        remove_action('yasr_add_front_script_css', array($yasr_load_script, 'loadInlineCss'));
+        remove_action('yasr_add_admin_scripts_end', array($yasr_load_script, 'loadInlineCss'));
 
         add_action('yasr_add_front_script_css', array($this, 'replaceCss'));
         add_action('yasr_add_admin_scripts_end', array($this, 'replaceCss'));
