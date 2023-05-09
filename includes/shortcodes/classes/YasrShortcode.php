@@ -29,10 +29,31 @@ if (!defined('ABSPATH')) {
  *
  */
 abstract class YasrShortcode {
+
+    /**
+     * @var string The html to return
+     */
     public $shortcode_html;
-    public $post_id;        //false
-    public $size;           //large
-    public $readonly;       //false
+
+    /**
+     * @var false|string|int The post_id
+     */
+    public $post_id;
+
+    /**
+     * @var string 'small' or 'medium', 'large' if anything else
+     */
+    public $size;
+
+    /**
+     * @var string if the shortcode must return in readonly
+     *             default 'false'
+     */
+    public $readonly;
+
+    /**
+     * @var string the shortcode name
+     */
     public $shortcode_name;
 
     public function __construct($atts, $shortcode_name) {
