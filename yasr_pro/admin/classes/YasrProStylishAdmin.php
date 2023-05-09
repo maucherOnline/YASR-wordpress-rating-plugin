@@ -99,10 +99,10 @@ class YasrProStylishAdmin {
                 <!-- Print preview -->
                 <?php if ($style_options['custom_image_inactive']) { ?>
                     <span class="yasr_uploaded_stars_preview" id='yasr_pro_star_inactive_preview'>
-                    <img src="<?php echo esc_url($style_options['custom_image_inactive']) ?>"
-                         width="32" height="32" alt="inactive"
-                    >
-                </span>
+                        <img src="<?php echo esc_url($style_options['custom_image_inactive']) ?>"
+                             width="32" height="32" alt="inactive"
+                        >
+                    </span>
                 <?php } ?>
 
                 <button class="button-primary yasr-pro-upload-image">
@@ -123,8 +123,9 @@ class YasrProStylishAdmin {
                 <!-- Print preview -->
                 <?php if ($style_options['custom_image_active']) { ?>
                     <span class="yasr_uploaded_stars_preview" id='yasr_pro_star_active_preview'>
-                <img src='<?php echo esc_url($style_options['custom_image_active']); ?>'
-                     alt="active" width="32" height="32"></span>
+                        <img src='<?php echo esc_url($style_options['custom_image_active']); ?>'
+                             alt="active" width="32" height="32">
+                    </span>
                 <?php } ?>
 
                 <button class="button-primary yasr-pro-upload-image">
@@ -141,7 +142,7 @@ class YasrProStylishAdmin {
                 '<a href="https://wordpress.org/plugins/safe-svg/">Safe Svg</a>',
                 '<br />');
 
-            echo $text;
+            echo yasr_kses($text);
             ?>
         </div>
 
