@@ -75,16 +75,16 @@ $yasr_includes_filter = new YasrIncludesFilters();
 $yasr_includes_filter->filterCustomTexts();
 
 //Load window.var used by YASR
-$load_script = new YasrScriptsLoader();
-$load_script->loadRequiredScripts();
+$yasr_load_script = new YasrScriptsLoader();
+$yasr_load_script->loadRequiredScripts();
 
 //support for caching plugins
 $yasr_caching_plugin_support = new YasrCachingPlugins();
 $yasr_caching_plugin_support->cachingPluginSupport();
 
 //Init Ajax
-$init_ajax = new YasrShortcodesAjax();
-$init_ajax->init();
+$yasr_init_ajax = new YasrShortcodesAjax();
+$yasr_init_ajax->init();
 
 //Load rest API
 require YASR_ABSOLUTE_PATH_INCLUDES . '/rest/yasr-rest.php';

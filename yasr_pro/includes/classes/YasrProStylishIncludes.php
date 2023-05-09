@@ -24,6 +24,8 @@ if (!defined('ABSPATH')) {
 class YasrProStylishIncludes {
 
     public function init() {
+
+
         remove_action('yasr_add_front_script_css', 'yasr_css_stars_set');
         remove_action('yasr_add_admin_scripts_end', 'yasr_css_stars_set');
 
