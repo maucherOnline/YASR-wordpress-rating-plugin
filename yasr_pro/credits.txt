@@ -1,1 +1,5 @@
 External Libraries: [datepicker](https://github.com/qodesmith/datepicker)
+
+Icon 24joy by [Bootstrap](https://www.svgrepo.com/author/Bootstrap/)
+Icon 26gamepad by [wishforge.games](https://www.svgrepo.com/svg/384196/joystick-controller-play-games)
+Icon 27pac by [Frexy](https://www.svgrepo.com/author/Frexy/)
