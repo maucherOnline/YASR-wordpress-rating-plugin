@@ -60,10 +60,10 @@ class YasrProStylishIncludes {
         }
 
         $yasr_st_css = '.yasr-star-rating {
-            background-image: url("'.$array_icons['icon_0'].'");
+            background-image: url("'.esc_url($array_icons['icon_0']).'");
         }
         .yasr-star-rating .yasr-star-value {
-            background-image: url("'.$array_icons['icon_1'].'");
+            background-image: url("'.esc_url($array_icons['icon_1']).'");
         }';
 
         wp_add_inline_style('yasrcss', trim($yasr_st_css));
