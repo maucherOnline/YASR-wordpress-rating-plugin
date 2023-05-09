@@ -31,7 +31,6 @@ class YasrProStylishIncludes {
 
         add_action('yasr_add_front_script_css', array($this, 'replaceCss'));
         add_action('yasr_add_admin_scripts_end', array($this, 'replaceCss'));
-
     }
 
     /**
@@ -60,16 +59,14 @@ class YasrProStylishIncludes {
             $array_icons = $this->useExistingStarsSet($style_options['stars_set']);
         }
 
-
-        $yasr_st_css = ".yasr-star-rating {
-            background-image: url(\"$array_icons[icon_0]\");
+        $yasr_st_css = '.yasr-star-rating {
+            background-image: url("'.$array_icons['icon_0'].'");
         }
         .yasr-star-rating .yasr-star-value {
-            background: url(\"$array_icons[icon_1]\") ;
-        }";
+            background-image: url("'.$array_icons['icon_1'].'");
+        }';
 
-        wp_add_inline_style('yasrcss', $yasr_st_css);
-
+        wp_add_inline_style('yasrcss', trim($yasr_st_css));
     }
 
     /**
