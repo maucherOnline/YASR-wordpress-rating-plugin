@@ -44,7 +44,7 @@ class YasrRichSnippets {
         }
 
         //do the checks
-        if($this->mustReturnContent($caller) === true) {
+        if($this->mustReturn($caller) === true) {
             return $content;
         }
 
@@ -119,12 +119,13 @@ class YasrRichSnippets {
      *
      * @return bool
      */
-    public function mustReturnContent($caller) {
+    public function mustReturn($caller) {
+        //rich snippets already returned
         if(defined('YASR_SCHEMA_RETURNED')) {
             return true;
         }
 
-        //if both shortcodes ov_rating and visitor votes didn't run, return $content
+        //if both shortcodes ov_rating and visitor votes didn't run, return
         if (!defined('YASR_OV_ATTRIBUTES') && !defined('YASR_VV_ATTRIBUTES')
             && !defined('YASR_PRO_UR_COMMENT_RICH_SNIPPET')) {
             return true;
