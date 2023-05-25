@@ -207,8 +207,10 @@ Yes, YASR is 100% fully compatible with PHP 8
 The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.4.0 =
+* minor changes
 [//]: # fs_premium_only_begin
 PREMIUM ONLY:
+* ENHANCEMENT: new icons
 * FIXED: Avoid inline css overwrite
 [//]: # fs_premium_only_end
 
