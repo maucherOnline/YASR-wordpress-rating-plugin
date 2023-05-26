@@ -83,7 +83,7 @@ class YasrRichSnippets {
 
         //YASR adds microdata only if is_singular() && is_main_query()
         if (is_singular() && is_main_query()) {
-            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, '', $overall_rating, $visitor_votes);
+            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, $content, $overall_rating, $visitor_votes);
 
             //If $rich snippet here is not false return microdata
             if($rich_snippet !== false) {
