@@ -207,13 +207,13 @@ Yes, YASR is 100% fully compatible with PHP 8
 The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.4.0 =
+* FIXED: missing "description" field in rich snippets
 * minor changes
 [//]: # fs_premium_only_begin
 PREMIUM ONLY:
 * ENHANCEMENT: new icons
 * FIXED: Avoid inline css overwrite
 [//]: # fs_premium_only_end
-
 
 = 3.3.9 =
 * TWEAKED: to prevent spam rating, now IP is saved by default. This is ok for the GDPR law, you can find more info into
