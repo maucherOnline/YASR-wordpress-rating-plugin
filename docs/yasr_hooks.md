@@ -343,11 +343,11 @@ ___
 
  ### `apply_filters('yasr_size_ranking')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcode.php, line 88](.././includes/shortcodes/classes/YasrShortcode.php:88)
+ Source: [../includes/shortcodes/classes/YasrShortcode.php, line 109](.././includes/shortcodes/classes/YasrShortcode.php:109)
 ___
  ### `do_action('yasr_enqueue_assets_shortcode')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcode.php, line 157](.././includes/shortcodes/classes/YasrShortcode.php:157)
+ Source: [../includes/shortcodes/classes/YasrShortcode.php, line 178](.././includes/shortcodes/classes/YasrShortcode.php:178)
 ___
 
  ### `do_action('yasr_action_on_visitor_vote')` 
@@ -532,11 +532,11 @@ _Use this hook to write your custom microdata from scratch_
 ___
  ### `apply_filters('yasr_filter_existing_schema')` 
 
- Source: [../public/classes/YasrRichSnippets.php, line 190](.././public/classes/YasrRichSnippets.php:190)
+ Source: [../public/classes/YasrRichSnippets.php, line 191](.././public/classes/YasrRichSnippets.php:191)
 ___
  ### `apply_filters('yasr_filter_schema_title')` 
 
- Source: [../public/classes/YasrRichSnippets.php, line 222](.././public/classes/YasrRichSnippets.php:222)
+ Source: [../public/classes/YasrRichSnippets.php, line 223](.././public/classes/YasrRichSnippets.php:223)
 ___
 
  ### `do_action('yasr_display_posts_top')` 
