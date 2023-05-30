@@ -208,6 +208,7 @@ The full changelog can be found in the plugin's directory. Recent entries:
 
 = 3.4.0 =
 * FIXED: missing "description" field in rich snippets
+* TWEAKED: updated freemius sdk to version 2.5.8
 * minor changes
 [//]: # fs_premium_only_begin
 PREMIUM ONLY:
