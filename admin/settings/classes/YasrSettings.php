@@ -1418,6 +1418,7 @@ class YasrSettings {
                         <li><strong><?php esc_html_e('20+ ready to use themes', 'yet-another-stars-rating'); ?></strong></li>
                         <li><strong><?php esc_html_e('Upload your own theme', 'yet-another-stars-rating'); ?></strong></li>
                         <li><strong><?php esc_html_e('Fake ratings', 'yet-another-stars-rating'); ?></strong></li>
+                        <li><strong><?php esc_html_e('Export data', 'yet-another-stars-rating'); ?></strong></li>
                         <li><strong><?php esc_html_e('Dedicate support', 'yet-another-stars-rating'); ?></strong></li>
                         <li>
                             <strong>
