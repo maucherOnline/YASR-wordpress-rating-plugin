@@ -899,6 +899,7 @@ div.yasr-select-img-container input {
         opacity: 0.8;
         font-size: 2vh;
         padding: 15px;
+        display: none;
     }
 
 }
@@ -907,12 +908,14 @@ div.yasr-select-img-container input {
     #yasr-settings-stylish-text {
         width: 50%;
         margin: auto;
-        position: relative;
+        position: absolute;
         background-color: #ffffff;
         border: 2px solid black;
         opacity: 0.8;
         font-size: 2vh;
         padding: 15px;
+        display: none;
+        z-index: 10;
     }
 
 }

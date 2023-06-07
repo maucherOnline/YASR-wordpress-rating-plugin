@@ -173,83 +173,86 @@ class YasrSettingsStyle {
      * @param $style_options
      */
     public function formUploadStars($style_options) {
-
-        if (!isset($style_options['custom_image_inactive'])) {
-            $style_options['custom_image_inactive'] = null;
-        }
-
-        if (!isset($style_options['custom_image_active'])) {
-            $style_options['custom_image_active'] = null;
-        }
-
         ?>
-
-        <div class="yasr-custom-stars-uploaders" style="width: 100%">
-            <div style="font-size: 14px; color: #23282d; font-weight: 600">
-                <?php esc_html_e('Upload Custom Icons', 'yet-another-stars-rating'); ?>
-            </div>
-            <br/>
-            <div>
-                <label for="yasr-custom-image-inactive" class="yasr-text-upload-image">
-                    <?php esc_html_e('"Off" image', 'yet-another-stars-rating') ?>
-                </label>
-                <input class="yasr-input-text-upload-image"
-                       type="text"
-                       name="yasr_style_options[custom_image_inactive]"
-                       id="yasr-custom-image-inactive"
-                       value="<?php echo esc_attr($style_options['custom_image_inactive']); ?>"
-                >
-
-                <!-- Print preview -->
-                <?php if ($style_options['custom_image_inactive']) { ?>
-                    <span class="yasr_uploaded_stars_preview" id='yasr_pro_star_inactive_preview'>
-                        <img src="<?php echo esc_url($style_options['custom_image_inactive']) ?>"
-                             width="32" height="32" alt="inactive"
-                        >
-                    </span>
-                <?php } ?>
-
-                <button class="button-primary yasr-pro-upload-image">
-                    <?php esc_html_e('Upload', 'yet-another-stars-rating'); ?>
-                </button>
-            </div>
-            <div>
-                <label for="yasr-custom-image-active" class="yasr-text-upload-image">
-                    <?php esc_html_e('"Active" image', 'yet-another-stars-rating') ?>
-                </label>
-                <input class="yasr-input-text-upload-image"
-                       type="text"
-                       name="yasr_style_options[custom_image_active]"
-                       id="yasr-custom-image-active"
-                       value="<?php echo esc_attr($style_options['custom_image_active']); ?>"
-                >
-
-                <!-- Print preview -->
-                <?php if ($style_options['custom_image_active']) { ?>
-                    <span class="yasr_uploaded_stars_preview" id='yasr_pro_star_active_preview'>
-                        <img src='<?php echo esc_url($style_options['custom_image_active']); ?>'
-                             alt="active" width="32" height="32">
-                    </span>
-                <?php } ?>
-
-                <button class="button-primary yasr-pro-upload-image">
-                    <?php esc_html_e('Upload', 'yet-another-stars-rating'); ?>
-                </button>
-            </div>
-        </div>
-
-        <div class="yasr-indented-answer" style="margin: 25px;">
+        <div style="position:relative;">
             <?php
-            $text = sprintf(
-                __('%s (You need a plugin like %s to upload it). %s Aspect ratio must be 1:1 and width x height at least 32x32', 'yet-another-stars-rating'),
-                '<strong>Svg Only.</strong>',
-                '<a href="https://wordpress.org/plugins/safe-svg/">Safe Svg</a>',
-                '<br />');
+            $this->printUpgradeToProText();
+            if (!isset($style_options['custom_image_inactive'])) {
+                $style_options['custom_image_inactive'] = null;
+            }
 
-            echo yasr_kses($text);
+            if (!isset($style_options['custom_image_active'])) {
+                $style_options['custom_image_active'] = null;
+            }
+
             ?>
-        </div>
 
+            <div class="yasr-stylish-locked" style="width: 100%;">
+                <div style="font-size: 14px; color: #23282d; font-weight: 600">
+                    <?php esc_html_e('Upload Custom Icons', 'yet-another-stars-rating'); ?>
+                </div>
+                <br/>
+                <div>
+                    <label for="yasr-custom-image-inactive" class="yasr-text-upload-image">
+                        <?php esc_html_e('"Off" image', 'yet-another-stars-rating') ?>
+                    </label>
+                    <input class="yasr-input-text-upload-image"
+                           type="text"
+                           name="yasr_style_options[custom_image_inactive]"
+                           id="yasr-custom-image-inactive"
+                           value="<?php echo esc_attr($style_options['custom_image_inactive']); ?>"
+                    >
+
+                    <!-- Print preview -->
+                    <?php if ($style_options['custom_image_inactive']) { ?>
+                        <span class="yasr_uploaded_stars_preview" id='yasr_pro_star_inactive_preview'>
+                            <img src="<?php echo esc_url($style_options['custom_image_inactive']) ?>"
+                                 width="32" height="32" alt="inactive"
+                            >
+                        </span>
+                    <?php } ?>
+
+                    <button class="button-primary yasr-pro-upload-image">
+                        <?php esc_html_e('Upload', 'yet-another-stars-rating'); ?>
+                    </button>
+                </div>
+                <div>
+                    <label for="yasr-custom-image-active" class="yasr-text-upload-image">
+                        <?php esc_html_e('"Active" image', 'yet-another-stars-rating') ?>
+                    </label>
+                    <input class="yasr-input-text-upload-image"
+                           type="text"
+                           name="yasr_style_options[custom_image_active]"
+                           id="yasr-custom-image-active"
+                           value="<?php echo esc_attr($style_options['custom_image_active']); ?>"
+                    >
+
+                    <!-- Print preview -->
+                    <?php if ($style_options['custom_image_active']) { ?>
+                        <span class="yasr_uploaded_stars_preview" id='yasr_pro_star_active_preview'>
+                            <img src='<?php echo esc_url($style_options['custom_image_active']); ?>'
+                                 alt="active" width="32" height="32">
+                        </span>
+                    <?php } ?>
+
+                    <button class="button-primary yasr-pro-upload-image">
+                        <?php esc_html_e('Upload', 'yet-another-stars-rating'); ?>
+                    </button>
+                </div>
+                <div class="yasr-indented-answer" style="margin: 25px;">
+                    <?php
+                    $text = sprintf(
+                        __('%s (You need a plugin like %s to upload it). %s Aspect ratio must be 1:1 and width x height at least 32x32', 'yet-another-stars-rating'),
+                        '<strong>Svg Only.</strong>',
+                        '<a href="https://wordpress.org/plugins/safe-svg/">Safe Svg</a>',
+                        '<br />');
+
+                    echo yasr_kses($text);
+                    ?>
+                </div>
+            </div>
+
+        </div>
         <?php
 
     }
@@ -278,20 +281,6 @@ class YasrSettingsStyle {
 
         $this->printStarsRadios($array_file, $style_options);
 
-        ?>
-
-        <p>&nbsp;</p>
-
-        <button class="button-secondary" id="yasr-st-reset-stars">Reset</button>
-
-        <?php submit_button(__('Save Settings'), 'primary', 'submit', false); ?>
-
-        <p>&nbsp;</p>
-
-        <hr>
-
-        <?php
-
     } //End function yasr_pro_choose_stars_radio_callback
 
     /**
@@ -305,38 +294,50 @@ class YasrSettingsStyle {
      * @return void
      */
     private function printStarsRadios($array_file, $style_options) {
-        echo '<div class="yasr-select-img-container">';
-
-        foreach ($array_file as $single_file) {
-            $filename_ext = basename($single_file); //File name with extension
-            $img_url      = YASR_IMG_DIR . 'stars/thumb/' . $filename_ext; //File name absolute path
-            $filename     = pathinfo($filename_ext, PATHINFO_FILENAME); //Filename without ext
-            $id           = 'yasr_pro_choosen_stars_'.$filename;
-            ?>
-            <div>
-                <input type='radio'
-                       name='yasr_style_options[stars_set]'
-                       value='<?php echo esc_attr($filename); ?>'
-                       id='<?php echo esc_attr($id) ?>'
-                    <?php if ($style_options['stars_set'] === $filename) {
-                        echo " checked='checked' ";
-                    } ?>
-                />
-                <label for='<?php echo esc_attr($id) ?>'>
-                    <span>
-                        <img src='<?php echo esc_url($img_url); ?> '
-                             width="32"
-                             height="64"
-                             alt='<?php echo esc_attr($id) ?>'
-                        >
-                    </span>
-                </label>
+        ?>
+        <div class="yasr-stylish-locked">
+            <div class="yasr-select-img-container">
+                <?php
+                    foreach ($array_file as $single_file) {
+                        $filename_ext = basename($single_file); //File name with extension
+                        $img_url      = YASR_IMG_DIR . 'stars/thumb/' . $filename_ext; //File name absolute path
+                        $filename     = pathinfo($filename_ext, PATHINFO_FILENAME); //Filename without ext
+                        $id           = 'yasr_pro_choosen_stars_'.$filename;
+                        ?>
+                        <div>
+                            <input type='radio'
+                                   name='yasr_style_options[stars_set]'
+                                   value='<?php echo esc_attr($filename); ?>'
+                                   id='<?php echo esc_attr($id) ?>'
+                                <?php if ($style_options['stars_set'] === $filename) {
+                                    echo " checked='checked' ";
+                                } ?>
+                            />
+                            <label for='<?php echo esc_attr($id) ?>'>
+                                <span>
+                                    <img src='<?php echo esc_url($img_url); ?> '
+                                         width="32"
+                                         height="64"
+                                         alt='<?php echo esc_attr($id) ?>'
+                                    >
+                                </span>
+                            </label>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    <p>&nbsp;</p>
             </div>
 
-            <?php
-        }
+            <button class="button-secondary" id="yasr-st-reset-stars">Reset</button>
 
-        echo '</div>';
+            <?php submit_button(__('Save Settings'), 'primary', 'submit', false); ?>
+
+            <p>&nbsp;</p>
+            <hr />
+        </div>
+
+        <?php
     }
 
     /**
@@ -415,7 +416,7 @@ class YasrSettingsStyle {
      * @since 3.4.1
      * @return void
      */
-    public static function printUpgradeToProText() {
+    public function printUpgradeToProText() {
         ?>
         <div id='yasr-settings-stylish-text'>
             <?php
