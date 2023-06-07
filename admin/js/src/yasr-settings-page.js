@@ -86,11 +86,6 @@ if (activeTab === 'style_options') {
         return false; // prevent default click action from happening!
     });
 
-    jQuery('#yasr-settings-stylish-stars').mouseover(function () {
-        jQuery('#yasr-settings-stylish-text').css("visibility", "visible");
-        jQuery('#yasr-settings-stylish-image').css("opacity", 0.4);
-    });
-
     wp.hooks.doAction('yasrStyleOptions');
 }
 
