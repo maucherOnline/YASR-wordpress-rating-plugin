@@ -304,7 +304,7 @@ class YasrSettingsStyle {
      *
      * @return void
      */
-    public function printStarsRadios($array_file, $style_options) {
+    private function printStarsRadios($array_file, $style_options) {
         echo '<div class="yasr-select-img-container">';
 
         foreach ($array_file as $single_file) {
