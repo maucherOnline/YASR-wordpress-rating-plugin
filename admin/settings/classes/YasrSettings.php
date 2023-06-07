@@ -1666,6 +1666,19 @@ class YasrSettings {
      * @return mixed|string
      */
     public function customFooter($text) {
+        ?>
+
+        <script>
+            jQuery('.yasr-stylish-locked').mouseover(function () {
+                jQuery('#yasr-settings-stylish-text').css('display', 'block');
+                jQuery('.yasr-stylish-locked').css({
+                    'opacity': 0.4,
+                    'pointer-events': 'none'
+                });
+            });
+        </script>
+
+        <?php
 
         if (isset($_GET['page'])) {
             $yasr_page = $_GET['page'];
