@@ -51,7 +51,7 @@ class YasrSettingsStyle {
 
         add_settings_field(
             'yasr_st_upload_stars',
-            sprintf(__('Custom Star Set %s', 'yasr-pro'), '<span class="dashicons dashicons-unlock"></span>'),
+            sprintf(__('Custom Star Set %s', 'yet-another-stars-rating'), '<span class="dashicons dashicons-unlock"></span>'),
             array ($this, 'formUploadStars'),
             'yasr_style_tab',
             'yasr_style_options_section_id',
@@ -59,7 +59,7 @@ class YasrSettingsStyle {
 
         add_settings_field(
             'yasr_st_choose_stars_radio',
-            sprintf(__('Choose Stars Set %s', 'yasr-pro'), '<span class="dashicons dashicons-unlock"></span>'),
+            sprintf(__('Choose Stars Set %s', 'yet-another-stars-rating'), '<span class="dashicons dashicons-unlock"></span>'),
             array ($this, 'chooseStarsRadio'),
             'yasr_style_tab',
             'yasr_style_options_section_id',
@@ -187,12 +187,12 @@ class YasrSettingsStyle {
 
         <div class="yasr-custom-stars-uploaders" style="width: 100%">
             <div style="font-size: 14px; color: #23282d; font-weight: 600">
-                <?php esc_html_e('Upload Custom Icons', 'yasr-pro'); ?>
+                <?php esc_html_e('Upload Custom Icons', 'yet-another-stars-rating'); ?>
             </div>
             <br/>
             <div>
                 <label for="yasr-custom-image-inactive" class="yasr-pro-text-upload-image">
-                    <?php esc_html_e('"Off" image', 'yasr-pro') ?>
+                    <?php esc_html_e('"Off" image', 'yet-another-stars-rating') ?>
                 </label>
                 <input class="yasr-pro-input-text-upload-image"
                        type="text"
@@ -211,12 +211,12 @@ class YasrSettingsStyle {
                 <?php } ?>
 
                 <button class="button-primary yasr-pro-upload-image">
-                    <?php esc_html_e('Upload', 'yasr-pro'); ?>
+                    <?php esc_html_e('Upload', 'yet-another-stars-rating'); ?>
                 </button>
             </div>
             <div>
                 <label for="yasr-custom-image-active" class="yasr-pro-text-upload-image">
-                    <?php esc_html_e('"Active" image', 'yasr-pro') ?>
+                    <?php esc_html_e('"Active" image', 'yet-another-stars-rating') ?>
                 </label>
                 <input class="yasr-pro-input-text-upload-image"
                        type="text"
@@ -234,7 +234,7 @@ class YasrSettingsStyle {
                 <?php } ?>
 
                 <button class="button-primary yasr-pro-upload-image">
-                    <?php esc_html_e('Upload', 'yasr-pro'); ?>
+                    <?php esc_html_e('Upload', 'yet-another-stars-rating'); ?>
                 </button>
             </div>
         </div>
@@ -242,7 +242,7 @@ class YasrSettingsStyle {
         <div class="yasr-indented-answer" style="margin: 25px;">
             <?php
             $text = sprintf(
-                __('%s (You need a plugin like %s to upload it). %s Aspect ratio must be 1:1 and width x height at least 32x32', 'yasr-pro'),
+                __('%s (You need a plugin like %s to upload it). %s Aspect ratio must be 1:1 and width x height at least 32x32', 'yet-another-stars-rating'),
                 '<strong>Svg Only.</strong>',
                 '<a href="https://wordpress.org/plugins/safe-svg/">Safe Svg</a>',
                 '<br />');
