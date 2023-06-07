@@ -191,10 +191,10 @@ class YasrSettingsStyle {
             </div>
             <br/>
             <div>
-                <label for="yasr-custom-image-inactive" class="yasr-pro-text-upload-image">
+                <label for="yasr-custom-image-inactive" class="yasr-text-upload-image">
                     <?php esc_html_e('"Off" image', 'yet-another-stars-rating') ?>
                 </label>
-                <input class="yasr-pro-input-text-upload-image"
+                <input class="yasr-input-text-upload-image"
                        type="text"
                        name="yasr_style_options[custom_image_inactive]"
                        id="yasr-custom-image-inactive"
@@ -215,10 +215,10 @@ class YasrSettingsStyle {
                 </button>
             </div>
             <div>
-                <label for="yasr-custom-image-active" class="yasr-pro-text-upload-image">
+                <label for="yasr-custom-image-active" class="yasr-text-upload-image">
                     <?php esc_html_e('"Active" image', 'yet-another-stars-rating') ?>
                 </label>
-                <input class="yasr-pro-input-text-upload-image"
+                <input class="yasr-input-text-upload-image"
                        type="text"
                        name="yasr_style_options[custom_image_active]"
                        id="yasr-custom-image-active"

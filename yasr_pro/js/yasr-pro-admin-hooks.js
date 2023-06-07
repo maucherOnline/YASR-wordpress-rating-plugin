@@ -37,12 +37,12 @@ function yasrProStyleOptions () {
             }
         }
 
-        $('.yasr-pro-input-text-upload-image').on('click', function () {
+        $('.yasr-input-text-upload-image').on('click', function () {
             $(this).val('');
         });
 
         $('#yasr-st-reset-stars').on('click', function () {
-            $('.yasr-pro-input-text-upload-image').val('');
+            $('.yasr-input-text-upload-image').val('');
             $('.yasr_uploaded_stars_preview').hide();
             $('#yasr_pro_choosen_stars_0yasr').prop("checked", true);
             return false;

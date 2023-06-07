@@ -16,39 +16,6 @@
 
 /****************** END YASR USER REVIEWS *************************/
 
-
-/****************** YASR STYLISH *****************************/
-
-
-.yasr-choose-uploaded-stars {
-    width: 30%;
-    display: inline-block;
-}
-
-.yasr-custom-stars-uploaders {
-    width: 69%;
-    display: inline-block;
-    vertical-align: top;
-}
-
-.yasr_uploaded_stars_preview{
-    margin-left: 8px;
-    margin-right: 8px;
-    vertical-align: bottom;
-}
-
-.yasr-pro-input-text-upload-image {
-    display: inline-block;
-}
-
-.yasr-pro-text-upload-image {
-    display: block;
-    margin-top: 20px;
-}
-
-/****************** END YASR STYLISH *****************************/
-
-
 /****************** Date picker *********************************/
 #yasr-builder-datepicker-start {
     background-color: #fff;

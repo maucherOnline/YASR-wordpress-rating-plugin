@@ -868,6 +868,27 @@ div.yasr-select-img-container input {
     opacity: 0.4;
 }
 
+.yasr-choose-uploaded-stars {
+    width: 30%;
+    display: inline-block;
+}
+
+.yasr_uploaded_stars_preview{
+    margin-left: 8px;
+    margin-right: 8px;
+    vertical-align: bottom;
+}
+
+.yasr-input-text-upload-image {
+    display: inline-block;
+}
+
+.yasr-text-upload-image {
+    display: block;
+    margin-top: 20px;
+}
+
+
 @media (max-width: 575px) {
 
     #yasr-settings-stylish-text {
