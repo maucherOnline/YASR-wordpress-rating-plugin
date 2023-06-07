@@ -189,6 +189,17 @@ class YasrSettingsStyle {
         submit_button(__('Save Settings', 'yet-another-stars-rating'));
     }
 
+    /**
+     * HTML output to print the free stars
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.1
+     *
+     * @param $style_options
+     *
+     * @return void
+     */
     public static function printRadioFreeStars($style_options) {
         ?>
         <div class='yasr-select-img-container' id='yasr_pro_custom_set_choosen_stars'>
