@@ -200,6 +200,7 @@ class YasrSettingsStyle {
                            type="text"
                            name="yasr_style_options[custom_image_inactive]"
                            id="yasr-custom-image-inactive"
+                           size="20"
                            value="<?php echo esc_attr($style_options['custom_image_inactive']); ?>"
                     >
 
@@ -224,6 +225,7 @@ class YasrSettingsStyle {
                            type="text"
                            name="yasr_style_options[custom_image_active]"
                            id="yasr-custom-image-active"
+                           size="20"
                            value="<?php echo esc_attr($style_options['custom_image_active']); ?>"
                     >
 

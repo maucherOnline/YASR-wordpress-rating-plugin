@@ -880,7 +880,8 @@ div.yasr-select-img-container input {
 }
 
 .yasr-input-text-upload-image {
-    display: inline-block;
+    width: auto !important;
+    display: inline-block !important;
 }
 
 .yasr-text-upload-image {
