@@ -167,7 +167,7 @@ class YasrSettingsStyle {
 
         echo '<hr />';
 
-        self:self::printUpgradeToProText();
+        self::printUpgradeToProText();
 
         submit_button(__('Save Settings', 'yet-another-stars-rating'));
     }
