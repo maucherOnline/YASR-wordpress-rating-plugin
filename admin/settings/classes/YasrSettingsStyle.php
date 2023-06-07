@@ -164,28 +164,11 @@ class YasrSettingsStyle {
      */
     public static function settingsFieldFreeChooseImageHTML($style_options) {
         self::printRadioFreeStars($style_options);
-        ?>
-        <hr />
 
-        <div id="yasr-settings-stylish-stars" style="margin-top: 30px">
-            <div id="yasr-settings-stylish-image-container">
-                <?php
-                echo '<img id="yasr-settings-stylish-image" src=' . esc_url(YASR_IMG_DIR . 'yasr-pro-stars.png').'>';
-                ?>
-            </div>
-        </div>
+        echo '<hr />';
 
-        <div id='yasr-settings-stylish-text'>
-            <?php
-            $text = __('Looking for more?', 'yet-another-stars-rating');
-            $text .= '<br />';
-            $text .= sprintf(__('Upgrade to %s', 'yet-another-stars-rating'), '<a href="?page=yasr_settings_page-pricing">Yasr Pro!</a>');
+        self:self::printUpgradeToProText();
 
-            echo wp_kses_post($text);
-            ?>
-        </div>
-
-        <?php
         submit_button(__('Save Settings', 'yet-another-stars-rating'));
     }
 
@@ -239,13 +222,35 @@ class YasrSettingsStyle {
                     echo 'checked="checked"';
                 } ?> />
                 <label for="radio-img-oxy">
-                <span class='yasr_pro_stars_set'>
-                    <?php
-                        echo '<img src="' . esc_url(YASR_IMG_DIR . 'stars_rater_oxy.png').'">';
-                    ?>
-                </span>
+                    <span class='yasr_pro_stars_set'>
+                        <?php
+                            echo '<img src="' . esc_url(YASR_IMG_DIR . 'stars_rater_oxy.png').'">';
+                        ?>
+                    </span>
                 </label>
             </div>
+        </div>
+        <?php
+    }
+
+    /**
+     * HTML output to print the pro version
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.1
+     * @return void
+     */
+    public static function printUpgradeToProText() {
+        ?>
+        <div id='yasr-settings-stylish-text'>
+            <?php
+            $text = __('Looking for more?', 'yet-another-stars-rating');
+            $text .= '<br />';
+            $text .= sprintf(__('Upgrade to %s', 'yet-another-stars-rating'), '<a href="?page=yasr_settings_page-pricing">Yasr Pro!</a>');
+
+            echo wp_kses_post($text);
+            ?>
         </div>
         <?php
     }
