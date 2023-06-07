@@ -159,7 +159,7 @@ class YasrProStylishAdmin {
      */
     public function chooseStarsRadio($style_options) {
 
-        $folder_img = YASR_PRO_ABSOLUTE_PATH_INCLUDES . '/img/stars/thumb/'; //must use absolute path, not plugin_url
+        $folder_img = YASR_ABSOLUTE_PATH_INCLUDES . '/img/stars/thumb/'; //must use absolute path, not plugin_url
         $filetype   = '*.png';
 
         //create an array with the folder content
@@ -205,7 +205,7 @@ class YasrProStylishAdmin {
 
         foreach ($array_file as $single_file) {
             $filename_ext = basename($single_file); //File name with extension
-            $img_url      = YASR_PRO_ST_IMG_DIR . 'thumb/' . $filename_ext; //File name absolute path
+            $img_url      = YASR_IMG_DIR . 'stars/thumb/' . $filename_ext; //File name absolute path
             $filename     = pathinfo($filename_ext, PATHINFO_FILENAME); //Filename without ext
             $id           = 'yasr_pro_choosen_stars_'.$filename;
             ?>
