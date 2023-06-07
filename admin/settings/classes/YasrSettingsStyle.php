@@ -11,6 +11,9 @@ class YasrSettingsStyle {
         //init style options
         add_action('admin_init', array($this, 'styleOptions'));
 
+        //Add setting field to choose the image for the free version
+        add_action('yasr_style_options_add_settings_field', array('YasrSettingsStyle', 'settingsFieldFreeChooseImage'));
+
         //hook into options
         add_filter('yasr_filter_style_options', array($this, 'defaultStarSet'));
     }
@@ -40,14 +43,7 @@ class YasrSettingsStyle {
             'yasr_style_tab'
         );
 
-        add_settings_field(
-            'yasr_style_options_choose_stars_lite',
-            __('Choose Stars Set', 'yet-another-stars-rating'),
-            array('YasrSettingsStyle', 'settingsFieldFreeChooseImageHTML'),
-            'yasr_style_tab',
-            'yasr_style_options_section_id',
-            $style_options
-        );
+        do_action('yasr_style_options_add_settings_field', $style_options);
 
         add_settings_field(
             'yasr_st_upload_stars',
@@ -65,8 +61,6 @@ class YasrSettingsStyle {
             'yasr_style_options_section_id',
             $style_options);
 
-
-        do_action('yasr_style_options_add_settings_field', $style_options);
 
         add_settings_field(
             'yasr_color_scheme_multiset',
@@ -88,7 +82,7 @@ class YasrSettingsStyle {
     }
 
     /**
-     * Print the html with the radios to choose the image to use
+     * Add setting field for free version
      *
      * @author Dario Curvino <@dudo>
      *
@@ -96,16 +90,19 @@ class YasrSettingsStyle {
      *
      * @return void
      */
-    public static function settingsFieldFreeChooseImageHTML($style_options) {
-        self::printRadioFreeStars($style_options);
-
-        echo '<hr />';
-
-        submit_button(__('Save Settings', 'yet-another-stars-rating'));
+    public static function settingsFieldFreeChooseImage($style_options) {
+        add_settings_field(
+            'yasr_style_options_choose_stars_lite',
+            __('Choose Stars Set', 'yet-another-stars-rating'),
+            array('YasrSettingsStyle', 'printRadioFreeStars'),
+            'yasr_style_tab',
+            'yasr_style_options_section_id',
+            $style_options
+        );
     }
 
     /**
-     * HTML output to print the free stars
+     * Print the html with the radios to choose the image to use
      *
      * @author Dario Curvino <@dudo>
      *
@@ -162,7 +159,9 @@ class YasrSettingsStyle {
                 </label>
             </div>
         </div>
+        <hr />
         <?php
+        submit_button(__('Save Settings', 'yet-another-stars-rating'));
     }
 
     /**
