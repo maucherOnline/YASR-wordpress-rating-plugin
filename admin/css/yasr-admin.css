@@ -892,38 +892,27 @@ div.yasr-select-img-container input {
 @media (max-width: 575px) {
 
     #yasr-settings-stylish-text {
-
         width: 50%;
-        margin: auto;
         position: relative;
-        top: -140px;
         background-color: #ffffff;
         border: 1px solid black;
         opacity: 0.8;
         font-size: 2vh;
         padding: 15px;
-        visibility: hidden;
-
     }
 
 }
 
-
 @media (min-width: 576px) {
-
     #yasr-settings-stylish-text {
-
         width: 50%;
         margin: auto;
         position: relative;
-        top: -288px;
         background-color: #ffffff;
         border: 2px solid black;
         opacity: 0.8;
         font-size: 2vh;
         padding: 15px;
-        visibility: hidden;
-
     }
 
 }
