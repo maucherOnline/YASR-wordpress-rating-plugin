@@ -47,7 +47,7 @@ class YasrSettingsStyle {
 
         add_settings_field(
             'yasr_st_upload_stars',
-            sprintf(__('Custom Star Set %s', 'yet-another-stars-rating'), '<span class="dashicons dashicons-unlock"></span>'),
+            sprintf(__('Custom Star Set %s', 'yet-another-stars-rating'), YASR_LOCKED_FEATURE),
             array ($this, 'formUploadStars'),
             'yasr_style_tab',
             'yasr_style_options_section_id',
@@ -55,7 +55,7 @@ class YasrSettingsStyle {
 
         add_settings_field(
             'yasr_st_choose_stars_radio',
-            sprintf(__('Choose Stars Set %s', 'yet-another-stars-rating'), '<span class="dashicons dashicons-unlock"></span>'),
+            sprintf(__('Choose Stars Set %s', 'yet-another-stars-rating'), YASR_LOCKED_FEATURE),
             array ($this, 'chooseStarsRadio'),
             'yasr_style_tab',
             'yasr_style_options_section_id',
