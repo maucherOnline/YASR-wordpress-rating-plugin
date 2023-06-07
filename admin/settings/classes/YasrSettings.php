@@ -1666,19 +1666,23 @@ class YasrSettings {
      * @return mixed|string
      */
     public function customFooter($text) {
-        ?>
-
-        <script>
-            jQuery('.yasr-stylish-locked').mouseover(function () {
-                jQuery('#yasr-settings-stylish-text').css('display', 'block');
-                jQuery('.yasr-stylish-locked').css({
-                    'opacity': 0.4,
-                    'pointer-events': 'none'
+        $style_page_upgrade_pro_js =
+            "<script>
+                jQuery('.yasr-stylish-locked').mouseover(function () {
+                    jQuery('#yasr-settings-stylish-text').css('display', 'block');
+                    jQuery('.yasr-stylish-locked').css({
+                        'opacity': 0.4,
+                        'pointer-events': 'none'
+                    });
                 });
-            });
-        </script>
+            </script>";
 
-        <?php
+        $style_page_upgrade_pro_filtered = apply_filters('yasr_setting_page_footer', $style_page_upgrade_pro_js);
+
+        //white list, the filtered value can only accept $style_page_upgrade_pro_js or false
+        if($style_page_upgrade_pro_filtered === $style_page_upgrade_pro_js || $style_page_upgrade_pro_filtered === false) {
+            echo ($style_page_upgrade_pro_filtered);
+        }
 
         if (isset($_GET['page'])) {
             $yasr_page = $_GET['page'];
