@@ -87,75 +87,6 @@ class YasrSettingsStyle {
         );
     }
 
-
-    /**
-     * Print the radios to choose the color for multiset
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @param $style_options
-     *
-     * @return void
-     */
-    public function settingsFieldFreeMultisetHTML($style_options) {
-        ?>
-
-        <div class="yasr-settings-row-35">
-            <?php
-                $array_options = array (
-                    'light' => __('Light', 'yet-another-stars-rating'),
-                    'dark'  => __('Dark', 'yet-another-stars-rating')
-                );
-                $default = $style_options['scheme_color_multiset'];
-                $name    = 'yasr_style_options[scheme_color_multiset]';
-                $class   = 'yasr-general-options-scheme-color';
-                $id      = 'yasr-style-options-color-scheme';
-
-                echo yasr_kses(YasrPhpFieldsHelper::radio('', $class, $array_options, $name, $default, $id));
-            ?>
-
-            <div id="yasr-color-scheme-preview">
-                <?php esc_html_e("Light theme", 'yet-another-stars-rating'); ?>
-                <br /><br /><img src="<?php echo esc_url(YASR_IMG_DIR . 'yasr-multi-set.png')?>" alt="light-multiset">
-
-                <br /> <br />
-
-                <?php esc_html_e("Dark theme", 'yet-another-stars-rating'); ?>
-                <br /><br /><img src="<?php echo esc_url(YASR_IMG_DIR . 'dark-multi-set.png')?>" alt="dark-multiset">
-            </div>
-
-        </div>
-
-        <p>
-
-        <?php
-    }
-
-    /**
-     * Print the textarea to customize css
-     *
-     * @author Dario Curvino <@dudo>*
-     * @param $style_options
-     *
-     * @return void
-     */
-    public function settingsFieldTextareaHTML($style_options) {
-        esc_html_e('Please use text area below to write your own CSS styles to override the default ones.',
-            'yet-another-stars-rating');
-        echo '<br /><strong>';
-        esc_html_e('Leave it blank if you don\'t know what you\'re doing.', 'yet-another-stars-rating');
-        echo '</strong><p>';
-        ?>
-
-        <label for='yasr_style_options_textarea'></label><textarea
-        rows='17'
-        cols='40'
-        name='yasr_style_options[textarea]'
-        id='yasr_style_options_textarea'><?php echo esc_textarea($style_options['textarea']); ?></textarea>
-
-        <?php
-    }
-
     /**
      * Print the html with the radios to choose the image to use
      *
@@ -407,6 +338,74 @@ class YasrSettingsStyle {
         }
 
         echo '</div>';
+    }
+
+    /**
+     * Print the radios to choose the color for multiset
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @param $style_options
+     *
+     * @return void
+     */
+    public function settingsFieldFreeMultisetHTML($style_options) {
+        ?>
+
+        <div class="yasr-settings-row-35">
+            <?php
+            $array_options = array (
+                'light' => __('Light', 'yet-another-stars-rating'),
+                'dark'  => __('Dark', 'yet-another-stars-rating')
+            );
+            $default = $style_options['scheme_color_multiset'];
+            $name    = 'yasr_style_options[scheme_color_multiset]';
+            $class   = 'yasr-general-options-scheme-color';
+            $id      = 'yasr-style-options-color-scheme';
+
+            echo yasr_kses(YasrPhpFieldsHelper::radio('', $class, $array_options, $name, $default, $id));
+            ?>
+
+            <div id="yasr-color-scheme-preview">
+                <?php esc_html_e("Light theme", 'yet-another-stars-rating'); ?>
+                <br /><br /><img src="<?php echo esc_url(YASR_IMG_DIR . 'yasr-multi-set.png')?>" alt="light-multiset">
+
+                <br /> <br />
+
+                <?php esc_html_e("Dark theme", 'yet-another-stars-rating'); ?>
+                <br /><br /><img src="<?php echo esc_url(YASR_IMG_DIR . 'dark-multi-set.png')?>" alt="dark-multiset">
+            </div>
+
+        </div>
+
+        <p>
+
+        <?php
+    }
+
+    /**
+     * Print the textarea to customize css
+     *
+     * @author Dario Curvino <@dudo>*
+     * @param $style_options
+     *
+     * @return void
+     */
+    public function settingsFieldTextareaHTML($style_options) {
+        esc_html_e('Please use text area below to write your own CSS styles to override the default ones.',
+            'yet-another-stars-rating');
+        echo '<br /><strong>';
+        esc_html_e('Leave it blank if you don\'t know what you\'re doing.', 'yet-another-stars-rating');
+        echo '</strong><p>';
+        ?>
+
+        <label for='yasr_style_options_textarea'></label><textarea
+                rows='17'
+                cols='40'
+                name='yasr_style_options[textarea]'
+                id='yasr_style_options_textarea'><?php echo esc_textarea($style_options['textarea']); ?></textarea>
+
+        <?php
     }
 
     /**
