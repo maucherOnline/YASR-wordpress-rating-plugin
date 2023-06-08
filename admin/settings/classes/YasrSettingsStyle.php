@@ -244,7 +244,8 @@ class YasrSettingsStyle {
                 <div class="yasr-indented-answer" style="margin: 25px;">
                     <?php
                     $text = sprintf(
-                        __('%s (You need a plugin like %s to upload it). %s Aspect ratio must be 1:1 and width x height at least 32x32', 'yet-another-stars-rating'),
+                        __('%s (You need a plugin like %s to upload it). %s Aspect ratio must be 1:1 and width x height at least 32x32',
+                            'yet-another-stars-rating'),
                         '<strong>Svg Only.</strong>',
                         '<a href="https://wordpress.org/plugins/safe-svg/">Safe Svg</a>',
                         '<br />');
@@ -369,12 +370,12 @@ class YasrSettingsStyle {
             ?>
 
             <div id="yasr-color-scheme-preview">
-                <?php esc_html_e("Light theme", 'yet-another-stars-rating'); ?>
+                <?php esc_html_e('Light theme', 'yet-another-stars-rating'); ?>
                 <br /><br /><img src="<?php echo esc_url(YASR_IMG_DIR . 'yasr-multi-set.png')?>" alt="light-multiset">
 
                 <br /> <br />
 
-                <?php esc_html_e("Dark theme", 'yet-another-stars-rating'); ?>
+                <?php esc_html_e('Dark theme', 'yet-another-stars-rating'); ?>
                 <br /><br /><img src="<?php echo esc_url(YASR_IMG_DIR . 'dark-multi-set.png')?>" alt="dark-multiset">
             </div>
 
@@ -463,7 +464,20 @@ class YasrSettingsStyle {
         $output = array();
 
         foreach ($style_options as $key => $value) {
-            $output[$key] = sanitize_textarea_field($style_options[$key]);
+            if ($key === 'custom_image_inactive' || $key === 'custom_image_active') {
+                //if is set (empty is ok)
+                if ($value !== '') {
+                    $is_svg_and_url = yasr_check_svg_image($value);
+
+                    if ($is_svg_and_url !== true) {
+                        wp_die($is_svg_and_url);
+                    }
+                }
+            }
+
+            //all fields are sanitized with sanitize_textarea_field
+            $output[$key] = sanitize_textarea_field($value);
+
         }
 
         return $output;

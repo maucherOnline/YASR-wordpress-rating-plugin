@@ -28,34 +28,5 @@ class YasrProStylishAdmin {
         remove_action('yasr_style_options_add_settings_field', array ('YasrSettingsStyle', 'settingsFieldFreeChooseImage'));
 
         add_filter('yasr_setting_page_footer', '__return_false');
-
-        add_filter('yasr_sanitize_style_options', array($this, 'sanitizeOptions'));
-    }
-
-    /**
-     * Sanitize the stylish options
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  2.6.8
-     *
-     * @param $style_options
-     *
-     * @return mixed
-     */
-    public function sanitizeOptions($style_options) {
-        foreach ($style_options as $key => $value) {
-            //if key is custom_image_inactive or custom_image_active
-            if ($key === 'custom_image_inactive' || $key === 'custom_image_active') {
-                //if is set (empty is ok)
-                if ($value !== '') {
-                    $is_svg_and_url = yasr_check_svg_image($value);
-
-                    if ($is_svg_and_url !== true) {
-                        wp_die($is_svg_and_url);
-                    }
-                }
-            }
-        }
-        return $style_options;
     }
 }
