@@ -25,7 +25,10 @@ class YasrSettingsFooter {
         $this->default_text = $text;
         if (isset($_GET['page'])) {
             $this->page = $_GET['page'];
-            $this->tab  = $_GET['tab'];
+
+            if(isset($_GET['tab'])) {
+                $this->tab = $_GET['tab'];
+            }
 
             return $this->customFooter();
         } else {
