@@ -58,6 +58,6 @@ if (!current_user_can('manage_options')) {
 
     <div class="yasr-clear-both-dynamic"></div>
 
-    <?php YasrSettings::printRightColumn(); ?>
+    <?php YasrSettingsRightColumn::init(); ?>
 
 </div><!--End div wrap-->
