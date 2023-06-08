@@ -78,13 +78,16 @@ class YasrSettingsFooter {
     public function footerStylePage() {
         $style_page_upgrade_pro_js =
             "<script>
-                jQuery('.yasr-stylish-locked').mouseover(function () {
+                const performActions = () => {
+                    const element = jQuery('.yasr-stylish-locked');
                     jQuery('#yasr-settings-stylish-text').css('display', 'block');
-                    jQuery('.yasr-stylish-locked').css({
+                    element.css({
                         'opacity': 0.4,
                         'pointer-events': 'none'
                     });
-                });
+                };
+        
+                jQuery('.yasr-stylish-locked').on('mouseover click', performActions);
             </script>";
 
         /**
