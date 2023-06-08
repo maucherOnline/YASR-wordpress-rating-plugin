@@ -1666,45 +1666,8 @@ class YasrSettings {
      * @return mixed|string
      */
     public function customFooter($text) {
-        $style_page_upgrade_pro_js =
-            "<script>
-                jQuery('.yasr-stylish-locked').mouseover(function () {
-                    jQuery('#yasr-settings-stylish-text').css('display', 'block');
-                    jQuery('.yasr-stylish-locked').css({
-                        'opacity': 0.4,
-                        'pointer-events': 'none'
-                    });
-                });
-            </script>";
-
-        $style_page_upgrade_pro_filtered = apply_filters('yasr_setting_page_footer', $style_page_upgrade_pro_js);
-
-        //white list, the filtered value can only accept $style_page_upgrade_pro_js or false
-        if($style_page_upgrade_pro_filtered === $style_page_upgrade_pro_js || $style_page_upgrade_pro_filtered === false) {
-            echo ($style_page_upgrade_pro_filtered);
-        }
-
-        if (isset($_GET['page'])) {
-            $yasr_page = $_GET['page'];
-
-            if ($yasr_page === 'yasr_settings_page' || $yasr_page === 'yasr_stats_page') {
-                $custom_text = ' | <i>';
-                $custom_text .= sprintf(esc_html__('Thank you for using %s. Please %s rate it%s 5 stars on %s', 'yet-another-stars-rating'),
-                    '<a href="https://yetanotherstarsrating.com/?utm_source=wp-plugin&utm_medium=footer&utm_campaign=yasr_settings"
-                            target="_blank">Yet Another Stars Rating</a>',
-                    '<a href="https://wordpress.org/support/view/plugin-reviews/yet-another-stars-rating?filter=5" target="_blank">',
-                    '</a>',
-                    '<a href="https://wordpress.org/support/view/plugin-reviews/yet-another-stars-rating?filter=5" target="_blank">
-                    WordPress.org</a>'
-                );
-                $custom_text .= '</i>';
-
-                return $text . $custom_text;
-
-            }
-            return $text;
-        }
-        return $text;
+        $yasr_settings_footer = new YasrSettingsFooter();
+        $yasr_settings_footer->init($text);
     }
 
     /**

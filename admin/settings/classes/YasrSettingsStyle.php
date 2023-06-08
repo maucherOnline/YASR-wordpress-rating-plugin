@@ -174,7 +174,7 @@ class YasrSettingsStyle {
      */
     public function formUploadStars($style_options) {
         ?>
-        <div style="position:relative;">
+        <div>
             <?php
             $this->printUpgradeToProText();
             if (!isset($style_options['custom_image_inactive'])) {
