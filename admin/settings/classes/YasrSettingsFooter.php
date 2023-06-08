@@ -1,9 +1,10 @@
 <?php
 
 /**
+ * Manage the footer in the YASR settings page
+ *
  * @author Dario Curvino <@dudo>
  * @since  3.4.1
- * @return
  */
 class YasrSettingsFooter {
 
@@ -11,6 +12,15 @@ class YasrSettingsFooter {
     public $tab;
     public $default_text;
 
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.1
+     *
+     * @param $text
+     *
+     * @return string
+     */
     public function init ($text) {
         $this->default_text = $text;
         if (isset($_GET['page'])) {
@@ -54,6 +64,14 @@ class YasrSettingsFooter {
         return $this->default_text;
     }
 
+    /**
+     * Footer for "Aspect & Style page"
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.1
+     * @return void
+     */
     public function footerStylePage() {
         $style_page_upgrade_pro_js =
             "<script>
@@ -66,6 +84,12 @@ class YasrSettingsFooter {
                 });
             </script>";
 
+        /**
+         * Filter to customize the footer page on the "Aspect & style" page.
+         * Since this could contain js, this will only allow FALSE as value
+         *
+         * @param string $style_page_upgrade_pro_js
+         */
         $style_page_upgrade_pro_filtered = apply_filters('yasr_setting_page_footer', $style_page_upgrade_pro_js);
 
         //white list, the filtered value can only accept $style_page_upgrade_pro_js or false
