@@ -55,7 +55,10 @@ class YasrSettings {
          *  $text is the default WordPress text
          *  Since 0.8.9
          */
-        add_filter('admin_footer_text', array($this, 'customFooter'));
+        add_filter('admin_footer_text', function ($text) {
+            $yasr_settings_footer = new YasrSettingsFooter();
+            return $yasr_settings_footer->init($text);
+        });
     }
 
     /**
@@ -1380,18 +1383,6 @@ class YasrSettings {
         $end_div     = '.</div>';
 
         return $name . $div_desc . $description . $end_div;
-    }
-
-    /*
-     * @author Dario Curvino <@dudo>
-     *
-     * @param $text
-     *
-     * @return mixed|string
-     */
-    public function customFooter($text) {
-        $yasr_settings_footer = new YasrSettingsFooter();
-        $yasr_settings_footer->init($text);
     }
 
     /**
