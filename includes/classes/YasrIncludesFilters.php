@@ -21,13 +21,14 @@ class YasrIncludesFilters {
      *
      */
     public function filterCustomTexts() {
-        add_filter('yasr_cstm_text_before_overall', array($this, 'filterTextOverall'), 10);
+        add_filter('yasr_cstm_text_before_overall', array($this, 'filterTextOverall'));
         add_filter('yasr_cstm_text_before_vv',      array($this, 'filterTextVVBefore'), 10, 3);
         add_filter('yasr_cstm_text_after_vv',       array($this, 'filterTextVVAfter'), 10, 3);
-        add_filter('yasr_vv_saved_text',            array($this, 'filterTextRatingSaved'), 10);
-        add_filter('yasr_vv_updated_text',          array($this, 'filterTextRatingUpdated'), 10);
-        add_filter('yasr_cstm_text_already_voted',  array($this, 'filterTextAlreadyVoted'), 10);
-        add_filter('yasr_must_sign_in',             array($this, 'filterTextMustSignIn'),10);
+        add_filter('yasr_vv_saved_text',            array($this, 'filterTextRatingSaved'));
+        add_filter('yasr_vv_updated_text',          array($this, 'filterTextRatingUpdated'));
+        add_filter('yasr_mv_saved_text',            array($this, 'filterTextRatingSaved'));
+        add_filter('yasr_cstm_text_already_voted',  array($this, 'filterTextAlreadyVoted'));
+        add_filter('yasr_must_sign_in',             array($this, 'filterTextMustSignIn'));
     }
 
     /**
