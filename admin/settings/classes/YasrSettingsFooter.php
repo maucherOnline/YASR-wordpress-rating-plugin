@@ -82,7 +82,7 @@ class YasrSettingsFooter {
                     const element = jQuery('.yasr-stylish-locked');
                     jQuery('#yasr-settings-stylish-text').css('display', 'block');
                     element.css({
-                        'opacity': 0.4,
+                        'opacity': 0.3,
                         'pointer-events': 'none'
                     });
                 };

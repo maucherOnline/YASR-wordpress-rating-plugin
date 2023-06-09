@@ -202,6 +202,7 @@ class YasrSettingsStyle {
                            id="yasr-custom-image-inactive"
                            size="20"
                            value="<?php echo esc_attr($style_options['custom_image_inactive']); ?>"
+                           <?php echo YASR_LOCKED_FEATURE_HTML_ATTRIBUTE ?>
                     >
 
                     <!-- Print preview -->
@@ -227,6 +228,7 @@ class YasrSettingsStyle {
                            id="yasr-custom-image-active"
                            size="20"
                            value="<?php echo esc_attr($style_options['custom_image_active']); ?>"
+                           <?php echo YASR_LOCKED_FEATURE_HTML_ATTRIBUTE ?>
                     >
 
                     <!-- Print preview -->
@@ -312,9 +314,12 @@ class YasrSettingsStyle {
                                    name='yasr_style_options[stars_set]'
                                    value='<?php echo esc_attr($filename); ?>'
                                    id='<?php echo esc_attr($id) ?>'
-                                <?php if ($style_options['stars_set'] === $filename) {
-                                    echo " checked='checked' ";
-                                } ?>
+                                   <?php
+                                       if ($style_options['stars_set'] === $filename) {
+                                           echo " checked='checked' ";
+                                       }
+                                       echo YASR_LOCKED_FEATURE_HTML_ATTRIBUTE
+                                   ?>
                             />
                             <label for='<?php echo esc_attr($id) ?>'>
                                 <span>
@@ -337,9 +342,8 @@ class YasrSettingsStyle {
             <?php submit_button(__('Save Settings'), 'primary', 'submit', false); ?>
 
             <p>&nbsp;</p>
-            <hr />
         </div>
-
+        <hr />
         <?php
     }
 

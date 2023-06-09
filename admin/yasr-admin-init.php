@@ -34,10 +34,14 @@ add_action('init', function (){
             '<span class="dashicons dashicons-lock" title="'.esc_attr($text).'"></span>',
             10,
             1);
+    define ('YASR_LOCKED_FEATURE', yasr_kses($lock_image));
+
 
     $html_disabled_attribute = apply_filters('yasr_feature_locked_html_attribute', 'disabled', 10, 1);
-
-    define ('YASR_LOCKED_FEATURE', $lock_image);
+    //whitelist to only allow empty string.
+    if($html_disabled_attribute !== '') {
+        $html_disabled_attribute = 'disabled';
+    }
     define ('YASR_LOCKED_FEATURE_HTML_ATTRIBUTE', $html_disabled_attribute);
 
     $url = 'https://yetanotherstarsrating.com/?utm_source=wp-plugin&utm_medium=edit_category&utm_campaign=yasr_editor_category#yasr-pro';
@@ -49,10 +53,9 @@ add_action('init', function (){
             'YASR PRO'
         )
     );
-
     $upgrade_text = apply_filters('yasr_feature_locked_text', $upgrade_text, 10, 1);
 
-    define ('YASR_LOCKED_TEXT', $upgrade_text);
+    define ('YASR_LOCKED_TEXT', yasr_kses($upgrade_text));
 });
 
 /**
