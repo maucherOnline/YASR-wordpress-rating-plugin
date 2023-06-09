@@ -287,7 +287,7 @@ class YasrSettingsRankings {
         }
         ?>
         <!-- Customize Category -->
-        <div class="<?php echo $category_class ?>" id="builder-category">
+        <div class="<?php echo esc_attr($category_class) ?>" id="builder-category">
             <?php
             $option_title = __('Do you want to specify a category?', 'yet-another-stars-rating');
             $array_options = array (
