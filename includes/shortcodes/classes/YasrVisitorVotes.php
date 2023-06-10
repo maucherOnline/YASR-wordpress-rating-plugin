@@ -57,7 +57,7 @@ class YasrVisitorVotes extends YasrShortcode {
         self::defineVvAttributes($stored_votes);
 
         //if this comes from yasr_visitor_votes_readonly...
-        if ($this->readonly === 'true' || $this->readonly === "yes") {
+        if ($this->readonly === 'true' || $this->readonly === 'yes') {
             return $this->readonlyShortcode($average_rating, $stored_votes);
         }
 
