@@ -206,6 +206,9 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.4.1 =
+* TWEAKED: "Custom text to display when rating is saved" is now also returned on yasr_visitor_multiset
+
 = 3.4.0 =
 * FIXED: missing "description" field in rich snippets
 * TWEAKED: updated freemius sdk to version 2.5.8
