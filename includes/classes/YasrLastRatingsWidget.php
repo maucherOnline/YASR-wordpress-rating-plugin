@@ -190,8 +190,9 @@ class YasrLastRatingsWidget {
             //Set value depending if we're on user or admin widget
             if ($this->user_widget !== true) {
                 if (YASR_ENABLE_IP === 'yes') {
+                    $ip_id        = "yasr-admin-log-ip-$i";
                     $ip_span = '<span class="yasr-log-ip">' . __('Ip address', 'yet-another-stars-rating') . ': 
-                                    <span style="color:blue">' . $result->ip . '</span>
+                                    <span id="'.$ip_id.'" style="color:blue">' . $result->ip . '</span>
                                 </span>';
                 }
             }

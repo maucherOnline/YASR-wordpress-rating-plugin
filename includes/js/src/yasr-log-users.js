@@ -25,10 +25,12 @@ function yasrLogWidget(prefix='yasr-user') {
     let rowDate      = []; //array containing all the DOM containers for the dates
 
     let userNameSpan = false;
-    let avatar       = false
+    let avatar       = false;
+    let ipSpan       = false;
     if(isAdminWidget === true) {
         userNameSpan = [];
         avatar       = [];
+        ipSpan       = [];
     }
 
     for (let i = 0; i < 8; i++) {
@@ -40,11 +42,11 @@ function yasrLogWidget(prefix='yasr-user') {
         if(isAdminWidget === true) {
             userNameSpan[i] = document.getElementById(`${prefix}-log-user-${i}`);
             avatar[i]       = document.getElementById(`${prefix}-log-avatar-${i}`);
+            ipSpan[i]       = document.getElementById(`${prefix}-log-ip-${i}`) || false;
         }
     }
 
-    yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
-        userNameSpan, avatar, prefix, ajaxAction, nonce);
+    yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan, avatar, prefix, ipSpan, ajaxAction, nonce);
 }
 
 /**
@@ -59,17 +61,18 @@ function yasrLogWidget(prefix='yasr-user') {
  * @param userNameSpan
  * @param avatar
  * @param prefix
+ * @param ipSpan
  * @param ajaxAction
  * @param nonce
  */
 function yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan,
-                              avatar, prefix, ajaxAction, nonce) {
+                              avatar, prefix, ipSpan = false, ajaxAction, nonce) {
     const pageNumbers = document.querySelectorAll(`.${prefix}-log-page-num`);
     pageNumbers.forEach(function(pageNumber) {
         pageNumber.addEventListener('click', function() {
             const pagenum = parseInt(this.value);
             yasrUpdateLogUsersPagination(pagenum, totalPages, prefix);
-            yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages,
+            yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, ipSpan, totalPages,
                 userNameSpan, avatar, prefix, ajaxAction, nonce);
         });
     });
@@ -134,6 +137,7 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages, prefix) {
  * @param spanVote
  * @param rowTitle
  * @param rowDate
+ * @param ipSpan
  * @param totalPages
  * @param userNameSpan
  * @param avatar
@@ -141,7 +145,7 @@ function yasrUpdateLogUsersPagination (pagenum, totalPages, prefix) {
  * @param ajaxAction
  * @param nonce
  */
-function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan, avatar,
+function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate, ipSpan, totalPages, userNameSpan, avatar,
                               prefix, ajaxAction, nonce) {
 
     const loader = document.getElementById(`${prefix}-log-loader-metabox`);
@@ -178,8 +182,7 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
                     throw new Error(response.message);
                 }
                 updateTableUserRateHistory(response)
-                yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages,
-                    userNameSpan, avatar, prefix, ajaxAction, nonce);
+                yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan, avatar, prefix, ipSpan, ajaxAction, nonce);
 
             }
         } else {
@@ -214,6 +217,8 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
                 if (Array.isArray(avatar)) {
                     avatar[i].src = response.data[i].avatar_url;
                 }
+
+                ipSpan[i].innerText = response.data[i].ip;
 
                 title = `<a href="${response.data[i].permalink}">${response.data[i].post_title}</a>`
 
