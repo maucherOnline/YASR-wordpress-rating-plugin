@@ -93,7 +93,8 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_stars_title', $this->descriptionStarsTitle(),
+            'yasr_stars_title',
+            $this->descriptionStarsTitle(),
             array($this, 'starsTitle'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -101,7 +102,8 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_show_overall_in_loop', $this->descriptionArchivePage(),
+            'yasr_show_overall_in_loop',
+            $this->descriptionArchivePage(),
             array($this, 'archivePages'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -109,7 +111,8 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_allow_only_logged_in_id', $this->descriptionAllowVote(),
+            'yasr_allow_only_logged_in_id',
+            $this->descriptionAllowVote(),
             array($this, 'loggedOnly'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -117,7 +120,8 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_visitors_stats', $this->descriptionVVStats(),
+            'yasr_visitors_stats',
+            $this->descriptionVVStats(),
             array($this, 'vvStats'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -125,7 +129,8 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_choose_snippet_id', $this->descriptionStructuredData(),
+            'yasr_choose_snippet_id',
+            $this->descriptionStructuredData(),
             array($this, 'snippets'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -134,7 +139,7 @@ class YasrSettings {
 
         add_settings_field(
             'yasr_custom_text',
-            wp_kses_post($this->descriptionCSTMTxt()),
+            $this->descriptionCSTMTxt(),
             array($this, 'customText'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
