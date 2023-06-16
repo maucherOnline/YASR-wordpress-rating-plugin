@@ -393,4 +393,27 @@ class YasrSettings {
         <?php
     }
 
+    /**
+     * Check if a setting name exists, and return the whitelist value if does.
+     * If it doesn't, return default_value to avoid undefined index
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.4.1
+     *
+     * @param $output
+     * @param $setting_name
+     * @param $default_value       string|array
+     * @param $whitelisted_value  string|array
+     *
+     * @return mixed
+     */
+    public static function whitelistSettings($output, $setting_name, $default_value, $whitelisted_value) {
+        if (!array_key_exists($setting_name, $output)) {
+            return $default_value;
+        }
+        else {
+            return $whitelisted_value;
+        }
+    }
+
 }

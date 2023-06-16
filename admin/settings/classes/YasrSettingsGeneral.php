@@ -864,74 +864,16 @@ class YasrSettingsGeneral {
 
         /** The following steps are needed to avoid undefined index if a setting is saved to "no"  **/
 
-        //if in array doesn't exist [auto_insert_enabled] key, create it and set to 0
-        if (!array_key_exists('auto_insert_enabled', $output)) {
-            $output['auto_insert_enabled'] = 0;
-        }
-        //if exists value must be 1
-        else {
-            $output['auto_insert_enabled'] = 1;
-        }
-
-        //if in array doesn't exist [stars title] key, create it and set to 'no'
-        if (!array_key_exists('stars_title', $output)) {
-            $output['stars_title'] = 'no';
-        }
-        //if exists value must be 1
-        else {
-            $output['stars_title'] = 'yes';
-        }
-
-        //if sort_post_in doesn't exist, cast into a single element array
-        if(!array_key_exists('sort_posts_in', $output)) {
-            $output['sort_posts_in'] = array('is_home');
-        }
-
-        //Same as above but for [show_overall_in_loop] key
-        if (!array_key_exists('show_overall_in_loop', $output)) {
-            $output['show_overall_in_loop'] = 'disabled';
-        }
-        //if exists must be string 'enabled'
-        else {
-            $output['show_overall_in_loop'] = 'enabled';
-        }
-
-        //Same as above but for [show_visitor_votes_in_loop] key
-        if (!array_key_exists('show_visitor_votes_in_loop', $output)) {
-            $output['show_visitor_votes_in_loop'] = 'disabled';
-        }
-        //if exists must be string 'enabled'
-        else {
-            $output['show_visitor_votes_in_loop'] = 'enabled';
-        }
-
-        //Same as above but for visitors_stats key
-        if (!array_key_exists('visitors_stats', $output)) {
-            $output['visitors_stats'] = 'no';
-        }
-        //if exists must be string 'yes'
-        else {
-            $output['visitors_stats'] = 'yes';
-        }
-
-        //Same as above but for enable_ip key
-        if (!array_key_exists('enable_ip', $output)) {
-            $output['enable_ip'] = 'no';
-        }
-        //if exists must be string 'yes'
-        else {
-            $output['enable_ip'] = 'yes';
-        }
-
-        //Same as above but for enable_ip key
-        if (!array_key_exists('enable_ajax', $output)) {
-            $output['enable_ajax'] = 'no';
-        }
-        //if exists must be string 'yes'
-        else {
-            $output['enable_ajax'] = 'yes';
-        }
+        $output['auto_insert_enabled']         = YasrSettings::whitelistSettings($output, 'auto_insert_enabled', 0, 1);
+        $output['stars_title']                 = YasrSettings::whitelistSettings($output, 'stars_title', 'no', 'yes');
+        $output['sort_posts_in']               = YasrSettings::whitelistSettings($output, 'sort_posts_in', ['is_home'], $output['sort_posts_in']);
+        $output['show_overall_in_loop']        = YasrSettings::whitelistSettings($output, 'show_overall_in_loop', 'disabled', 'enabled');
+        $output['show_visitor_votes_in_loop']  = YasrSettings::whitelistSettings($output, 'show_visitor_votes_in_loop', 'disabled', 'enabled');
+        $output['visitors_stats']              = YasrSettings::whitelistSettings($output, 'visitors_stats', 'no', 'yes');
+        $output['enable_ip']                   = YasrSettings::whitelistSettings($output, 'enable_ip', 'no', 'yes');
+        $output['enable_ajax']                 = YasrSettings::whitelistSettings($output, 'enable_ajax', 'no', 'yes');
 
         return $output;
     }
+
 }
