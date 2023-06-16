@@ -405,7 +405,7 @@ class YasrSettings {
      * @param $default_value       string|array
      * @param $whitelisted_value   string|array
      *
-     * @return mixed
+     * @return array|string
      */
     public static function whitelistSettings($output, $setting_name, $default_value, $whitelisted_value) {
         if (!array_key_exists($setting_name, $output)) {
