@@ -74,8 +74,10 @@ class YasrSettings {
 
         //Do not use defines here, use $options instead!
         //Otherwise, default values for a disabled setting will not show
-        $settings  = new YasrSettingsValues();
-        $options   = $settings->getGeneralSettings();
+        $yasr_default_settings  = new YasrSettingsValues();
+        $options   = $yasr_default_settings->getGeneralSettings();
+
+        $yasr_settings_descriptions = new YasrSettingsDescriptions();
 
         add_settings_section(
             'yasr_general_options_section_id',
@@ -85,7 +87,8 @@ class YasrSettings {
         );
 
         add_settings_field(
-            'yasr_use_auto_insert_id', $this->descriptionAutoInsert(),
+            'yasr_use_auto_insert_id',
+            $yasr_settings_descriptions->descriptionAutoInsert(),
             array($this, 'autoInsert'),
             'yasr_general_settings_tab',
             'yasr_general_options_section_id',
@@ -1253,28 +1256,6 @@ class YasrSettings {
          * Hook here to add new settings tab content
          */
         do_action('yasr_settings_tab_content', $active_tab);
-    }
-
-    /**
-     * Return the description of auto insert
-     *
-     * @author Dario Curvino <@dudo>
-     * @since  2.6.6
-     * @return string
-     */
-    public function descriptionAutoInsert() {
-        $name = esc_html__('Auto Insert Options', 'yet-another-stars-rating');
-
-        $div_desc    = '<div class="yasr-settings-description">';
-        $description = sprintf(
-            esc_html__(
-                'Automatically adds YASR in your posts or pages. %s
-            Disable this if you prefer to use shortcodes.', 'yet-another-stars-rating'
-            ), '<br />'
-        );
-        $end_div     = '</div>';
-
-        return $name . $div_desc . $description . $end_div;
     }
 
     /**
