@@ -168,6 +168,51 @@ class YasrSettingsDescriptions {
     }
 
     /**
+     * Describe what is a Multiset in the setting page
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.3
+     * @return string
+     */
+    public function descriptionMultiset() {
+        $title = esc_html__('Multi-criteria based rating system.', 'yet-another-stars-rating');
+
+        $description = sprintf(
+            esc_html__(
+                'A Multi-criteria set allows you to insert a rating for each aspect of your review (up to nine rows).
+                    %s Once you\'ve saved it, you can insert 
+                    the rates while typing your article in the %s box below the editor.%s %s
+                    See it in action %s here%s .', 'yet-another-stars-rating'
+            ), '<br />', '<a href=' . esc_url(YASR_IMG_DIR . 'yasr-multi-set-insert-rating.png') . ' target="_blank">',
+            '</a>', '<br />', '<a href=' . esc_url(
+                "https://yetanotherstarsrating.com/yasr-shortcodes/?utm_source=wp-plugin&utm_medium=settings_resources&utm_campaign=yasr_settings&utm_content=yasr_newmultiset_desc#yasr-multiset-shortcodes"
+            ) . '  target="_blank">', '</a>'
+        );
+
+        return $this->settingsFieldDescription($title, $description);
+
+    }
+
+    /**
+     * Show the description for "Show average" row in multi criteria setting page
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.1.3
+     * @return string
+     */
+    public function descriptionShowAverage() {
+        $title = esc_html__('Show average?', 'yet-another-stars-rating');
+
+        $description = esc_html__(
+            'If you select no, the "Average" row will not be displayed. 
+        You can override this in the single multi set by using the parameter "show_average".',
+            'yet-another-stars-rating'
+        );
+
+        return $this->settingsFieldDescription($title, $description);
+    }
+
+    /**
      * Return the title and the setting description
      *
      * @author Dario Curvino <@dudo>
@@ -181,7 +226,7 @@ class YasrSettingsDescriptions {
      */
     public function settingsFieldDescription($title, $description) {
         $div_desc    = '<div class="yasr-settings-description">';
-        $end_div     = '.</div>';
+        $end_div     = '</div>';
 
         return $title . $div_desc . $description . $end_div;
     }
