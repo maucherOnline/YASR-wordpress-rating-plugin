@@ -79,11 +79,16 @@ class YasrSettingsFooter {
         $style_page_upgrade_pro_js =
             "<script>
                 const performActions = () => {
-                    const element = jQuery('.yasr-stylish-locked');
-                    jQuery('#yasr-settings-stylish-text').css('display', 'block');
-                    element.css({
-                        'opacity': 0.3,
+                    const elementToHide  = jQuery('.yasr-stylish-locked');
+                    const upgradeProText = jQuery('#yasr-settings-stylish-text');
+                   
+                    elementToHide.css({
+                        'opacity': 0.5,
                         'pointer-events': 'none'
+                    });
+                    
+                    upgradeProText.css({
+                        'display': 'block',
                     });
                 };
         

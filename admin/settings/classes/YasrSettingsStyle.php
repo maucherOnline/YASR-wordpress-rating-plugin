@@ -425,7 +425,7 @@ class YasrSettingsStyle {
      */
     public function printUpgradeToProText() {
         ?>
-        <div id='yasr-settings-stylish-text'>
+        <div id='yasr-settings-stylish-text' style="opacity: 1;">
             <?php
             $text = __('Looking for more?', 'yet-another-stars-rating');
             $text .= '<br />';
