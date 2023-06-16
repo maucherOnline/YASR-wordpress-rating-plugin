@@ -354,7 +354,7 @@ class YasrSettings {
             <p>
                 <strong>
                     <?php
-                    echo esc_html($message);
+                        echo esc_html($message);
                     ?>
                 </strong>
             </p>
@@ -403,7 +403,7 @@ class YasrSettings {
      * @param $output
      * @param $setting_name
      * @param $default_value       string|array
-     * @param $whitelisted_value  string|array
+     * @param $whitelisted_value   string|array
      *
      * @return mixed
      */
