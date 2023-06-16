@@ -210,6 +210,7 @@ The full changelog can be found in the plugin's directory. Recent entries:
 * FIXED: in the Dashboard, the "Recent Ratings" widget did not update the IP upon page change
 * TWEAKED: "Custom text to display when rating is saved" is now also returned on yasr_visitor_multiset
 * TWEAKED: Minor changes in "Aspect & Styles" tab
+* TWEAKED: updated freemius SDK to version 2.5.9
 
 = 3.4.0 =
 * FIXED: missing "description" field in rich snippets
