@@ -64,7 +64,7 @@ class YasrSettingsStyle {
 
         add_settings_field(
             'yasr_color_scheme_multiset',
-            __('Which color scheme do you want to use?', 'yet-another-stars-rating'),
+            $this->multisetColorDescription(),
             array($this, 'settingsFieldFreeMultisetHTML'),
             'yasr_style_tab',
             'yasr_style_options_section_id',
@@ -485,6 +485,27 @@ class YasrSettingsStyle {
         }
 
         return $output;
+    }
+
+    /**
+     * Return description for multiset color
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.1
+     * @return string
+     */
+    public function multisetColorDescription() {
+        $name = __('Which color scheme do you want to use?', 'yet-another-stars-rating');
+        $div_desc    = '<div class="yasr-settings-description">';
+        $description = sprintf(
+            esc_html__(
+                'This only applies to multi criteria rating', 'yet-another-stars-rating'
+            ), '<br />'
+        );
+        $end_div     = '</div>';
+
+        return $name . $div_desc . $description . $end_div;
     }
 
 }
