@@ -36,6 +36,8 @@ class YasrSettingsStyle {
         //filter $style_options
         $style_options = apply_filters('yasr_filter_style_options', $style_options);
 
+        $yasr_settings_descriptions = new YasrSettingsDescriptions();
+
         add_settings_section(
             'yasr_style_options_section_id',
             __('Style Options', 'yet-another-stars-rating'),
@@ -64,7 +66,7 @@ class YasrSettingsStyle {
 
         add_settings_field(
             'yasr_color_scheme_multiset',
-            $this->multisetColorDescription(),
+            $yasr_settings_descriptions->multisetColorDescription(),
             array($this, 'settingsFieldFreeMultisetHTML'),
             'yasr_style_tab',
             'yasr_style_options_section_id',
@@ -73,7 +75,7 @@ class YasrSettingsStyle {
 
         add_settings_field(
             'yasr_style_options_textarea',
-            __('Custom CSS Styles', 'yet-another-stars-rating'),
+            $yasr_settings_descriptions->customCssDescription(),
             array($this,'settingsFieldTextareaHTML'),
             'yasr_style_tab',
             'yasr_style_options_section_id',
@@ -399,19 +401,12 @@ class YasrSettingsStyle {
      * @return void
      */
     public function settingsFieldTextareaHTML($style_options) {
-        esc_html_e('Please use text area below to write your own CSS styles to override the default ones.',
-            'yet-another-stars-rating');
-        echo '<br /><strong>';
-        esc_html_e('Leave it blank if you don\'t know what you\'re doing.', 'yet-another-stars-rating');
-        echo '</strong><p>';
         ?>
-
         <label for='yasr_style_options_textarea'></label><textarea
                 rows='17'
                 cols='40'
                 name='yasr_style_options[textarea]'
                 id='yasr_style_options_textarea'><?php echo esc_textarea($style_options['textarea']); ?></textarea>
-
         <?php
     }
 
@@ -485,27 +480,6 @@ class YasrSettingsStyle {
         }
 
         return $output;
-    }
-
-    /**
-     * Return description for multiset color
-     *
-     * @author Dario Curvino <@dudo>
-     *
-     * @since 3.4.1
-     * @return string
-     */
-    public function multisetColorDescription() {
-        $name = __('Which color scheme do you want to use?', 'yet-another-stars-rating');
-        $div_desc    = '<div class="yasr-settings-description">';
-        $description = sprintf(
-            esc_html__(
-                'This only applies to multi criteria rating', 'yet-another-stars-rating'
-            ), '<br />'
-        );
-        $end_div     = '</div>';
-
-        return $name . $div_desc . $description . $end_div;
     }
 
 }

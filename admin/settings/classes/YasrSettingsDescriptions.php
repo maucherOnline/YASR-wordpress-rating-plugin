@@ -132,6 +132,42 @@ class YasrSettingsDescriptions {
     }
 
     /**
+     * Return description for multiset color
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.1
+     * @return string
+     */
+    public function multisetColorDescription() {
+        $name = __('Which color scheme do you want to use?', 'yet-another-stars-rating');
+        $description = sprintf(
+            esc_html__(
+                'This only applies to multi criteria rating', 'yet-another-stars-rating'
+            ), '<br />'
+        );
+
+        return $this->settingsFieldDescription($name, $description);
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since
+     * @return string
+     */
+    public function customCssDescription() {
+        $name = __('Custom CSS Styles', 'yet-another-stars-rating');
+        $description = esc_html__('Use the text area to write your own CSS styles and override the default ones.',
+            'yet-another-stars-rating');
+        $description .= '<br /><strong>';
+        $description .= esc_html__('Leave it blank if you don\'t know what you\'re doing.', 'yet-another-stars-rating');
+        $description .= '</strong><p>';
+
+        return $this->settingsFieldDescription($name, $description);
+    }
+
+    /**
      * Return the title and the setting description
      *
      * @author Dario Curvino <@dudo>
