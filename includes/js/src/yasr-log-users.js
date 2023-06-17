@@ -26,11 +26,10 @@ function yasrLogWidget(prefix='yasr-user') {
 
     let userNameSpan = false;
     let avatar       = false;
-    let ipSpan       = false;
+    let ipSpan       = [];
     if(isAdminWidget === true) {
         userNameSpan = [];
         avatar       = [];
-        ipSpan       = [];
     }
 
     for (let i = 0; i < 8; i++) {
@@ -66,7 +65,7 @@ function yasrLogWidget(prefix='yasr-user') {
  * @param nonce
  */
 function yasrLogWidgetOnClick(rowContainer, spanVote, rowTitle, rowDate, totalPages, userNameSpan,
-                              avatar, prefix, ipSpan = false, ajaxAction, nonce) {
+                              avatar, prefix, ipSpan, ajaxAction, nonce) {
     const pageNumbers = document.querySelectorAll(`.${prefix}-log-page-num`);
     pageNumbers.forEach(function(pageNumber) {
         pageNumber.addEventListener('click', function() {
@@ -218,7 +217,9 @@ function yasrPostDataLogUsers(pagenum, rowContainer, spanVote, rowTitle, rowDate
                     avatar[i].src = response.data[i].avatar_url;
                 }
 
-                ipSpan[i].innerText = response.data[i].ip;
+                if (i in ipSpan) {
+                    ipSpan[i].innerText = response.data[i].ip;
+                }
 
                 title = `<a href="${response.data[i].permalink}">${response.data[i].post_title}</a>`
 
