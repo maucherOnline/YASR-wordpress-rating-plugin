@@ -51,15 +51,8 @@ class YasrSettings {
         //add ajax actions
         $yasr_import_plugin->addAjaxActions();
 
-
-        /** Change default admin footer on yasr settings pages
-         *  $text is the default WordPress text
-         *  Since 0.8.9
-         */
-        add_filter('admin_footer_text', function ($text) {
-            $yasr_settings_footer = new YasrSettingsFooter();
-            return $yasr_settings_footer->init($text);
-        });
+        $yasr_settings_footer = new YasrSettingsFooter();
+        $yasr_settings_footer->init();
     }
 
 

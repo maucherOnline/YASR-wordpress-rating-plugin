@@ -8,11 +8,42 @@
  */
 class YasrSettingsFooter {
 
+    /**
+     * @var $page, this is the value of the current page, e.g.
+     * wp-admin/admin.php?page=yasr_settings_page
+     */
     public $page;
+
+    /**
+     * @var $tab, this is the value of the current yasr tab, e.g.
+     * wp-admin/admin.php?page=yasr_stats_page&tab=logs_multi
+     */
     public $tab;
+
+    /**
+     * @var $default_text
+     * will store the value from filter admin_footer_text
+     */
     public $default_text;
 
     /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.1
+     *
+     * @return void
+     */
+    public function init () {
+        /** Change default admin footer on yasr settings pages
+         *  $text is the default WordPress text
+         *  Since 0.8.9, refactor and put into this class since 3.4.1
+         */
+        add_filter('admin_footer_text', array($this, 'returnFooter'));
+    }
+
+    /**
+     * Return the footer for YASR setting page, filtered if needed
+     *
      * @author Dario Curvino <@dudo>
      *
      * @since 3.4.1
@@ -21,7 +52,7 @@ class YasrSettingsFooter {
      *
      * @return string
      */
-    public function init ($text) {
+    public function returnFooter($text) {
         $this->default_text = $text;
         if (isset($_GET['page'])) {
             $this->page = $_GET['page'];
