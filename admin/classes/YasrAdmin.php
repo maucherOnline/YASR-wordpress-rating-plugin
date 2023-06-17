@@ -376,7 +376,7 @@ class YasrAdmin {
     public function lastRatingsAdmin() {
         wp_add_dashboard_widget(
             'yasr_widget_log_dashboard', //slug for widget
-            'YASR: Recent Ratings', //widget name
+            '&#11088; YASR: Recent Ratings', //widget name
             array($this, 'loadDashboardWidgetAdmin') //function callback
         );
     }
@@ -391,7 +391,7 @@ class YasrAdmin {
     public function lastRatingsUser() {
         wp_add_dashboard_widget(
             'yasr_users_dashboard_widget', //slug for widget
-            'YASR: Your Ratings', //widget name
+            '&#11088; YASR: Your Ratings', //widget name
             array($this, 'loadDashboardWidgetUser') //function callback
         );
     }
