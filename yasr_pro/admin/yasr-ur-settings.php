@@ -14,7 +14,9 @@ function yasr_pro_ur_general_options_init() {
         'yasr_pro_ur_general_options_sanitize'
     );
 
-    $general_options = get_option("yasr_ur_general_options");
+    $general_options = get_option('yasr_ur_general_options');
+
+    $yasr_settings_descriptions = new YasrSettingsDescriptions();
 
     //general options are not found
     if (!$general_options) {
@@ -35,14 +37,14 @@ function yasr_pro_ur_general_options_init() {
     );
 
     add_settings_field('yasr_ur_comments_review',
-        __('Reviews In Comments Options', 'yasr-pro'),
+        __('Reviews In Comments', 'yasr-pro'),
         'yasr_pro_ur_comments_review',
         'yasr_ur_general_options_tab',
         'yasr_ur_general_options_section_id',
         $general_options
     );
     add_settings_field('yasr_ur_custom_text',
-        __('Insert custom text to show after yasr_pro_average_comments_ratings shortcode ', 'yasr-pro'),
+        yasr_pro_ur_customize_string_description($yasr_settings_descriptions),
         'yasr_pro_custom_text_average_comments_ratings',
         'yasr_ur_general_options_tab',
         'yasr_ur_general_options_section_id',
@@ -221,6 +223,29 @@ function yasr_pro_custom_text_average_comments_ratings ($general_options) {
 
 <?php
 
+}
+
+/**
+ * Show description for "customize strings"
+ *
+ * @author Dario Curvino <@dudo>
+ *
+ * @since 3.4.1
+ *
+ * @param $yasr_settings_descriptions
+ *
+ * @return mixed
+ */
+function yasr_pro_ur_customize_string_description($yasr_settings_descriptions) {
+    $name = esc_html__('Customize strings', 'yet-another-stars-rating');
+
+    $description = sprintf(
+        esc_html__(
+            'Insert custom text to show after yasr_pro_average_comments_ratings shortcode', 'yasr-pro'
+        ), '<br />'
+    );
+
+    return $yasr_settings_descriptions->settingsFieldDescription($name, $description);
 }
 
 function yasr_pro_ur_general_options_sanitize($general_options) {
