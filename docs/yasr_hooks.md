@@ -108,26 +108,40 @@ ___
 
  ### `do_action('yasr_add_settings_tab')` 
 
- Source: [../admin/settings/classes/YasrSettings.php, line 1172](.././admin/settings/classes/YasrSettings.php:1172)
+ Source: [../admin/settings/classes/YasrSettings.php, line 255](.././admin/settings/classes/YasrSettings.php:255)
 
 _Hook here to add new settings tab_
 
 ___
  ### `do_action('yasr_settings_tab_content')` 
 
- Source: [../admin/settings/classes/YasrSettings.php, line 1247](.././admin/settings/classes/YasrSettings.php:1247)
+ Source: [../admin/settings/classes/YasrSettings.php, line 330](.././admin/settings/classes/YasrSettings.php:330)
 
 _Hook here to add new settings tab content_
 
 ___
- ### `do_action('yasr_right_settings_panel_box')` 
 
- Source: [../admin/settings/classes/YasrSettings.php, line 1394](.././admin/settings/classes/YasrSettings.php:1394)
+ ### `apply_filters('yasr_setting_page_footer')` 
+
+ Source: [../admin/settings/classes/YasrSettingsFooter.php, line 135](.././admin/settings/classes/YasrSettingsFooter.php:135)
+
+_Filter to customize the footer page on the "Aspect & style" page._
+
+_Since this could contain js, this will only allow FALSE as value_
+
+| Argument | Type | Description |
+| --- | --- | --- |
+| $style_page_upgrade_pro_js | string |  |
 ___
 
  ### `apply_filters('yasr_settings_select_ranking')` 
 
  Source: [../admin/settings/classes/YasrSettingsRankings.php, line 60](.././admin/settings/classes/YasrSettingsRankings.php:60)
+___
+
+ ### `do_action('yasr_right_settings_panel_box')` 
+
+ Source: [../admin/settings/classes/YasrSettingsRightColumn.php, line 15](.././admin/settings/classes/YasrSettingsRightColumn.php:15)
 ___
 
  ### `apply_filters('yasr_filter_style_options')` 
@@ -136,11 +150,11 @@ ___
 ___
  ### `do_action('yasr_style_options_add_settings_field')` 
 
- Source: [../admin/settings/classes/YasrSettingsStyle.php, line 46](.././admin/settings/classes/YasrSettingsStyle.php:46)
+ Source: [../admin/settings/classes/YasrSettingsStyle.php, line 48](.././admin/settings/classes/YasrSettingsStyle.php:48)
 ___
  ### `apply_filters('yasr_sanitize_style_options')` 
 
- Source: [../admin/settings/classes/YasrSettingsStyle.php, line 264](.././admin/settings/classes/YasrSettingsStyle.php:264)
+ Source: [../admin/settings/classes/YasrSettingsStyle.php, line 462](.././admin/settings/classes/YasrSettingsStyle.php:462)
 ___
 
  ### `do_action('yasr_add_stats_tab')` 
@@ -185,11 +199,11 @@ ___
 ___
  ### `apply_filters('yasr_feature_locked_html_attribute')` 
 
- Source: [../admin/yasr-admin-init.php, line 38](.././admin/yasr-admin-init.php:38)
+ Source: [../admin/yasr-admin-init.php, line 40](.././admin/yasr-admin-init.php:40)
 ___
  ### `apply_filters('yasr_feature_locked_text')` 
 
- Source: [../admin/yasr-admin-init.php, line 53](.././admin/yasr-admin-init.php:53)
+ Source: [../admin/yasr-admin-init.php, line 56](.././admin/yasr-admin-init.php:56)
 ___
 
  ### `apply_filters('yasr_rankings_query_ov')` 
