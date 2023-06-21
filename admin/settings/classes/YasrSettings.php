@@ -394,18 +394,18 @@ class YasrSettings {
      * @author Dario Curvino <@dudo>
      * @since  3.4.1
      *
-     * @param $output
-     * @param $setting_name
-     * @param $default_value       string|array
-     * @param $whitelisted_value   string|array
+     * @param $settings_array      array  The entire setting array to check
+     * @param $setting_name        string The setting name to check if exists inside $settings_array
+     * @param $default_value       string|array The default value to return if $settings_array or $setting_name doesn't exists
+     * @param $whitelisted_value   string|array The value to return if setting exists
      *
      * @return array|string
      */
-    public static function whitelistSettings($output, $setting_name, $default_value, $whitelisted_value) {
-        if(!is_array($output)) {
+    public static function whitelistSettings($settings_array, $setting_name, $default_value, $whitelisted_value) {
+        if(!is_array($settings_array)) {
             return $default_value;
         }
-        if (!array_key_exists($setting_name, $output)) {
+        if (!array_key_exists($setting_name, $settings_array)) {
             return $default_value;
         }
         else {

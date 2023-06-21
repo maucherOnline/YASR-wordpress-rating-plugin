@@ -552,15 +552,12 @@ class YasrSettingsMultiset {
      */
     public function sanitize($option_multiset) {
 
-        if (is_array($option_multiset)) {
-            if( ! array_key_exists('show_average', $option_multiset)) {
-                $option_multiset['show_average'] = 'no';
-            } else {
-                $option_multiset['show_average'] = 'yes';
-            }
-        } else {
-            $option_multiset['show_average'] = 'no';
-        }
+        $option_multiset['show_average'] = YasrSettings::whitelistSettings(
+                $option_multiset,
+                'show_average',
+                'no',
+                'yes'
+        );
 
         return $option_multiset;
 
