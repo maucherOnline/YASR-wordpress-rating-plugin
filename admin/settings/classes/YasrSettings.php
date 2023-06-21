@@ -387,7 +387,8 @@ class YasrSettings {
     }
 
     /**
-     * Check if a setting name exists, and return the whitelist value if does.
+     * This is used as helper for the setting sanitize callback.
+     * Check if a setting name exists, and if does, return the allowed value for that setting
      * If it doesn't, return default_value to avoid undefined index
      *
      * @author Dario Curvino <@dudo>
@@ -401,6 +402,9 @@ class YasrSettings {
      * @return array|string
      */
     public static function whitelistSettings($output, $setting_name, $default_value, $whitelisted_value) {
+        if(!is_array($output)) {
+            return $default_value;
+        }
         if (!array_key_exists($setting_name, $output)) {
             return $default_value;
         }
