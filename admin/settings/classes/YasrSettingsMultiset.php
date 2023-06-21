@@ -551,16 +551,9 @@ class YasrSettingsMultiset {
      * @return mixed
      */
     public function sanitize($option_multiset) {
-
-        $option_multiset['show_average'] = YasrSettings::whitelistSettings(
-                $option_multiset,
-                'show_average',
-                'no',
-                'yes'
-        );
+        $option_multiset['show_average'] = YasrSettings::whitelistSettings($option_multiset, 'show_average', 'no', 'yes');
 
         return $option_multiset;
-
     }
 
     /****************************** METHODS THAT RUN ON $_POST FROM HERE *******************************/

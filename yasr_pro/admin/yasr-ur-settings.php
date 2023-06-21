@@ -224,45 +224,20 @@ function yasr_pro_custom_text_average_comments_ratings ($general_options) {
 }
 
 function yasr_pro_ur_general_options_sanitize($general_options) {
-
     foreach ($general_options as $key => $value) {
         // Check to see if the current option has a value. If so, process it.
-        if (isset($general_options[$key])) {
+        if (isset($value)) {
             //Tags are not allowed for any fields
             $allowed_tags = '';
 
-            $general_options[$key] = strip_tags(stripslashes($general_options[$key]), $allowed_tags);
+            $general_options[$key] = strip_tags(stripslashes($value), $allowed_tags);
         }
-
     }
 
-    //if in array doesn't exists [comment_allow_anonymous] key, create it and set to no
-    if (!array_key_exists('comment_allow_anonymous', $general_options)) {
-        $general_options['comment_allow_anonymous'] = 'no';
-    } else {
-        $general_options['comment_allow_anonymous'] = 'yes';
-    }
-
-    //if in array doesn't exists [comment_stars_auto_insert] key, create it and set to no
-    if (!array_key_exists('comment_stars_auto_insert', $general_options)) {
-        $general_options['comment_stars_auto_insert'] = 'no';
-    } else {
-        $general_options['comment_stars_auto_insert'] = 'yes';
-    }
-
-    //if in array doesn't exists [comment_rating_mandatory] key, create it and set to no
-    if (!array_key_exists('comment_rating_mandatory', $general_options)) {
-        $general_options['comment_rating_mandatory'] = 'no';
-    } else {
-        $general_options['comment_rating_mandatory'] = 'yes';
-    }
-
-
-    if (!array_key_exists('comment_rich_snippet', $general_options)) {
-        $general_options['comment_rich_snippet'] = 'no';
-    } else {
-        $general_options['comment_rich_snippet'] = 'yes';
-    }
+    $general_options['comment_allow_anonymous']   = YasrSettings::whitelistSettings($general_options, 'comment_allow_anonymous', 'no', 'yes');
+    $general_options['comment_stars_auto_insert'] = YasrSettings::whitelistSettings($general_options, 'comment_stars_auto_insert', 'no', 'yes');
+    $general_options['comment_rating_mandatory']  = YasrSettings::whitelistSettings($general_options, 'comment_rating_mandatory', 'no', 'yes');
+    $general_options['comment_rich_snippet']      = YasrSettings::whitelistSettings($general_options, 'comment_rich_snippet', 'no', 'yes');
 
     return $general_options;
 
