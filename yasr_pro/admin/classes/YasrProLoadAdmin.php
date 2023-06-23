@@ -52,8 +52,11 @@ class YasrProLoadAdmin {
         $this->yasr_fake_ratings  = new YasrProFakeRatings();
         $this->yasr_fake_ratings->init();
 
-        $this->yasr_stylish_admin = new YasrProStylishAdmin();
+        $this->yasr_stylish_admin = new YasrProStylishSettings();
         $this->yasr_stylish_admin->init();
+
+        $yasr_ur_settings = new YasrProSettingsUR();
+        $yasr_ur_settings->init();
 
         $this->yasr_ur_admin = new YasrProUrAdmin();
         $this->yasr_ur_admin->init();

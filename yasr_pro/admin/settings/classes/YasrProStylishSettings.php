@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
     exit('You\'re not allowed to see this page');
 } // Exit if accessed directly
 
-class YasrProStylishAdmin {
+class YasrProStylishSettings {
 
     public function init() {
         //Remove YASR in style tab Free Action
