@@ -43,6 +43,13 @@ function yasr_pro_autoload_admin_classes($class) {
         require($file_name_admin_classes);
     }
 
+    $file_name_settings_classes = YASR_PRO_ABSOLUTE_PATH_ADMIN . '/settings/classes/' . $class . '.php';
+
+    // check if file exists, just to be sure
+    if (file_exists($file_name_settings_classes)) {
+        require($file_name_settings_classes);
+    }
+
 }
 
 //AutoLoad Yasr Shortcode Classes, only when a object is created
