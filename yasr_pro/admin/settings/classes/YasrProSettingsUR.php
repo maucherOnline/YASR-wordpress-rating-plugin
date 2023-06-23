@@ -50,14 +50,14 @@ class YasrProSettingsUR {
         add_settings_field(
             'yasr_ur_comments_review',
             __('Reviews In Comments', 'yasr-pro'),
-            array($this, 'urOptions'),
+            array($this, 'generalOptions'),
             'yasr_ur_general_options_tab',
             'yasr_ur_general_options_section_id',
             $general_options
         );
         add_settings_field('yasr_ur_custom_text',
             $this->customizeStringDescription($yasr_settings_descriptions),
-            array($this, 'urCustomizeStrings'),
+            array($this, 'customizeStrings'),
             'yasr_ur_general_options_tab',
             'yasr_ur_general_options_section_id',
             $general_options)
@@ -70,7 +70,18 @@ class YasrProSettingsUR {
     public function sectionCallback() {
     }
 
-    public function urOptions($general_options) {
+    /**
+     *
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.1
+     *
+     * @param $general_options
+     *
+     * @return void
+     */
+    public function generalOptions($general_options) {
         ?>
         <div class="yasr-settings-row-35">
             <div>
@@ -181,10 +192,20 @@ class YasrProSettingsUR {
         <hr />
 
         <?php
-
     }
 
-    public function urCustomizeStrings ($general_options) {
+    /**
+     * Return customize strings fields
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.2
+     *
+     * @param $general_options
+     *
+     * @return void
+     */
+    public function customizeStrings ($general_options) {
         ?>
         <div>
             <?php
@@ -235,9 +256,7 @@ class YasrProSettingsUR {
         </div>
 
         <?php
-
     }
-
 
     /**
      * Show description for "customize strings"
@@ -262,6 +281,17 @@ class YasrProSettingsUR {
         return $yasr_settings_descriptions->settingsFieldDescription($name, $description);
     }
 
+    /**
+     * Sanitize method for settings
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.2
+     *
+     * @param $general_options
+     *
+     * @return mixed
+     */
     public function sanitize($general_options) {
         foreach ($general_options as $key => $value) {
             // Check to see if the current option has a value. If so, process it.
@@ -279,6 +309,5 @@ class YasrProSettingsUR {
         $general_options['comment_rich_snippet']      = YasrSettings::whitelistSettings($general_options, 'comment_rich_snippet', 'no', 'yes');
 
         return $general_options;
-
     }
 }
