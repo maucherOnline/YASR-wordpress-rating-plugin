@@ -64,11 +64,6 @@ class YasrAdmin {
      * @return void
      */
     private function freemiusHooks() {
-        //customize optin page to force to be in English
-        yasr_fs()->add_filter('templates/connect.php', static function ($vars) {
-            include YASR_ABSOLUTE_PATH_ADMIN . '/yasr-optin-page.php';
-        });
-
         /**
          * Customize Freemius permission list TO NOT ALLOW TRANSLATIONS
          * @see yasr-optin-page.php
