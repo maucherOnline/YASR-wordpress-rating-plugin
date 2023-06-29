@@ -104,7 +104,10 @@ class YasrMetaboxBelowEditor {
     public function addSchemaTab() {
         ?>
         <a href="#" id="yasr-metabox-below-editor-structured-data-tab" class="nav-tab nav-tab-active yasr-nav-tab">
-            <?php esc_html_e('Structured Data', 'yet-another-stars-rating'); ?>
+            <span class="dashicons dashicons-screenoptions yasr-dash-before-text"></span>
+            <span>
+                <?php esc_html_e('Schema', 'yet-another-stars-rating'); ?>
+            </span>
         </a>
         <?php
     }

@@ -98,6 +98,11 @@
     display: block;
 }
 
+/**** Below Editor ****/
+.yasr-dash-before-text {
+    vertical-align: text-bottom;
+}
+
 /**** Metabox multi ****/
 
 .yasr-metabox-editor-title-pro-only {
