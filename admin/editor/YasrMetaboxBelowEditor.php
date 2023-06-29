@@ -135,7 +135,10 @@ class YasrMetaboxBelowEditor {
     public function addMultisetTab() {
         ?>
         <a href="#" id="yasr-metabox-below-editor-multiset-tab" class="nav-tab yasr-nav-tab">
-            <?php esc_html_e('Multi Criteria', 'yet-another-stars-rating'); ?>
+            <span class="dashicons dashicons-chart-bar" style="transform: scaleX(-1);"></span>
+            <span>
+                <?php esc_html_e('Multi Criteria', 'yet-another-stars-rating'); ?>
+            </span>
         </a>
         <?php
     }
