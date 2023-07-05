@@ -206,6 +206,10 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.4.2 =
+* Minor Changes
+* Updated Freemius SDK
+
 = 3.4.1 =
 * FIXED: in the Dashboard, the "Recent Ratings" widget did not update the IP upon page change
 * TWEAKED: "Custom text to display when rating is saved" is now also returned on yasr_visitor_multiset
