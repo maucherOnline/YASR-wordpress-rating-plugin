@@ -3,7 +3,7 @@ Donate link: https://www.paypal.com/donate/?hosted_button_id=SVTAVUF62QZ4W
 Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo
-Tested up to: 6.2
+Tested up to: 6.3
 Stable tag: 3.4.2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
