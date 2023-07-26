@@ -78,11 +78,12 @@ class YasrProUrAdmin {
         <hr />
         <p>
             <?php
+            $enabled_text = 'DISABLED';
             if ($comment_review_enabled === true ) {
-                esc_html_e("Reviews in comments for this post / page are ENABLED", 'yasr-pro');
-            } else {
-                esc_html_e("Reviews in comments for this post / page are DISABLED", 'yasr-pro');
+                $enabled_text = 'ENABLED';
             }
+            echo esc_html__('Reviews in comments for this post / page are', 'yasr-pro') . '&nbsp;' . esc_html__($enabled_text) ;
+
             ?>
         </p>
 
