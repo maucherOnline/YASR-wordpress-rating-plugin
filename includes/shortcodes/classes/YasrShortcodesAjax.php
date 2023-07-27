@@ -409,6 +409,8 @@ class YasrShortcodesAjax {
      * @return void
      */
     private function saveMVAnonymous($id_field, $set_id, $post_id, $rating, $current_user_id) {
+        $this->dieIfIpBlocked($post_id, $set_id);
+
         $replace_query_success = YasrDB::mvSaveRating($id_field, $set_id, $post_id, $rating, $current_user_id);
         //if rating is not saved, it is an error
         if (!$replace_query_success) {
@@ -702,18 +704,25 @@ class YasrShortcodesAjax {
      *
      * @return void
      */
-    public function dieIfIpBlocked($post_id) {
+    public function dieIfIpBlocked($post_id, $set_id = false) {
         $time_now = date('Y-m-d H:i:s');
 
         //create di strtotime string, in seconds
         $strtotime_string = '-' . YASR_SECONDS_BETWEEN_RATINGS . ' seconds';
         $starting_date    = date('Y-m-d H:i:s', strtotime($strtotime_string));
 
-        $blocked = YasrDB::vvBetweenDates($post_id, $starting_date, $time_now);
+        if(is_numeric($set_id)) {
+            $blocked = YasrDB::mvBetweenDates($post_id, $set_id, $starting_date, $time_now);
+            //this text is escaped later
+            $error_text = __("You can't rate again", 'yet-another-stars-rating');
+        } else {
+            $blocked = YasrDB::vvBetweenDates($post_id, $starting_date, $time_now);
+            $error_text = __("You can't rate again for this post", 'yet-another-stars-rating');
+        }
 
         if ($blocked === true) {
             echo $this->returnErrorResponse(
-                esc_html__("You can't rate again for this post", 'yet-another-stars-rating')
+                $error_text
             );
             die();
         }

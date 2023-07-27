@@ -1107,6 +1107,63 @@ class YasrDB {
     }
 
     /**
+     * This function return true if an IP has already for a multiset in a certain post
+     * within a given date range.
+     * Only for anonymous users
+     *
+     * @author Dario Curvino <@dudo>
+     * @since  3.4.3
+     *
+     * @param        $post_id
+     * @param        $set_id
+     * @param        $start_date
+     * @param        $end_date
+     *
+     * @return bool
+     */
+    public static function mvBetweenDates($post_id, $set_id, $start_date, $end_date) {
+        //if values it's not passed get the post id, most of the cases and default one
+        if (!is_int($post_id)) {
+            $post_id = get_the_ID();
+        }
+
+        $multiset_len = self::multisetLength($set_id);
+
+        global $wpdb;
+
+        $result = $wpdb->get_results(
+            $wpdb->prepare(
+                'SELECT id FROM ' . YASR_LOG_MULTI_SET . ' 
+                WHERE post_id = %d
+                AND set_type  = %d
+                AND ip = %s
+                AND user_id = 0 /* check for anonymous users */
+                AND date BETWEEN %s AND %s
+                LIMIT %d',
+                $post_id,
+                $set_id,
+                yasr_get_ip(),
+                $start_date,
+                $end_date,
+                $multiset_len
+            ), ARRAY_A
+        );
+
+        if(is_array($result)) {
+            //count the number of element into the result array, and allow the rating if ratings stored are <
+            //then multiset leng
+            $array_leng = count($result);
+            if ($array_leng < $multiset_len) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Save rating for multi set visitor
      *
      * @author Dario Curvino <@dudo>

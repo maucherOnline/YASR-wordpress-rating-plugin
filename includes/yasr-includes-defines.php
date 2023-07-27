@@ -29,7 +29,6 @@ if(!defined('YASR_USER_CAPABILITY_EDIT_POST')) {
 }
 
 //This defines doesn't come from a setting page
-//role to save overall_rating and multi set
 if(!defined('YASR_SECONDS_BETWEEN_RATINGS')) {
     $time = (int)apply_filters('yasr_seconds_between_ratings', MINUTE_IN_SECONDS);
     define('YASR_SECONDS_BETWEEN_RATINGS', $time);
