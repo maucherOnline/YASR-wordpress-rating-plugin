@@ -1,7 +1,7 @@
 
  ### `do_action('yasr_add_admin_scripts_begin')` 
 
- Source: [../admin/classes/YasrAdmin.php, line 175](.././admin/classes/YasrAdmin.php:175)
+ Source: [../admin/classes/YasrAdmin.php, line 170](.././admin/classes/YasrAdmin.php:170)
 
 _Add custom script in one of the page used by YASR, at the beginning_
 
@@ -11,7 +11,7 @@ _Add custom script in one of the page used by YASR, at the beginning_
 ___
  ### `do_action('yasr_add_admin_scripts_end')` 
 
- Source: [../admin/classes/YasrAdmin.php, line 192](.././admin/classes/YasrAdmin.php:192)
+ Source: [../admin/classes/YasrAdmin.php, line 187](.././admin/classes/YasrAdmin.php:187)
 
 _Add custom script in one of the page used by YASR, at the end_
 
@@ -52,7 +52,7 @@ ___
 ___
  ### `do_action('yasr_add_content_multiset_tab_top')` 
 
- Source: [../admin/editor/YasrMetaboxBelowEditor.php, line 204](.././admin/editor/YasrMetaboxBelowEditor.php:204)
+ Source: [../admin/editor/YasrMetaboxBelowEditor.php, line 210](.././admin/editor/YasrMetaboxBelowEditor.php:210)
 
 _Hook here to add new content at the beginning of the div_
 
@@ -63,7 +63,7 @@ _Hook here to add new content at the beginning of the div_
 ___
  ### `do_action('yasr_add_content_multiset_tab_pro')` 
 
- Source: [../admin/editor/YasrMetaboxBelowEditor.php, line 286](.././admin/editor/YasrMetaboxBelowEditor.php:286)
+ Source: [../admin/editor/YasrMetaboxBelowEditor.php, line 292](.././admin/editor/YasrMetaboxBelowEditor.php:292)
 
 _Hook here to add new content_
 
@@ -380,13 +380,9 @@ ___
 
  Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 213](.././includes/shortcodes/classes/YasrShortcodesAjax.php:213)
 ___
- ### `apply_filters('yasr_vv_rating_error_text')` 
-
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 236](.././includes/shortcodes/classes/YasrShortcodesAjax.php:236)
-___
  ### `do_action('yasr_action_on_visitor_multiset_vote')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 326](.././includes/shortcodes/classes/YasrShortcodesAjax.php:326)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 324](.././includes/shortcodes/classes/YasrShortcodesAjax.php:324)
 ___
  ### `apply_filters('yasr_mv_cookie')` 
 
@@ -509,7 +505,7 @@ ___
 
  ### `apply_filters('yasr_seconds_between_ratings')` 
 
- Source: [../includes/yasr-includes-defines.php, line 34](.././includes/yasr-includes-defines.php:34)
+ Source: [../includes/yasr-includes-defines.php, line 33](.././includes/yasr-includes-defines.php:33)
 ___
 
  ### `apply_filters('yasr_filter_ip')` 

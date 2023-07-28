@@ -233,8 +233,6 @@ class YasrShortcodesAjax {
             $error_text = esc_html__('Error in Ajax Call, rating can\'t be saved.', 'yet-another-stars-rating');
         }
 
-        $error_text = apply_filters('yasr_vv_rating_error_text', $error_text);
-
         return json_encode(array(
             'status' => 'error',
             'text'   => wp_kses_post($error_text)
