@@ -5,9 +5,9 @@
 
 _Add custom script in one of the page used by YASR, at the beginning_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $hook | string |  |
+|$hook | string |  |
 ___
  ### `do_action('yasr_add_admin_scripts_end')` 
 
@@ -15,9 +15,9 @@ ___
 
 _Add custom script in one of the page used by YASR, at the end_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $hook | string |  |
+|$hook | string |  |
 ___
 
  ### `do_action('yasr_add_tabs_on_tinypopupform')` 
@@ -33,10 +33,10 @@ ___
 
 _Use this action to add content inside shortcode creator_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $n_multi_set | int |  |
-| $multi_set | string |  the multiset name |
+|$n_multi_set | int |  |
+|$multi_set | string |  the multiset name |
 ___
 
  ### `do_action('yasr_metabox_below_editor_add_tab')` 
@@ -56,10 +56,10 @@ ___
 
 _Hook here to add new content at the beginning of the div_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $post_id | int |  |
-| $set_id | int |  |
+|$post_id | int |  |
+|$set_id | int |  |
 ___
  ### `do_action('yasr_add_content_multiset_tab_pro')` 
 
@@ -67,10 +67,10 @@ ___
 
 _Hook here to add new content_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $post_id | int |  |
-| $set_id | int |  |
+|$post_id | int |  |
+|$set_id | int |  |
 ___
 
  ### `do_action('yasr_on_save_post')` 
@@ -79,9 +79,9 @@ ___
 
 _Hook here to add actions when YASR save data on save_post_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $post_id | int |  |
+|$post_id | int |  |
 ___
  ### `do_action('yasr_action_on_overall_rating')` 
 
@@ -89,10 +89,10 @@ ___
 
 _Do action before overall rating is saved, works only in classic editor_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $post_id | int |  |
-| $rating | float |  |
+|$post_id | int |  |
+|$rating | float |  |
 ___
 
  ### `do_action('yasr_add_content_bottom_topright_metabox')` 
@@ -101,9 +101,9 @@ ___
 
 _Hook here to add content at the bottom of the metabox_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $post_id | int |  |
+|$post_id | int |  |
 ___
 
  ### `do_action('yasr_add_settings_tab')` 
@@ -129,9 +129,9 @@ _Filter to customize the footer page on the "Aspect & style" page._
 
 _Since this could contain js, this will only allow FALSE as value_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $style_page_upgrade_pro_js | string |  |
+|$style_page_upgrade_pro_js | string |  |
 ___
 
  ### `apply_filters('yasr_settings_select_ranking')` 
@@ -247,9 +247,9 @@ ___
 
 _Use this hook to add (or eventually remove) supported itemTypes_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $itemTypes | array |  an array containing all the default supported itemTypes |
+|$itemTypes | array |  an array containing all the default supported itemTypes |
 ___
  ### `apply_filters('yasr_filter_itemtypes_fields')` 
 
@@ -263,9 +263,9 @@ _E.g. if you want to add the filed 'price' to 'SoftwareApplication, you need to 
 
 _yasr_softwareapplication_price_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $additionalFields | array |  an array containing all the default supported additional fields |
+|$additionalFields | array |  an array containing all the default supported additional fields |
 ___
 
  ### `apply_filters('yasr_custom_loader')` 
@@ -332,10 +332,10 @@ _Hook here to use shortcode atts._
 
 _If not used, will work with no support for atts_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $this->shortcode_name | string |  Name of shortcode caller |
-| $atts | string|array |  Shortcode atts |
+|$this->shortcode_name | string |  Name of shortcode caller |
+|$atts | string|array |  Shortcode atts |
 ___
  ### `apply_filters('yasr_multi_set_ranking_atts')` 
 
@@ -349,10 +349,10 @@ _Hook here to use shortcode atts._
 
 _If not used, shortcode will works only with setId param_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $this->shortcode_name | string |  Name of shortcode caller |
-| $atts | string|array |  Shortcode atts |
+|$this->shortcode_name | string |  Name of shortcode caller |
+|$atts | string|array |  Shortcode atts |
 ___
 
  ### `apply_filters('yasr_size_ranking')` 
@@ -416,12 +416,12 @@ ___
 
 _Use this filter to customize yasr visitor votes readonly._
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $shortcode_html | string |  html for the shortcode |
-| $stored_votes | array |  array with average rating data for the post id. |
-| $this->post_id | int |  the post id |
-| $stored_votes | YasrDB::visitorVotes() |  array |
+|$shortcode_html | string |  html for the shortcode |
+|$stored_votes | array |  array with average rating data for the post id. |
+|$this->post_id | int |  the post id |
+|$stored_votes | YasrDB::visitorVotes() |  array |
 ___
  ### `apply_filters('yasr_vv_cookie')` 
 
@@ -429,9 +429,9 @@ ___
 
 _Use this filter to customize the visitor votes cookie name_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-|  | string |  yasr_visitor_votes_cookie is the default name |
+| | string |  yasr_visitor_votes_cookie is the default name |
 ___
  ### `apply_filters('yasr_cstm_text_already_voted')` 
 
@@ -465,11 +465,11 @@ _Unless you're using a multi-language site, there is no need to use this hook; y
 
 _"General Settings" -> "Custom text to display BEFORE Visitor Rating"_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $number_of_votes | int |  the total number of votes |
-| $average_rating | float |  the average rating |
-| $this->unique_id | string |  the dom ID |
+|$number_of_votes | int |  the total number of votes |
+|$average_rating | float |  the average rating |
+|$this->unique_id | string |  the dom ID |
 ___
  ### `apply_filters('yasr_cstm_text_after_vv')` 
 
@@ -481,11 +481,11 @@ _Unless you're using a multi-language site, there is no need to use this hook; y
 
 _"General Settings" -> "Custom text to display AFTER Visitor Rating"_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $number_of_votes | int |  the total number of votes |
-| $average_rating | float |  the average rating |
-| $this->unique_id | string |  the dom ID |
+|$number_of_votes | int |  the total number of votes |
+|$average_rating | float |  the average rating |
+|$this->unique_id | string |  the dom ID |
 ___
  ### `apply_filters('yasr_vv_shortcode')` 
 
@@ -493,14 +493,14 @@ ___
 
 _Use this filter to customize the yasr_visitor_votes shortcode_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $shortcode_html | string |  html for the shortcode |
-| $this->post_id | int |  the post id |
-| $this->starSize | string | () the star size |
-| $this->readonly | string |  is the stars are readonly or not |
-| $this->ajax_nonce_visitor | string |  the WordPress nonce |
-| $this->is_singular | string |  if the current page is_singular or not |
+|$shortcode_html | string |  html for the shortcode |
+|$this->post_id | int |  the post id |
+|$this->starSize | string | () the star size |
+|$this->readonly | string |  is the stars are readonly or not |
+|$this->ajax_nonce_visitor | string |  the WordPress nonce |
+|$this->is_singular | string |  if the current page is_singular or not |
 ___
 
  ### `apply_filters('yasr_seconds_between_ratings')` 
@@ -536,9 +536,9 @@ ___
 
 _Use this hook to write your custom microdata from scratch_
 
-| Argument | Type | Description |
+|Argument | Type | Description |
 | --- | --- | --- |
-| $item_type_for_post | string |  the itemType selected for the post |
+|$item_type_for_post | string |  the itemType selected for the post |
 ___
  ### `apply_filters('yasr_filter_existing_schema')` 
 
