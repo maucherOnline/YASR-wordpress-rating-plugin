@@ -109,10 +109,8 @@ class YasrShortcodesAjax {
             $rating = 5;
         }
 
-        $current_user_id = get_current_user_id();
-
         if (is_user_logged_in()) {
-            $result_insert_log = $this->saveVVLoggedIn($post_id, $current_user_id, $rating);
+            $result_insert_log = $this->saveVVLoggedIn($post_id, get_current_user_id(), $rating);
 
         } //if user is not logged in insert
         else {
