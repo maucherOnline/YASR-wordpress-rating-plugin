@@ -155,11 +155,7 @@ class YasrVisitorVotes extends YasrShortcode {
             //I've to check $cookie_value !== false before because
             //if $cookie_value is false, $cookie_value < 1 return true (...wtf...)
             if($cookie_value !== false) {
-                if ($cookie_value > 5) {
-                    $cookie_value = 5;
-                } elseif ($cookie_value < 1) {
-                    $cookie_value = 1;
-                }
+                $cookie_value = yasr_validate_rating($cookie_value);
             }
             //return int
             return $cookie_value;
