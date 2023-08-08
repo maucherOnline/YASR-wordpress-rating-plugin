@@ -152,8 +152,7 @@ class YasrVisitorVotes extends YasrShortcode {
                 }
             }
 
-            //I've to check $cookie_value !== false before because
-            //if $cookie_value is false, $cookie_value < 1 return true (...wtf...)
+            //I've to check $cookie_value !== false before
             if($cookie_value !== false) {
                 $cookie_value = yasr_validate_rating($cookie_value);
             }
