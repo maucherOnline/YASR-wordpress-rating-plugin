@@ -384,7 +384,25 @@ function yasr_return_dom_id ($prefix='') {
     return esc_html($prefix) . str_shuffle(uniqid());
 }
 
+/**
+ * Sanitize rating
+ *
+ * @author Dario Curvino <@dudo>
+ *
+ * @since 3.4.4
+ *
+ * @param $rating
+ * @param $min_value
+ * @param $only_min
+ * @param $only_max
+ *
+ * @return int|mixed
+ */
 function yasr_validate_rating($rating, $min_value=1, $only_min=false, $only_max=false) {
+    if(!$rating) {
+        $rating = 0;
+    }
+
     if ($rating < $min_value) {
         $rating = $min_value;
     }

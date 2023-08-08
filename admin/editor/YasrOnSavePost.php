@@ -89,13 +89,7 @@ class YasrOnSavePost {
 
         $rating = (float)$rating;
 
-        if ($rating > 5) {
-            $rating = 5;
-        }
-
-        if($rating <= 0) {
-            return;
-        }
+        $rating = yasr_validate_rating($rating, 0);
 
         /**
          * Do action before overall rating is saved, works only in classic editor

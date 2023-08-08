@@ -90,12 +90,8 @@ class YasrDB {
 
         $overall_rating = get_post_meta($post_id, 'yasr_overall_rating', true);
 
-        if (!$overall_rating || $overall_rating < 0) {
-            $overall_rating = 0;
-        }
-        if($overall_rating > 5) {
-            $overall_rating = 5;
-        }
+        $overall_rating = yasr_validate_rating($overall_rating, 0);
+
         return $overall_rating;
     }
 
