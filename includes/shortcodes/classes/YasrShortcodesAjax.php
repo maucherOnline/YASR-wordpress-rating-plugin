@@ -86,6 +86,10 @@ class YasrShortcodesAjax {
 
         $array_action_visitor_vote = array('post_id' => $post_id, 'is_singular' => $is_singular);
 
+        /**
+         * Hook here to add an action on visitor votes (e.g. empty cache)
+         * @param array $array_action_visitor_vote An array containing post_id and is_singular
+         */
         do_action('yasr_action_on_visitor_vote', $array_action_visitor_vote);
 
         $nonce_response = self::validNonce($nonce_visitor, 'yasr_nonce_vv');

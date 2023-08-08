@@ -366,39 +366,45 @@ ___
 
  ### `do_action('yasr_action_on_visitor_vote')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 89](.././includes/shortcodes/classes/YasrShortcodesAjax.php:89)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 93](.././includes/shortcodes/classes/YasrShortcodesAjax.php:93)
+
+_Hook here to add an action on visitor votes (e.g. empty cache)_
+
+|Argument | Type | Description |
+| --- | --- | --- |
+|$array_action_visitor_vote | array |  An array containing post_id and is_singular |
 ___
  ### `apply_filters('yasr_vv_cookie')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 197](.././includes/shortcodes/classes/YasrShortcodesAjax.php:197)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 201](.././includes/shortcodes/classes/YasrShortcodesAjax.php:201)
 ___
  ### `apply_filters('yasr_vv_updated_text')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 210](.././includes/shortcodes/classes/YasrShortcodesAjax.php:210)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 214](.././includes/shortcodes/classes/YasrShortcodesAjax.php:214)
 ___
  ### `apply_filters('yasr_vv_saved_text')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 213](.././includes/shortcodes/classes/YasrShortcodesAjax.php:213)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 217](.././includes/shortcodes/classes/YasrShortcodesAjax.php:217)
 ___
  ### `do_action('yasr_action_on_visitor_multiset_vote')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 324](.././includes/shortcodes/classes/YasrShortcodesAjax.php:324)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 328](.././includes/shortcodes/classes/YasrShortcodesAjax.php:328)
 ___
  ### `apply_filters('yasr_mv_cookie')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 429](.././includes/shortcodes/classes/YasrShortcodesAjax.php:429)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 433](.././includes/shortcodes/classes/YasrShortcodesAjax.php:433)
 ___
  ### `apply_filters('yasr_mv_saved_text')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 438](.././includes/shortcodes/classes/YasrShortcodesAjax.php:438)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 442](.././includes/shortcodes/classes/YasrShortcodesAjax.php:442)
 ___
  ### `apply_filters('yasr_filter_ranking_request')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 621](.././includes/shortcodes/classes/YasrShortcodesAjax.php:621)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 625](.././includes/shortcodes/classes/YasrShortcodesAjax.php:625)
 ___
  ### `apply_filters('yasr_add_sources_ranking_request')` 
 
- Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 672](.././includes/shortcodes/classes/YasrShortcodesAjax.php:672)
+ Source: [../includes/shortcodes/classes/YasrShortcodesAjax.php, line 676](.././includes/shortcodes/classes/YasrShortcodesAjax.php:676)
 ___
 
  ### `apply_filters('yasr_mv_cookie')` 
