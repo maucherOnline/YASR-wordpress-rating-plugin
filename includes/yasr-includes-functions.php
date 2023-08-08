@@ -383,3 +383,14 @@ function yasr_return_dom_id ($prefix='') {
     /** @noinspection NonSecureUniqidUsageInspection */
     return esc_html($prefix) . str_shuffle(uniqid());
 }
+
+function yasr_validate_rating($rating, $min_value=1, $only_min=false, $only_max=false) {
+    if ($rating < $min_value) {
+        $rating = $min_value;
+    }
+    elseif ($rating > 5) {
+        $rating = 5;
+    }
+
+    return $rating;
+}

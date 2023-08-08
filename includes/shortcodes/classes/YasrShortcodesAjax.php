@@ -102,12 +102,7 @@ class YasrShortcodesAjax {
             die();
         }
 
-        if ($rating < 1) {
-            $rating = 1;
-        }
-        elseif ($rating > 5) {
-            $rating = 5;
-        }
+        $rating = yasr_validate_rating($rating);
 
         if (is_user_logged_in()) {
             $result_insert_log = $this->saveVVLoggedIn($post_id, get_current_user_id(), $rating);
