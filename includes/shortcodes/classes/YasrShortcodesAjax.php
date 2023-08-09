@@ -43,6 +43,7 @@ class YasrShortcodesAjax {
         add_action('wp_ajax_yasr_send_visitor_rating',        array($this, 'saveVV'));
         add_action('wp_ajax_nopriv_yasr_send_visitor_rating', array($this, 'saveVV'));
 
+        //die if post is non publish
         add_action('yasr_action_on_visitor_vote',             array($this, 'dieIfPrivatePost'));
         add_action('yasr_action_on_visitor_multiset_vote',    array($this, 'dieIfPrivatePost'));
 
