@@ -77,10 +77,7 @@ class YasrShortcodesAjax {
 
         $this->performActionOnVisitorVote($post_id, $is_singular);
 
-        if(YASR_ALLOWED_USER === 'logged_only' && !is_user_logged_in()) {
-            echo ($this->returnErrorResponse(__('Only logged in user can rate.', 'yet-another-stars-rating')));
-            die();
-        }
+        $this->vvDieIfNotAllowed();
 
         $rating = yasr_validate_rating((int) $_POST['rating']);
 
@@ -159,6 +156,21 @@ class YasrShortcodesAjax {
          * @param array $array_action_visitor_vote An array containing post_id and is_singular
          */
         do_action('yasr_action_on_visitor_vote', $array_action_visitor_vote);
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * Die if user not allowed to rate
+     *
+     * @since 3.4.4
+     * @return void
+     */
+    private function vvDieIfNotAllowed() {
+        if(YASR_ALLOWED_USER === 'logged_only' && !is_user_logged_in()) {
+            echo ($this->returnErrorResponse(__('Only logged in user can rate.', 'yet-another-stars-rating')));
+            die();
+        }
     }
 
 
