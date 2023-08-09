@@ -68,41 +68,21 @@ class YasrShortcodesAjax {
     public function saveVV() {
         $this->dieIfNotAjax();
 
-        if (isset($_POST['rating'], $_POST['post_id'])) {
-            $rating        = (int) $_POST['rating'];
-            $post_id       = (int) $_POST['post_id'];
-            $is_singular   = $_POST['is_singular'];
-        }
-        else {
-            echo ($this->returnErrorResponse(__('Error in Ajax Call, missing required param.', 'yet-another-stars-rating')));
-            die();
-        }
+        $this->vvDieIfNotValidData();
 
-        if(isset($_POST['nonce_visitor'])) {
-            $nonce_visitor = $_POST['nonce_visitor'];
-        } else {
-            $nonce_visitor = false;
-        }
+        $post_id     = (int) $_POST['post_id'];
+        $is_singular = $_POST['is_singular'];
 
-        $array_action_visitor_vote = array('post_id' => $post_id, 'is_singular' => $is_singular);
+        $this->vvDieIfNonceInvalid();
 
-        /**
-         * Hook here to add an action on visitor votes (e.g. empty cache)
-         * @param array $array_action_visitor_vote An array containing post_id and is_singular
-         */
-        do_action('yasr_action_on_visitor_vote', $array_action_visitor_vote);
-
-        $nonce_response = self::validNonce($nonce_visitor, 'yasr_nonce_vv');
-        if($nonce_response !== true) {
-            die($nonce_response);
-        }
+        $this->performActionOnVisitorVote($post_id, $is_singular);
 
         if(YASR_ALLOWED_USER === 'logged_only' && !is_user_logged_in()) {
             echo ($this->returnErrorResponse(__('Only logged in user can rate.', 'yet-another-stars-rating')));
             die();
         }
 
-        $rating = yasr_validate_rating($rating);
+        $rating = yasr_validate_rating((int) $_POST['rating']);
 
         if (is_user_logged_in()) {
             $result_insert_log = $this->saveVVLoggedIn($post_id, get_current_user_id(), $rating);
@@ -121,6 +101,66 @@ class YasrShortcodesAjax {
 
         die(); // this is required to return a proper result
     }
+
+    /**
+     * Echo an error and die if rating or post id are missing in $_POST
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.4.4
+     * @return void
+     */
+    private function vvDieIfNotValidData() {
+        if (!isset($_POST['rating']) || !isset($_POST['post_id'])) {
+            echo $this->returnErrorResponse(__('Error in Ajax Call, missing required param.', 'yet-another-stars-rating'));
+            die();
+        }
+    }
+
+    /**
+     * Validate the nonce
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since  3.4.4
+     * @return void
+     */
+    private function vvDieIfNonceInvalid () {
+        if(isset($_POST['nonce_visitor'])) {
+            $nonce_visitor = $_POST['nonce_visitor'];
+        } else {
+            $nonce_visitor = false;
+        }
+
+        $nonce_response = self::validNonce($nonce_visitor, 'yasr_nonce_vv');
+        if($nonce_response !== true) {
+            die($nonce_response);
+        }
+    }
+
+
+    /**
+     * Create an array and add an action to perform on vv
+     *
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.4
+     *
+     * @param $post_id
+     * @param $is_singular
+     *
+     * @return void
+     */
+    private function performActionOnVisitorVote($post_id, $is_singular) {
+        $array_action_visitor_vote = array('post_id' => $post_id, 'is_singular' => $is_singular);
+
+        /**
+         * Hook here to add an action on visitor votes (e.g. empty cache)
+         * @param array $array_action_visitor_vote An array containing post_id and is_singular
+         */
+        do_action('yasr_action_on_visitor_vote', $array_action_visitor_vote);
+    }
+
 
     /**
      * @author Dario Curvino <@dudo>
