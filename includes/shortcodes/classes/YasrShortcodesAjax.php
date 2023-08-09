@@ -44,6 +44,7 @@ class YasrShortcodesAjax {
         add_action('wp_ajax_nopriv_yasr_send_visitor_rating', array($this, 'saveVV'));
 
         add_action('yasr_action_on_visitor_vote',             array($this, 'dieIfPrivatePost'));
+        add_action('yasr_action_on_visitor_multiset_vote',    array($this, 'dieIfPrivatePost'));
 
         //MV save rating
         add_action('wp_ajax_yasr_visitor_multiset_field_vote',        array($this, 'saveMV'));
