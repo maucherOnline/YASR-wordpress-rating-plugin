@@ -43,6 +43,8 @@ class YasrShortcodesAjax {
         add_action('wp_ajax_yasr_send_visitor_rating',        array($this, 'saveVV'));
         add_action('wp_ajax_nopriv_yasr_send_visitor_rating', array($this, 'saveVV'));
 
+        add_action('yasr_action_on_visitor_vote',             array($this, 'dieIfPrivatePost'));
+
         //MV save rating
         add_action('wp_ajax_yasr_visitor_multiset_field_vote',        array($this, 'saveMV'));
         add_action('wp_ajax_nopriv_yasr_visitor_multiset_field_vote', array($this, 'saveMV'));
@@ -333,6 +335,27 @@ class YasrShortcodesAjax {
 
         //return rest response
         return $array_to_return;
+    }
+
+    /**
+     * @author Dario Curvino <@dudo>
+     *
+     * @since 3.4.4
+     *
+     * @param $array_action_visitor_vote
+     *
+     * @return void
+     */
+    public function dieIfPrivatePost($array_action_visitor_vote) {
+        $post_id = $array_action_visitor_vote['post_id'];
+        if(!is_user_logged_in()) {
+            $status = get_post_status($post_id);
+
+            if ($status !== 'publish') {
+                echo $this->returnErrorResponse(__("This post doesn't exists or is private", 'yet-another-stars-rating'));
+                die();
+            }
+        }
     }
 
 
