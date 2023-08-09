@@ -75,7 +75,7 @@ class YasrShortcodesAjax {
 
         $this->vvDieIfNonceInvalid();
 
-        $this->performActionOnVisitorVote($post_id, $is_singular);
+        $this->actionOnVV($post_id, $is_singular);
 
         $this->vvDieIfNotAllowed();
 
@@ -148,7 +148,7 @@ class YasrShortcodesAjax {
      *
      * @return void
      */
-    private function performActionOnVisitorVote($post_id, $is_singular) {
+    private function actionOnVV($post_id, $is_singular) {
         $array_action_visitor_vote = array('post_id' => $post_id, 'is_singular' => $is_singular);
 
         /**
