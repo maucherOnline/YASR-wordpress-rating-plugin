@@ -43,7 +43,7 @@ class YasrShortcodesAjax {
         add_action('wp_ajax_yasr_send_visitor_rating',        array($this, 'saveVV'));
         add_action('wp_ajax_nopriv_yasr_send_visitor_rating', array($this, 'saveVV'));
 
-        //die if post is non publish
+        //die if post status is non publish
         add_action('yasr_action_on_visitor_vote',             array($this, 'dieIfPrivatePost'));
         add_action('yasr_action_on_visitor_multiset_vote',    array($this, 'dieIfPrivatePost'));
 
@@ -350,7 +350,7 @@ class YasrShortcodesAjax {
      */
     public function dieIfPrivatePost($array_action_visitor_vote) {
         $post_id = $array_action_visitor_vote['post_id'];
-        if(!is_user_logged_in()) {
+        if(!is_user_logged_in() || !current_user_can(YASR_USER_CAPABILITY_EDIT_POST)) {
             $status = get_post_status($post_id);
 
             if ($status !== 'publish') {
