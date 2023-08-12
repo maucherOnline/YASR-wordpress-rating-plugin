@@ -816,6 +816,7 @@ class YasrSettingsGeneral {
     public function sanitize($options) {
         //Array to return
         $output = array();
+        $allowed_archives = array('is_home', 'is_archive', 'is_tag');
 
         // Loop through each of the incoming options
         foreach ($options as $key => $option) {
@@ -866,7 +867,7 @@ class YasrSettingsGeneral {
 
         $output['auto_insert_enabled']         = YasrSettings::whitelistSettings($output, 'auto_insert_enabled', 0, 1);
         $output['stars_title']                 = YasrSettings::whitelistSettings($output, 'stars_title', 'no', 'yes');
-        $output['sort_posts_in']               = YasrSettings::whitelistSettings($output, 'sort_posts_in', ['is_home'], $output['sort_posts_in']);
+        $output['sort_posts_in']               = YasrSettings::whitelistSettings($output, 'sort_posts_in', ['is_home'], $allowed_archives);
         $output['show_overall_in_loop']        = YasrSettings::whitelistSettings($output, 'show_overall_in_loop', 'disabled', 'enabled');
         $output['show_visitor_votes_in_loop']  = YasrSettings::whitelistSettings($output, 'show_visitor_votes_in_loop', 'disabled', 'enabled');
         $output['visitors_stats']              = YasrSettings::whitelistSettings($output, 'visitors_stats', 'no', 'yes');
