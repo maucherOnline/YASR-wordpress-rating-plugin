@@ -206,6 +206,9 @@ Yes, YASR is 100% fully compatible with PHP 8
 
 The full changelog can be found in the plugin's directory. Recent entries:
 
+= 3.4.5 =
+* FIXED: This version fixes a warning that randomly appears on the settings page.
+
 = 3.4.4 =
 * TWEAKED: since this version, for non-logged-in users, or users that can't edit posts, it is no longer possible to vote for a post that do not exist or is marked as private.
 If, for some reason, you need to do this, just add [this code](https://gist.github.com/Dudo1985/9105ee335f6104cc4ce4ea392416678c) into your functions.php file
