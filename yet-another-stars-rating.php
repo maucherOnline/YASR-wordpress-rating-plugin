@@ -7,8 +7,8 @@
  * Version: 3.4.5
  * Requires at least: 4.7
  * Requires PHP: 5.4
- * Author: Dario Curvino
- * Author URI: https://dariocurvino.it/
+ * Author: YetAnotherStarsRating.com
+ * Author URI: https://yetanotherstarsrating.com/?utm_source=wp_repo&utm_medium=link&utm_campaign=author_url
  * Text Domain: yet-another-stars-rating
  * Domain Path: /languages
  * License: GPL2
