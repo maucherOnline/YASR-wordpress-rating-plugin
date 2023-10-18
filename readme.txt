@@ -1,4 +1,4 @@
-=== Yasr - Yet Another Stars Rating ===
+=== YASR - Yet Another Star Rating Plugin for WordPress ===
 Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo, paretodigital
@@ -10,7 +10,7 @@ Boost the way people interact with your site with an easy WordPress stars rating
 
 == Description ==
 
-If you’re tired of trying to find the right WordPress ratings plugin, YASR is your best bet. Let’s delve into why this star rating solution will revolutionize how people view and rate content on your site! YASR offers a wealth of powerful features that make it stand out from other plugins in its class. You won’t be disappointed when adding this game-changing WordPress review plugin to your website.
+If you’re tired of trying to find the right WordPress rating plugin, YASR is your best bet. Let’s delve into why this star rating solution will revolutionize how people view and rate content on your site! YASR offers a wealth of powerful features that make it stand out from other plugins in its class. You won’t be disappointed when adding this game-changing WordPress review plugin to your website.
 
 ➡ [See LIVE Demo](https://yetanotherstarsrating.com/this-is-just-a-title/?utm_source=wp_repo&utm_medium=link&utm_campaign=live_demo)
 
@@ -18,13 +18,13 @@ If you’re tired of trying to find the right WordPress ratings plugin, YASR is 
 
 [youtube https://www.youtube.com/watch?v=M47xsJMQJ1E]
 
-== What the YASR WordPress ratings plugin does ==
-* YASR is the ultimate WordPress ratings plugin, offering comprehensive features and customization options.
+== What the YASR WordPress rating plugin does ==
+* YASR is the ultimate WordPress rating plugin, offering comprehensive features and customization options.
 * It helps improve search rankings and encourages user engagement with interactive features such as star ratings and comment sections.
 * YASR makes it easy to manage your website’s rating system, perfect for any WordPress site striving for better visibility!
 
 == 🏆 Best WordPress rating plugin ==
-This WordPress review and rating widget offers a comprehensive solution to enhance your website's SEO efforts and elevate its position on Google search results. Its fully responsive design, customizable settings, and intuitive interface ensure a seamless experience, even for those new to the platform. The ratings plugin enables you to display product rating categories, rating widgets, features, product buttons, as well as pros and cons on your web pages. [See LIVE Demo]((https://yetanotherstarsrating.com/this-is-just-a-title/?utm_source=wp_repo&utm_medium=link&utm_campaign=live_demo))
+This WordPress review and rating widget offers a comprehensive solution to enhance your website's SEO efforts and elevate its position on Google search results. Its fully responsive design, customizable settings, and intuitive interface ensure a seamless experience, even for those new to the platform. The WordPress rating plugin enables you to display product rating categories, rating widgets, features, product buttons, as well as pros and cons on your web pages. [See LIVE Demo]((https://yetanotherstarsrating.com/this-is-just-a-title/?utm_source=wp_repo&utm_medium=link&utm_campaign=live_demo))
 
 == ⭐ WORDPRESS RATING WIDGET WITH SHORTCODES ==
 You can craft striking rating widgets suitable for placement in your website's sidebar or footer. These aesthetically pleasing rating widgets present a compelling showcase of content ratings. They elevate the user experience by offering a visually appealing snapshot of the content's rating, allowing visitors to quickly gauge and evaluate the rating with just a glance. [See LIVE Demo]((https://yetanotherstarsrating.com/this-is-just-a-title/?utm_source=wp_repo&utm_medium=link&utm_campaign=live_demo))
@@ -66,7 +66,7 @@ The rating widget receives frequent updates to guarantee peak performance and to
 No coding expertise is required to utilize this rating plugin. Its intuitive interface, combined with the straightforward copy-and-paste functionality for provided shortcodes, allows anyone to effortlessly showcase review boxes on their preferred pages.
 
 == 🖥️ User-friendly interface ==
-The free version of the review plugin boasts an interface that's both intuitive and user-friendly, catering to users with varying levels of expertise. Whether you're a novice or a seasoned user, the ratings plugin's features are easy to grasp and implement, ensuring a smooth experience in managing and displaying your reviews.
+The free version of the review plugin boasts an interface that's both intuitive and user-friendly, catering to users with varying levels of expertise. Whether you're a novice or a seasoned user, the rating plugin's features are easy to grasp and implement, ensuring a smooth experience in managing and displaying your reviews.
 
 == 🔗 WordPress and WooCommerce compatibility ==
 The YASR review plugin integrates flawlessly with both WordPress and WooCommerce, catering to a diverse range of websites. Be it a WordPress blog or a WooCommerce-driven e-commerce site, the rating plugin's robust review and rating features can be easily deployed. The rating plugin offers a unified experience, elevating your website's review mechanism irrespective of its nature. Whether you manage a blog, an online storefront, or a hybrid of both, the seamless integration with WordPress and WooCommerce guarantees consistent operation and peak performance.
@@ -131,6 +131,8 @@ Ultimately, if you’re looking for the greatest WordPress plugin to use as a ra
 As one can see , YASR provides so much more than just basic functionality. Users have complete freedom over customizing their own experiences with it . Thus , out of all possible solutions available on Wordpress –Yasr clearly stands out from rest– making it undeniably perfect tool to optimize UX & promote SEO within websites today
 
 ✨ [Live Demo](https://yetanotherstarsrating.com/this-is-just-a-title/?utm_source=wp_repo&utm_medium=link&utm_campaign=live_demo) | 📚 [Documentation](https://yetanotherstarsrating.com/docs//?utm_source=wp_repo&utm_medium=link&utm_campaign=docs) | 🌟 [PRO Features](https://yetanotherstarsrating.com/?utm_source=wp_repo&utm_medium=link&utm_campaign=features#features) | 🔥 [Get PRO](https://yetanotherstarsrating.com/?utm_source=wp_repo&utm_medium=link&utm_campaign=get_pro)
+
+Also check out our other plugin: [Google Reviews Plugin for WordPress](https://wordpress.org/plugins/embedder-for-google-reviews/)
 
 == Developers ==
 While YASR - Yet Another Stars Rating does not require any coding, it is developer friendly!
