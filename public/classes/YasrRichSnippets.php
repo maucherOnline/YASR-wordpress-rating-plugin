@@ -28,6 +28,20 @@ class YasrRichSnippets {
 
         add_filter('yasr_filter_schema_title',    array($this, 'filter_title'));
         add_filter('yasr_filter_existing_schema', array($this, 'additional_schema'), 10, 2);
+
+        //Add yoast compatibility
+        add_filter('wpseo_schema_graph', array($this, 'wpseo_schema_graph'), 10, 2);
+    }
+
+    /**
+     * Add Yoast compatibility
+     * @param $data
+     * @param $context
+     * @return mixed
+     */
+    function wpseo_schema_graph( $data, $context ) {
+        $data[] = $this->addSchema('');
+        return $data;
     }
 
     /**
@@ -81,7 +95,13 @@ class YasrRichSnippets {
             return $script_type . $filtered_schema . $end_script_type;
         }
 
-        //YASR adds microdata only if is_singular() && is_main_query()
+        // add yoast compatibility
+        if ($caller ===  'wpseo_schema_graph') {
+            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, $content, $overall_rating, $visitor_votes);
+            return $rich_snippet;
+        }
+
+        // YASR adds microdata only if is_singular() && is_main_query()
         if (is_singular() && is_main_query()) {
             $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, $content, $overall_rating, $visitor_votes);
 
@@ -120,6 +140,12 @@ class YasrRichSnippets {
      * @return bool
      */
     public function mustReturn($caller) {
+
+        // Add yoast compatibility
+        if($caller === 'wpseo_schema_graph') {
+            return false;
+        }
+
         //rich snippets already returned
         if(defined('YASR_SCHEMA_RETURNED')) {
             return true;
