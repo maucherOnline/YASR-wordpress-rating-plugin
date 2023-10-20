@@ -97,13 +97,13 @@ class YasrRichSnippets {
 
         // add yoast compatibility
         if ($caller ===  'wpseo_schema_graph') {
-            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, $content, $overall_rating, $visitor_votes);
+            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, $content, $overall_rating, $visitor_votes, $caller);
             return $rich_snippet;
         }
 
         // YASR adds microdata only if is_singular() && is_main_query()
         if (is_singular() && is_main_query()) {
-            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, $content, $overall_rating, $visitor_votes);
+            $rich_snippet = $this->returnRichSnippets($post_id, $item_type_for_post, $content, $overall_rating, $visitor_votes, $caller);
 
             //If $rich snippet here is not false return microdata
             if($rich_snippet !== false) {
@@ -189,7 +189,7 @@ class YasrRichSnippets {
      *
      * @return array|bool
      */
-    public function returnRichSnippets($post_id, $review_choosen, $content, $overall_rating, $visitor_votes) {
+    public function returnRichSnippets($post_id, $review_choosen, $content, $overall_rating, $visitor_votes, $caller) {
         $rich_snippet_data = $this->richSnippetsGetData($post_id);
         $cleaned_content   = wp_strip_all_tags(strip_shortcodes($content));
 
@@ -212,6 +212,11 @@ class YasrRichSnippets {
             }
         }
 
+        if ($caller === 'wpseo_schema_graph' && $rich_snippet_data['is_post_a_review'] === 'yes') {
+            $rating = YasrDB::overallRating($post_id);
+            $rich_snippet['aggregateRating'] = $this->richSnippetsAggregateRatingSEO($rating);
+        }
+
         //Use this hook to manage itemTypes
         //if doesn't exists a filter for yasr_filter_existing_schema, put $rich_snippet into $more_rich_snippet
         $filtered_rich_snippet = apply_filters('yasr_filter_existing_schema', $rich_snippet, $rich_snippet_data);
@@ -229,6 +234,20 @@ class YasrRichSnippets {
             $this->richSnippetsCommon($review_choosen, $rich_snippet_data, $cleaned_content),
             $rich_snippet
         );
+    }
+
+    private function richSnippetsAggregateRatingSEO ($rating) {
+
+        if ($rating) {
+            return array(
+                '@type'       => 'AggregateRating',
+                'ratingValue' => $rating,
+                'ratingCount' => 1,
+                'bestRating'  => 5,
+                'worstRating' => 1,
+            );
+        }
+        return false;
     }
 
     /**
