@@ -4,7 +4,7 @@
  * Plugin Name: Yet Another Stars Rating
  * Plugin URI: http://wordpress.org/plugins/yet-another-stars-rating/
  * Description: Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
- * Version: 3.4.5
+ * Version: 3.4.6
  * Requires at least: 4.7
  * Requires PHP: 5.4
  * Author: YetAnotherStarsRating.com
@@ -52,21 +52,24 @@ if ( ! function_exists( 'yasr_fs' ) ) {
 
             try {
                 $yasr_fs = fs_dynamic_init(array(
-                    'id'             => '256',
-                    'slug'           => 'yet-another-stars-rating',
-                    'type'           => 'plugin',
-                    'public_key'     => 'pk_907af437fd2bd1f123a3b228785a1',
-                    'is_premium'     => true,
-                    'has_addons'     => false,
-                    'has_paid_plans' => true,
-                    'trial'          => array(
+                    'id'                  => '256',
+                    'slug'                => 'yet-another-stars-rating',
+                    'type'                => 'plugin',
+                    'public_key'          => 'pk_907af437fd2bd1f123a3b228785a1',
+                    'is_premium'          => true,
+                    'premium_suffix'      => '',
+                    // If your plugin is a serviceware, set this option to false.
+                    'has_premium_version' => true,
+                    'has_addons'          => false,
+                    'has_paid_plans'      => true,
+                    'trial'               => array(
                         'days'               => 14,
-                        'is_require_payment' => false,
+                        'is_require_payment' => true,
                     ),
                     'menu'           => array(
                         'slug'    => 'yasr_settings_page',
                         'contact' => true,
-                        'support' => true,
+                        'support' => false,
                     ),
                 ));
             } catch (Freemius_Exception $e) {
@@ -81,7 +84,7 @@ if ( ! function_exists( 'yasr_fs' ) ) {
     // Signal that SDK was initiated.
     do_action('yasr_fs_loaded');
 
-    define('YASR_VERSION_NUM', '3.4.5');
+    define('YASR_VERSION_NUM', '3.4.6');
 
     //Plugin absolute path
     //e.g. /var/www/html/plugin_development/wp-content/plugins/yet-another-stars-rating
