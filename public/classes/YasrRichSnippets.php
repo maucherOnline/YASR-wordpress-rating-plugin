@@ -214,7 +214,7 @@ class YasrRichSnippets {
 
         if ($caller === 'wpseo_schema_graph' && $rich_snippet_data['is_post_a_review'] === 'yes') {
             $rating = YasrDB::overallRating($post_id);
-            $rich_snippet['aggregateRating'] = $this->richSnippetsAggregateRatingSEO($rating);
+            $rich_snippet['aggregateRating'] = $this->richSnippetsAggregateRatingWpSEO($rating);
         }
 
         //Use this hook to manage itemTypes
@@ -236,7 +236,7 @@ class YasrRichSnippets {
         );
     }
 
-    private function richSnippetsAggregateRatingSEO ($rating) {
+    private function richSnippetsAggregateRatingWpSEO ($rating) {
 
         if ($rating) {
             return array(
