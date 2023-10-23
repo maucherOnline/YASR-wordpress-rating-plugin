@@ -1,6 +1,7 @@
 .idea/
 .vscode/
 .phpdoc/
+.github/
 node_modules/
 package-lock.json
 /vendor/composer
