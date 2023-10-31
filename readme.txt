@@ -2,7 +2,7 @@
 Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo, paretodigital
-Tested up to: 6.3
+Tested up to: 6.4
 Stable tag: 3.4.6
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
