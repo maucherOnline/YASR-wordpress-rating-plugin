@@ -3,7 +3,7 @@ Tags: rating, rate post, star rating, google rating, block
 Requires at least: 4.7
 Contributors: Dudo, paretodigital
 Tested up to: 6.4
-Stable tag: 3.4.6
+Stable tag: 3.4.7
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Boost the way people interact with your site with an easy WordPress stars rating system! With schema.org rich snippets YASR will improve your SEO
@@ -239,6 +239,9 @@ It is possible to adjust the look of YASR rating stars by selecting how many you
 == Changelog ==
 
 The full changelog can be found in the plugin's directory. Recent entries:
+
+= 3.4.7 =
+* FIXED: security update
 
 = 3.4.6 =
 * FIXED: compatibility with Yoast SEO plugin
