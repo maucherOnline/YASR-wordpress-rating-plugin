@@ -27,10 +27,15 @@ class YasrProSettingsUR {
 
         $general_options = get_option('yasr_ur_general_options');
 
+        // Initialize $general_options as an array if it's not found
+        if ($general_options === false) {
+            $general_options = []; // Ensure it's an array
+        }
+
         $yasr_settings_descriptions = new YasrSettingsDescriptions();
 
-        //general options are not found
-        if (!$general_options) {
+        // Now that $general_options is guaranteed to be an array, this condition is always safe
+        if (empty($general_options)) {
             $general_options['comment_stars_auto_insert'] = 'no';
             $general_options['comment_stars_size']        = 'medium';
             $general_options['comment_allow_anonymous']   = 'no';
