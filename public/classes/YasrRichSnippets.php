@@ -590,6 +590,7 @@ class YasrRichSnippets {
         $rich_snippet['recipeCuisine']      = $post_meta['yasr_recipe_recipecuisine'];
         $rich_snippet['recipeIngredient']   = $ingredient_array;
         $rich_snippet['recipeInstructions'] = $instruction_array_clean;
+        $rich_snippet['recipeYield']        = $post_meta['yasr_recipe_yield'];
         $rich_snippet['video']              = $post_meta['yasr_recipe_video'];
 
         return $rich_snippet;

@@ -164,6 +164,12 @@ class YasrMetaboxSchemaFields {
                 'description' => __('The region associated with your recipe. For example, "Mediterranean", or "American".',
                                     'yet-another-stars-rating')
             ),
+	        array(
+		        'label'       => 'recipeYield',
+		        'name'        => 'yasr_recipe_yield',
+		        'description' => __('The yield of your recipe. For example, "4 servings", or "500 grams".',
+			        'yet-another-stars-rating')
+	        ),
             array(
                 'type'        => 'textarea',
                 'label'       => 'recipeIngredient',

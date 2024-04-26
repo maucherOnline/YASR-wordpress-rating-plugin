@@ -57,6 +57,7 @@ class YasrRichSnippetsItemTypes {
         'yasr_product_price_valid_until',
         'yasr_product_sku',
         'yasr_recipe_cooktime',
+        'yasr_recipe_yield',
         'yasr_recipe_description',
         'yasr_recipe_keywords',
         'yasr_recipe_nutrition',
