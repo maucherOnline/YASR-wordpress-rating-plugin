@@ -157,6 +157,8 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
                 $autocomplete, $disabled, $readonly
             );
 
+	        $readonly_attr = $readonly ? "readonly" : "";
+
             $container     = "<div class='$attribute[class]'>";
             $label_string  = "<label for='$attribute[id]'>$attribute[label]</label>";
             $input_text    = "<input type='text' 
@@ -166,7 +168,7 @@ if (!class_exists('YasrPhpFieldsHelper') ) {
                                      placeholder='$attribute[placeholder]' 
                                      autocomplete='$autocomplete' 
                                      $attribute[disabled]
-                                     $attribute[readonly] />";
+                                     $readonly_attr />";
             $end_container = "</div>";
 
             return ($container . $label_string . $input_text . $end_container);
