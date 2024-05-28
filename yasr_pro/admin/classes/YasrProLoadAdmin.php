@@ -66,16 +66,20 @@ class YasrProLoadAdmin {
 
         //Filter menu to show contact page
         yasr_fs()->add_filter('is_submenu_visible', function ($is_visible, $menu_id) {
-            if ('contact' !== $menu_id) {
-                return $is_visible;
+            if ('contact' == $menu_id) {
+
+                // show support form only to users with a paid plan
+                if(yasr_fs()->is_plan('yasrpro') || yasr_fs()->is_plan('yasr_platinum') || yasr_fs()->is_trial())  {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
 
-            if(yasr_fs()->is_plan('yasrpro') || yasr_fs()->is_plan('yasr_platinum') || yasr_fs()->is_trial())  {
-                return yasr_fs()->can_use_premium_code();
-            }
-
-            return null;
+            return $is_visible;
         }, 10, 2);
+
 
         //Change lock icon
         add_filter('yasr_feature_locked', static function () {
