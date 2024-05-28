@@ -136,7 +136,7 @@ class YasrAdmin {
 
 
             if(!isset($_GET['trial'])) {
-
+/*
                 wp_enqueue_style(
                     'yasrcss-pricing',
                     YASR_CSS_DIR_ADMIN . 'yasr-pricing-page.css',
@@ -145,7 +145,7 @@ class YasrAdmin {
                 );
 
                 YasrScriptsLoader::loadPrincingPage();
-
+*/
             }
 
         }
@@ -254,7 +254,7 @@ class YasrAdmin {
 
         //Filter the pricing page only if trial is not set
         if(isset($_GET['page']) && $_GET['page'] === 'yasr_settings_page-pricing' && !isset($_GET['trial'])) {
-            yasr_fs()->add_filter( 'templates/pricing.php', array($this, 'pricingPage') );
+            //yasr_fs()->add_filter( 'templates/pricing.php', array($this, 'pricingPage') );
         }
 
     }
