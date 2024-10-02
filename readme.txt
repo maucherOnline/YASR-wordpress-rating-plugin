@@ -132,7 +132,9 @@ As one can see , YASR provides so much more than just basic functionality. Users
 
 ✨ [Live Demo](https://yetanotherstarsrating.com/this-is-just-a-title/?utm_source=wp_repo&utm_medium=link&utm_campaign=live_demo) | 📚 [Documentation](https://yetanotherstarsrating.com/docs//?utm_source=wp_repo&utm_medium=link&utm_campaign=docs) | 🌟 [PRO Features](https://yetanotherstarsrating.com/?utm_source=wp_repo&utm_medium=link&utm_campaign=features#features) | 🔥 [Get PRO](https://yetanotherstarsrating.com/?utm_source=wp_repo&utm_medium=link&utm_campaign=get_pro)
 
-Also check out our other plugin: [Google Reviews Plugin for WordPress](https://wordpress.org/plugins/embedder-for-google-reviews/)
+Also check out our other plugins:
+- [Google Reviews Plugin for WordPress](https://wordpress.org/plugins/embedder-for-google-reviews/)
+- Send Users Email – [Email Subscribers, Email Marketing Newsletter](https://wordpress.org/plugins/send-users-email/)
 
 == Developers ==
 While YASR - Yet Another Stars Rating does not require any coding, it is developer friendly!
