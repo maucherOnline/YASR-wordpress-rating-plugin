@@ -81,17 +81,17 @@ class YasrSettingsValues {
         $options['show_visitor_votes_in_loop']   = 'disabled';
         $options['visitors_stats']               = 'yes';
         $options['allowed_user']                 = 'allow_anonymous';
-        $options['text_before_overall']          = esc_html__('Our Score', 'yet-another-stars-rating');
-        $options['text_before_visitor_rating']   = esc_html__('Click to rate this post!', 'yet-another-stars-rating');
+        $options['text_before_overall']          = 'Our Score';
+        $options['text_before_visitor_rating']   = 'Click to rate this post!';
         $options['text_after_visitor_rating']    = sprintf(
-            esc_html__('[Total: %s  Average: %s]', 'yet-another-stars-rating'),
+            '[Total: %s  Average: %s]',
             '%total_count%', '%average%'
         );
-        $options['custom_text_rating_saved']     = esc_html__('Rating saved!', 'yet-another-stars-rating');
-        $options['custom_text_rating_updated']   = esc_html__('Rating updated!', 'yet-another-stars-rating');
-        $options['custom_text_user_voted']       =
-            esc_html__('You have already voted for this article with rating ', 'yet-another-stars-rating') . '%rating%';
-        $options['custom_text_must_sign_in']     = esc_html__('You must sign in to vote', 'yet-another-stars-rating');
+
+        $options['custom_text_rating_saved']     = 'Rating saved!';
+        $options['custom_text_rating_updated']   = 'Rating updated!';
+        $options['custom_text_user_voted']       = 'You have already voted for this article with rating ';
+        $options['custom_text_must_sign_in']     = 'You must sign in to vote';
         $options['snippet_itemtype']             = 'Product';
         $options['publisher']                    = 'Organization';
         $options['publisher_name']               = get_bloginfo('name');

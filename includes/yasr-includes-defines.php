@@ -36,7 +36,8 @@ if(!defined('YASR_SECONDS_BETWEEN_RATINGS')) {
 
 //Since version 3.3.0 the defines are inside a file, instead of a class, for better support PHPStorm auto-completion
 //https://youtrack.jetbrains.com/issue/WI-11390/Make-define-Constants-from-inside-methods-available-for-completion-everywhere.
-$settings              = new YasrSettingsValues();
+
+$settings = new YasrSettingsValues();
 $yasr_general_settings = $settings->getGeneralSettings();
 $style_options         = $settings->getStyleSettings();
 $multi_set_options     = $settings->getMultiSettings();
@@ -131,5 +132,5 @@ define('YASR_MULTI_SHOW_AVERAGE', $multi_set_options['show_average']);
  */
 
 //Text for button in settings pages
-$save_settings_text = esc_html__('Save All Settings', 'yet-another-stars-rating');
+$save_settings_text = 'Save All Settings';
 define('YASR_SAVE_All_SETTINGS_TEXT', $save_settings_text);

@@ -67,6 +67,7 @@ function yasr_autoload_includes_classes($class) {
 //AutoLoad Yasr Classes, only when a object is created
 spl_autoload_register('yasr_autoload_includes_classes');
 
+
 //do defines
 require YASR_ABSOLUTE_PATH_INCLUDES . '/yasr-includes-defines.php';
 
